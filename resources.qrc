@@ -1,0 +1,61 @@
+<RCC>
+  <qresource prefix="fonts">
+    <file>resources/fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf</file>
+    <file>resources/fonts/OpenSans-VariableFont_wdth,wght.ttf</file>
+  </qresource>
+  <qresource prefix="png">
+    <file>resources/png/branch-closed.png</file>
+    <file>resources/png/branch-open.png</file>
+    <file>resources/png/checkbox-check.png</file>
+    <file>resources/png/checkbox-check-disabled.png</file>
+    <file>resources/png/combobox-down.png</file>
+    <file>resources/png/scrollbar-down.png</file>
+    <file>resources/png/scrollbar-down-disabled.png</file>
+    <file>resources/png/scrollbar-down-hover.png</file>
+    <file>resources/png/scrollbar-left.png</file>
+    <file>resources/png/scrollbar-left-disabled.png</file>
+    <file>resources/png/scrollbar-left-hover.png</file>
+    <file>resources/png/scrollbar-right.png</file>
+    <file>resources/png/scrollbar-right-disabled.png</file>
+    <file>resources/png/scrollbar-right-hover.png</file>
+    <file>resources/png/scrollbar-up.png</file>
+    <file>resources/png/scrollbar-up-disabled.png</file>
+    <file>resources/png/scrollbar-up-hover.png</file>
+    <file>resources/png/sort-asc.png</file>
+    <file>resources/png/sort-desc.png</file>
+    <file>resources/png/spinner-down.png</file>
+    <file>resources/png/spinner-up.png</file>
+    <file>resources/png/sub-menu-arrow.png</file>
+    <file>resources/png/sub-menu-arrow-hover.png</file>
+  </qresource>
+  <qresource prefix="white-icons">
+    <file>resources/white-icons/add-file.svg</file>
+    <file>resources/white-icons/calendar.svg</file>
+    <file>resources/white-icons/close.svg</file>
+    <file>resources/white-icons/edit.svg</file>
+    <file>resources/white-icons/items-list.svg</file>
+    <file>resources/white-icons/export.svg</file>
+    <file>resources/white-icons/file-text.svg</file>
+    <file>resources/white-icons/folder.svg</file>
+    <file>resources/white-icons/green-circle.svg</file>
+    <file>resources/white-icons/items-tree.svg</file>
+    <file>resources/white-icons/open.svg</file>
+    <file>resources/white-icons/page.svg</file>
+    <file>resources/white-icons/pen.svg</file>
+    <file>resources/white-icons/picture.svg</file>
+    <file>resources/white-icons/plus.svg</file>
+    <file>resources/white-icons/pdf.svg</file>
+    <file>resources/white-icons/save.svg</file>
+    <file>resources/white-icons/table.svg</file>
+    <file>resources/white-icons/longtext.svg</file>
+    <file>resources/white-icons/template.svg</file>
+    <file>resources/white-icons/table-columns.svg</file>
+    <file>resources/white-icons/table-rows.svg</file>
+    <file>resources/white-icons/text.svg</file>
+    <file>resources/white-icons/text-editor.svg</file>
+    <file>resources/white-icons/trash.svg</file>
+    <file>resources/white-icons/zoom-fit-width.svg</file>
+    <file>resources/white-icons/zoom-in.svg</file>
+    <file>resources/white-icons/zoom-out.svg</file>
+  </qresource>
+</RCC>

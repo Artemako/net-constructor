@@ -1,0 +1,22 @@
+python -m nuitka --follow-imports main.py
+
+# исключит templates
+python -m nuitka --follow-imports --noinclude-data-files=templates/**/*.docx main.py
+python -m nuitka --standalone --follow-imports --plugin-enable=pyside6 --noinclude-data-files=templates/**/*.docx --disable-console main.pyw
+
+python -m nuitka main.py
+
+pyside6-uic designer/mainwindow.ui -o package/ui/mainwindow_ui.py
+pyside6-uic designer/pdfwidget.ui -o package/ui/pdfwidget_ui.py
+pyside6-uic designer/formtext.ui -o package/ui/formtext_ui.py
+pyside6-rcc resources.qrc -o resources_rc.py
+
+pyinstaller --onefile --paths=D:/work/project/AutoExecDoc/venv/Lib/site-packages main.py
+
+python -m nuitka --recurse-all --portable your-program.py
+
+python setup.py build
+
+
+БЕЗ ПАРАЛЛЕЗАЦИИ
+export_to_pdf() -> time: 2.232374429702759

@@ -1,0 +1,62 @@
+{
+    "0": {
+        "data": {
+            "название": {
+                "value": "",
+                "name": "Название",
+                "type": "string"
+            }
+        },
+        "is_wrap": false,
+        "metrics": {
+            "radius": {
+                "is_global": true,
+                "value": 16,
+                "name": "Радиус круга"
+            },
+            "margin_top": {
+                "is_global": false,
+                "value": 32,
+                "name": "Высота названия над вершиной"
+            },
+            "title_pixel_size": {
+                "is_global": true,
+                "value": 12,
+                "name": "Размер шрифта для названия"
+            },
+            "margin_left_right": {
+                "is_global": false,
+                "value": 16,
+                "name": "Боковые внешние отступы вершины"
+            }
+        }
+    },
+    "1": {
+        "data": {
+            "Название": ""
+        },
+        "is_wrap": false,
+        "metrics": {
+            "radius": {
+                "is_global": true,
+                "value": 16,
+                "name": "Радиус круга"
+            },
+            "margin_top": {
+                "is_global": false,
+                "value": 32,
+                "name": "Высота названия над вершиной"
+            },
+            "title_pixel_size": {
+                "is_global": true,
+                "value": 12,
+                "name": "Размер шрифта для названия"
+            },
+            "margin_left_right": {
+                "is_global": false,
+                "value": 32,
+                "name": "Боковые внешние отступы вершины"
+            }
+        }
+    }
+}
