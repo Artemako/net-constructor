@@ -7,6 +7,7 @@ import package.components.mainwindow as mainwindow
 
 import package.modules.dirpathmanager as dirpathmanager
 import package.modules.configs as configs
+import package.modules.project as project
 
 class ObjectsManager:
     """
@@ -15,10 +16,12 @@ class ObjectsManager:
     def __init__(self):
         self.obj_dirpath = None
         self.obj_configs = None
+        self.obj_project = None
 
     def initializing_objects(self):
         self.obj_dirpath = dirpathmanager.DirPathManager()
         self.obj_configs = configs.Configs()
+        self.obj_project = project.Project()
    
 class App:
     def __init__(self, current_directory):

@@ -123,7 +123,7 @@
         <item>
          <widget class="QTabWidget" name="tabw_right">
           <property name="currentIndex">
-           <number>0</number>
+           <number>2</number>
           </property>
           <property name="documentMode">
            <bool>false</bool>
@@ -162,7 +162,7 @@
                </widget>
               </item>
               <item row="0" column="1">
-               <widget class="QComboBox" name="comboBox"/>
+               <widget class="QComboBox" name="combox_type"/>
               </item>
              </layout>
             </item>
@@ -189,33 +189,21 @@
                 </property>
                </widget>
               </item>
-              <item row="0" column="1">
-               <widget class="QLineEdit" name="le_width"/>
-              </item>
               <item row="1" column="1">
-               <widget class="QLineEdit" name="le_height"/>
+               <widget class="QSpinBox" name="sb_height">
+                <property name="maximum">
+                 <number>99999</number>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QSpinBox" name="sb_width">
+                <property name="maximum">
+                 <number>99999</number>
+                </property>
+               </widget>
               </item>
              </layout>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_2">
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Цвета&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="radioButton">
-              <property name="text">
-               <string>Прозрачный фон?</string>
-              </property>
-              <property name="checkable">
-               <bool>true</bool>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
             </item>
             <item>
              <spacer name="verticalSpacer">
@@ -291,19 +279,52 @@
            <attribute name="title">
             <string>Редактирование</string>
            </attribute>
-           <layout class="QVBoxLayout" name="verticalLayout_7">
+           <layout class="QVBoxLayout" name="verticalLayout_7" stretch="0,0,0,0,1">
             <property name="leftMargin">
-             <number>4</number>
+             <number>9</number>
             </property>
             <property name="topMargin">
-             <number>4</number>
+             <number>9</number>
             </property>
             <property name="rightMargin">
-             <number>4</number>
+             <number>9</number>
             </property>
             <property name="bottomMargin">
-             <number>4</number>
+             <number>9</number>
             </property>
+            <item>
+             <widget class="QLabel" name="label_data">
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Данные&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QFormLayout" name="fl_data"/>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_metrics">
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Метрики&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QFormLayout" name="fl_metrics"/>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
            </layout>
           </widget>
          </widget>
@@ -327,14 +348,8 @@
     <property name="title">
      <string>Файл</string>
     </property>
-    <widget class="QMenu" name="menu_recent_projects">
-     <property name="title">
-      <string>Недавние проекты</string>
-     </property>
-    </widget>
     <addaction name="action_new"/>
     <addaction name="action_open"/>
-    <addaction name="menu_recent_projects"/>
     <addaction name="separator"/>
     <addaction name="action_save"/>
     <addaction name="action_saveas"/>

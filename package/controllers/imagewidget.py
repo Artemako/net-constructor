@@ -26,13 +26,16 @@ class ImageWidget(QWidget):
         self.__diagram_drawer = diagramdrawer.DiagramDrawer(self.__obsm, 
             data
         )
-        self.__image = self.create_image()
+        self.__image = self.create_image(data)
         self.update()
 
-    def create_image(self):
-        """Создает и сохраняет изображение диаграммы."""
-        width = 2000
-        height = 600
+
+    def save_image(self):
+        self.__image.save("output_diagram.png", "PNG")
+
+    def create_image(self, data):
+        width = data.get("image_settings", {}).get("width", 0)
+        height = data.get("image_settings", {}).get("height", 0)
 
         image = QImage(width, height, QImage.Format_ARGB32)
         image.fill(Qt.white)
@@ -41,7 +44,6 @@ class ImageWidget(QWidget):
         if self.__diagram_drawer:
             self.__diagram_drawer.draw(painter)
         painter.end()
-        image.save("output_diagram.png", "PNG")
 
         return image
 

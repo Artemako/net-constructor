@@ -165,10 +165,10 @@ class Ui_MainWindow(object):
 
         self.formlayout_scheme.setWidget(0, QFormLayout.LabelRole, self.label_type)
 
-        self.comboBox = QComboBox(self.tab_general)
-        self.comboBox.setObjectName(u"comboBox")
+        self.combox_type = QComboBox(self.tab_general)
+        self.combox_type.setObjectName(u"combox_type")
 
-        self.formlayout_scheme.setWidget(0, QFormLayout.FieldRole, self.comboBox)
+        self.formlayout_scheme.setWidget(0, QFormLayout.FieldRole, self.combox_type)
 
 
         self.verticalLayout_5.addLayout(self.formlayout_scheme)
@@ -190,30 +190,20 @@ class Ui_MainWindow(object):
 
         self.formlayout_image.setWidget(1, QFormLayout.LabelRole, self.label_w)
 
-        self.le_width = QLineEdit(self.tab_general)
-        self.le_width.setObjectName(u"le_width")
+        self.sb_height = QSpinBox(self.tab_general)
+        self.sb_height.setObjectName(u"sb_height")
+        self.sb_height.setMaximum(99999)
 
-        self.formlayout_image.setWidget(0, QFormLayout.FieldRole, self.le_width)
+        self.formlayout_image.setWidget(1, QFormLayout.FieldRole, self.sb_height)
 
-        self.le_height = QLineEdit(self.tab_general)
-        self.le_height.setObjectName(u"le_height")
+        self.sb_width = QSpinBox(self.tab_general)
+        self.sb_width.setObjectName(u"sb_width")
+        self.sb_width.setMaximum(99999)
 
-        self.formlayout_image.setWidget(1, QFormLayout.FieldRole, self.le_height)
+        self.formlayout_image.setWidget(0, QFormLayout.FieldRole, self.sb_width)
 
 
         self.verticalLayout_5.addLayout(self.formlayout_image)
-
-        self.label_2 = QLabel(self.tab_general)
-        self.label_2.setObjectName(u"label_2")
-
-        self.verticalLayout_5.addWidget(self.label_2)
-
-        self.radioButton = QRadioButton(self.tab_general)
-        self.radioButton.setObjectName(u"radioButton")
-        self.radioButton.setCheckable(True)
-        self.radioButton.setChecked(True)
-
-        self.verticalLayout_5.addWidget(self.radioButton)
 
         self.verticalSpacer = QSpacerItem(0, 0, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -274,7 +264,32 @@ class Ui_MainWindow(object):
         self.tab_editor.setObjectName(u"tab_editor")
         self.verticalLayout_7 = QVBoxLayout(self.tab_editor)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
-        self.verticalLayout_7.setContentsMargins(4, 4, 4, 4)
+        self.verticalLayout_7.setContentsMargins(9, 9, 9, 9)
+        self.label_data = QLabel(self.tab_editor)
+        self.label_data.setObjectName(u"label_data")
+
+        self.verticalLayout_7.addWidget(self.label_data)
+
+        self.fl_data = QFormLayout()
+        self.fl_data.setObjectName(u"fl_data")
+
+        self.verticalLayout_7.addLayout(self.fl_data)
+
+        self.label_metrics = QLabel(self.tab_editor)
+        self.label_metrics.setObjectName(u"label_metrics")
+
+        self.verticalLayout_7.addWidget(self.label_metrics)
+
+        self.fl_metrics = QFormLayout()
+        self.fl_metrics.setObjectName(u"fl_metrics")
+
+        self.verticalLayout_7.addLayout(self.fl_metrics)
+
+        self.verticalSpacer_2 = QSpacerItem(0, 0, QSizePolicy.Minimum, QSizePolicy.Expanding)
+
+        self.verticalLayout_7.addItem(self.verticalSpacer_2)
+
+        self.verticalLayout_7.setStretch(4, 1)
         self.tabw_right.addTab(self.tab_editor, "")
 
         self.verticalLayout_2.addWidget(self.tabw_right)
@@ -289,8 +304,6 @@ class Ui_MainWindow(object):
         self.menu_bar.setGeometry(QRect(0, 0, 1366, 22))
         self.menu_file = QMenu(self.menu_bar)
         self.menu_file.setObjectName(u"menu_file")
-        self.menu_recent_projects = QMenu(self.menu_file)
-        self.menu_recent_projects.setObjectName(u"menu_recent_projects")
         MainWindow.setMenuBar(self.menu_bar)
         self.tb_main = QToolBar(MainWindow)
         self.tb_main.setObjectName(u"tb_main")
@@ -310,7 +323,6 @@ class Ui_MainWindow(object):
         self.menu_bar.addAction(self.menu_file.menuAction())
         self.menu_file.addAction(self.action_new)
         self.menu_file.addAction(self.action_open)
-        self.menu_file.addAction(self.menu_recent_projects.menuAction())
         self.menu_file.addSeparator()
         self.menu_file.addAction(self.action_save)
         self.menu_file.addAction(self.action_saveas)
@@ -322,7 +334,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabw_right.setCurrentIndex(0)
+        self.tabw_right.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -372,16 +384,15 @@ class Ui_MainWindow(object):
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0420\u0430\u0437\u043c\u0435\u0440\u044b \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f</span></p></body></html>", None))
         self.label_h.setText(QCoreApplication.translate("MainWindow", u"\u0428\u0438\u0440\u0438\u043d\u0430", None))
         self.label_w.setText(QCoreApplication.translate("MainWindow", u"\u0412\u044b\u0441\u043e\u0442\u0430", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0426\u0432\u0435\u0442\u0430</span></p></body></html>", None))
-        self.radioButton.setText(QCoreApplication.translate("MainWindow", u"\u041f\u0440\u043e\u0437\u0440\u0430\u0447\u043d\u044b\u0439 \u0444\u043e\u043d?", None))
         self.tabw_right.setTabText(self.tabw_right.indexOf(self.tab_general), QCoreApplication.translate("MainWindow", u"\u041e\u0441\u043d\u043e\u0432\u043d\u044b\u0435 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438", None))
         self.label_nodes.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0412\u0435\u0440\u0448\u0438\u043d\u044b</span></p></body></html>", None))
         self.btn_addnode.setText(QCoreApplication.translate("MainWindow", u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0432\u0435\u0440\u0448\u0438\u043d\u0443", None))
         self.label_connections.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0421\u043e\u0435\u0434\u0438\u043d\u0435\u043d\u0438\u044f</span></p></body></html>", None))
         self.tabw_right.setTabText(self.tabw_right.indexOf(self.tab_elements), QCoreApplication.translate("MainWindow", u"\u042d\u043b\u0435\u043c\u0435\u043d\u0442\u044b", None))
+        self.label_data.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0414\u0430\u043d\u043d\u044b\u0435</span></p></body></html>", None))
+        self.label_metrics.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u041c\u0435\u0442\u0440\u0438\u043a\u0438</span></p></body></html>", None))
         self.tabw_right.setTabText(self.tabw_right.indexOf(self.tab_editor), QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0434\u0430\u043a\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435", None))
         self.menu_file.setTitle(QCoreApplication.translate("MainWindow", u"\u0424\u0430\u0439\u043b", None))
-        self.menu_recent_projects.setTitle(QCoreApplication.translate("MainWindow", u"\u041d\u0435\u0434\u0430\u0432\u043d\u0438\u0435 \u043f\u0440\u043e\u0435\u043a\u0442\u044b", None))
         self.tb_main.setWindowTitle(QCoreApplication.translate("MainWindow", u"\u041f\u0430\u043d\u0435\u043b\u044c \u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u043e\u0432", None))
     # retranslateUi
 
