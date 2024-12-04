@@ -133,8 +133,6 @@ class MainWindow(QMainWindow):
             is_edit = False
             if self.ui.tabw_right.currentIndex() == 2:
                 is_edit = True
-                # text_name = self.ui.le_name.text()
-                #
                 for key, widget in self.__data_widgets.items():
                     new_data[key] = {
                         "value": widget.toPlainText()
@@ -325,6 +323,7 @@ class MainWindow(QMainWindow):
     #     self.ui.le_name.setText(text_name)
 
     def create_data_widgets_by_object(self, object, is_node=False):
+        self.__data_widgets = {}
         form_layout = self.ui.fl_data
         self.clear_form_layout(form_layout)
         if is_node:
@@ -351,6 +350,7 @@ class MainWindow(QMainWindow):
             self.__data_widgets[config_parameter_key] = text_edit
 
     def create_metrics_widgets_by_object(self, object, is_node=False):
+        self.__metrics_widgets = {}
         form_layout = self.ui.fl_metrics
         self.clear_form_layout(form_layout)
         #
@@ -364,9 +364,13 @@ class MainWindow(QMainWindow):
             print(
                 f"config_parameter_key: {config_parameter_key}, config_parameter_data: {config_parameter_data}"
             )
+            # TODO Глобальные
+            if config_parameter_data.get("is_global", False):
+                continue
             # название параметра metrics
             label_text = config_parameter_data.get("name", "")
             label = QLabel(label_text)
+            
             # значение параметра metrics
             value = (
                 object.get("metrics", {}).get(config_parameter_key, {}).get("value", "")

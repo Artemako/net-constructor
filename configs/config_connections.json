@@ -37,7 +37,7 @@
             "length": {
                 "value": 350,
                 "name": "Длина соединения",
-                "is_global": true
+                "is_global": false
             }, 
             "left_right_margin": {
                 "value": 10,

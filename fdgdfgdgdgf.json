@@ -5,9 +5,9 @@
     },
     "image_settings": {
         "width": 2000,
-        "height": 600,
-        "start_x": 150,
-        "start_y": 150
+        "height": 200,
+        "start_x": 100,
+        "start_y": 100
     },
     "nodes": [
         {
@@ -22,10 +22,10 @@
             "is_wrap": false,
             "metrics": {
                 "margin_left_right": {
-                    "value": 32
+                    "value": 16
                 },
                 "margin_top": {
-                    "value": 60
+                    "value": 32
                 },
                 "title_pixel_size": {
                     "value": 12
@@ -41,8 +41,6 @@
             "node_id": "0",
             "data": {
                 "название": {
-                    "name": "Название",
-                    "order": 0,
                     "value": "Маленький круг"
                 }
             },
@@ -53,6 +51,12 @@
                 },
                 "radius": {
                     "value": 16
+                },
+                "margin_left_right": {
+                    "value": 16
+                },
+                "margin_top": {
+                    "value": 32
                 }
             }
         },
@@ -85,37 +89,35 @@
             "connection_id": "0",
             "data": {
                 "location_name": {
-                    "name": "Локация",
-                    "type": "string",
-                    "value": ""
+                    "value": "авыа"
                 },
                 "ВОК": {
-                    "name": "ВОК",
-                    "type": "string",
-                    "value": ""
+                    "value": "ыав"
                 },
                 "количество_ОВ": {
-                    "name": "Количество ОВ",
-                    "type": "integer",
-                    "value": ""
+                    "value": "ыаыаы"
                 },
                 "название": {
-                    "name": "Название",
-                    "type": "string",
                     "value": "Синяя линия"
                 },
                 "оптическая_длина": {
-                    "name": "Оптическая длина",
-                    "type": "integer",
-                    "value": ""
+                    "value": "аыавы"
                 },
                 "физическая_длина": {
-                    "name": "Физическая длина",
-                    "type": "integer",
-                    "value": ""
+                    "value": "вавы"
                 }
             },
-            "metrics": {}
+            "metrics": {
+                "length": {
+                    "value": 350
+                },
+                "left_right_margin": {
+                    "value": 15
+                },
+                "label_vertical_padding": {
+                    "value": 10
+                }
+            }
         },
         {
             "id": "d5be8e6b4af844ebbbd554ba66e1b0fb",
@@ -123,37 +125,35 @@
             "connection_id": "0",
             "data": {
                 "location_name": {
-                    "name": "Локация",
-                    "type": "string",
-                    "value": ""
+                    "value": "пвп"
                 },
                 "ВОК": {
-                    "name": "ВОК",
-                    "type": "string",
-                    "value": ""
+                    "value": "вапвап"
                 },
                 "количество_ОВ": {
-                    "name": "Количество ОВ",
-                    "type": "integer",
-                    "value": ""
+                    "value": "впв"
                 },
                 "название": {
-                    "name": "Название",
-                    "type": "string",
                     "value": "Синяя линия"
                 },
                 "оптическая_длина": {
-                    "name": "Оптическая длина",
-                    "type": "integer",
-                    "value": ""
+                    "value": "впа"
                 },
                 "физическая_длина": {
-                    "name": "Физическая длина",
-                    "type": "integer",
-                    "value": ""
+                    "value": "впвп"
                 }
             },
-            "metrics": {}
+            "metrics": {
+                "length": {
+                    "value": 350
+                },
+                "left_right_margin": {
+                    "value": 11
+                },
+                "label_vertical_padding": {
+                    "value": 10
+                }
+            }
         }
     ]
 }

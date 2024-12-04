@@ -5,9 +5,9 @@
     },
     "image_settings": {
         "width": 1000,
-        "height": 650,
-        "start_x": 150,
-        "start_y": 150
+        "height": 400,
+        "start_x": 130,
+        "start_y": 125
     },
     "nodes": [
         {
@@ -20,7 +20,14 @@
                 }
             },
             "is_wrap": false,
-            "metrics": {}
+            "metrics": {
+                "margin_top": {
+                    "value": 32
+                },
+                "margin_left_right": {
+                    "value": 32
+                }
+            }
         },
         {
             "id": 1,
@@ -31,7 +38,7 @@
                     "value": "Уст. муфта ОМ-05\nв грунте на ПК38+09\n(59°36'18.76228\" СШ,\n28°14'52.67696\" ВД)"
                 }
             },
-            "is_wrap": true,
+            "is_wrap": false,
             "metrics": {}
         },
         {
