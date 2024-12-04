@@ -14,6 +14,7 @@ class ObjectsManager:
     Мененджер объектов.
     """
     def __init__(self):
+        self.obj_mw = None
         self.obj_dirpath = None
         self.obj_configs = None
         self.obj_project = None
@@ -62,6 +63,7 @@ class App:
                 print(f"Error: {e}")
             # создание окна
             self.window = mainwindow.MainWindow(self.__obsm)
+            self.__obsm.obj_mw = self.window
             self.window.show()
             # sys.exit(self.app.exec())
             self.app.exec_()

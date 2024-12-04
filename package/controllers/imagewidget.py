@@ -30,19 +30,21 @@ class ImageWidget(QWidget):
         self.update()
 
 
-    def save_image(self):
-        self.__image.save("output_diagram.png", "PNG")
+    def save_image(self, file_name):
+        self.__image.save(file_name, "PNG")
 
     def create_image(self, data):
         width = data.get("image_settings", {}).get("width", 0)
         height = data.get("image_settings", {}).get("height", 0)
+        start_x = data.get("image_settings", {}).get("start_x", 0)
+        start_y = data.get("image_settings", {}).get("start_y", 0)
 
         image = QImage(width, height, QImage.Format_ARGB32)
         image.fill(Qt.white)
 
         painter = QPainter(image)
         if self.__diagram_drawer:
-            self.__diagram_drawer.draw(painter)
+            self.__diagram_drawer.draw(painter, start_x, start_y)
         painter.end()
 
         return image

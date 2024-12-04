@@ -185,6 +185,12 @@ class Ui_MainWindow(object):
 
         self.formlayout_image.setWidget(0, QFormLayout.LabelRole, self.label_h)
 
+        self.sb_width = QSpinBox(self.tab_general)
+        self.sb_width.setObjectName(u"sb_width")
+        self.sb_width.setMaximum(99999)
+
+        self.formlayout_image.setWidget(0, QFormLayout.FieldRole, self.sb_width)
+
         self.label_w = QLabel(self.tab_general)
         self.label_w.setObjectName(u"label_w")
 
@@ -196,14 +202,40 @@ class Ui_MainWindow(object):
 
         self.formlayout_image.setWidget(1, QFormLayout.FieldRole, self.sb_height)
 
-        self.sb_width = QSpinBox(self.tab_general)
-        self.sb_width.setObjectName(u"sb_width")
-        self.sb_width.setMaximum(99999)
-
-        self.formlayout_image.setWidget(0, QFormLayout.FieldRole, self.sb_width)
-
 
         self.verticalLayout_5.addLayout(self.formlayout_image)
+
+        self.label_2 = QLabel(self.tab_general)
+        self.label_2.setObjectName(u"label_2")
+
+        self.verticalLayout_5.addWidget(self.label_2)
+
+        self.formLayout = QFormLayout()
+        self.formLayout.setObjectName(u"formLayout")
+        self.label_start_x = QLabel(self.tab_general)
+        self.label_start_x.setObjectName(u"label_start_x")
+
+        self.formLayout.setWidget(0, QFormLayout.LabelRole, self.label_start_x)
+
+        self.label_start_y = QLabel(self.tab_general)
+        self.label_start_y.setObjectName(u"label_start_y")
+
+        self.formLayout.setWidget(1, QFormLayout.LabelRole, self.label_start_y)
+
+        self.sb_start_x = QSpinBox(self.tab_general)
+        self.sb_start_x.setObjectName(u"sb_start_x")
+        self.sb_start_x.setMaximum(9999)
+
+        self.formLayout.setWidget(0, QFormLayout.FieldRole, self.sb_start_x)
+
+        self.sb_start_y = QSpinBox(self.tab_general)
+        self.sb_start_y.setObjectName(u"sb_start_y")
+        self.sb_start_y.setMaximum(9999)
+
+        self.formLayout.setWidget(1, QFormLayout.FieldRole, self.sb_start_y)
+
+
+        self.verticalLayout_5.addLayout(self.formLayout)
 
         self.verticalSpacer = QSpacerItem(0, 0, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -233,10 +265,20 @@ class Ui_MainWindow(object):
 
         self.vl_nodes.addWidget(self.tablew_nodes)
 
+        self.hl_btns = QHBoxLayout()
+        self.hl_btns.setObjectName(u"hl_btns")
         self.btn_addnode = QPushButton(self.verticalLayoutWidget)
         self.btn_addnode.setObjectName(u"btn_addnode")
 
-        self.vl_nodes.addWidget(self.btn_addnode)
+        self.hl_btns.addWidget(self.btn_addnode)
+
+        self.btn_deletenode = QPushButton(self.verticalLayoutWidget)
+        self.btn_deletenode.setObjectName(u"btn_deletenode")
+
+        self.hl_btns.addWidget(self.btn_deletenode)
+
+
+        self.vl_nodes.addLayout(self.hl_btns)
 
         self.splitter.addWidget(self.verticalLayoutWidget)
         self.verticalLayoutWidget_2 = QWidget(self.splitter)
@@ -334,7 +376,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabw_right.setCurrentIndex(2)
+        self.tabw_right.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -384,9 +426,13 @@ class Ui_MainWindow(object):
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0420\u0430\u0437\u043c\u0435\u0440\u044b \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f</span></p></body></html>", None))
         self.label_h.setText(QCoreApplication.translate("MainWindow", u"\u0428\u0438\u0440\u0438\u043d\u0430", None))
         self.label_w.setText(QCoreApplication.translate("MainWindow", u"\u0412\u044b\u0441\u043e\u0442\u0430", None))
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u041a\u043e\u043e\u0440\u0434\u0438\u043d\u0430\u0442\u044b \u043f\u0435\u0440\u0432\u043e\u0439 \u0432\u0435\u0440\u0448\u0438\u043d\u044b</span></p></body></html>", None))
+        self.label_start_x.setText(QCoreApplication.translate("MainWindow", u"\u041f\u043e x", None))
+        self.label_start_y.setText(QCoreApplication.translate("MainWindow", u"\u041f\u043e y", None))
         self.tabw_right.setTabText(self.tabw_right.indexOf(self.tab_general), QCoreApplication.translate("MainWindow", u"\u041e\u0441\u043d\u043e\u0432\u043d\u044b\u0435 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438", None))
         self.label_nodes.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0412\u0435\u0440\u0448\u0438\u043d\u044b</span></p></body></html>", None))
         self.btn_addnode.setText(QCoreApplication.translate("MainWindow", u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0432\u0435\u0440\u0448\u0438\u043d\u0443", None))
+        self.btn_deletenode.setText(QCoreApplication.translate("MainWindow", u"\u0423\u0434\u0430\u043b\u0438\u0442\u044c \u0432\u0435\u0440\u0448\u0438\u043d\u0443", None))
         self.label_connections.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0421\u043e\u0435\u0434\u0438\u043d\u0435\u043d\u0438\u044f</span></p></body></html>", None))
         self.tabw_right.setTabText(self.tabw_right.indexOf(self.tab_elements), QCoreApplication.translate("MainWindow", u"\u042d\u043b\u0435\u043c\u0435\u043d\u0442\u044b", None))
         self.label_data.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0414\u0430\u043d\u043d\u044b\u0435</span></p></body></html>", None))

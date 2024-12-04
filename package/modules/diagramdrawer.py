@@ -63,10 +63,8 @@ class DiagramDrawer:
         self.__config_nodes = self.__obsm.obj_configs.get_nodes()
         self.__config_connections = self.__obsm.obj_configs.get_connections()
 
-    def prepare_drawing_data(self):
+    def prepare_drawing_data(self, start_x, start_y):
         """Подготавливает данные для рисования: в оснвоном координаты."""
-        start_x = 150
-        start_y = 150
         x = start_x
         y = start_y
 
@@ -147,9 +145,9 @@ class DiagramDrawer:
 
         return prepared_data
 
-    def draw(self, painter):
+    def draw(self, painter, start_x, start_y):
         """Рисует диаграмму на переданном объекте QPainter."""
-        self.prepared_data = self.prepare_drawing_data()
+        self.prepared_data = self.prepare_drawing_data(start_x, start_y)
 
         # сначала рисуем соединения
         for index, item in enumerate(self.prepared_data):
