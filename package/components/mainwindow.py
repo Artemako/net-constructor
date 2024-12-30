@@ -350,9 +350,15 @@ class MainWindow(QMainWindow):
             self.__data_widgets[config_parameter_key] = text_edit
 
     def create_metrics_widgets_by_object(self, object, is_node=False):
+        #
+        flag_global_metrics = False
+        flag_local_metrics = False
+        #
         self.__metrics_widgets = {}
-        form_layout = self.ui.fl_metrics
-        self.clear_form_layout(form_layout)
+        form_layout_local = self.ui.fl_local_metrics
+        form_layout_global = self.ui.fl_global_metrics
+        self.clear_form_layout(form_layout_local)
+        self.clear_form_layout(form_layout_global)
         #
         if is_node:
             config_object_metrics = self.__obsm.obj_configs.get_config_node_metrics_by_node(object)
@@ -364,9 +370,6 @@ class MainWindow(QMainWindow):
             print(
                 f"config_parameter_key: {config_parameter_key}, config_parameter_data: {config_parameter_data}"
             )
-            # TODO Глобальные
-            if config_parameter_data.get("is_global", False):
-                continue
             # название параметра metrics
             label_text = config_parameter_data.get("name", "")
             label = QLabel(label_text)
@@ -380,7 +383,15 @@ class MainWindow(QMainWindow):
             spin_box = QSpinBox()
             spin_box.setRange(0, 99999)
             spin_box.setValue(value)
-            form_layout.addRow(label, spin_box)
+            if config_parameter_data.get("is_global", False):
+                form_layout_global.addRow(label, spin_box)
+                flag_global_metrics = True
+            else:
+                form_layout_local.addRow(label, spin_box)
+                flag_local_metrics = True
             # в словарь виджетов
             self.__metrics_widgets[config_parameter_key] = spin_box
+        #
+        self.ui.label_local_metrics.setVisible(flag_local_metrics)
+        self.ui.label_global_metrics.setVisible(flag_global_metrics)
 

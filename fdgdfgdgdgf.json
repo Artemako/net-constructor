@@ -6,7 +6,7 @@
     "image_settings": {
         "width": 2000,
         "height": 200,
-        "start_x": 100,
+        "start_x": 150,
         "start_y": 100
     },
     "nodes": [
@@ -66,8 +66,6 @@
             "node_id": "0",
             "data": {
                 "название": {
-                    "name": "Название",
-                    "order": 0,
                     "value": "Маленький круг"
                 }
             },
@@ -78,6 +76,12 @@
                 },
                 "radius": {
                     "value": 16
+                },
+                "margin_left_right": {
+                    "value": 16
+                },
+                "margin_top": {
+                    "value": 32
                 }
             }
         }

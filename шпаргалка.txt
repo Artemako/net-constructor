@@ -20,3 +20,6 @@ python setup.py build
 
 БЕЗ ПАРАЛЛЕЗАЦИИ
 export_to_pdf() -> time: 2.232374429702759
+
+
+python -m nuitka --standalone --follow-imports --plugin-enable=pyside6  --disable-console main.pyw

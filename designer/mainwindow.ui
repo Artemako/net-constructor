@@ -133,6 +133,9 @@
             <string>Основные настройки</string>
            </attribute>
            <layout class="QVBoxLayout" name="verticalLayout_5">
+            <property name="spacing">
+             <number>9</number>
+            </property>
             <property name="leftMargin">
              <number>9</number>
             </property>
@@ -264,6 +267,9 @@
             <string>Элементы</string>
            </attribute>
            <layout class="QVBoxLayout" name="verticalLayout_3">
+            <property name="spacing">
+             <number>9</number>
+            </property>
             <item>
              <widget class="QSplitter" name="splitter">
               <property name="orientation">
@@ -329,7 +335,10 @@
            <attribute name="title">
             <string>Редактирование</string>
            </attribute>
-           <layout class="QVBoxLayout" name="verticalLayout_7" stretch="0,0,0,0,1">
+           <layout class="QVBoxLayout" name="verticalLayout_7" stretch="0,0,0,0,0,0,1">
+            <property name="spacing">
+             <number>9</number>
+            </property>
             <property name="leftMargin">
              <number>9</number>
             </property>
@@ -353,14 +362,24 @@
              <layout class="QFormLayout" name="fl_data"/>
             </item>
             <item>
-             <widget class="QLabel" name="label_metrics">
+             <widget class="QLabel" name="label_local_metrics">
               <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Метрики&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Локальные метрики&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
              </widget>
             </item>
             <item>
-             <layout class="QFormLayout" name="fl_metrics"/>
+             <layout class="QFormLayout" name="fl_local_metrics"/>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_global_metrics">
+              <property name="text">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Глобальные метрики&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QFormLayout" name="fl_global_metrics"/>
             </item>
             <item>
              <spacer name="verticalSpacer_2">

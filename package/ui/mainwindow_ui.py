@@ -151,6 +151,7 @@ class Ui_MainWindow(object):
         self.tab_general = QWidget()
         self.tab_general.setObjectName(u"tab_general")
         self.verticalLayout_5 = QVBoxLayout(self.tab_general)
+        self.verticalLayout_5.setSpacing(9)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.verticalLayout_5.setContentsMargins(9, 9, 9, 9)
         self.label = QLabel(self.tab_general)
@@ -245,6 +246,7 @@ class Ui_MainWindow(object):
         self.tab_elements = QWidget()
         self.tab_elements.setObjectName(u"tab_elements")
         self.verticalLayout_3 = QVBoxLayout(self.tab_elements)
+        self.verticalLayout_3.setSpacing(9)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.splitter = QSplitter(self.tab_elements)
         self.splitter.setObjectName(u"splitter")
@@ -305,6 +307,7 @@ class Ui_MainWindow(object):
         self.tab_editor = QWidget()
         self.tab_editor.setObjectName(u"tab_editor")
         self.verticalLayout_7 = QVBoxLayout(self.tab_editor)
+        self.verticalLayout_7.setSpacing(9)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
         self.verticalLayout_7.setContentsMargins(9, 9, 9, 9)
         self.label_data = QLabel(self.tab_editor)
@@ -317,21 +320,31 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_7.addLayout(self.fl_data)
 
-        self.label_metrics = QLabel(self.tab_editor)
-        self.label_metrics.setObjectName(u"label_metrics")
+        self.label_local_metrics = QLabel(self.tab_editor)
+        self.label_local_metrics.setObjectName(u"label_local_metrics")
 
-        self.verticalLayout_7.addWidget(self.label_metrics)
+        self.verticalLayout_7.addWidget(self.label_local_metrics)
 
-        self.fl_metrics = QFormLayout()
-        self.fl_metrics.setObjectName(u"fl_metrics")
+        self.fl_local_metrics = QFormLayout()
+        self.fl_local_metrics.setObjectName(u"fl_local_metrics")
 
-        self.verticalLayout_7.addLayout(self.fl_metrics)
+        self.verticalLayout_7.addLayout(self.fl_local_metrics)
+
+        self.label_global_metrics = QLabel(self.tab_editor)
+        self.label_global_metrics.setObjectName(u"label_global_metrics")
+
+        self.verticalLayout_7.addWidget(self.label_global_metrics)
+
+        self.fl_global_metrics = QFormLayout()
+        self.fl_global_metrics.setObjectName(u"fl_global_metrics")
+
+        self.verticalLayout_7.addLayout(self.fl_global_metrics)
 
         self.verticalSpacer_2 = QSpacerItem(0, 0, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout_7.addItem(self.verticalSpacer_2)
 
-        self.verticalLayout_7.setStretch(4, 1)
+        self.verticalLayout_7.setStretch(6, 1)
         self.tabw_right.addTab(self.tab_editor, "")
 
         self.verticalLayout_2.addWidget(self.tabw_right)
@@ -436,7 +449,8 @@ class Ui_MainWindow(object):
         self.label_connections.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0421\u043e\u0435\u0434\u0438\u043d\u0435\u043d\u0438\u044f</span></p></body></html>", None))
         self.tabw_right.setTabText(self.tabw_right.indexOf(self.tab_elements), QCoreApplication.translate("MainWindow", u"\u042d\u043b\u0435\u043c\u0435\u043d\u0442\u044b", None))
         self.label_data.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0414\u0430\u043d\u043d\u044b\u0435</span></p></body></html>", None))
-        self.label_metrics.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u041c\u0435\u0442\u0440\u0438\u043a\u0438</span></p></body></html>", None))
+        self.label_local_metrics.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u041b\u043e\u043a\u0430\u043b\u044c\u043d\u044b\u0435 \u043c\u0435\u0442\u0440\u0438\u043a\u0438</span></p></body></html>", None))
+        self.label_global_metrics.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0413\u043b\u043e\u0431\u0430\u043b\u044c\u043d\u044b\u0435 \u043c\u0435\u0442\u0440\u0438\u043a\u0438</span></p></body></html>", None))
         self.tabw_right.setTabText(self.tabw_right.indexOf(self.tab_editor), QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0434\u0430\u043a\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435", None))
         self.menu_file.setTitle(QCoreApplication.translate("MainWindow", u"\u0424\u0430\u0439\u043b", None))
         self.tb_main.setWindowTitle(QCoreApplication.translate("MainWindow", u"\u041f\u0430\u043d\u0435\u043b\u044c \u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u043e\u0432", None))

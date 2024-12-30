@@ -1,0 +1,74 @@
+{
+    "0": {
+        "data": {
+            "название": {
+                "value": "Маленький круг", 
+                "name": "Название",
+                "order": 0
+            }
+        },
+        "is_wrap": false,
+        "metrics": {
+            "radius": {
+                "is_global": true,
+                "value": 16,
+                "name": "Радиус круга", 
+                "order": 4
+            },
+            "margin_top": {
+                "is_global": false,
+                "value": 32,
+                "name": "Высота названия над вершиной", 
+                "order": 1
+            },
+            "title_pixel_size": {
+                "is_global": true,
+                "value": 12,
+                "name": "Размер шрифта для названия", 
+                "order": 2
+            },
+            "margin_left_right": {
+                "is_global": false,
+                "value": 16,
+                "name": "Боковые внешние отступы вершины", 
+                "order": 0              
+            }
+        }
+    },
+    "1": {
+        "data": {
+            "название": {
+                "value" : "Большой круг", 
+                "name": "Название",
+                "order": 0
+            }
+        },
+        "is_wrap": false,
+        "metrics": {
+            "radius": {
+                "is_global": true,
+                "value": 16,
+                "name": "Радиус круга", 
+                "order": 0
+            },
+            "margin_top": {
+                "is_global": false,
+                "value": 32,
+                "name": "Высота названия над вершиной", 
+                "order": 1
+            },
+            "title_pixel_size": {
+                "is_global": true,
+                "value": 12,
+                "name": "Размер шрифта для названия", 
+                "order": 2
+            },
+            "margin_left_right": {
+                "is_global": false,
+                "value": 32,
+                "name": "Боковые внешние отступы вершины", 
+                "order": 3
+            }
+        }
+    }
+}

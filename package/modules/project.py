@@ -176,28 +176,27 @@ class Project:
             if key not in object["metrics"]:
                 object["metrics"][key] = {}
 
-    # TODO глобальные значения не работают
-    def check_global_metrics_key(self, config_nodes, config_connections, object, key, is_node = False):
-        ...
-    #     if is_node:
-    #         node_id = object.get("node_id", "0")
-    #         for node_key, node_dict in config_nodes.items():
-    #             if node_id == node_key:
-    #                 is_global = node_dict.get("metrics",{}).get(key, {}).get("is_global", False)
-    #                 if is_global:
-    #                     for other_node in self.__data.get("nodes", []):
-    #                         if other_node.get("node_id", "0") == node_key:
-    #                             if key in node_dict["metrics"]:
-    #                                 other_node["metrics"][key] = {"value" : node_dict["metrics"][key]["value"]}
 
-
-    #     else:
-    #         connection_id = object.get("connection_id", "0")
-    #         for connection_key, connection_dict in config_connections.items():
-    #             if connection_id == connection_key:
-    #                 is_global = connection_dict.get("metrics",{}).get(key, {}).get("is_global", False)
-    #                 if is_global:
-    #                     for other_connection in self.__data.get("connections", []):
-    #                         if other_connection.get("connection_id", "0") == connection_key:
-    #                             if key in connection_dict["metrics"]:
-    #                                 other_connection["metrics"][key] = {"value" : connection_dict["metrics"][key]["value"]}
+    def check_global_metrics_key(self, config_nodes, config_connections, object, key, is_node=False):
+        if is_node:
+            node_id = object.get("node_id", "0")
+            node_dict = config_nodes.get(node_id, {})
+            is_global = node_dict.get("metrics", {}).get(key, {}).get("is_global", False)
+            
+            if is_global:
+                value = object["metrics"].get(key, {}).get("value", None)
+                if value is not None:
+                    for other_node in self.__data.get("nodes", []):
+                        if other_node.get("node_id", "0") == node_id:
+                            other_node["metrics"][key] = {"value": value}
+        else:
+            connection_id = object.get("connection_id", "0")
+            connection_dict = config_connections.get(connection_id, {})
+            is_global = connection_dict.get("metrics", {}).get(key, {}).get("is_global", False)
+            
+            if is_global:
+                value = object["metrics"].get(key, {}).get("value", None)
+                if value is not None:
+                    for other_connection in self.__data.get("connections", []):
+                        if other_connection.get("connection_id", "0") == connection_id:
+                            other_connection["metrics"][key] = {"value": value}
