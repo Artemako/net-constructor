@@ -12,16 +12,21 @@ class DrawNode:
         self,
         painter,
         object_node,
+        object_before,
+        object_after,
         x,
         y,
     ):
         self.__painter = painter
         self.__object_node = object_node
+        self.__object_before = object_before
+        self.__object_after = object_after
         self.__x = x
         self.__y = y
         #
         self.__metrics = object_node.get_metrics()
         self.__config_metrics = object_node.get_config_metrics()
+
 
     def draw(self):
         if self.__object_node.get_node_id() == "0":
@@ -42,6 +47,41 @@ class DrawNode:
             "title_pixel_size", self.__config_metrics.get("title_pixel_size", {})
         ).get("value", 0)
 
+        # тонкая вертикальная линия
+        def draw_vertical_thin_line(object):
+            metrics = object.get_metrics()
+            config_metrics = object.get_config_metrics()
+            #
+            delta_node_and_thin_line = metrics.get(
+                "delta_node_and_thin_line", config_metrics.get("delta_node_and_thin_line", {})
+            ).get("value", 0)
+            delta_thins_lines = metrics.get(
+                "delta_thins_lines", config_metrics.get("delta_thins_lines", {})
+            ).get("value", 0)
+            #
+            self.__painter = painterconfigurator.PainterConfigurator(
+                self.__painter
+            ).get_thin_line_painter()
+            #
+            self.__painter.drawLine(
+                self.__x,
+                self.__y,
+                self.__x,
+                self.__y + delta_node_and_thin_line + 5,
+            )
+            #
+            self.__painter.drawLine(
+                self.__x,
+                self.__y + delta_node_and_thin_line,
+                self.__x,
+                self.__y + delta_node_and_thin_line + delta_thins_lines + 5,
+            )
+
+        if self.__object_before and self.__object_before.get_type() == "connection":
+            draw_vertical_thin_line(self.__object_before)
+        elif self.__object_after and self.__object_after.get_type() == "connection":
+            draw_vertical_thin_line(self.__object_after)
+
         # рисование вершины
         drawobject.DrawObject(self.__painter).node_gray_diagcross(
             self.__x, self.__y, radius
@@ -59,7 +99,7 @@ class DrawNode:
             text, self.__x, self.__y - margin_top
         )
 
-    # TODO Подумать про групповые соединения
+    
 
     def draw_node_id_1(self):
         """Как и node_id 0 + большой круг с треугольник"""

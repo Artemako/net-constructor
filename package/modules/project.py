@@ -59,7 +59,7 @@ class Project:
         #
         new_is_wrap = node_dict.get("is_wrap", False)
         #
-        new_metrics = {}
+        new_metrics = node_dict.get("metrics", {})
         #
         new_dict = {
             "id": new_id,
@@ -80,8 +80,8 @@ class Project:
         new_order = len(self.__data.get("connections", []))
         #
         new_data = connection_dict.get("data", {})
-        #
-        new_metrics = {}
+        # 
+        new_metrics = connection_dict.get("metrics", {})
         #
         new_dict = {
             "id": new_id,

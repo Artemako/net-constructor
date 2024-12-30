@@ -3,15 +3,21 @@ import package.modules.drawconnection as drawconnection
 
 
 class Node:
-    def __init__(self, node, config_node, before_wrap=False, after_wrap=False):
+    def __init__(
+        self, node=None, config_node=None, before_wrap=False, after_wrap=False
+    ):
+        self.__type = "node"
         self.__node = node
         self.__config_node = config_node
         self.__before_wrap = False
         self.__after_wrap = False
 
+    def get_type(self):
+        return self.__type
+
     def get_node(self):
         return self.__node
-    
+
     def get_id(self):
         return self.__node.get("id")
 
@@ -29,15 +35,25 @@ class Node:
 
     def get_data(self):
         return self.__node.get("data", {})
-    
+
     def get_is_wrap(self):
-        return self.__node.get("is_wrap", False)
+        return self.__before_wrap or self.__after_wrap
+
+    def get_before_wrap(self):
+        return self.__before_wrap
+
+    def get_after_wrap(self):
+        return self.__after_wrap
 
 
 class Connection:
     def __init__(self, connection, config_connection):
+        self.__type = "connection"
         self.__connection = connection
         self.__config_connection = config_connection
+
+    def get_type(self):
+        return self.__type
 
     def get_connection(self):
         return self.__connection
@@ -171,12 +187,24 @@ class DiagramDrawer:
                     object_node_before,
                     object_node_after,
                     x,
-                    y
+                    y,
                 )
 
         # Затем рисуем узлы
         for index, item in enumerate(self.prepared_data):
             if item.get("type") == "node":
+                #
+                object_before = None
+                try:
+                    object_before = self.prepared_data[index - 1].get("object")
+                except IndexError:
+                    object_before = None
+                #
+                object_after = None
+                try:
+                    object_after = self.prepared_data[index + 1].get("object")
+                except IndexError:
+                    object_after = None
                 #
                 object_node = item.get("object")
                 x = item.get("x")
@@ -185,6 +213,8 @@ class DiagramDrawer:
                 self.draw_node(
                     painter,
                     object_node,
+                    object_before,
+                    object_after,
                     x,
                     y,
                 )
@@ -193,12 +223,16 @@ class DiagramDrawer:
         self,
         painter,
         object_node,
+        object_before,
+        object_after,
         x,
         y,
     ):
         node_obj = drawnode.DrawNode(
             painter,
             object_node,
+            object_before,
+            object_after,
             x,
             y,
         )

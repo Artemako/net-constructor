@@ -24,7 +24,6 @@ class DrawConnection:
         self.__config_before_metrics = self.__object_node_before.get_config_metrics()
         #
         self.__after_metrics = self.__object_node_after.get_metrics()
-        self.__after_is_wrap = self.__object_node_after.get_is_wrap()
         self.__config_after_metrics = self.__object_node_after.get_config_metrics()
 
     def draw(self):
@@ -139,5 +138,7 @@ class DrawConnection:
             self.__x + length + 5,
             self.__y + delta_node_and_thin_line + delta_thins_lines,
         )
+
+        # TODO Текст над/под x2
         
 
