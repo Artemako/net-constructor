@@ -21,9 +21,7 @@ class DrawConnection:
         self.__config_metrics = self.__object_connection.get_config_metrics()
         #
         self.__before_metrics = self.__object_node_before.get_metrics()
-        self.__config_before_metrics = (
-            self.__object_node_before.get_config_metrics()
-        )
+        self.__config_before_metrics = self.__object_node_before.get_config_metrics()
         #
         self.__after_metrics = self.__object_node_after.get_metrics()
         self.__config_after_metrics = self.__object_node_after.get_config_metrics()
@@ -33,6 +31,7 @@ class DrawConnection:
             self.draw_connection_type_0()
 
     def draw_connection_type_0(self):
+        """Скелетная схема ВОЛП и основные данные цепей кабеля"""
         # узнать значения
         length = self.__metrics.get(
             "length", self.__config_metrics.get("length", {})
@@ -44,17 +43,30 @@ class DrawConnection:
             "label_vertical_padding",
             self.__config_metrics.get("label_vertical_padding", {}),
         ).get("value", 0)
-
-        #
-        before_margin_left_right = self.__before_metrics.get(
-            "margin_left_right", self.__config_before_metrics.get("margin_left_right", {})
+        delta_node_and_thin_line = self.__metrics.get(
+            "delta_node_and_thin_line",
+            self.__config_before_metrics.get("delta_node_and_thin_line", {}),
         ).get("value", 0)
-        after_margin_left_right = self.__after_metrics.get(
-            "margin_left_right", self.__config_after_metrics.get("margin_left_right", {})
+        delta_thins_lines = self.__metrics.get(
+            "delta_thins_lines",
+            self.__config_before_metrics.get("delta_thins_lines", {}),
         ).get("value", 0)
         
 
-        # основная линия
+        
+        # метрики before и after
+        before_margin_left_right = self.__before_metrics.get(
+            "margin_left_right",
+            self.__config_before_metrics.get("margin_left_right", {}),
+        ).get("value", 0)
+        after_margin_left_right = self.__after_metrics.get(
+            "margin_left_right",
+            self.__config_after_metrics.get("margin_left_right", {}),
+        ).get("value", 0)
+
+        # TODO before и after data - для сравнения "название" 
+
+        # ОСНОВНАЯ ЛИНИЯ
         self.__painter = painterconfigurator.PainterConfigurator(
             self.__painter,
             pen=QPen(Qt.blue, 4),
@@ -71,30 +83,31 @@ class DrawConnection:
         ).get_painter()
 
         # LT
-        data_text = self.__object_connection.get_data().get("ВОК", {}).get("value", "")
-        text = f"ВОК {data_text}"
+        text = self.__object_connection.get_data().get("ВОК", {}).get("value", "")
         drawtext.DrawText(self.__painter).draw_lefted_by_left_single_line_text(
-            text, self.__x + left_right_margin + before_margin_left_right, self.__y - label_vertical_padding
+            text,
+            self.__x + left_right_margin + before_margin_left_right,
+            self.__y - label_vertical_padding,
         )
 
         # LB
-        data_text = (
+        text = (
             self.__object_connection.get_data()
             .get("количество_ОВ", {})
             .get("value", "")
         )
-        text = f"кол-во ОВ - {data_text}"
         drawtext.DrawText(self.__painter).draw_lefted_by_left_single_line_text(
-            text, self.__x + left_right_margin + before_margin_left_right, self.__y + label_vertical_padding + 8
+            text,
+            self.__x + left_right_margin + before_margin_left_right,
+            self.__y + label_vertical_padding + 8,
         )
 
         # RT
-        data_text = (
+        text = (
             self.__object_connection.get_data()
             .get("физическая_длина", {})
             .get("value", "")
         )
-        text = f"физическая длина - {data_text}"
         drawtext.DrawText(self.__painter).draw_righted_by_right_single_line_text(
             text,
             self.__x + length - left_right_margin - after_margin_left_right,
@@ -102,14 +115,43 @@ class DrawConnection:
         )
 
         # RB
-        data_text = (
+        text = (
             self.__object_connection.get_data()
             .get("оптическая_длина", {})
             .get("value", "")
         )
-        text = f"оптическая_длина - {data_text}"
         drawtext.DrawText(self.__painter).draw_righted_by_right_single_line_text(
             text,
             self.__x + length - left_right_margin - after_margin_left_right,
             self.__y + label_vertical_padding + 8,
         )
+
+        # Сплошная тонкая линия (строительная_длина)
+
+        # горизонтальная линия - название
+        self.__painter = painterconfigurator.PainterConfigurator(
+            self.__painter,
+            pen=QPen(Qt.black, 1),
+            brush=QBrush(Qt.NoBrush),
+        ).get_painter()
+        self.__painter.drawLine(
+            self.__x,
+            self.__y + delta_node_and_thin_line,
+            self.__x + length,
+            self.__y + delta_node_and_thin_line,
+        )
+
+        # горизонтальная линия - местоположение
+        self.__painter = painterconfigurator.PainterConfigurator(
+            self.__painter,
+            pen=QPen(Qt.black, 1),
+            brush=QBrush(Qt.NoBrush),
+        ).get_painter()
+        self.__painter.drawLine(
+            self.__x,
+            self.__y + delta_node_and_thin_line + delta_thins_lines,
+            self.__x + length,
+            self.__y + delta_node_and_thin_line + delta_thins_lines,
+        )
+
+

@@ -4,32 +4,32 @@
             "название": {
                 "value": "Синяя линия",
                 "name": "Название",
-                "type": "string"
-            },
-            "location_name": {
-                "value": "",
-                "name": "Локация",
-                "type": "string"
+                "order": 0
             },
             "ВОК": {
-                "value": "",
+                "value": "ВОК ",
                 "name": "ВОК",
-                "type": "string"
+                "order": 1
             },
             "количество_ОВ": {
-                "value": "",
+                "value": "кол-во ОВ - ",
                 "name": "Количество ОВ",
-                "type": "integer"
+                "order": 2
             },
             "физическая_длина": {
-                "value": "",
+                "value": "физическая длина - ",
                 "name": "Физическая длина",
-                "type": "integer"
+                "order": 3
             },
             "оптическая_длина": {
-                "value": "",
+                "value": "оптическая_длина - ",
                 "name": "Оптическая длина",
-                "type": "integer"
+                "order": 4
+            },
+            "местоположение": {
+                "value": "",
+                "name": "Местоположение",
+                "order": 5
             }
         },
         "is_wrap": false,
@@ -37,17 +37,32 @@
             "length": {
                 "value": 350,
                 "name": "Длина соединения",
-                "is_global": false
+                "is_global": false,
+                "order": 0 
             }, 
             "left_right_margin": {
                 "value": 10,
                 "name": "Боковые отступы подписей от вершин",
-                "is_global": false
+                "is_global": false,
+                "order": 1
             },
             "label_vertical_padding": {
                 "value": 10,
                 "name": "Высота подписей над/под соединением",
-                "is_global": false
+                "is_global": false,
+                "order": 2
+            },
+            "delta_node_and_thin_line": {
+                "value": 80,
+                "name": "Расстояние между вершиной и тонкой линии",
+                "is_global": true,
+                "order": 5
+            },
+            "delta_thins_lines": {
+                "value": 45,
+                "name": "Расстояние между тонкими линиями",
+                "is_global": true,
+                "order": 6
             }
         }
     }

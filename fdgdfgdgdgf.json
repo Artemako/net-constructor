@@ -99,7 +99,7 @@
                     "value": "ыав"
                 },
                 "количество_ОВ": {
-                    "value": "ыаыаы"
+                    "value": "55"
                 },
                 "название": {
                     "value": "Синяя линия"
@@ -113,7 +113,7 @@
             },
             "metrics": {
                 "length": {
-                    "value": 350
+                    "value": 400
                 },
                 "left_right_margin": {
                     "value": 15

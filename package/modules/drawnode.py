@@ -24,7 +24,7 @@ class DrawNode:
             self.draw_node_id_1()
 
     def draw_node_id_0(self):
-        
+        """Круглый, заливка диагональная штриховка, подпись сверху"""
         # узнать значения
         radius = self.__metrics.get(
             "radius", self.__config_metrics.get("radius", {})
@@ -53,7 +53,11 @@ class DrawNode:
             text, self.__x, self.__y - margin_top
         )
 
+        # TODO тонкая линия
+
+
     def draw_node_id_1(self):
+        """Как и node_id 0 + большой круг с треугольник"""
         fill_color = Qt.white
 
         # узнать значения
@@ -83,5 +87,5 @@ class DrawNode:
         self.__painter.drawEllipse(QPoint(self.__x, self.__y), big_radius, big_radius)
         self.__painter.drawPolygon(points)
 
-        #
+        # рисуем и draw_node_id_0
         self.draw_node_id_0()
