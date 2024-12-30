@@ -24,6 +24,7 @@ class DrawConnection:
         self.__config_before_metrics = self.__object_node_before.get_config_metrics()
         #
         self.__after_metrics = self.__object_node_after.get_metrics()
+        self.__after_is_wrap = self.__object_node_after.get_is_wrap()
         self.__config_after_metrics = self.__object_node_after.get_config_metrics()
 
     def draw(self):
@@ -64,23 +65,17 @@ class DrawConnection:
             self.__config_after_metrics.get("margin_left_right", {}),
         ).get("value", 0)
 
-        # TODO before и after data - для сравнения "название" 
 
         # ОСНОВНАЯ ЛИНИЯ
         self.__painter = painterconfigurator.PainterConfigurator(
-            self.__painter,
-            pen=QPen(Qt.blue, 4),
-            brush=QBrush(Qt.NoBrush),
-        ).get_painter()
+            self.__painter
+        ).get_bold_blue_line_painter()
         self.__painter.drawLine(self.__x, self.__y, self.__x + length, self.__y)
 
         # подписи к основной линии
         self.__painter = painterconfigurator.PainterConfigurator(
-            self.__painter,
-            pen=QPen(Qt.darkGray, 2),
-            brush=QBrush(Qt.NoBrush),
-            font=QFont().setPixelSize(12),
-        ).get_painter()
+            self.__painter
+        ).get_main_caption_painter()
 
         # LT
         text = self.__object_connection.get_data().get("ВОК", {}).get("value", "")
@@ -127,31 +122,22 @@ class DrawConnection:
         )
 
         # Сплошная тонкая линия (строительная_длина)
-
         # горизонтальная линия - название
         self.__painter = painterconfigurator.PainterConfigurator(
-            self.__painter,
-            pen=QPen(Qt.black, 1),
-            brush=QBrush(Qt.NoBrush),
-        ).get_painter()
+            self.__painter
+        ).get_thin_line_painter()
         self.__painter.drawLine(
-            self.__x,
+            self.__x - 5,
             self.__y + delta_node_and_thin_line,
-            self.__x + length,
+            self.__x + length + 5,
             self.__y + delta_node_and_thin_line,
         )
-
         # горизонтальная линия - местоположение
-        self.__painter = painterconfigurator.PainterConfigurator(
-            self.__painter,
-            pen=QPen(Qt.black, 1),
-            brush=QBrush(Qt.NoBrush),
-        ).get_painter()
         self.__painter.drawLine(
-            self.__x,
+            self.__x - 5,
             self.__y + delta_node_and_thin_line + delta_thins_lines,
-            self.__x + length,
+            self.__x + length + 5,
             self.__y + delta_node_and_thin_line + delta_thins_lines,
         )
-
+        
 

@@ -34,3 +34,4 @@ class DrawObject:
         self.__painter.drawEllipse(QPoint(x, y), radius, radius)
 
 
+    

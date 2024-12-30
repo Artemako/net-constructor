@@ -8,9 +8,15 @@ import package.modules.drawobject as drawobject
 
 
 class DrawNode:
-    def __init__(self, painter, object_node, x, y):
+    def __init__(
+        self,
+        painter,
+        object_node,
+        x,
+        y,
+    ):
         self.__painter = painter
-        self.__object_node = object_node  
+        self.__object_node = object_node
         self.__x = x
         self.__y = y
         #
@@ -40,8 +46,8 @@ class DrawNode:
         drawobject.DrawObject(self.__painter).node_gray_diagcross(
             self.__x, self.__y, radius
         )
-        
-        # рисование      
+
+        # рисование
         self.__painter = painterconfigurator.PainterConfigurator(
             self.__painter,
             pen=QPen(Qt.black, 2),
@@ -53,8 +59,7 @@ class DrawNode:
             text, self.__x, self.__y - margin_top
         )
 
-        # TODO тонкая линия
-
+    # TODO Подумать про групповые соединения
 
     def draw_node_id_1(self):
         """Как и node_id 0 + большой круг с треугольник"""

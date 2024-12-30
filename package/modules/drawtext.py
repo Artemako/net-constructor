@@ -32,4 +32,5 @@ class DrawText:
         text_x = right_x - text_width
         # Рисуем текст смещенный, чтобы правая граница текста совпадала с right_x
         self.painter.drawText(text_x, y, text)
+        
 

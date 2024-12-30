@@ -13,3 +13,16 @@ class PainterConfigurator:
     def get_painter(self):
         return self.painter
         
+    def get_bold_blue_line_painter(self):
+        self.painter.setPen(QPen(Qt.blue, 4))
+        return self.painter
+    
+    def get_main_caption_painter(self):
+        self.painter.setPen(QPen(Qt.darkGray, 2))
+        self.painter.setBrush(QBrush(Qt.NoBrush))
+        self.painter.setFont(QFont().setPixelSize(12))
+        return self.painter
+
+    def get_thin_line_painter(self):
+        self.painter.setPen(QPen(Qt.black, 1))
+        return self.painter
