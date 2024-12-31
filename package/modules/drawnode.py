@@ -95,7 +95,7 @@ class DrawNode:
             font=QFont().setPixelSize(title_pixel_size),
         ).get_painter()
         text = self.__object_node.get_data().get("название", {}).get("value", "")
-        drawtext.DrawText(self.__painter).draw_centered_by_bottom_multiline_text(
+        drawtext.DrawText(self.__painter).draw_multiline_text_by_hc_vb(
             text, self.__x, self.__y - margin_top
         )
 

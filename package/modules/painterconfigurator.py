@@ -26,3 +26,9 @@ class PainterConfigurator:
     def get_thin_line_painter(self):
         self.painter.setPen(QPen(Qt.black, 1))
         return self.painter
+    
+    def get_thin_line_caption_painter(self):
+        self.painter.setPen(QPen(Qt.black, 2))
+        self.painter.setBrush(QBrush(Qt.NoBrush))
+        self.painter.setFont(QFont().setPixelSize(12))
+        return self.painter

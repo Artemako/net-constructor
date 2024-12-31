@@ -39,9 +39,9 @@ class DrawConnection:
         left_right_margin = self.__metrics.get(
             "left_right_margin", self.__config_metrics.get("left_right_margin", {})
         ).get("value", 0)
-        label_vertical_padding = self.__metrics.get(
-            "label_vertical_padding",
-            self.__config_metrics.get("label_vertical_padding", {}),
+        main_label_vertical_padding = self.__metrics.get(
+            "main_label_vertical_padding",
+            self.__config_metrics.get("main_label_vertical_padding", {}),
         ).get("value", 0)
         delta_node_and_thin_line = self.__metrics.get(
             "delta_node_and_thin_line",
@@ -51,8 +51,11 @@ class DrawConnection:
             "delta_thins_lines",
             self.__config_before_metrics.get("delta_thins_lines", {}),
         ).get("value", 0)
+        thin_label_vertical_padding = self.__metrics.get(
+            "thin_label_vertical_padding",
+            self.__config_before_metrics.get("thin_label_vertical_padding", {}),
+        ).get("value", 0)
         
-
         
         # метрики before и after
         before_margin_left_right = self.__before_metrics.get(
@@ -78,10 +81,10 @@ class DrawConnection:
 
         # LT
         text = self.__object_connection.get_data().get("ВОК", {}).get("value", "")
-        drawtext.DrawText(self.__painter).draw_lefted_by_left_single_line_text(
+        drawtext.DrawText(self.__painter).draw_singleline_text_by_hl_vb(
             text,
             self.__x + left_right_margin + before_margin_left_right,
-            self.__y - label_vertical_padding,
+            self.__y - main_label_vertical_padding,
         )
 
         # LB
@@ -90,10 +93,10 @@ class DrawConnection:
             .get("количество_ОВ", {})
             .get("value", "")
         )
-        drawtext.DrawText(self.__painter).draw_lefted_by_left_single_line_text(
+        drawtext.DrawText(self.__painter).draw_singleline_text_by_hl_vt(
             text,
             self.__x + left_right_margin + before_margin_left_right,
-            self.__y + label_vertical_padding + 8,
+            self.__y + main_label_vertical_padding,
         )
 
         # RT
@@ -102,10 +105,10 @@ class DrawConnection:
             .get("физическая_длина", {})
             .get("value", "")
         )
-        drawtext.DrawText(self.__painter).draw_righted_by_right_single_line_text(
+        drawtext.DrawText(self.__painter).draw_singleline_text_by_hr_vb(
             text,
             self.__x + length - left_right_margin - after_margin_left_right,
-            self.__y - label_vertical_padding,
+            self.__y - main_label_vertical_padding,
         )
 
         # RB
@@ -114,10 +117,10 @@ class DrawConnection:
             .get("оптическая_длина", {})
             .get("value", "")
         )
-        drawtext.DrawText(self.__painter).draw_righted_by_right_single_line_text(
+        drawtext.DrawText(self.__painter).draw_singleline_text_by_hr_vt(
             text,
             self.__x + length - left_right_margin - after_margin_left_right,
-            self.__y + label_vertical_padding + 8,
+            self.__y + main_label_vertical_padding,
         )
 
         # Сплошная тонкая линия (строительная_длина)
@@ -139,6 +142,33 @@ class DrawConnection:
             self.__y + delta_node_and_thin_line + delta_thins_lines,
         )
 
-        # TODO Текст над/под x2
-        
+        # Текст над/под с название и название_доп
+        self.__painter = painterconfigurator.PainterConfigurator(
+            self.__painter
+        ).get_thin_line_caption_painter()
+        #
+        center_x = (self.__x + self.__x + length) // 2
+        bottom_y = self.__y + delta_node_and_thin_line - thin_label_vertical_padding
+        top_y = self.__y + delta_node_and_thin_line + thin_label_vertical_padding
+        #
+        text = self.__object_connection.get_data().get("название", {}).get("value", "")
+        drawtext.DrawText(self.__painter).draw_multiline_text_by_hc_vb(text, center_x, bottom_y)
+        #
+        text = self.__object_connection.get_data().get("название_доп", {}).get("value", "")
+        drawtext.DrawText(self.__painter).draw_multiline_text_by_hc_vt(text, center_x, top_y)
+
+        # Текст над/под с местоположение и местоположение_доп
+        self.__painter = painterconfigurator.PainterConfigurator(
+            self.__painter
+        ).get_thin_line_caption_painter()
+        #
+        center_x = (self.__x + self.__x + length) // 2
+        bottom_y = self.__y + delta_node_and_thin_line + delta_thins_lines - thin_label_vertical_padding
+        top_y = self.__y + delta_node_and_thin_line + delta_thins_lines + thin_label_vertical_padding
+        #
+        text = self.__object_connection.get_data().get("местоположение", {}).get("value", "")
+        drawtext.DrawText(self.__painter).draw_multiline_text_by_hc_vb(text, center_x, bottom_y)
+        #
+        text = self.__object_connection.get_data().get("местоположение_доп", {}).get("value", "")
+        drawtext.DrawText(self.__painter).draw_multiline_text_by_hc_vt(text, center_x, top_y)
 
