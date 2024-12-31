@@ -93,6 +93,9 @@ class MainWindow(QMainWindow):
             self, " ", "", "NCE (пока json) files (*.json)"
         )
         if file_name:
+            # TODO Выбор типа диаграммы
+            
+            #
             self.__obsm.obj_project.create_new_project(file_name)
             #
             data = self.__obsm.obj_project.get_data()

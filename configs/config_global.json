@@ -1,0 +1,18 @@
+{
+    "diagramms": {
+        "0": {
+            "order": 0,
+            "diagramm_type_id": 0,
+            "diagramm_name": "Скелетная схема ВОЛП и основные данные цепей кабеля",
+            "nodes": ["0", "1"],
+            "connections": ["0"]
+        }
+    },
+    "image_settings": {
+        "width": 2000,
+        "height": 800,
+        "start_x": 150,
+        "start_y": 150
+    },
+    "metrics": {}
+}

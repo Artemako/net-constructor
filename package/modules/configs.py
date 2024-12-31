@@ -3,10 +3,14 @@ import json
 
 class Configs:
     def __init__(self):
+        self.__global = {}
         self.__nodes = {}
         self.__connections = {}
 
     def load_configs(self, dir_app):
+        #
+        with open(dir_app + "/configs/config_global.json", "r", encoding="utf-8") as f:
+            self.__global = json.load(f)
         #
         with open(dir_app + "/configs/config_nodes.json", "r", encoding="utf-8") as f:
             self.__nodes = json.load(f)
@@ -16,11 +20,16 @@ class Configs:
         ) as f:
             self.__connections = json.load(f)
     
+    
+    def get_global(self):
+        return self.__global
+
     def get_nodes(self):
         return self.__nodes
     
     def get_connections(self):
         return self.__connections
+
 
     def get_config_node_data_by_node(self, node):
         node_id = node.get("node_id", "0")

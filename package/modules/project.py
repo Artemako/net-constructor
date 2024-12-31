@@ -11,6 +11,7 @@ class Project:
 
     def create_new_project(self, file_path):
         self.__file_name = file_path
+        # TODO В зависимости от типа диаграммы менять
         self.__data = {
             "diagramm_settings": {
                 "diagramm_type_id": 0,
