@@ -4,6 +4,7 @@ from PySide6.QtCore import Qt, QPointF, QPoint
 
 import package.modules.painterconfigurator as painterconfigurator
 import package.modules.drawtext as drawtext
+import package.modules.drawobject as drawobject
 
 
 class DrawConnection:
@@ -54,6 +55,12 @@ class DrawConnection:
         thin_label_vertical_padding = self.__metrics.get(
             "thin_label_vertical_padding",
             self.__config_before_metrics.get("thin_label_vertical_padding", {}),
+        ).get("value", 0)
+        arrow_width = self.__metrics.get(
+            "arrow_width", self.__config_metrics.get("arrow_width", {})
+        ).get("value", 0)
+        arrow_height = self.__metrics.get(
+            "arrow_height", self.__config_metrics.get("arrow_height", {})
         ).get("value", 0)
         
         
@@ -134,13 +141,34 @@ class DrawConnection:
             self.__x + length + 5,
             self.__y + delta_node_and_thin_line,
         )
+        # стрелки
+        drawobject.DrawObject(self.__painter).arrow(
+            self.__x + length, self.__y + delta_node_and_thin_line, arrow_width, arrow_height, "right"
+        )
+        drawobject.DrawObject(self.__painter).arrow(
+            self.__x, self.__y + delta_node_and_thin_line, arrow_width, arrow_height, "left"
+        )
+
+
         # горизонтальная линия - местоположение
+        self.__painter = painterconfigurator.PainterConfigurator(
+            self.__painter
+        ).get_thin_line_painter()        
         self.__painter.drawLine(
             self.__x - 5,
             self.__y + delta_node_and_thin_line + delta_thins_lines,
             self.__x + length + 5,
             self.__y + delta_node_and_thin_line + delta_thins_lines,
         )
+        # стрелки
+        drawobject.DrawObject(self.__painter).arrow(
+            self.__x + length, self.__y + delta_node_and_thin_line + delta_thins_lines, arrow_width, arrow_height, "right"
+        )
+        drawobject.DrawObject(self.__painter).arrow(
+            self.__x, self.__y + delta_node_and_thin_line + delta_thins_lines, arrow_width, arrow_height, "left"
+        )
+
+
 
         # Текст над/под с название и название_доп
         self.__painter = painterconfigurator.PainterConfigurator(
@@ -156,7 +184,8 @@ class DrawConnection:
         #
         text = self.__object_connection.get_data().get("название_доп", {}).get("value", "")
         drawtext.DrawText(self.__painter).draw_multiline_text_by_hc_vt(text, center_x, top_y)
-
+        
+        
         # Текст над/под с местоположение и местоположение_доп
         self.__painter = painterconfigurator.PainterConfigurator(
             self.__painter

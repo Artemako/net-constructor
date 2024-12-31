@@ -11,46 +11,35 @@
     },
     "nodes": [
         {
-            "id": "f7b42864d32349c69e07f5f7246950bc",
+            "id": "918e7e6edead40f4926f5e13540da575",
             "order": 0,
             "node_id": "0",
             "data": {
                 "название": {
-                    "name": "Название",
-                    "order": 0,
                     "value": "Маленький круг"
                 }
             },
             "is_wrap": false,
             "metrics": {
+                "is_connected_with_thin_line_location": {
+                    "value": true
+                },
                 "margin_left_right": {
-                    "is_global": false,
-                    "name": "Боковые внешние отступы вершины",
-                    "order": 0,
                     "value": 16
                 },
                 "margin_top": {
-                    "is_global": false,
-                    "name": "Высота названия над вершиной",
-                    "order": 1,
                     "value": 32
                 },
                 "radius": {
-                    "is_global": true,
-                    "name": "Радиус круга",
-                    "order": 4,
-                    "value": 16
+                    "value": 20
                 },
                 "title_pixel_size": {
-                    "is_global": true,
-                    "name": "Размер шрифта для названия",
-                    "order": 2,
-                    "value": 12
+                    "value": 50
                 }
             }
         },
         {
-            "id": "37a486d1adf04ac1afeeefb76f4125e2",
+            "id": "b8de7968cb6a46f39d517c0a18be5f82",
             "order": 1,
             "node_id": "0",
             "data": {
@@ -62,6 +51,13 @@
             },
             "is_wrap": false,
             "metrics": {
+                "is_connected_with_thin_line_location": {
+                    "is_global": false,
+                    "name": "Cоединение с тонкой линией местоположения",
+                    "order": 5,
+                    "type": "bool",
+                    "value": true
+                },
                 "margin_left_right": {
                     "is_global": false,
                     "name": "Боковые внешние отступы вершины",
@@ -75,21 +71,15 @@
                     "value": 32
                 },
                 "radius": {
-                    "is_global": true,
-                    "name": "Радиус круга",
-                    "order": 4,
-                    "value": 16
+                    "value": 20
                 },
                 "title_pixel_size": {
-                    "is_global": true,
-                    "name": "Размер шрифта для названия",
-                    "order": 2,
-                    "value": 12
+                    "value": 50
                 }
             }
         },
         {
-            "id": "934715a4c26d427b9c3a8b2bce20989b",
+            "id": "9da082034a514b5e9b9035c59c5d8b1f",
             "order": 2,
             "node_id": "0",
             "data": {
@@ -101,6 +91,13 @@
             },
             "is_wrap": false,
             "metrics": {
+                "is_connected_with_thin_line_location": {
+                    "is_global": false,
+                    "name": "Cоединение с тонкой линией местоположения",
+                    "order": 5,
+                    "type": "bool",
+                    "value": true
+                },
                 "margin_left_right": {
                     "is_global": false,
                     "name": "Боковые внешние отступы вершины",
@@ -114,113 +111,114 @@
                     "value": 32
                 },
                 "radius": {
-                    "is_global": true,
-                    "name": "Радиус круга",
-                    "order": 4,
-                    "value": 16
+                    "value": 20
                 },
                 "title_pixel_size": {
-                    "is_global": true,
-                    "name": "Размер шрифта для названия",
-                    "order": 2,
-                    "value": 12
-                }
-            }
-        },
-        {
-            "id": "650f8af6553c47599db62c9651d001cd",
-            "order": 3,
-            "node_id": "0",
-            "data": {
-                "название": {
-                    "name": "Название",
-                    "order": 0,
-                    "value": "Маленький круг"
-                }
-            },
-            "is_wrap": false,
-            "metrics": {
-                "margin_left_right": {
-                    "is_global": false,
-                    "name": "Боковые внешние отступы вершины",
-                    "order": 0,
-                    "value": 16
-                },
-                "margin_top": {
-                    "is_global": false,
-                    "name": "Высота названия над вершиной",
-                    "order": 1,
-                    "value": 32
-                },
-                "radius": {
-                    "is_global": true,
-                    "name": "Радиус круга",
-                    "order": 4,
-                    "value": 16
-                },
-                "title_pixel_size": {
-                    "is_global": true,
-                    "name": "Размер шрифта для названия",
-                    "order": 2,
-                    "value": 12
+                    "value": 50
                 }
             }
         }
     ],
     "connections": [
         {
-            "id": "a772a72b365a4321b4a05b43f88e1160",
+            "id": "0f5fd5984eb64526a517c7260c651e72",
             "order": 0,
             "connection_id": "0",
             "data": {
                 "ВОК": {
+                    "name": "ВОК",
+                    "order": 2,
                     "value": "ВОК "
                 },
                 "количество_ОВ": {
+                    "name": "Количество ОВ",
+                    "order": 3,
                     "value": "кол-во ОВ - "
                 },
                 "местоположение": {
+                    "name": "Местоположение",
+                    "order": 6,
                     "value": "Местоположение (над линией)"
                 },
                 "местоположение_доп": {
+                    "name": "Местоположение (под линией)",
+                    "order": 7,
                     "value": ""
                 },
                 "название": {
+                    "name": "Название (над линией)",
+                    "order": 0,
                     "value": "Синяя линия"
                 },
                 "название_доп": {
-                    "value": "Синяя линия"
+                    "name": "Дополнительное название (под линией)",
+                    "order": 1,
+                    "value": ""
                 },
                 "оптическая_длина": {
-                    "value": "оптическая_длина -  dsf sf sfdf"
+                    "name": "Оптическая длина",
+                    "order": 5,
+                    "value": "оптическая_длина - "
                 },
                 "физическая_длина": {
-                    "value": "физическая длина -  sf s"
+                    "name": "Физическая длина",
+                    "order": 4,
+                    "value": "физическая длина - "
                 }
             },
             "metrics": {
+                "arrow_height": {
+                    "is_global": true,
+                    "name": "Высота стрелки",
+                    "order": 7,
+                    "value": 8
+                },
+                "arrow_width": {
+                    "is_global": true,
+                    "name": "Ширина стрелки",
+                    "order": 6,
+                    "value": 20
+                },
                 "delta_node_and_thin_line": {
-                    "value": 80
+                    "is_global": true,
+                    "name": "Расстояние между вершиной и тонкой линии",
+                    "order": 3,
+                    "value": 100
                 },
                 "delta_thins_lines": {
-                    "value": 45
+                    "is_global": true,
+                    "name": "Расстояние между тонкими линиями",
+                    "order": 4,
+                    "value": 50
                 },
                 "left_right_margin": {
+                    "is_global": false,
+                    "name": "Боковые отступы подписей от вершин",
+                    "order": 1,
                     "value": 10
                 },
                 "length": {
+                    "is_global": false,
+                    "name": "Длина соединения",
+                    "order": 0,
                     "value": 350
                 },
                 "main_label_vertical_padding": {
-                    "value": 4
+                    "is_global": true,
+                    "name": "Высота подписей над/под соединением",
+                    "order": 2,
+                    "value": 10
                 },
                 "thin_label_vertical_padding": {
+                    "is_global": true,
+                    "name": "Высота подписей над/под тонкой линией",
+                    "order": 5,
                     "value": 6
                 }
             }
         },
         {
-            "id": "7403a99a6c094ef58d8ce14735335d73",
+            "id": "196b3e5d300d45e3906593edb5c0ca09",
             "order": 1,
             "connection_id": "0",
             "data": {
@@ -252,84 +250,8 @@
                 "название_доп": {
                     "name": "Дополнительное название (под линией)",
                     "order": 1,
-                    "value": "Синяя линия"
-                },
-                "оптическая_длина": {
-                    "name": "Оптическая длина",
-                    "order": 5,
-                    "value": "оптическая_длина - "
-                },
-                "физическая_длина": {
-                    "name": "Физическая длина",
-                    "order": 4,
-                    "value": "физическая длина - "
-                }
-            },
-            "metrics": {
-                "delta_node_and_thin_line": {
-                    "value": 80
-                },
-                "delta_thins_lines": {
-                    "value": 45
-                },
-                "left_right_margin": {
-                    "is_global": false,
-                    "name": "Боковые отступы подписей от вершин",
-                    "order": 1,
-                    "value": 10
-                },
-                "length": {
-                    "is_global": false,
-                    "name": "Длина соединения",
-                    "order": 0,
-                    "value": 350
-                },
-                "main_label_vertical_padding": {
-                    "is_global": false,
-                    "name": "Высота подписей над/под соединением",
-                    "order": 2,
-                    "value": 10
-                },
-                "thin_label_vertical_padding": {
-                    "value": 6
-                }
-            }
-        },
-        {
-            "id": "85d9796e2e9b40f3a46f2497d8c8f4bd",
-            "order": 2,
-            "connection_id": "0",
-            "data": {
-                "ВОК": {
-                    "name": "ВОК",
-                    "order": 2,
-                    "value": "ВОК "
-                },
-                "количество_ОВ": {
-                    "name": "Количество ОВ",
-                    "order": 3,
-                    "value": "кол-во ОВ - "
-                },
-                "местоположение": {
-                    "name": "Местоположение",
-                    "order": 6,
-                    "value": "Местоположение (над линией)"
-                },
-                "местоположение_доп": {
-                    "name": "Местоположение (под линией)",
-                    "order": 7,
                     "value": ""
                 },
-                "название": {
-                    "name": "Название (над линией)",
-                    "order": 0,
-                    "value": "Синяя линия"
-                },
-                "название_доп": {
-                    "name": "Дополнительное название (под линией)",
-                    "order": 1,
-                    "value": "Синяя линия"
-                },
                 "оптическая_длина": {
                     "name": "Оптическая длина",
                     "order": 5,
@@ -342,11 +264,29 @@
                 }
             },
             "metrics": {
+                "arrow_height": {
+                    "is_global": true,
+                    "name": "Высота стрелки",
+                    "order": 7,
+                    "value": 8
+                },
+                "arrow_width": {
+                    "is_global": true,
+                    "name": "Ширина стрелки",
+                    "order": 6,
+                    "value": 20
+                },
                 "delta_node_and_thin_line": {
-                    "value": 80
+                    "is_global": true,
+                    "name": "Расстояние между вершиной и тонкой линии",
+                    "order": 3,
+                    "value": 100
                 },
                 "delta_thins_lines": {
-                    "value": 45
+                    "is_global": true,
+                    "name": "Расстояние между тонкими линиями",
+                    "order": 4,
+                    "value": 50
                 },
                 "left_right_margin": {
                     "is_global": false,
@@ -361,12 +301,15 @@
                     "value": 350
                 },
                 "main_label_vertical_padding": {
-                    "is_global": false,
+                    "is_global": true,
                     "name": "Высота подписей над/под соединением",
                     "order": 2,
                     "value": 10
                 },
                 "thin_label_vertical_padding": {
+                    "is_global": true,
+                    "name": "Высота подписей над/под тонкой линией",
+                    "order": 5,
                     "value": 6
                 }
             }

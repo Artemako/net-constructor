@@ -37,15 +37,20 @@ class DrawNode:
     def draw_node_id_0(self):
         """Круглый, заливка диагональная штриховка, подпись сверху"""
         # узнать значения
-        radius = self.__metrics.get(
-            "radius", self.__config_metrics.get("radius", {})
-        ).get("value", 0)
         margin_top = self.__metrics.get(
             "margin_top", self.__config_metrics.get("margin_top", {})
         ).get("value", 0)
         title_pixel_size = self.__metrics.get(
             "title_pixel_size", self.__config_metrics.get("title_pixel_size", {})
         ).get("value", 0)
+        radius = self.__metrics.get(
+            "radius", self.__config_metrics.get("radius", {})
+        ).get("value", 0)
+        is_connected_with_thin_line_location = self.__metrics.get(
+            "is_connected_with_thin_line_location",
+            self.__config_metrics.get("is_connected_with_thin_line_location", {}),
+        ).get("value", 0)
+        
 
         # тонкая вертикальная линия
         def draw_vertical_thin_line(object):
@@ -69,13 +74,14 @@ class DrawNode:
                 self.__x,
                 self.__y + delta_node_and_thin_line + 5,
             )
-            #
-            self.__painter.drawLine(
-                self.__x,
-                self.__y + delta_node_and_thin_line,
-                self.__x,
-                self.__y + delta_node_and_thin_line + delta_thins_lines + 5,
-            )
+            # рисовать линию - если is_connected_with_thin_line_location 
+            if is_connected_with_thin_line_location:
+                self.__painter.drawLine(
+                    self.__x,
+                    self.__y + delta_node_and_thin_line,
+                    self.__x,
+                    self.__y + delta_node_and_thin_line + delta_thins_lines + 5,
+                )
 
         if self.__object_before and self.__object_before.get_type() == "connection":
             draw_vertical_thin_line(self.__object_before)

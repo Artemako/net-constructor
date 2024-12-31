@@ -29,9 +29,16 @@
             },
             "radius": {
                 "is_global": true,
-                "value": 16,
+                "value": 20,
                 "name": "Радиус круга", 
                 "order": 4
+            },
+            "is_connected_with_thin_line_location": {
+                "is_global": false,
+                "value": true,
+                "name": "Cоединение с тонкой линией местоположения", 
+                "order": 5,
+                "type": "bool"
             }
         }
     },
@@ -49,7 +56,8 @@
                 "is_global": false,
                 "value": 32,
                 "name": "Боковые внешние отступы вершины", 
-                "order": 0              
+                "order": 0,
+                "description": "Используются для соединения"        
             },
             "margin_top": {
                 "is_global": false,
@@ -65,9 +73,16 @@
             },
             "radius": {
                 "is_global": true,
-                "value": 16,
+                "value": 20,
                 "name": "Радиус круга", 
                 "order": 4
+            },
+            "is_connected_with_thin_line_location": {
+                "is_global": false,
+                "value": true,
+                "name": "Cоединение с тонкой линией местоположения", 
+                "order": 5,
+                "type": "bool"
             }
         }
     }

@@ -33,5 +33,30 @@ class DrawObject:
         ).get_painter()
         self.__painter.drawEllipse(QPoint(x, y), radius, radius)
 
-
+    def arrow(self, x, y, width, height, direction):
+        # direction = "left", "right"
+        self.__painter = painterconfigurator.PainterConfigurator(
+            self.__painter,
+            pen=None,
+            brush=QBrush(Qt.black),            
+        ).get_painter()
+        if direction == "right":
+            points = QPolygon(
+                [
+                    QPoint(x - width, y + height // 2),
+                    QPoint(x, y),
+                    QPoint(x - width, y - height // 2),
+                    QPoint(int(x - 0.8 * width), y),
+                ]
+            )
+        elif direction == "left":
+            points = QPolygon(
+                [
+                    QPoint(x + width, y + height // 2),
+                    QPoint(x, y),
+                    QPoint(x + width, y - height // 2),
+                    QPoint(int(x + 0.8 * width), y),
+                ]
+            )
+        self.__painter.drawPolygon(points)
     

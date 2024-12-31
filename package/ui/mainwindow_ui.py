@@ -151,7 +151,7 @@ class Ui_MainWindow(object):
         self.tab_general = QWidget()
         self.tab_general.setObjectName(u"tab_general")
         self.verticalLayout_5 = QVBoxLayout(self.tab_general)
-        self.verticalLayout_5.setSpacing(9)
+        self.verticalLayout_5.setSpacing(6)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.verticalLayout_5.setContentsMargins(9, 9, 9, 9)
         self.label = QLabel(self.tab_general)
@@ -173,6 +173,13 @@ class Ui_MainWindow(object):
 
 
         self.verticalLayout_5.addLayout(self.formlayout_scheme)
+
+        self.line = QFrame(self.tab_general)
+        self.line.setObjectName(u"line")
+        self.line.setFrameShape(QFrame.HLine)
+        self.line.setFrameShadow(QFrame.Sunken)
+
+        self.verticalLayout_5.addWidget(self.line)
 
         self.label_3 = QLabel(self.tab_general)
         self.label_3.setObjectName(u"label_3")
@@ -205,6 +212,13 @@ class Ui_MainWindow(object):
 
 
         self.verticalLayout_5.addLayout(self.formlayout_image)
+
+        self.line_2 = QFrame(self.tab_general)
+        self.line_2.setObjectName(u"line_2")
+        self.line_2.setFrameShape(QFrame.HLine)
+        self.line_2.setFrameShadow(QFrame.Sunken)
+
+        self.verticalLayout_5.addWidget(self.line_2)
 
         self.label_2 = QLabel(self.tab_general)
         self.label_2.setObjectName(u"label_2")
@@ -246,7 +260,7 @@ class Ui_MainWindow(object):
         self.tab_elements = QWidget()
         self.tab_elements.setObjectName(u"tab_elements")
         self.verticalLayout_3 = QVBoxLayout(self.tab_elements)
-        self.verticalLayout_3.setSpacing(9)
+        self.verticalLayout_3.setSpacing(6)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.splitter = QSplitter(self.tab_elements)
         self.splitter.setObjectName(u"splitter")
@@ -289,6 +303,13 @@ class Ui_MainWindow(object):
         self.vl_connections.setSpacing(4)
         self.vl_connections.setObjectName(u"vl_connections")
         self.vl_connections.setContentsMargins(0, 0, 0, 0)
+        self.line_3 = QFrame(self.verticalLayoutWidget_2)
+        self.line_3.setObjectName(u"line_3")
+        self.line_3.setFrameShape(QFrame.HLine)
+        self.line_3.setFrameShadow(QFrame.Sunken)
+
+        self.vl_connections.addWidget(self.line_3)
+
         self.label_connections = QLabel(self.verticalLayoutWidget_2)
         self.label_connections.setObjectName(u"label_connections")
 
@@ -310,41 +331,72 @@ class Ui_MainWindow(object):
         self.verticalLayout_7.setSpacing(9)
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
         self.verticalLayout_7.setContentsMargins(9, 9, 9, 9)
-        self.label_data = QLabel(self.tab_editor)
+        self.editor_scrollarea = QScrollArea(self.tab_editor)
+        self.editor_scrollarea.setObjectName(u"editor_scrollarea")
+        self.editor_scrollarea.setWidgetResizable(True)
+        self.editor_scrollarea_contents = QWidget()
+        self.editor_scrollarea_contents.setObjectName(u"editor_scrollarea_contents")
+        self.editor_scrollarea_contents.setGeometry(QRect(0, 0, 967, 632))
+        self.verticalLayout_4 = QVBoxLayout(self.editor_scrollarea_contents)
+        self.verticalLayout_4.setSpacing(6)
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.label_data = QLabel(self.editor_scrollarea_contents)
         self.label_data.setObjectName(u"label_data")
 
-        self.verticalLayout_7.addWidget(self.label_data)
+        self.verticalLayout_4.addWidget(self.label_data)
 
         self.fl_data = QFormLayout()
         self.fl_data.setObjectName(u"fl_data")
+        self.fl_data.setRowWrapPolicy(QFormLayout.WrapLongRows)
 
-        self.verticalLayout_7.addLayout(self.fl_data)
+        self.verticalLayout_4.addLayout(self.fl_data)
 
-        self.label_local_metrics = QLabel(self.tab_editor)
+        self.line_4 = QFrame(self.editor_scrollarea_contents)
+        self.line_4.setObjectName(u"line_4")
+        self.line_4.setFrameShape(QFrame.HLine)
+        self.line_4.setFrameShadow(QFrame.Sunken)
+
+        self.verticalLayout_4.addWidget(self.line_4)
+
+        self.label_local_metrics = QLabel(self.editor_scrollarea_contents)
         self.label_local_metrics.setObjectName(u"label_local_metrics")
 
-        self.verticalLayout_7.addWidget(self.label_local_metrics)
+        self.verticalLayout_4.addWidget(self.label_local_metrics)
 
         self.fl_local_metrics = QFormLayout()
         self.fl_local_metrics.setObjectName(u"fl_local_metrics")
+        self.fl_local_metrics.setRowWrapPolicy(QFormLayout.WrapLongRows)
 
-        self.verticalLayout_7.addLayout(self.fl_local_metrics)
+        self.verticalLayout_4.addLayout(self.fl_local_metrics)
 
-        self.label_global_metrics = QLabel(self.tab_editor)
+        self.line_5 = QFrame(self.editor_scrollarea_contents)
+        self.line_5.setObjectName(u"line_5")
+        self.line_5.setFrameShape(QFrame.HLine)
+        self.line_5.setFrameShadow(QFrame.Sunken)
+
+        self.verticalLayout_4.addWidget(self.line_5)
+
+        self.label_global_metrics = QLabel(self.editor_scrollarea_contents)
         self.label_global_metrics.setObjectName(u"label_global_metrics")
 
-        self.verticalLayout_7.addWidget(self.label_global_metrics)
+        self.verticalLayout_4.addWidget(self.label_global_metrics)
 
         self.fl_global_metrics = QFormLayout()
         self.fl_global_metrics.setObjectName(u"fl_global_metrics")
+        self.fl_global_metrics.setRowWrapPolicy(QFormLayout.WrapLongRows)
 
-        self.verticalLayout_7.addLayout(self.fl_global_metrics)
+        self.verticalLayout_4.addLayout(self.fl_global_metrics)
 
-        self.verticalSpacer_2 = QSpacerItem(0, 0, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.vertical_spacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
-        self.verticalLayout_7.addItem(self.verticalSpacer_2)
+        self.verticalLayout_4.addItem(self.vertical_spacer)
 
-        self.verticalLayout_7.setStretch(6, 1)
+        self.verticalLayout_4.setStretch(8, 1)
+        self.editor_scrollarea.setWidget(self.editor_scrollarea_contents)
+
+        self.verticalLayout_7.addWidget(self.editor_scrollarea)
+
         self.tabw_right.addTab(self.tab_editor, "")
 
         self.verticalLayout_2.addWidget(self.tabw_right)

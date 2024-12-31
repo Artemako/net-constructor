@@ -12,7 +12,8 @@ from PySide6.QtWidgets import (
     QFormLayout,
     QLineEdit,
     QTextEdit,
-    QSizePolicy
+    QSizePolicy,
+    QCheckBox
 )
 
 from PySide6.QtCore import Qt
@@ -134,14 +135,23 @@ class MainWindow(QMainWindow):
             if self.ui.tabw_right.currentIndex() == 2:
                 is_edit = True
                 for key, widget in self.__data_widgets.items():
+                    # widget_type = pair[0]
+                    # widget = pair[1]
                     new_data[key] = {
                         "value": widget.toPlainText()
                     }
                 #
-                for key, widget in self.__metrics_widgets.items():
-                    new_metrics[key] = {
-                        "value": widget.value()
-                    }
+                for key, pair in self.__metrics_widgets.items():
+                    widget_type = pair[0]
+                    widget = pair[1]
+                    if widget_type == "bool":
+                        new_metrics[key] = {
+                            "value": widget.isChecked()
+                        }
+                    else:
+                        new_metrics[key] = {
+                            "value": widget.value()
+                        }
             #
             config_nodes = self.__obsm.obj_configs.get_nodes()
             config_connections = self.__obsm.obj_configs.get_connections()
@@ -348,6 +358,7 @@ class MainWindow(QMainWindow):
             form_layout.addRow(label, text_edit)
             # в словарь виджетов
             self.__data_widgets[config_parameter_key] = text_edit
+        
 
     def create_metrics_widgets_by_object(self, object, is_node=False):
         #
@@ -379,18 +390,24 @@ class MainWindow(QMainWindow):
                 object.get("metrics", {}).get(config_parameter_key, {}).get("value", "")
             )
             value = value if value else config_parameter_data.get("value", "")
+            # тип виджета
+            widget_type = config_parameter_data.get("type", "")
+            if widget_type == "bool":
+                new_widget = QCheckBox()
+                new_widget.setChecked(bool(value))
+            else:
+                new_widget = QSpinBox()
+                new_widget.setRange(0, 99999)
+                new_widget.setValue(value)
             #
-            spin_box = QSpinBox()
-            spin_box.setRange(0, 99999)
-            spin_box.setValue(value)
             if config_parameter_data.get("is_global", False):
-                form_layout_global.addRow(label, spin_box)
+                form_layout_global.addRow(label, new_widget)
                 flag_global_metrics = True
             else:
-                form_layout_local.addRow(label, spin_box)
+                form_layout_local.addRow(label, new_widget)
                 flag_local_metrics = True
             # в словарь виджетов
-            self.__metrics_widgets[config_parameter_key] = spin_box
+            self.__metrics_widgets[config_parameter_key] = [widget_type, new_widget]
         #
         self.ui.label_local_metrics.setVisible(flag_local_metrics)
         self.ui.label_global_metrics.setVisible(flag_global_metrics)
