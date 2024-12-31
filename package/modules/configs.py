@@ -21,8 +21,12 @@ class Configs:
             self.__connections = json.load(f)
     
     
-    def get_global(self):
-        return self.__global
+    def get_global_diagramms(self):
+        diagramms = self.__global.get("diagramms", {})
+        return dict(sorted(diagramms.items(), key=lambda x: x[1].get("order", 0))).values()
+    
+    def get_global_image_settings(self):
+        return self.__global.get("image_settings", {})
 
     def get_nodes(self):
         return self.__nodes

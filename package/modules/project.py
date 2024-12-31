@@ -1,6 +1,7 @@
 import json
 import uuid
 
+
 class Project:
     def __init__(self) -> None:
         self.__file_name = None
@@ -9,15 +10,19 @@ class Project:
     def get_data(self):
         return self.__data
 
-    def create_new_project(self, file_path):
+    def create_new_project(self, diagramm_data, image_settings, file_path):
         self.__file_name = file_path
-        # TODO В зависимости от типа диаграммы менять
         self.__data = {
             "diagramm_settings": {
-                "diagramm_type_id": 0,
-                "diagramm_name": "Скелетная схема ВОЛП и основные данные цепей кабеля",
+                "diagramm_type_id": diagramm_data.get("diagramm_type_id", 0),
+                "diagramm_name": diagramm_data.get("diagramm_name", ""),
             },
-            "image_settings": {"width": 2000, "height": 600, "start_x": 150, "start_y": 150},
+            "image_settings": {
+                "width": image_settings.get("width", 0),
+                "height": image_settings.get("height", 0),
+                "start_x": image_settings.get("start_x", 0),
+                "start_y": image_settings.get("start_y", 0),
+            },
             "nodes": [],
             "connections": [],
         }
@@ -81,7 +86,7 @@ class Project:
         new_order = len(self.__data.get("connections", []))
         #
         new_data = connection_dict.get("data", {})
-        # 
+        #
         new_metrics = connection_dict.get("metrics", {})
         #
         new_dict = {
@@ -97,8 +102,12 @@ class Project:
         if node:
             delete_id = node.get("id", "")
             if delete_id:
-                self.__data["nodes"] = list(filter(lambda x: x.get("id", "") != delete_id, self.__data["nodes"]))
-                sorted_nodes = sorted(self.__data["nodes"], key=lambda x: x.get("order", 0))
+                self.__data["nodes"] = list(
+                    filter(lambda x: x.get("id", "") != delete_id, self.__data["nodes"])
+                )
+                sorted_nodes = sorted(
+                    self.__data["nodes"], key=lambda x: x.get("order", 0)
+                )
                 self.__data["nodes"] = []
                 for index, node in enumerate(sorted_nodes):
                     node["order"] = index
@@ -106,14 +115,21 @@ class Project:
         if connection:
             delete_id = connection.get("id", "")
             if delete_id:
-                self.__data["connections"] = list(filter(lambda x: x.get("id", "") != delete_id, self.__data["connections"]))
-                sorted_connections = sorted(self.__data["connections"], key=lambda x: x.get("order", 0))
+                self.__data["connections"] = list(
+                    filter(
+                        lambda x: x.get("id", "") != delete_id,
+                        self.__data["connections"],
+                    )
+                )
+                sorted_connections = sorted(
+                    self.__data["connections"], key=lambda x: x.get("order", 0)
+                )
                 self.__data["connections"] = []
                 for index, connection in enumerate(sorted_connections):
                     connection["order"] = index
                     self.__data["connections"].append(connection)
         self.write_project()
- 
+
     def wrap_node(self, node):
         _id = node.get("id", "")
         for node in self.__data["nodes"]:
@@ -136,9 +152,21 @@ class Project:
                 connection["data"]["название"]["value"] = name
                 break
 
-
-    def save_project(self, object, is_node, is_edit, config_nodes, config_connections, new_diagramm_settings, new_image_settings, new_data, new_metrics):
-        print(f"new_diagramm_settings = {new_diagramm_settings},\nnew_image_settings = {new_image_settings},\nnew_data = {new_data},\nnew_metrics = {new_metrics}")
+    def save_project(
+        self,
+        object,
+        is_node,
+        is_edit,
+        config_nodes,
+        config_connections,
+        new_diagramm_settings,
+        new_image_settings,
+        new_data,
+        new_metrics,
+    ):
+        print(
+            f"new_diagramm_settings = {new_diagramm_settings},\nnew_image_settings = {new_image_settings},\nnew_data = {new_data},\nnew_metrics = {new_metrics}"
+        )
         for key, value in new_diagramm_settings.items():
             self.__data["diagramm_settings"][key] = value
         for key, value in new_image_settings.items():
@@ -151,9 +179,15 @@ class Project:
                         for key, value in new_data.items():
                             node["data"][key] = value
                         for key, value in new_metrics.items():
-                            self.check_empty_metrics_key(node, key, is_node = True)
+                            self.check_empty_metrics_key(node, key, is_node=True)
                             node["metrics"][key] = value
-                            self.check_global_metrics_key(config_nodes, config_connections, object, key, is_node = True)
+                            self.check_global_metrics_key(
+                                config_nodes,
+                                config_connections,
+                                object,
+                                key,
+                                is_node=True,
+                            )
                         break
             else:
                 _id = object.get("id", "")
@@ -162,14 +196,19 @@ class Project:
                         for key, value in new_data.items():
                             connection["data"][key] = value
                         for key, value in new_metrics.items():
-                            self.check_empty_metrics_key(connection, key, is_node = False)
+                            self.check_empty_metrics_key(connection, key, is_node=False)
                             connection["metrics"][key] = value
-                            self.check_global_metrics_key(config_nodes, config_connections, object, key, is_node = False)
+                            self.check_global_metrics_key(
+                                config_nodes,
+                                config_connections,
+                                object,
+                                key,
+                                is_node=False,
+                            )
                         break
         self.write_project()
 
-
-    def check_empty_metrics_key(self, object, key, is_node = False):
+    def check_empty_metrics_key(self, object, key, is_node=False):
         if is_node:
             if key not in object["metrics"]:
                 object["metrics"][key] = {}
@@ -177,13 +216,16 @@ class Project:
             if key not in object["metrics"]:
                 object["metrics"][key] = {}
 
-
-    def check_global_metrics_key(self, config_nodes, config_connections, object, key, is_node=False):
+    def check_global_metrics_key(
+        self, config_nodes, config_connections, object, key, is_node=False
+    ):
         if is_node:
             node_id = object.get("node_id", "0")
             node_dict = config_nodes.get(node_id, {})
-            is_global = node_dict.get("metrics", {}).get(key, {}).get("is_global", False)
-            
+            is_global = (
+                node_dict.get("metrics", {}).get(key, {}).get("is_global", False)
+            )
+
             if is_global:
                 value = object["metrics"].get(key, {}).get("value", None)
                 if value is not None:
@@ -193,8 +235,10 @@ class Project:
         else:
             connection_id = object.get("connection_id", "0")
             connection_dict = config_connections.get(connection_id, {})
-            is_global = connection_dict.get("metrics", {}).get(key, {}).get("is_global", False)
-            
+            is_global = (
+                connection_dict.get("metrics", {}).get(key, {}).get("is_global", False)
+            )
+
             if is_global:
                 value = object["metrics"].get(key, {}).get("value", None)
                 if value is not None:

@@ -4,12 +4,16 @@ from PySide6.QtWidgets import (
 from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt
 
+import resources_rc
+
 class DiagramTypeSelectDialog(QDialog):
-    def __init__(self, parent=None):
+    def __init__(self, global_diagramms, parent=None):
+        self.__data = None
+
         super().__init__(parent)
         
         self.setWindowTitle("Выбор типа диаграммы")
-        self.setMinimumSize(800, 400)
+        self.setFixedSize(900, 400)
         
         main_layout = QVBoxLayout(self)
         
@@ -20,17 +24,12 @@ class DiagramTypeSelectDialog(QDialog):
         
         self.image_label = QLabel()
         self.image_label.setAlignment(Qt.AlignCenter)
-        self.image_label.setMinimumSize(400, 400)  # Увеличиваем минимальный размер
+        self.image_label.setFixedSize(600, 300) 
         
-        diagrams = [
-            ("Круговая диаграмма", "pics/1.png"),
-            ("Столбчатая диаграмма", "pics/2.png"),
-            ("Линейная диаграмма", "pics/3.png")
-        ]
-        
-        for name, image_path in diagrams:
-            item = QListWidgetItem(name)
-            item.setData(Qt.UserRole, image_path)
+        for elem in global_diagramms:
+            diagramm_name = elem.get("diagramm_name", "")
+            item = QListWidgetItem(diagramm_name)
+            item.setData(Qt.UserRole, elem)
             self.list_widget.addItem(item)
         
         self.list_widget.currentItemChanged.connect(self.load_image)
@@ -47,7 +46,8 @@ class DiagramTypeSelectDialog(QDialog):
 
     def load_image(self, current, previous):
         if current:
-            image_path = current.data(Qt.UserRole)
+            diagramm_type_id = current.data(Qt.UserRole).get("diagramm_type_id", "")
+            image_path = f":/diagramm_previews/resources/diagramm_previews/{diagramm_type_id}.png"
             pixmap = QPixmap(image_path)
             self.image_label.setPixmap(pixmap.scaled(
                 self.image_label.size(), 
@@ -55,21 +55,9 @@ class DiagramTypeSelectDialog(QDialog):
                 Qt.SmoothTransformation
             ))
 
-    def get_selected_diagram(self):
-        item = self.list_widget.currentItem()
-        if item:
-            return item.text()
-        return None
-
-# Пример использования
-if __name__ == "__main__":
-    from PySide6.QtWidgets import QApplication
-    import sys
+    def get_data(self):
+        return self.__data
     
-    app = QApplication(sys.argv)
-    
-    dialog = DiagramTypeSelectDialog()
-    if dialog.exec() == QDialog.Accepted:
-        print("Выбранный тип диаграммы: ", dialog.get_selected_diagram())
-    
-    sys.exit(app.exec())
+    def accept(self):
+        self.__data = self.list_widget.currentItem().data(Qt.UserRole)
+        super().accept()

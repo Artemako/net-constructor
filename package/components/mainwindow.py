@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import (
     QMainWindow,
     QMenu,
+    QDialog,
     QFileDialog,
     QTableWidget,
     QTableWidgetItem,
@@ -23,6 +24,7 @@ import package.controllers.imagewidget as imagewidget
 
 import package.components.nodeconnectionselectdialog as nodeconnectionselectdialog
 import package.components.nodeconnectiondeletedialog as nodeconnectiondeletedialog
+import package.components.diagrammtypeselectdialog as diagrammtypeselectdialog
 
 import package.ui.mainwindow_ui as mainwindow_ui
 
@@ -93,16 +95,22 @@ class MainWindow(QMainWindow):
             self, " ", "", "NCE (пока json) files (*.json)"
         )
         if file_name:
-            # TODO Выбор типа диаграммы
-            
-            #
-            self.__obsm.obj_project.create_new_project(file_name)
-            #
-            data = self.__obsm.obj_project.get_data()
-            #
-            self.ui.imagewidget.run(data)
-            self.reset_widgets_by_data(data)
-            self.start_qt_actions()
+            global_diagramms = self.__obsm.obj_configs.get_global_diagramms()
+            dialog = diagrammtypeselectdialog.DiagramTypeSelectDialog(global_diagramms, self)
+            result = dialog.exec()
+            if result == QDialog.Accepted:
+                diagramm_data = dialog.get_data()
+                #
+                image_settings = self.__obsm.obj_configs.get_global_image_settings()
+                #
+                self.__obsm.obj_project.create_new_project(diagramm_data, image_settings, file_name)
+                #
+                project_data = self.__obsm.obj_project.get_data()
+                #
+                self.ui.imagewidget.run(project_data)
+                self.reset_widgets_by_data(project_data)
+                self.start_qt_actions()
+
 
     def open_file_nce(self):
         file_name, _ = QFileDialog.getOpenFileName(

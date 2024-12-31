@@ -10,14 +10,14 @@
         "is_wrap": false,
         "metrics": {
             "margin_left_right": {
-                "is_global": false,
+                "is_global": true,
                 "value": 16,
                 "name": "Боковые внешние отступы вершины", 
                 "order": 0              
             },
             "margin_top": {
-                "is_global": false,
-                "value": 32,
+                "is_global": true,
+                "value": 64,
                 "name": "Высота названия над вершиной", 
                 "order": 1
             },
@@ -53,15 +53,15 @@
         "is_wrap": false,
         "metrics": {
             "margin_left_right": {
-                "is_global": false,
+                "is_global": true,
                 "value": 32,
                 "name": "Боковые внешние отступы вершины", 
                 "order": 0,
                 "description": "Используются для соединения"        
             },
             "margin_top": {
-                "is_global": false,
-                "value": 32,
+                "is_global": true,
+                "value": 64,
                 "name": "Высота названия над вершиной", 
                 "order": 1
             },
