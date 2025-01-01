@@ -35,6 +35,7 @@ class DrawNode:
             self.draw_node_id_1()
 
     def draw_node_id_0(self):
+        # TODO Починить параметры!!!
         """Круглый, заливка диагональная штриховка, подпись сверху"""
         # узнать значения
         margin_top = self.__parameters.get(

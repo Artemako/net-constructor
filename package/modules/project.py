@@ -148,27 +148,31 @@ class Project:
 
     def save_project(
         self,
-        object,
+        obj,
         is_node,
-        is_edit,
+        is_general_tab,
+        is_editor_tab,
         config_nodes,
         config_connections,
-        new_diagramm_settings,
+        diagramm_type_id,
+        diagramm_name,
         new_image_parameters,
+        new_diagramm_parameters,
         new_data,
         new_parameters,
-    ):
-        print(
-            f"new_diagramm_settings = {new_diagramm_settings},\nnew_image_parameters = {new_image_parameters},\nnew_data = {new_data},\nnew_parameters = {new_parameters}"
-        )
-        # TODO Переделать сохранение как в project
-        for key, value in new_diagramm_settings.items():
-            self.__data["diagramm_settings"][key] = value
-        for key, value in new_image_parameters.items():
-            self.__data["image_parameters"][key] = value
-        if is_edit:
+    ):  
+        # Проверка на вкладку
+        if is_general_tab:
+            self.__data["diagramm_type_id"] = diagramm_type_id
+            self.__data["diagramm_name"] = diagramm_name
+            #
+            for key, value in new_diagramm_parameters.items():
+                self.__data["diagramm_parameters"][key] = value
+            for key, value in new_image_parameters.items():
+                self.__data["image_parameters"][key] = value
+        elif is_editor_tab:
             if is_node:
-                _id = object.get("id", "")
+                _id = obj.get("id", "")
                 for node in self.__data["nodes"]:
                     if node["id"] == _id:
                         for key, value in new_data.items():
@@ -179,13 +183,13 @@ class Project:
                             self.check_global_parameters_key(
                                 config_nodes,
                                 config_connections,
-                                object,
+                                obj,
                                 key,
                                 is_node=True,
                             )
                         break
             else:
-                _id = object.get("id", "")
+                _id = obj.get("id", "")
                 for connection in self.__data["connections"]:
                     if connection["id"] == _id:
                         for key, value in new_data.items():
@@ -198,7 +202,7 @@ class Project:
                             self.check_global_parameters_key(
                                 config_nodes,
                                 config_connections,
-                                object,
+                                obj,
                                 key,
                                 is_node=False,
                             )
