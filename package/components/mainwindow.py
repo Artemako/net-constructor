@@ -257,7 +257,7 @@ class MainWindow(QMainWindow):
             #
             btn_edit = QPushButton("Редактировать")
             table_widget.setCellWidget(index, 2, btn_edit)
-            btn_edit.clicked.connect(partial(self.edit_object, node, is_node=True))
+            btn_edit.clicked.connect(partial(self.edit_object, node, index + 1, is_node=True))
 
         # Настраиваем режимы изменения размера для заголовков
         header = table_widget.horizontalHeader()
@@ -290,7 +290,7 @@ class MainWindow(QMainWindow):
             #
             btn_edit = QPushButton("Редактировать")
             table_widget.setCellWidget(index, 2, btn_edit)
-            btn_edit.clicked.connect(partial(self.edit_object, connection, is_node=False))
+            btn_edit.clicked.connect(partial(self.edit_object, connection, index + 1, is_node=False))
 
         # Настраиваем режимы изменения размера для заголовков
         header = table_widget.horizontalHeader()
@@ -315,13 +315,16 @@ class MainWindow(QMainWindow):
         connections = data.get("connections", [])
         self.reset_tab_elements(nodes, connections)
 
-    def edit_object(self, object, is_node=False):
+    def edit_object(self, object, index, is_node=False):
+        # TODO Изменить название в tab_editor
         self.__current_object = object
         self.__current_is_node = is_node
         #
         self.ui.tabw_right.tabBar().setTabVisible(2, True)
         self.ui.tabw_right.setCurrentIndex(2)
-        # self.fill_name_widget_by_object(object, is_node)
+        #
+        self.change_name_tab_editor(index, is_node)
+        #
         self.create_data_widgets_by_object(object, is_node)
         self.create_metrics_widgets_by_object(object, is_node)
 
@@ -339,9 +342,13 @@ class MainWindow(QMainWindow):
             if child.widget():
                 child.widget().deleteLater()
 
-    # def fill_name_widget_by_object(self, object, is_node=False):
-    #     text_name = object.get("data", {}).get("название", {}).get("value", "")
-    #     self.ui.le_name.setText(text_name)
+    def change_name_tab_editor(self, index, is_node=False):
+        text_name = str()
+        if is_node:
+            text_name = f"Редактирование вершины {index}"
+        elif not is_node:
+            text_name = f"Редактирование соединения {index}—{index + 1}"
+        self.ui.tabw_right.setTabText(2, text_name)
 
     def create_data_widgets_by_object(self, object, is_node=False):
         self.__data_widgets = {}

@@ -126,93 +126,53 @@
             "connection_id": "0",
             "data": {
                 "ВОК": {
-                    "name": "ВОК",
-                    "order": 2,
                     "value": "ВОК "
                 },
                 "количество_ОВ": {
-                    "name": "Количество ОВ",
-                    "order": 3,
                     "value": "кол-во ОВ - "
                 },
                 "местоположение": {
-                    "name": "Местоположение",
-                    "order": 6,
                     "value": "Местоположение (над линией)"
                 },
                 "местоположение_доп": {
-                    "name": "Местоположение (под линией)",
-                    "order": 7,
                     "value": ""
                 },
                 "название": {
-                    "name": "Название (над линией)",
-                    "order": 0,
                     "value": "Синяя линия"
                 },
                 "название_доп": {
-                    "name": "Дополнительное название (под линией)",
-                    "order": 1,
                     "value": ""
                 },
                 "оптическая_длина": {
-                    "name": "Оптическая длина",
-                    "order": 5,
                     "value": "оптическая_длина - "
                 },
                 "физическая_длина": {
-                    "name": "Физическая длина",
-                    "order": 4,
                     "value": "физическая длина - "
                 }
             },
             "metrics": {
                 "arrow_height": {
-                    "is_global": true,
-                    "name": "Высота стрелки",
-                    "order": 7,
                     "value": 8
                 },
                 "arrow_width": {
-                    "is_global": true,
-                    "name": "Ширина стрелки",
-                    "order": 6,
                     "value": 20
                 },
                 "delta_node_and_thin_line": {
-                    "is_global": true,
-                    "name": "Расстояние между вершиной и тонкой линии",
-                    "order": 3,
                     "value": 100
                 },
                 "delta_thins_lines": {
-                    "is_global": true,
-                    "name": "Расстояние между тонкими линиями",
-                    "order": 4,
                     "value": 50
                 },
                 "left_right_margin": {
-                    "is_global": false,
-                    "name": "Боковые отступы подписей от вершин",
-                    "order": 1,
                     "value": 10
                 },
                 "length": {
-                    "is_global": false,
-                    "name": "Длина соединения",
-                    "order": 0,
-                    "value": 350
+                    "value": 600
                 },
                 "main_label_vertical_padding": {
-                    "is_global": true,
-                    "name": "Высота подписей над/под соединением",
-                    "order": 2,
                     "value": 10
                 },
                 "thin_label_vertical_padding": {
-                    "is_global": true,
-                    "name": "Высота подписей над/под тонкой линией",
-                    "order": 5,
                     "value": 6
                 }
             }
@@ -265,27 +225,15 @@
             },
             "metrics": {
                 "arrow_height": {
-                    "is_global": true,
-                    "name": "Высота стрелки",
-                    "order": 7,
                     "value": 8
                 },
                 "arrow_width": {
-                    "is_global": true,
-                    "name": "Ширина стрелки",
-                    "order": 6,
                     "value": 20
                 },
                 "delta_node_and_thin_line": {
-                    "is_global": true,
-                    "name": "Расстояние между вершиной и тонкой линии",
-                    "order": 3,
                     "value": 100
                 },
                 "delta_thins_lines": {
-                    "is_global": true,
-                    "name": "Расстояние между тонкими линиями",
-                    "order": 4,
                     "value": 50
                 },
                 "left_right_margin": {
@@ -301,15 +249,9 @@
                     "value": 350
                 },
                 "main_label_vertical_padding": {
-                    "is_global": true,
-                    "name": "Высота подписей над/под соединением",
-                    "order": 2,
                     "value": 10
                 },
                 "thin_label_vertical_padding": {
-                    "is_global": true,
-                    "name": "Высота подписей над/под тонкой линией",
-                    "order": 5,
                     "value": 6
                 }
             }
