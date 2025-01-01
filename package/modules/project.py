@@ -10,19 +10,13 @@ class Project:
     def get_data(self):
         return self.__data
 
-    def create_new_project(self, diagramm_data, image_settings, file_path):
+    def create_new_project(self, diagramm_data, image_parameters, file_path):
         self.__file_name = file_path
         self.__data = {
-            "diagramm_settings": {
-                "diagramm_type_id": diagramm_data.get("diagramm_type_id", 0),
-                "diagramm_name": diagramm_data.get("diagramm_name", ""),
-            },
-            "image_settings": {
-                "width": image_settings.get("width", 0),
-                "height": image_settings.get("height", 0),
-                "start_x": image_settings.get("start_x", 0),
-                "start_y": image_settings.get("start_y", 0),
-            },
+            "diagramm_type_id": diagramm_data.get("type_id", 0),
+            "diagramm_name": diagramm_data.get("name", ""),
+            "diagramm_parameters": diagramm_data.get("parameters", {}),
+            "image_parameters": image_parameters,
             "nodes": [],
             "connections": [],
         }
@@ -65,7 +59,7 @@ class Project:
         #
         new_is_wrap = node_dict.get("is_wrap", False)
         #
-        new_metrics = node_dict.get("metrics", {})
+        new_parameters = node_dict.get("parameters", {})
         #
         new_dict = {
             "id": new_id,
@@ -73,7 +67,7 @@ class Project:
             "node_id": node_key,
             "data": new_data,
             "is_wrap": new_is_wrap,
-            "metrics": new_metrics,
+            "parameters": new_parameters,
         }
         self.__data["nodes"].append(new_dict)
 
@@ -87,14 +81,14 @@ class Project:
         #
         new_data = connection_dict.get("data", {})
         #
-        new_metrics = connection_dict.get("metrics", {})
+        new_parameters = connection_dict.get("parameters", {})
         #
         new_dict = {
             "id": new_id,
             "order": new_order,
             "connection_id": connection_key,
             "data": new_data,
-            "metrics": new_metrics,
+            "parameters": new_parameters,
         }
         self.__data["connections"].append(new_dict)
 
@@ -160,17 +154,18 @@ class Project:
         config_nodes,
         config_connections,
         new_diagramm_settings,
-        new_image_settings,
+        new_image_parameters,
         new_data,
-        new_metrics,
+        new_parameters,
     ):
         print(
-            f"new_diagramm_settings = {new_diagramm_settings},\nnew_image_settings = {new_image_settings},\nnew_data = {new_data},\nnew_metrics = {new_metrics}"
+            f"new_diagramm_settings = {new_diagramm_settings},\nnew_image_parameters = {new_image_parameters},\nnew_data = {new_data},\nnew_parameters = {new_parameters}"
         )
+        # TODO Переделать сохранение как в project
         for key, value in new_diagramm_settings.items():
             self.__data["diagramm_settings"][key] = value
-        for key, value in new_image_settings.items():
-            self.__data["image_settings"][key] = value
+        for key, value in new_image_parameters.items():
+            self.__data["image_parameters"][key] = value
         if is_edit:
             if is_node:
                 _id = object.get("id", "")
@@ -178,10 +173,10 @@ class Project:
                     if node["id"] == _id:
                         for key, value in new_data.items():
                             node["data"][key] = value
-                        for key, value in new_metrics.items():
-                            self.check_empty_metrics_key(node, key, is_node=True)
-                            node["metrics"][key] = value
-                            self.check_global_metrics_key(
+                        for key, value in new_parameters.items():
+                            self.check_empty_parameters_key(node, key, is_node=True)
+                            node["parameters"][key] = value
+                            self.check_global_parameters_key(
                                 config_nodes,
                                 config_connections,
                                 object,
@@ -195,10 +190,12 @@ class Project:
                     if connection["id"] == _id:
                         for key, value in new_data.items():
                             connection["data"][key] = value
-                        for key, value in new_metrics.items():
-                            self.check_empty_metrics_key(connection, key, is_node=False)
-                            connection["metrics"][key] = value
-                            self.check_global_metrics_key(
+                        for key, value in new_parameters.items():
+                            self.check_empty_parameters_key(
+                                connection, key, is_node=False
+                            )
+                            connection["parameters"][key] = value
+                            self.check_global_parameters_key(
                                 config_nodes,
                                 config_connections,
                                 object,
@@ -208,40 +205,42 @@ class Project:
                         break
         self.write_project()
 
-    def check_empty_metrics_key(self, object, key, is_node=False):
+    def check_empty_parameters_key(self, object, key, is_node=False):
         if is_node:
-            if key not in object["metrics"]:
-                object["metrics"][key] = {}
+            if key not in object["parameters"]:
+                object["parameters"][key] = {}
         else:
-            if key not in object["metrics"]:
-                object["metrics"][key] = {}
+            if key not in object["parameters"]:
+                object["parameters"][key] = {}
 
-    def check_global_metrics_key(
+    def check_global_parameters_key(
         self, config_nodes, config_connections, object, key, is_node=False
     ):
         if is_node:
             node_id = object.get("node_id", "0")
             node_dict = config_nodes.get(node_id, {})
             is_global = (
-                node_dict.get("metrics", {}).get(key, {}).get("is_global", False)
+                node_dict.get("parameters", {}).get(key, {}).get("is_global", False)
             )
 
             if is_global:
-                value = object["metrics"].get(key, {}).get("value", None)
+                value = object["parameters"].get(key, {}).get("value", None)
                 if value is not None:
                     for other_node in self.__data.get("nodes", []):
                         if other_node.get("node_id", "0") == node_id:
-                            other_node["metrics"][key] = {"value": value}
+                            other_node["parameters"][key] = {"value": value}
         else:
             connection_id = object.get("connection_id", "0")
             connection_dict = config_connections.get(connection_id, {})
             is_global = (
-                connection_dict.get("metrics", {}).get(key, {}).get("is_global", False)
+                connection_dict.get("parameters", {})
+                .get(key, {})
+                .get("is_global", False)
             )
 
             if is_global:
-                value = object["metrics"].get(key, {}).get("value", None)
+                value = object["parameters"].get(key, {}).get("value", None)
                 if value is not None:
                     for other_connection in self.__data.get("connections", []):
                         if other_connection.get("connection_id", "0") == connection_id:
-                            other_connection["metrics"][key] = {"value": value}
+                            other_connection["parameters"][key] = {"value": value}

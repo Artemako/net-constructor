@@ -12,8 +12,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1366</width>
-    <height>768</height>
+    <width>1144</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -123,7 +123,7 @@
         <item>
          <widget class="QTabWidget" name="tabw_right">
           <property name="currentIndex">
-           <number>2</number>
+           <number>0</number>
           </property>
           <property name="documentMode">
            <bool>false</bool>
@@ -149,130 +149,102 @@
              <number>9</number>
             </property>
             <item>
-             <widget class="QLabel" name="label">
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Схема&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <widget class="QScrollArea" name="sa_general">
+              <property name="widgetResizable">
+               <bool>true</bool>
               </property>
+              <widget class="QWidget" name="sa_general_contents">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>745</width>
+                 <height>464</height>
+                </rect>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_8" stretch="0,0,0,0,0,0,0,0,0,0">
+                <property name="spacing">
+                 <number>4</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="label_type">
+                  <property name="text">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Тип диаграммы&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QComboBox" name="combox_type"/>
+                </item>
+                <item>
+                 <widget class="Line" name="line_2">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_image_parameters">
+                  <property name="text">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Параметры изображения&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QFormLayout" name="fl_image_parameters"/>
+                </item>
+                <item>
+                 <widget class="Line" name="line_6">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_diagramm_parameters">
+                  <property name="text">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Параметры диаграммы&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QFormLayout" name="fl_diagramm_parameters"/>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+                <item>
+                 <widget class="Line" name="line">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
              </widget>
-            </item>
-            <item>
-             <layout class="QFormLayout" name="formlayout_scheme">
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_type">
-                <property name="text">
-                 <string>Тип</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QComboBox" name="combox_type"/>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <widget class="Line" name="line">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_3">
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Размеры изображения&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <layout class="QFormLayout" name="formlayout_image">
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_h">
-                <property name="text">
-                 <string>Ширина</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QSpinBox" name="sb_width">
-                <property name="maximum">
-                 <number>99999</number>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_w">
-                <property name="text">
-                 <string>Высота</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QSpinBox" name="sb_height">
-                <property name="maximum">
-                 <number>99999</number>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <widget class="Line" name="line_2">
-              <property name="orientation">
-               <enum>Qt::Horizontal</enum>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLabel" name="label_2">
-              <property name="text">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Координаты первой вершины&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <layout class="QFormLayout" name="formLayout">
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_start_x">
-                <property name="text">
-                 <string>По x</string>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QLabel" name="label_start_y">
-                <property name="text">
-                 <string>По y</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QSpinBox" name="sb_start_x">
-                <property name="maximum">
-                 <number>9999</number>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QSpinBox" name="sb_start_y">
-                <property name="maximum">
-                 <number>9999</number>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <spacer name="verticalSpacer">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>0</width>
-                <height>0</height>
-               </size>
-              </property>
-             </spacer>
             </item>
            </layout>
           </widget>
@@ -385,8 +357,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>969</width>
-                 <height>634</height>
+                 <width>747</width>
+                 <height>466</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,0,0,0,0,0,0,1">
@@ -406,14 +378,14 @@
                  <number>0</number>
                 </property>
                 <item>
-                 <widget class="QLabel" name="label_data">
+                 <widget class="QLabel" name="label_object_data">
                   <property name="text">
                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Данные&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <layout class="QFormLayout" name="fl_data">
+                 <layout class="QFormLayout" name="fl_object_data">
                   <property name="rowWrapPolicy">
                    <enum>QFormLayout::WrapLongRows</enum>
                   </property>
@@ -427,14 +399,14 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="label_local_metrics">
+                 <widget class="QLabel" name="label_object_parameters">
                   <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Локальные метрики&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Параметры&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <layout class="QFormLayout" name="fl_local_metrics">
+                 <layout class="QFormLayout" name="fl_object_parameters">
                   <property name="rowWrapPolicy">
                    <enum>QFormLayout::WrapLongRows</enum>
                   </property>
@@ -448,14 +420,14 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="label_global_metrics">
+                 <widget class="QLabel" name="label_type_object_parameters">
                   <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Глобальные метрики&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Параметры типа выбранного элемента&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <layout class="QFormLayout" name="fl_global_metrics">
+                 <layout class="QFormLayout" name="fl_type_object_parameters">
                   <property name="rowWrapPolicy">
                    <enum>QFormLayout::WrapLongRows</enum>
                   </property>
@@ -493,7 +465,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1366</width>
+     <width>1144</width>
      <height>22</height>
     </rect>
    </property>

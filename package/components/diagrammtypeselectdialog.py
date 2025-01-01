@@ -26,9 +26,9 @@ class DiagramTypeSelectDialog(QDialog):
         self.image_label.setAlignment(Qt.AlignCenter)
         self.image_label.setFixedSize(600, 300) 
         
-        for elem in global_diagramms:
-            diagramm_name = elem.get("diagramm_name", "")
-            item = QListWidgetItem(diagramm_name)
+        for key, elem in global_diagramms.items():
+            name = elem.get("name", "")
+            item = QListWidgetItem(name)
             item.setData(Qt.UserRole, elem)
             self.list_widget.addItem(item)
         
@@ -46,8 +46,8 @@ class DiagramTypeSelectDialog(QDialog):
 
     def load_image(self, current, previous):
         if current:
-            diagramm_type_id = current.data(Qt.UserRole).get("diagramm_type_id", "")
-            image_path = f":/diagramm_previews/resources/diagramm_previews/{diagramm_type_id}.png"
+            type_id = current.data(Qt.UserRole).get("type_id", "")
+            image_path = f":/diagramm_previews/resources/diagramm_previews/{type_id}.png"
             pixmap = QPixmap(image_path)
             self.image_label.setPixmap(pixmap.scaled(
                 self.image_label.size(), 

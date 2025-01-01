@@ -8,31 +8,7 @@
             }
         },
         "is_wrap": false,
-        "metrics": {
-            "margin_left_right": {
-                "is_global": true,
-                "value": 16,
-                "name": "Боковые внешние отступы вершины", 
-                "order": 0              
-            },
-            "margin_top": {
-                "is_global": true,
-                "value": 64,
-                "name": "Высота названия над вершиной", 
-                "order": 1
-            },
-            "title_pixel_size": {
-                "is_global": true,
-                "value": 12,
-                "name": "Размер шрифта для названия", 
-                "order": 2
-            },
-            "radius": {
-                "is_global": true,
-                "value": 20,
-                "name": "Радиус круга", 
-                "order": 4
-            },
+        "parameters": {
             "is_connected_with_thin_line_location": {
                 "is_global": false,
                 "value": true,
@@ -51,37 +27,12 @@
             }
         },
         "is_wrap": false,
-        "metrics": {
-            "margin_left_right": {
-                "is_global": true,
-                "value": 32,
-                "name": "Боковые внешние отступы вершины", 
-                "order": 0,
-                "description": "Используются для соединения"        
-            },
-            "margin_top": {
-                "is_global": true,
-                "value": 64,
-                "name": "Высота названия над вершиной", 
-                "order": 1
-            },
-            "title_pixel_size": {
-                "is_global": true,
-                "value": 12,
-                "name": "Размер шрифта для названия", 
-                "order": 2
-            },
-            "radius": {
-                "is_global": true,
-                "value": 20,
-                "name": "Радиус круга", 
-                "order": 4
-            },
+        "parameters": {
             "is_connected_with_thin_line_location": {
                 "is_global": false,
                 "value": true,
                 "name": "Cоединение с тонкой линией местоположения", 
-                "order": 5,
+                "order": 0,
                 "type": "bool"
             }
         }

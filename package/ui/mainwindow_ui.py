@@ -22,7 +22,7 @@ class Ui_MainWindow(object):
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.setWindowModality(Qt.NonModal)
         MainWindow.setEnabled(True)
-        MainWindow.resize(1366, 768)
+        MainWindow.resize(1144, 600)
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -154,107 +154,74 @@ class Ui_MainWindow(object):
         self.verticalLayout_5.setSpacing(6)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.verticalLayout_5.setContentsMargins(9, 9, 9, 9)
-        self.label = QLabel(self.tab_general)
-        self.label.setObjectName(u"label")
-
-        self.verticalLayout_5.addWidget(self.label)
-
-        self.formlayout_scheme = QFormLayout()
-        self.formlayout_scheme.setObjectName(u"formlayout_scheme")
-        self.label_type = QLabel(self.tab_general)
+        self.sa_general = QScrollArea(self.tab_general)
+        self.sa_general.setObjectName(u"sa_general")
+        self.sa_general.setWidgetResizable(True)
+        self.sa_general_contents = QWidget()
+        self.sa_general_contents.setObjectName(u"sa_general_contents")
+        self.sa_general_contents.setGeometry(QRect(0, 0, 745, 464))
+        self.verticalLayout_8 = QVBoxLayout(self.sa_general_contents)
+        self.verticalLayout_8.setSpacing(4)
+        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
+        self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
+        self.label_type = QLabel(self.sa_general_contents)
         self.label_type.setObjectName(u"label_type")
 
-        self.formlayout_scheme.setWidget(0, QFormLayout.LabelRole, self.label_type)
+        self.verticalLayout_8.addWidget(self.label_type)
 
-        self.combox_type = QComboBox(self.tab_general)
+        self.combox_type = QComboBox(self.sa_general_contents)
         self.combox_type.setObjectName(u"combox_type")
 
-        self.formlayout_scheme.setWidget(0, QFormLayout.FieldRole, self.combox_type)
+        self.verticalLayout_8.addWidget(self.combox_type)
 
-
-        self.verticalLayout_5.addLayout(self.formlayout_scheme)
-
-        self.line = QFrame(self.tab_general)
-        self.line.setObjectName(u"line")
-        self.line.setFrameShape(QFrame.HLine)
-        self.line.setFrameShadow(QFrame.Sunken)
-
-        self.verticalLayout_5.addWidget(self.line)
-
-        self.label_3 = QLabel(self.tab_general)
-        self.label_3.setObjectName(u"label_3")
-
-        self.verticalLayout_5.addWidget(self.label_3)
-
-        self.formlayout_image = QFormLayout()
-        self.formlayout_image.setObjectName(u"formlayout_image")
-        self.label_h = QLabel(self.tab_general)
-        self.label_h.setObjectName(u"label_h")
-
-        self.formlayout_image.setWidget(0, QFormLayout.LabelRole, self.label_h)
-
-        self.sb_width = QSpinBox(self.tab_general)
-        self.sb_width.setObjectName(u"sb_width")
-        self.sb_width.setMaximum(99999)
-
-        self.formlayout_image.setWidget(0, QFormLayout.FieldRole, self.sb_width)
-
-        self.label_w = QLabel(self.tab_general)
-        self.label_w.setObjectName(u"label_w")
-
-        self.formlayout_image.setWidget(1, QFormLayout.LabelRole, self.label_w)
-
-        self.sb_height = QSpinBox(self.tab_general)
-        self.sb_height.setObjectName(u"sb_height")
-        self.sb_height.setMaximum(99999)
-
-        self.formlayout_image.setWidget(1, QFormLayout.FieldRole, self.sb_height)
-
-
-        self.verticalLayout_5.addLayout(self.formlayout_image)
-
-        self.line_2 = QFrame(self.tab_general)
+        self.line_2 = QFrame(self.sa_general_contents)
         self.line_2.setObjectName(u"line_2")
         self.line_2.setFrameShape(QFrame.HLine)
         self.line_2.setFrameShadow(QFrame.Sunken)
 
-        self.verticalLayout_5.addWidget(self.line_2)
+        self.verticalLayout_8.addWidget(self.line_2)
 
-        self.label_2 = QLabel(self.tab_general)
-        self.label_2.setObjectName(u"label_2")
+        self.label_image_parameters = QLabel(self.sa_general_contents)
+        self.label_image_parameters.setObjectName(u"label_image_parameters")
 
-        self.verticalLayout_5.addWidget(self.label_2)
+        self.verticalLayout_8.addWidget(self.label_image_parameters)
 
-        self.formLayout = QFormLayout()
-        self.formLayout.setObjectName(u"formLayout")
-        self.label_start_x = QLabel(self.tab_general)
-        self.label_start_x.setObjectName(u"label_start_x")
+        self.fl_image_parameters = QFormLayout()
+        self.fl_image_parameters.setObjectName(u"fl_image_parameters")
 
-        self.formLayout.setWidget(0, QFormLayout.LabelRole, self.label_start_x)
+        self.verticalLayout_8.addLayout(self.fl_image_parameters)
 
-        self.label_start_y = QLabel(self.tab_general)
-        self.label_start_y.setObjectName(u"label_start_y")
+        self.line_6 = QFrame(self.sa_general_contents)
+        self.line_6.setObjectName(u"line_6")
+        self.line_6.setFrameShape(QFrame.HLine)
+        self.line_6.setFrameShadow(QFrame.Sunken)
 
-        self.formLayout.setWidget(1, QFormLayout.LabelRole, self.label_start_y)
+        self.verticalLayout_8.addWidget(self.line_6)
 
-        self.sb_start_x = QSpinBox(self.tab_general)
-        self.sb_start_x.setObjectName(u"sb_start_x")
-        self.sb_start_x.setMaximum(9999)
+        self.label_diagramm_parameters = QLabel(self.sa_general_contents)
+        self.label_diagramm_parameters.setObjectName(u"label_diagramm_parameters")
 
-        self.formLayout.setWidget(0, QFormLayout.FieldRole, self.sb_start_x)
+        self.verticalLayout_8.addWidget(self.label_diagramm_parameters)
 
-        self.sb_start_y = QSpinBox(self.tab_general)
-        self.sb_start_y.setObjectName(u"sb_start_y")
-        self.sb_start_y.setMaximum(9999)
+        self.fl_diagramm_parameters = QFormLayout()
+        self.fl_diagramm_parameters.setObjectName(u"fl_diagramm_parameters")
 
-        self.formLayout.setWidget(1, QFormLayout.FieldRole, self.sb_start_y)
+        self.verticalLayout_8.addLayout(self.fl_diagramm_parameters)
 
+        self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
-        self.verticalLayout_5.addLayout(self.formLayout)
+        self.verticalLayout_8.addItem(self.verticalSpacer)
 
-        self.verticalSpacer = QSpacerItem(0, 0, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.line = QFrame(self.sa_general_contents)
+        self.line.setObjectName(u"line")
+        self.line.setFrameShape(QFrame.HLine)
+        self.line.setFrameShadow(QFrame.Sunken)
 
-        self.verticalLayout_5.addItem(self.verticalSpacer)
+        self.verticalLayout_8.addWidget(self.line)
+
+        self.sa_general.setWidget(self.sa_general_contents)
+
+        self.verticalLayout_5.addWidget(self.sa_general)
 
         self.tabw_right.addTab(self.tab_general, "")
         self.tab_elements = QWidget()
@@ -337,21 +304,21 @@ class Ui_MainWindow(object):
         self.editor_scrollarea.setWidgetResizable(True)
         self.editor_scrollarea_contents = QWidget()
         self.editor_scrollarea_contents.setObjectName(u"editor_scrollarea_contents")
-        self.editor_scrollarea_contents.setGeometry(QRect(0, 0, 969, 634))
+        self.editor_scrollarea_contents.setGeometry(QRect(0, 0, 747, 466))
         self.verticalLayout_4 = QVBoxLayout(self.editor_scrollarea_contents)
         self.verticalLayout_4.setSpacing(6)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
-        self.label_data = QLabel(self.editor_scrollarea_contents)
-        self.label_data.setObjectName(u"label_data")
+        self.label_object_data = QLabel(self.editor_scrollarea_contents)
+        self.label_object_data.setObjectName(u"label_object_data")
 
-        self.verticalLayout_4.addWidget(self.label_data)
+        self.verticalLayout_4.addWidget(self.label_object_data)
 
-        self.fl_data = QFormLayout()
-        self.fl_data.setObjectName(u"fl_data")
-        self.fl_data.setRowWrapPolicy(QFormLayout.WrapLongRows)
+        self.fl_object_data = QFormLayout()
+        self.fl_object_data.setObjectName(u"fl_object_data")
+        self.fl_object_data.setRowWrapPolicy(QFormLayout.WrapLongRows)
 
-        self.verticalLayout_4.addLayout(self.fl_data)
+        self.verticalLayout_4.addLayout(self.fl_object_data)
 
         self.line_4 = QFrame(self.editor_scrollarea_contents)
         self.line_4.setObjectName(u"line_4")
@@ -360,16 +327,16 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addWidget(self.line_4)
 
-        self.label_local_metrics = QLabel(self.editor_scrollarea_contents)
-        self.label_local_metrics.setObjectName(u"label_local_metrics")
+        self.label_object_parameters = QLabel(self.editor_scrollarea_contents)
+        self.label_object_parameters.setObjectName(u"label_object_parameters")
 
-        self.verticalLayout_4.addWidget(self.label_local_metrics)
+        self.verticalLayout_4.addWidget(self.label_object_parameters)
 
-        self.fl_local_metrics = QFormLayout()
-        self.fl_local_metrics.setObjectName(u"fl_local_metrics")
-        self.fl_local_metrics.setRowWrapPolicy(QFormLayout.WrapLongRows)
+        self.fl_object_parameters = QFormLayout()
+        self.fl_object_parameters.setObjectName(u"fl_object_parameters")
+        self.fl_object_parameters.setRowWrapPolicy(QFormLayout.WrapLongRows)
 
-        self.verticalLayout_4.addLayout(self.fl_local_metrics)
+        self.verticalLayout_4.addLayout(self.fl_object_parameters)
 
         self.line_5 = QFrame(self.editor_scrollarea_contents)
         self.line_5.setObjectName(u"line_5")
@@ -378,16 +345,16 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addWidget(self.line_5)
 
-        self.label_global_metrics = QLabel(self.editor_scrollarea_contents)
-        self.label_global_metrics.setObjectName(u"label_global_metrics")
+        self.label_type_object_parameters = QLabel(self.editor_scrollarea_contents)
+        self.label_type_object_parameters.setObjectName(u"label_type_object_parameters")
 
-        self.verticalLayout_4.addWidget(self.label_global_metrics)
+        self.verticalLayout_4.addWidget(self.label_type_object_parameters)
 
-        self.fl_global_metrics = QFormLayout()
-        self.fl_global_metrics.setObjectName(u"fl_global_metrics")
-        self.fl_global_metrics.setRowWrapPolicy(QFormLayout.WrapLongRows)
+        self.fl_type_object_parameters = QFormLayout()
+        self.fl_type_object_parameters.setObjectName(u"fl_type_object_parameters")
+        self.fl_type_object_parameters.setRowWrapPolicy(QFormLayout.WrapLongRows)
 
-        self.verticalLayout_4.addLayout(self.fl_global_metrics)
+        self.verticalLayout_4.addLayout(self.fl_type_object_parameters)
 
         self.vertical_spacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -409,7 +376,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menu_bar = QMenuBar(MainWindow)
         self.menu_bar.setObjectName(u"menu_bar")
-        self.menu_bar.setGeometry(QRect(0, 0, 1366, 22))
+        self.menu_bar.setGeometry(QRect(0, 0, 1144, 22))
         self.menu_file = QMenu(self.menu_bar)
         self.menu_file.setObjectName(u"menu_file")
         MainWindow.setMenuBar(self.menu_bar)
@@ -487,23 +454,18 @@ class Ui_MainWindow(object):
         self.action_edit_templates.setText(QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0434\u0430\u043a\u0442\u043e\u0440 \u0448\u0430\u0431\u043b\u043e\u043d\u043e\u0432", None))
         self.action_edit_composition.setText(QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0434\u0430\u043a\u0442\u043e\u0440 \u0441\u043e\u0441\u0442\u0430\u0432\u0430 \u0418\u0414", None))
         self.action_clear_trash.setText(QCoreApplication.translate("MainWindow", u"\u041e\u0447\u0438\u0441\u0442\u043a\u0430 \u043e\u0442 \u043c\u0443\u0441\u043e\u0440\u0430", None))
-        self.label.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0421\u0445\u0435\u043c\u0430</span></p></body></html>", None))
-        self.label_type.setText(QCoreApplication.translate("MainWindow", u"\u0422\u0438\u043f", None))
-        self.label_3.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0420\u0430\u0437\u043c\u0435\u0440\u044b \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f</span></p></body></html>", None))
-        self.label_h.setText(QCoreApplication.translate("MainWindow", u"\u0428\u0438\u0440\u0438\u043d\u0430", None))
-        self.label_w.setText(QCoreApplication.translate("MainWindow", u"\u0412\u044b\u0441\u043e\u0442\u0430", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u041a\u043e\u043e\u0440\u0434\u0438\u043d\u0430\u0442\u044b \u043f\u0435\u0440\u0432\u043e\u0439 \u0432\u0435\u0440\u0448\u0438\u043d\u044b</span></p></body></html>", None))
-        self.label_start_x.setText(QCoreApplication.translate("MainWindow", u"\u041f\u043e x", None))
-        self.label_start_y.setText(QCoreApplication.translate("MainWindow", u"\u041f\u043e y", None))
+        self.label_type.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0422\u0438\u043f \u0434\u0438\u0430\u0433\u0440\u0430\u043c\u043c\u044b</span></p></body></html>", None))
+        self.label_image_parameters.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u041f\u0430\u0440\u0430\u043c\u0435\u0442\u0440\u044b \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f</span></p></body></html>", None))
+        self.label_diagramm_parameters.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u041f\u0430\u0440\u0430\u043c\u0435\u0442\u0440\u044b \u0434\u0438\u0430\u0433\u0440\u0430\u043c\u043c\u044b</span></p></body></html>", None))
         self.tabw_right.setTabText(self.tabw_right.indexOf(self.tab_general), QCoreApplication.translate("MainWindow", u"\u041e\u0441\u043d\u043e\u0432\u043d\u044b\u0435 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438", None))
         self.label_nodes.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0412\u0435\u0440\u0448\u0438\u043d\u044b</span></p></body></html>", None))
         self.btn_addnode.setText(QCoreApplication.translate("MainWindow", u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0432\u0435\u0440\u0448\u0438\u043d\u0443", None))
         self.btn_deletenode.setText(QCoreApplication.translate("MainWindow", u"\u0423\u0434\u0430\u043b\u0438\u0442\u044c \u0432\u0435\u0440\u0448\u0438\u043d\u0443", None))
         self.label_connections.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0421\u043e\u0435\u0434\u0438\u043d\u0435\u043d\u0438\u044f</span></p></body></html>", None))
         self.tabw_right.setTabText(self.tabw_right.indexOf(self.tab_elements), QCoreApplication.translate("MainWindow", u"\u042d\u043b\u0435\u043c\u0435\u043d\u0442\u044b", None))
-        self.label_data.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0414\u0430\u043d\u043d\u044b\u0435</span></p></body></html>", None))
-        self.label_local_metrics.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u041b\u043e\u043a\u0430\u043b\u044c\u043d\u044b\u0435 \u043c\u0435\u0442\u0440\u0438\u043a\u0438</span></p></body></html>", None))
-        self.label_global_metrics.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0413\u043b\u043e\u0431\u0430\u043b\u044c\u043d\u044b\u0435 \u043c\u0435\u0442\u0440\u0438\u043a\u0438</span></p></body></html>", None))
+        self.label_object_data.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0414\u0430\u043d\u043d\u044b\u0435</span></p></body></html>", None))
+        self.label_object_parameters.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u041f\u0430\u0440\u0430\u043c\u0435\u0442\u0440\u044b</span></p></body></html>", None))
+        self.label_type_object_parameters.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u041f\u0430\u0440\u0430\u043c\u0435\u0442\u0440\u044b \u0442\u0438\u043f\u0430 \u0432\u044b\u0431\u0440\u0430\u043d\u043d\u043e\u0433\u043e \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u0430</span></p></body></html>", None))
         self.tabw_right.setTabText(self.tabw_right.indexOf(self.tab_editor), QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0434\u0430\u043a\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435", None))
         self.menu_file.setTitle(QCoreApplication.translate("MainWindow", u"\u0424\u0430\u0439\u043b", None))
         self.tb_main.setWindowTitle(QCoreApplication.translate("MainWindow", u"\u041f\u0430\u043d\u0435\u043b\u044c \u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u043e\u0432", None))

@@ -24,11 +24,11 @@ class Node:
     def get_config_node(self):
         return self.__config_node
 
-    def get_metrics(self):
-        return self.__node.get("metrics", {})
+    def get_parameters(self):
+        return self.__node.get("parameters", {})
 
-    def get_config_metrics(self):
-        return self.__config_node.get("metrics", {})
+    def get_config_parameters(self):
+        return self.__config_node.get("parameters", {})
 
     def get_node_id(self):
         return self.__node.get("node_id")
@@ -61,11 +61,11 @@ class Connection:
     def get_config_connection(self):
         return self.__config_connection
 
-    def get_metrics(self):
-        return self.__connection.get("metrics", {})
+    def get_parameters(self):
+        return self.__connection.get("parameters", {})
 
-    def get_config_metrics(self):
-        return self.__config_connection.get("metrics", {})
+    def get_config_parameters(self):
+        return self.__config_connection.get("parameters", {})
 
     def get_connection_id(self):
         return self.__connection.get("connection_id")
@@ -159,9 +159,9 @@ class DiagramDrawer:
                     }
                 )
                 # увеличиваем координаты по длине соединения
-                metrics = connection.get("metrics", {})
-                config_metrics = config_connection.get("metrics", {})
-                length = metrics.get("length", config_metrics.get("length", {})).get(
+                parameters = connection.get("parameters", {})
+                config_parameters = config_connection.get("parameters", {})
+                length = parameters.get("length", config_parameters.get("length", {})).get(
                     "value", 0
                 )
                 x += length

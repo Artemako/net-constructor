@@ -1,9 +1,9 @@
 {
     "diagramm_settings": {
-        "diagramm_type_id": 0,
-        "diagramm_name": "Скелетная схема ВОЛП и основные данные цепей кабеля"
+        "type_id": 0,
+        "name": "Скелетная схема ВОЛП и основные данные цепей кабеля"
     },
-    "image_settings": {
+    "image_parameters": {
         "width": 2000,
         "height": 600
     },
@@ -18,7 +18,7 @@
                 }
             },
             "is_wrap": false,
-            "metrics": {}
+            "parameters": {}
         },
         {
             "id": 1,
@@ -30,7 +30,7 @@
                 }
             },
             "is_wrap": false,
-            "metrics": {}
+            "parameters": {}
         },
         {
             "id": 2,
@@ -42,7 +42,7 @@
                 }
             },
             "is_wrap": false,
-            "metrics": {}
+            "parameters": {}
         },
         {
             "id": 3,
@@ -54,7 +54,7 @@
                 }
             },
             "is_wrap": true,
-            "metrics": {}
+            "parameters": {}
         },
         {
             "id": 4,
@@ -66,7 +66,7 @@
                 }
             },
             "is_wrap": false,
-            "metrics": {}
+            "parameters": {}
         }
     ],
     "connections": [
@@ -94,7 +94,7 @@
                     "value": 4050
                 }
             },
-            "metrics": {}
+            "parameters": {}
         },
         {
             "id": 1,
@@ -132,7 +132,7 @@
                     "type": "integer"
                 }
             },
-            "metrics": {
+            "parameters": {
                 "length": {
                     "value": 400
                 }
@@ -174,7 +174,7 @@
                     "type": "integer"
                 }
             },
-            "metrics": {
+            "parameters": {
                 "length": {
                     "value": 300
                 }
@@ -216,7 +216,7 @@
                     "type": "integer"
                 }
             },
-            "metrics": {}
+            "parameters": {}
         }
     ]
 }

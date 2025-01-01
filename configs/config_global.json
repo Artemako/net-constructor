@@ -1,18 +1,61 @@
 {
+    "image_parameters": {
+        "width": {
+            "value": 2000,
+            "name": "Ширина изображения", 
+            "order": 0
+        },
+        "height": {
+            "value": 800,
+            "name": "Высота изображения", 
+            "order": 1
+        },
+        "start_x": {
+            "value": 150,
+            "name": "Стартовая координата X", 
+            "order": 2
+        },
+        "start_y": {
+            "value": 100,
+            "name": "Стартовая координата Y", 
+            "order": 3
+        }
+    },
     "diagramms": {
         "0": {
             "order": 0,
-            "diagramm_type_id": 0,
-            "diagramm_name": "Скелетная схема ВОЛП и основные данные цепей кабеля",
-            "nodes": ["0", "1"],
-            "connections": ["0"]
+            "type_id": 0,
+            "name": "Скелетная схема ВОЛП и основные данные цепей кабеля",
+            "nodes": [
+                "0",
+                "1"
+            ],
+            "connections": [
+                "0"
+            ],
+            "parameters": {
+                "margin_left_right": {
+                    "value": 16,
+                    "name": "Боковые внешние отступы вершины", 
+                    "order": 0              
+                },
+                "margin_top": {
+                    "value": 64,
+                    "name": "Высота названия над вершиной", 
+                    "order": 1
+                },
+                "title_pixel_size": {
+                    "value": 12,
+                    "name": "Размер шрифта для названия", 
+                    "order": 2
+                },
+                "radius": {
+                    "value": 20,
+                    "name": "Радиус круга", 
+                    "order": 4
+                }
+            }
         }
-    },
-    "image_settings": {
-        "width": 2000,
-        "height": 800,
-        "start_x": 150,
-        "start_y": 150
-    },
-    "metrics": {}
+    }
+    
 }

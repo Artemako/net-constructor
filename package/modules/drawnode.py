@@ -24,8 +24,8 @@ class DrawNode:
         self.__x = x
         self.__y = y
         #
-        self.__metrics = object_node.get_metrics()
-        self.__config_metrics = object_node.get_config_metrics()
+        self.__parameters = object_node.get_parameters()
+        self.__config_parameters = object_node.get_config_parameters()
 
 
     def draw(self):
@@ -37,31 +37,31 @@ class DrawNode:
     def draw_node_id_0(self):
         """Круглый, заливка диагональная штриховка, подпись сверху"""
         # узнать значения
-        margin_top = self.__metrics.get(
-            "margin_top", self.__config_metrics.get("margin_top", {})
+        margin_top = self.__parameters.get(
+            "margin_top", self.__config_parameters.get("margin_top", {})
         ).get("value", 0)
-        title_pixel_size = self.__metrics.get(
-            "title_pixel_size", self.__config_metrics.get("title_pixel_size", {})
+        title_pixel_size = self.__parameters.get(
+            "title_pixel_size", self.__config_parameters.get("title_pixel_size", {})
         ).get("value", 0)
-        radius = self.__metrics.get(
-            "radius", self.__config_metrics.get("radius", {})
+        radius = self.__parameters.get(
+            "radius", self.__config_parameters.get("radius", {})
         ).get("value", 0)
-        is_connected_with_thin_line_location = self.__metrics.get(
+        is_connected_with_thin_line_location = self.__parameters.get(
             "is_connected_with_thin_line_location",
-            self.__config_metrics.get("is_connected_with_thin_line_location", {}),
+            self.__config_parameters.get("is_connected_with_thin_line_location", {}),
         ).get("value", 0)
         
 
         # тонкая вертикальная линия
         def draw_vertical_thin_line(object):
-            metrics = object.get_metrics()
-            config_metrics = object.get_config_metrics()
+            parameters = object.get_parameters()
+            config_parameters = object.get_config_parameters()
             #
-            delta_node_and_thin_line = metrics.get(
-                "delta_node_and_thin_line", config_metrics.get("delta_node_and_thin_line", {})
+            delta_node_and_thin_line = parameters.get(
+                "delta_node_and_thin_line", config_parameters.get("delta_node_and_thin_line", {})
             ).get("value", 0)
-            delta_thins_lines = metrics.get(
-                "delta_thins_lines", config_metrics.get("delta_thins_lines", {})
+            delta_thins_lines = parameters.get(
+                "delta_thins_lines", config_parameters.get("delta_thins_lines", {})
             ).get("value", 0)
             #
             self.__painter = painterconfigurator.PainterConfigurator(
@@ -112,8 +112,8 @@ class DrawNode:
         fill_color = Qt.white
 
         # узнать значения
-        radius = self.__metrics.get(
-            "radius", self.__config_metrics.get("radius", {})
+        radius = self.__parameters.get(
+            "radius", self.__config_parameters.get("radius", {})
         ).get("value", 0)
         big_radius = radius * 2
 

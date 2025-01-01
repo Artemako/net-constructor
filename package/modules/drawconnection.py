@@ -18,14 +18,14 @@ class DrawConnection:
         self.__x = x
         self.__y = y
         #
-        self.__metrics = self.__object_connection.get_metrics()
-        self.__config_metrics = self.__object_connection.get_config_metrics()
+        self.__parameters = self.__object_connection.get_parameters()
+        self.__config_parameters = self.__object_connection.get_config_parameters()
         #
-        self.__before_metrics = self.__object_node_before.get_metrics()
-        self.__config_before_metrics = self.__object_node_before.get_config_metrics()
+        self.__before_parameters = self.__object_node_before.get_parameters()
+        self.__config_before_parameters = self.__object_node_before.get_config_parameters()
         #
-        self.__after_metrics = self.__object_node_after.get_metrics()
-        self.__config_after_metrics = self.__object_node_after.get_config_metrics()
+        self.__after_parameters = self.__object_node_after.get_parameters()
+        self.__config_after_parameters = self.__object_node_after.get_config_parameters()
 
     def draw(self):
         if self.__object_connection.get_connection_id() == "0":
@@ -34,48 +34,57 @@ class DrawConnection:
     def draw_connection_type_0(self):
         """Скелетная схема ВОЛП и основные данные цепей кабеля"""
         # узнать значения
-        length = self.__metrics.get(
-            "length", self.__config_metrics.get("length", {})
+        #region
+        length = self.__parameters.get(
+            "length", self.__config_parameters.get("length", {})
         ).get("value", 0)
-        left_right_margin = self.__metrics.get(
-            "left_right_margin", self.__config_metrics.get("left_right_margin", {})
+        left_right_margin = self.__parameters.get(
+            "left_right_margin", self.__config_parameters.get("left_right_margin", {})
         ).get("value", 0)
-        main_label_vertical_padding = self.__metrics.get(
+        main_label_vertical_padding = self.__parameters.get(
             "main_label_vertical_padding",
-            self.__config_metrics.get("main_label_vertical_padding", {}),
+            self.__config_parameters.get("main_label_vertical_padding", {}),
         ).get("value", 0)
-        delta_node_and_thin_line = self.__metrics.get(
+        delta_node_and_thin_line = self.__parameters.get(
             "delta_node_and_thin_line",
-            self.__config_before_metrics.get("delta_node_and_thin_line", {}),
+            self.__config_before_parameters.get("delta_node_and_thin_line", {}),
         ).get("value", 0)
-        delta_thins_lines = self.__metrics.get(
+        delta_thins_lines = self.__parameters.get(
             "delta_thins_lines",
-            self.__config_before_metrics.get("delta_thins_lines", {}),
+            self.__config_before_parameters.get("delta_thins_lines", {}),
         ).get("value", 0)
-        thin_label_vertical_padding = self.__metrics.get(
+        thin_label_vertical_padding = self.__parameters.get(
             "thin_label_vertical_padding",
-            self.__config_before_metrics.get("thin_label_vertical_padding", {}),
+            self.__config_before_parameters.get("thin_label_vertical_padding", {}),
         ).get("value", 0)
-        arrow_width = self.__metrics.get(
-            "arrow_width", self.__config_metrics.get("arrow_width", {})
+        arrow_width = self.__parameters.get(
+            "arrow_width", self.__config_parameters.get("arrow_width", {})
         ).get("value", 0)
-        arrow_height = self.__metrics.get(
-            "arrow_height", self.__config_metrics.get("arrow_height", {})
+        arrow_height = self.__parameters.get(
+            "arrow_height", self.__config_parameters.get("arrow_height", {})
         ).get("value", 0)
-        
         
         # метрики before и after
-        before_margin_left_right = self.__before_metrics.get(
+        before_margin_left_right = self.__before_parameters.get(
             "margin_left_right",
-            self.__config_before_metrics.get("margin_left_right", {}),
+            self.__config_before_parameters.get("margin_left_right", {}),
         ).get("value", 0)
-        after_margin_left_right = self.__after_metrics.get(
+        after_margin_left_right = self.__after_parameters.get(
             "margin_left_right",
-            self.__config_after_metrics.get("margin_left_right", {}),
+            self.__config_after_parameters.get("margin_left_right", {}),
         ).get("value", 0)
-
+        before_is_connected_with_thin_line_location = self.__before_parameters.get(
+            "is_connected_with_thin_line_location",
+            self.__config_before_parameters.get("is_connected_with_thin_line_location", {}),
+        ).get("value", 0)
+        after_is_connected_with_thin_line_location = self.__after_parameters.get(
+            "is_connected_with_thin_line_location",
+            self.__config_after_parameters.get("is_connected_with_thin_line_location", {}),
+        ).get("value", 0)
+        #endregion
 
         # ОСНОВНАЯ ЛИНИЯ
+        #region
         self.__painter = painterconfigurator.PainterConfigurator(
             self.__painter
         ).get_bold_blue_line_painter()
@@ -85,8 +94,10 @@ class DrawConnection:
         self.__painter = painterconfigurator.PainterConfigurator(
             self.__painter
         ).get_main_caption_painter()
+        #endregion
 
-        # LT
+        # LT и прочие
+        #region
         text = self.__object_connection.get_data().get("ВОК", {}).get("value", "")
         drawtext.DrawText(self.__painter).draw_singleline_text_by_hl_vb(
             text,
@@ -129,8 +140,11 @@ class DrawConnection:
             self.__x + length - left_right_margin - after_margin_left_right,
             self.__y + main_label_vertical_padding,
         )
-
-        # Сплошная тонкая линия (строительная_длина)
+        #endregion
+        
+        # Сплошнык тонкие линии
+        #region
+        # (строительная_длина)
         # горизонтальная линия - название
         self.__painter = painterconfigurator.PainterConfigurator(
             self.__painter
@@ -160,16 +174,19 @@ class DrawConnection:
             self.__x + length + 5,
             self.__y + delta_node_and_thin_line + delta_thins_lines,
         )
-        # стрелки
-        drawobject.DrawObject(self.__painter).arrow(
-            self.__x + length, self.__y + delta_node_and_thin_line + delta_thins_lines, arrow_width, arrow_height, "right"
-        )
-        drawobject.DrawObject(self.__painter).arrow(
+        # стрелки + проверка соседних узлов
+        if before_is_connected_with_thin_line_location:
+            drawobject.DrawObject(self.__painter).arrow(
             self.__x, self.__y + delta_node_and_thin_line + delta_thins_lines, arrow_width, arrow_height, "left"
         )
+        if after_is_connected_with_thin_line_location:
+            drawobject.DrawObject(self.__painter).arrow(
+                self.__x + length, self.__y + delta_node_and_thin_line + delta_thins_lines, arrow_width, arrow_height, "right"
+            )
+        #endregion
 
-
-
+        # Тексты над/под название и название_доп и местоположение и местоположение_доп
+        #region
         # Текст над/под с название и название_доп
         self.__painter = painterconfigurator.PainterConfigurator(
             self.__painter
@@ -201,3 +218,4 @@ class DrawConnection:
         text = self.__object_connection.get_data().get("местоположение_доп", {}).get("value", "")
         drawtext.DrawText(self.__painter).draw_multiline_text_by_hc_vt(text, center_x, top_y)
 
+        #endregion

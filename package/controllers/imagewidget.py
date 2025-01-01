@@ -23,21 +23,18 @@ class ImageWidget(QWidget):
 
     def run(self, data):
         """Инициализирует данные и создает изображение."""
-        self.__diagram_drawer = diagramdrawer.DiagramDrawer(self.__obsm, 
-            data
-        )
+        self.__diagram_drawer = diagramdrawer.DiagramDrawer(self.__obsm, data)
         self.__image = self.create_image(data)
         self.update()
-
 
     def save_image(self, file_name):
         self.__image.save(file_name, "PNG")
 
     def create_image(self, data):
-        width = data.get("image_settings", {}).get("width", 0)
-        height = data.get("image_settings", {}).get("height", 0)
-        start_x = data.get("image_settings", {}).get("start_x", 0)
-        start_y = data.get("image_settings", {}).get("start_y", 0)
+        width = data.get("image_parameters", {}).get("width", {}).get("value", 0)
+        height = data.get("image_parameters", {}).get("height", {}).get("value", 0)
+        start_x = data.get("image_parameters", {}).get("start_x", {}).get("value", 0)
+        start_y = data.get("image_parameters", {}).get("start_y", {}).get("value", 0)
 
         image = QImage(width, height, QImage.Format_ARGB32)
         image.fill(Qt.white)

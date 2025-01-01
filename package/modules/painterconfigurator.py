@@ -17,6 +17,7 @@ class PainterConfigurator:
         self.painter.setPen(QPen(Qt.blue, 4))
         return self.painter
     
+
     def get_main_caption_painter(self):
         self.painter.setPen(QPen(Qt.darkGray, 2))
         self.painter.setBrush(QBrush(Qt.NoBrush))
