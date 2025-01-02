@@ -208,7 +208,7 @@ class Project:
         self, config_nodes, config_connections, object, key, is_node=False
     ):
         if is_node:
-            node_id = object.get("node_id", "0")
+            node_id = object.get("node_id", "")
             node_dict = config_nodes.get(node_id, {})
             is_global = (
                 node_dict.get("parameters", {}).get(key, {}).get("is_global", False)
@@ -218,10 +218,10 @@ class Project:
                 value = object["parameters"].get(key, {}).get("value", None)
                 if value is not None:
                     for other_node in self.__data.get("nodes", []):
-                        if other_node.get("node_id", "0") == node_id:
+                        if other_node.get("node_id", "") == node_id:
                             other_node["parameters"][key] = {"value": value}
         else:
-            connection_id = object.get("connection_id", "0")
+            connection_id = object.get("connection_id", "")
             connection_dict = config_connections.get(connection_id, {})
             is_global = (
                 connection_dict.get("parameters", {})
@@ -233,5 +233,5 @@ class Project:
                 value = object["parameters"].get(key, {}).get("value", None)
                 if value is not None:
                     for other_connection in self.__data.get("connections", []):
-                        if other_connection.get("connection_id", "0") == connection_id:
+                        if other_connection.get("connection_id", "") == connection_id:
                             other_connection["parameters"][key] = {"value": value}

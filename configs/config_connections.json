@@ -61,7 +61,6 @@
                 "is_global": true,
                 "value": 10,
                 "name": "Высота подписей над/под соединением",
-                
                 "order": 2
             },
             "connection_thin_label_vertical_padding": {

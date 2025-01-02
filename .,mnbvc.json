@@ -3,36 +3,34 @@
     "diagramm_name": "Скелетная схема ВОЛП и основные данные цепей кабеля",
     "diagramm_parameters": {
         "delta_node_and_thin_line": {
-            "is_global": true,
             "name": "Расстояние между вершиной и тонкой линии",
             "order": 5,
             "value": 100
         },
         "delta_thins_lines": {
-            "is_global": true,
             "name": "Расстояние между тонкими линиями",
             "order": 6,
             "value": 50
         },
-        "node_margin_left_right": {
-            "name": "Боковые отступы от вершин",
-            "order": 2,
-            "value": 32
+        "distance_thin_line_after_connection_x": {
+            "name": "Расстояние тонкой линии после соединения по X",
+            "order": 7,
+            "value": 5
         },
-        "node_margin_top": {
-            "name": "Высота названия над вершиной",
+        "distance_thin_line_after_connection_y": {
+            "name": "Расстояние тонкой линии после соединения по Y",
+            "order": 8,
+            "value": 5
+        },
+        "node_name_pixel_size": {
+            "name": "Размер шрифта названия вершины",
             "order": 1,
-            "value": 32
+            "value": 12
         },
         "node_radius": {
             "name": "Радиус маленького круга вершин",
-            "order": 4,
-            "value": 20
-        },
-        "title_pixel_size": {
-            "name": "Размер шрифта названия",
             "order": 2,
-            "value": 12
+            "value": 20
         }
     },
     "image_parameters": {
@@ -64,29 +62,26 @@
     },
     "nodes": [
         {
-            "id": "45ca3ff49c89410a93d397ef21c4d2e4",
+            "id": "5c64e4db42da496591f15114462199cc",
             "order": 0,
-            "node_id": "1",
+            "node_id": "0",
             "data": {
                 "название": {
-                    "name": "Название",
-                    "order": 0,
-                    "value": "Большой круг"
+                    "value": "Маленький круг"
                 }
             },
             "is_wrap": false,
             "parameters": {
                 "node_is_connected_with_thin_line_location": {
-                    "is_global": false,
-                    "name": "Cоединение с тонкой линией местоположения",
-                    "order": 0,
-                    "type": "bool",
                     "value": true
+                },
+                "node_margin_top": {
+                    "value": 16
                 }
             }
         },
         {
-            "id": "b311f9f1392a4e109aa2df96f47d52c0",
+            "id": "a7bf6b7a22034736bced953e6a90ff52",
             "order": 1,
             "node_id": "0",
             "data": {
@@ -96,19 +91,22 @@
                     "value": "Маленький круг"
                 }
             },
-            "is_wrap": false,
+            "is_wrap": true,
             "parameters": {
                 "node_is_connected_with_thin_line_location": {
                     "is_global": false,
                     "name": "Cоединение с тонкой линией местоположения",
-                    "order": 3,
+                    "order": 10,
                     "type": "bool",
                     "value": true
+                },
+                "node_margin_top": {
+                    "value": 16
                 }
             }
         },
         {
-            "id": "15cec7767bb54946aa1e48307bbadbab",
+            "id": "7f6804baa12840b787959f5ee01513cd",
             "order": 2,
             "node_id": "0",
             "data": {
@@ -123,14 +121,17 @@
                 "node_is_connected_with_thin_line_location": {
                     "is_global": false,
                     "name": "Cоединение с тонкой линией местоположения",
-                    "order": 3,
+                    "order": 10,
                     "type": "bool",
                     "value": true
+                },
+                "node_margin_top": {
+                    "value": 16
                 }
             }
         },
         {
-            "id": "8439f4ad598049af80fb230a96491e5a",
+            "id": "7b5c1f3804e74ee486a8e579c3772b15",
             "order": 3,
             "node_id": "1",
             "data": {
@@ -145,16 +146,28 @@
                 "node_is_connected_with_thin_line_location": {
                     "is_global": false,
                     "name": "Cоединение с тонкой линией местоположения",
-                    "order": 0,
+                    "order": 1,
                     "type": "bool",
                     "value": true
+                },
+                "node_margin_left_right": {
+                    "is_global": true,
+                    "name": "Боковые отступы от вершин",
+                    "order": 3,
+                    "value": 16
+                },
+                "node_margin_top": {
+                    "is_global": true,
+                    "name": "Высота названия над вершиной",
+                    "order": 2,
+                    "value": 32
                 }
             }
         }
     ],
     "connections": [
         {
-            "id": "05f7dd6e61674eb892476c82aaec50cb",
+            "id": "cd90b4d59f7c41549bafec3485189a31",
             "order": 0,
             "connection_id": "0",
             "data": {
@@ -185,42 +198,27 @@
             },
             "parameters": {
                 "connection_arrow_height": {
-                    "is_global": true,
-                    "name": "Высота стрелки",
-                    "order": 7,
                     "value": 8
                 },
                 "connection_arrow_width": {
-                    "is_global": true,
-                    "name": "Ширина стрелки",
-                    "order": 6,
                     "value": 20
                 },
                 "connection_caption_margin_left_right": {
-                    "is_global": true,
-                    "name": "Боковые отступы подписей от вершин",
-                    "order": 1,
                     "value": 10
                 },
                 "connection_length": {
-                    "value": 500
+                    "value": 350
                 },
                 "connection_main_label_vertical_padding": {
-                    "is_global": true,
-                    "name": "Высота подписей над/под соединением",
-                    "order": 2,
                     "value": 10
                 },
                 "connection_thin_label_vertical_padding": {
-                    "is_global": true,
-                    "name": "Высота подписей над/под тонкой линией",
-                    "order": 5,
                     "value": 6
                 }
             }
         },
         {
-            "id": "d0f473fc01dc4190906fe193fef72286",
+            "id": "b2c34dee8498409b9e23a8e1eedab783",
             "order": 1,
             "connection_id": "0",
             "data": {
@@ -267,21 +265,12 @@
             },
             "parameters": {
                 "connection_arrow_height": {
-                    "is_global": true,
-                    "name": "Высота стрелки",
-                    "order": 7,
                     "value": 8
                 },
                 "connection_arrow_width": {
-                    "is_global": true,
-                    "name": "Ширина стрелки",
-                    "order": 6,
                     "value": 20
                 },
                 "connection_caption_margin_left_right": {
-                    "is_global": true,
-                    "name": "Боковые отступы подписей от вершин",
-                    "order": 1,
                     "value": 10
                 },
                 "connection_length": {
@@ -291,21 +280,15 @@
                     "value": 350
                 },
                 "connection_main_label_vertical_padding": {
-                    "is_global": true,
-                    "name": "Высота подписей над/под соединением",
-                    "order": 2,
                     "value": 10
                 },
                 "connection_thin_label_vertical_padding": {
-                    "is_global": true,
-                    "name": "Высота подписей над/под тонкой линией",
-                    "order": 5,
                     "value": 6
                 }
             }
         },
         {
-            "id": "9c248580e637493eabd935f97199b76d",
+            "id": "32c32695978845948ed11b1ce72f3d5b",
             "order": 2,
             "connection_id": "0",
             "data": {
@@ -352,21 +335,12 @@
             },
             "parameters": {
                 "connection_arrow_height": {
-                    "is_global": true,
-                    "name": "Высота стрелки",
-                    "order": 7,
                     "value": 8
                 },
                 "connection_arrow_width": {
-                    "is_global": true,
-                    "name": "Ширина стрелки",
-                    "order": 6,
                     "value": 20
                 },
                 "connection_caption_margin_left_right": {
-                    "is_global": true,
-                    "name": "Боковые отступы подписей от вершин",
-                    "order": 1,
                     "value": 10
                 },
                 "connection_length": {
@@ -376,15 +350,9 @@
                     "value": 350
                 },
                 "connection_main_label_vertical_padding": {
-                    "is_global": true,
-                    "name": "Высота подписей над/под соединением",
-                    "order": 2,
                     "value": 10
                 },
                 "connection_thin_label_vertical_padding": {
-                    "is_global": true,
-                    "name": "Высота подписей над/под тонкой линией",
-                    "order": 5,
                     "value": 6
                 }
             }

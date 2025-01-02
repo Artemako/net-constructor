@@ -3,9 +3,9 @@ from PySide6.QtGui import QPainter, QPen, QBrush, QImage, QFont, QPolygon
 from PySide6.QtCore import Qt, QPointF, QPoint
 
 import package.modules.painterconfigurator as painterconfigurator
+import package.modules.drawdataparameters as drawdataparameters
 import package.modules.drawtext as drawtext
 import package.modules.drawobject as drawobject
-
 
 class DrawNode:
     def __init__(
@@ -25,48 +25,63 @@ class DrawNode:
         self.__object_after = object_after
         self.__x = x
         self.__y = y
-        #
-        self.__diagramm_parameters = self.__object_diagramm.get_parameters()
-        self.__config_diagramm_parameters = self.__object_diagramm.get_config_parameters()
-        #
-        self.__parameters = self.__object_node.get_parameters()
-        self.__config_parameters = self.__object_node.get_config_parameters()
 
 
     def draw(self):
         # Сначала выбор диграммы, а потом узла
+        data = drawdataparameters.DrawData(self.__object_node)
         if self.__object_diagramm.get_diagramm_type_id() == 0:
             #
-            node_margin_top = self.__diagramm_parameters.get(
-                "node_margin_top", self.__config_diagramm_parameters.get("node_margin_top", {})
-            ).get("value", 0)
-            title_pixel_size = self.__diagramm_parameters.get(
-                "title_pixel_size", self.__config_diagramm_parameters.get("title_pixel_size", {})
-            ).get("value", 0)
-            node_radius = self.__diagramm_parameters.get(
-                "node_radius", self.__config_diagramm_parameters.get("node_radius", {})
-            ).get("value", 0)
-            delta_node_and_thin_line = self.__diagramm_parameters.get(
-                "delta_node_and_thin_line", self.__config_diagramm_parameters.get("delta_node_and_thin_line", {})
-            ).get("value", 0)
-            delta_thins_lines = self.__diagramm_parameters.get(
-                "delta_thins_lines", self.__config_diagramm_parameters.get("delta_thins_lines", {})
-            ).get("value", 0)
-            #
-            if self.__object_node.get_node_id() == "0":
-                self._draw_node_id_0(node_margin_top, title_pixel_size, node_radius, delta_node_and_thin_line, delta_thins_lines)
-            elif self.__object_node.get_node_id() == "1":
-                self._draw_node_id_1(node_margin_top, title_pixel_size, node_radius, delta_node_and_thin_line, delta_thins_lines)
+            pars = drawdataparameters.DrawParameters(
+                self.__object_diagramm,
+                self.__object_node,
+                self.__object_before,
+                self.__object_after,
+            )
+            node_id = self.__object_node.get_node_id()
+            if node_id == "0":
+                self._draw_node_id_0(pars, data, node_id)
+            elif node_id == "1":
+                self._draw_node_id_1(pars, data, node_id)
 
-    def _draw_node_id_0(self, node_margin_top, title_pixel_size, node_radius, delta_node_and_thin_line, delta_thins_lines):
-        # TODO Починить параметры!!!
-        """Круглый, заливка диагональная штриховка, подпись сверху"""
-
-        node_is_connected_with_thin_line_location = self.__parameters.get(
-            "node_is_connected_with_thin_line_location",
-            self.__config_parameters.get("node_is_connected_with_thin_line_location", {}),
-        ).get("value", 0)
+    def _draw_node_id_0(self, pars, data, node_id):
+        self._draw_node_ids_0_1(pars, data, node_id)
         
+
+    def _draw_node_id_1(self, pars, data, node_id):
+        """Как и node_id 0 + большой круг с треугольник"""
+        big_radius = pars.get_sp("node_radius") * 2
+
+        # данные по треугольнику
+        points = QPolygon(
+            [
+                QPoint(self.__x, self.__y - big_radius),
+                QPoint(
+                    self.__x - big_radius * 0.865, self.__y + big_radius // 2
+                ),
+                QPoint(
+                    self.__x + big_radius * 0.865, self.__y + big_radius // 2
+                ),
+            ]
+        )
+
+        self.__painter = painterconfigurator.PainterConfigurator(
+            self.__painter, 
+        ).get_figure_painter()
+        # рисуем круг, а потом треугольник
+        self.__painter.drawEllipse(QPoint(self.__x, self.__y), big_radius, big_radius)
+        self.__painter.drawPolygon(points)
+
+        # рисуем и draw_node_id_0
+        self._draw_node_ids_0_1(pars, data, node_id)
+
+    def _draw_node_ids_0_1(self, pars, data, node_id = "0"):
+        node_border_radius = pars.get_sp("node_radius")
+        if node_id == "0":
+            pass
+        elif node_id == "1":
+            node_border_radius *= 2
+
         # тонкая вертикальная линия
         def draw_vertical_thin_line():
             self.__painter = painterconfigurator.PainterConfigurator(
@@ -77,15 +92,18 @@ class DrawNode:
                 self.__x,
                 self.__y,
                 self.__x,
-                self.__y + delta_node_and_thin_line + 5,
+                self.__y + pars.get_sp("delta_node_and_thin_line") + pars.get_sp("distance_thin_line_after_connection_y"),
             )
-            # рисовать линию - если node_is_connected_with_thin_line_location 
-            if node_is_connected_with_thin_line_location:
+            # рисовать линию - если pars.get_sp("node_is_connected_with_thin_line_location")
+            if pars.get_sp("node_is_connected_with_thin_line_location"):
                 self.__painter.drawLine(
                     self.__x,
-                    self.__y + delta_node_and_thin_line,
+                    self.__y + pars.get_sp("delta_node_and_thin_line"),
                     self.__x,
-                    self.__y + delta_node_and_thin_line + delta_thins_lines + 5,
+                    self.__y
+                    + pars.get_sp("delta_node_and_thin_line")
+                    + pars.get_sp("delta_thins_lines")
+                    + pars.get_sp("distance_thin_line_after_connection_y"),
                 )
 
         if self.__object_before and self.__object_before.get_type() == "connection":
@@ -95,48 +113,14 @@ class DrawNode:
 
         # рисование вершины
         drawobject.DrawObject(self.__painter).node_gray_diagcross(
-            self.__x, self.__y, node_radius
+            self.__x, self.__y, pars.get_sp("node_radius")
         )
 
         # рисование
         self.__painter = painterconfigurator.PainterConfigurator(
             self.__painter,
-            pen=QPen(Qt.black, 2),
-            brush=QBrush(Qt.NoBrush),
-            font=QFont().setPixelSize(title_pixel_size),
-        ).get_painter()
-        text = self.__object_node.get_data().get("название", {}).get("value", "")
+        ).get_main_name_painter(pars.get_sp("node_name_pixel_size"))
+        text = data.get_sd("название")
         drawtext.DrawText(self.__painter).draw_multiline_text_by_hc_vb(
-            text, self.__x, self.__y - node_margin_top
+            text, self.__x, self.__y - node_border_radius - pars.get_sp("node_margin_top")
         )
-
-    
-
-    def _draw_node_id_1(self, node_margin_top, title_pixel_size, node_radius, delta_node_and_thin_line, delta_thins_lines):
-        """Как и node_id 0 + большой круг с треугольник"""
-        fill_color = Qt.white
-        big_radius = node_radius * 2
-
-        # данные по треугольнику
-        triangle_height = big_radius
-        points = QPolygon(
-            [
-                QPoint(self.__x, self.__y - triangle_height),
-                QPoint(
-                    self.__x - triangle_height * 0.865, self.__y + triangle_height // 2
-                ),
-                QPoint(
-                    self.__x + triangle_height * 0.865, self.__y + triangle_height // 2
-                ),
-            ]
-        )
-
-        self.__painter = painterconfigurator.PainterConfigurator(
-            self.__painter, pen=QPen(Qt.black, 2), brush=QBrush(fill_color)
-        ).get_painter()
-        # рисуем круг, а потом треугольник
-        self.__painter.drawEllipse(QPoint(self.__x, self.__y), big_radius, big_radius)
-        self.__painter.drawPolygon(points)
-
-        # рисуем и draw_node_id_0
-        self._draw_node_id_0(node_margin_top, title_pixel_size, node_radius, delta_node_and_thin_line, delta_thins_lines)

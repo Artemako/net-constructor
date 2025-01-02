@@ -180,11 +180,16 @@ class MainWindow(QMainWindow):
                 )
             elif self.ui.tabw_right.currentIndex() == 2:
                 is_editor_tab = True
-                #
+                # Дата
                 new_data = self.get_new_data(self.__editor_object_data_widgets)
+                # Объединить параметры с двух разных форм
                 new_parameters = self.get_new_parameters(
                     self.__editor_object_parameters_widgets
                 )
+                new_type_parameters = self.get_new_parameters(
+                    self.__editor_type_object_parameters_widgets
+                )
+                new_parameters.update(new_type_parameters)
             #
             if is_editor_tab or is_general_tab:
                 config_nodes = self.__obsm.obj_configs.get_nodes()
@@ -194,7 +199,7 @@ class MainWindow(QMainWindow):
                     self.__current_object,
                     self.__current_is_node,
                     is_general_tab,
-                    is_editor_tab,                    
+                    is_editor_tab,
                     config_nodes,
                     config_connections,
                     diagramm_type_id,
@@ -266,7 +271,7 @@ class MainWindow(QMainWindow):
             self.__general_image_parameters_widgets,
             self.ui.fl_image_parameters,
             config_image_parameters,
-            image_parameters
+            image_parameters,
         )
         # Параметры диаграммы
         config_diagramm_parameters = (
@@ -278,7 +283,7 @@ class MainWindow(QMainWindow):
             self.__general_diagramm_parameters_widgets,
             self.ui.fl_diagramm_parameters,
             config_diagramm_parameters,
-            diagramm_parameters
+            diagramm_parameters,
         )
 
     def reset_tab_elements(self, nodes, connections):
@@ -363,7 +368,7 @@ class MainWindow(QMainWindow):
 
     def reset_widgets_by_data(self, data):
         #
-        diagramm_type_id = data.get("diagramm_type_id", 0)
+        diagramm_type_id = data.get("diagramm_type_id", "")
         diagramm_parameters = data.get("diagramm_parameters", {})
         image_parameters = data.get("image_parameters", {})
         self.reset_tab_general(diagramm_type_id, diagramm_parameters, image_parameters)
@@ -409,11 +414,13 @@ class MainWindow(QMainWindow):
     def create_data_widgets(
         self, dict_widgets, form_layout, config_object_data, object_data
     ) -> bool:
-        print("create_data_widgets():\n"
+        print(
+            "create_data_widgets():\n"
             f"dict_widgets={dict_widgets}\n"
             f"form_layout={form_layout}\n"
             f"config_object_data={config_object_data}\n"
-            f"object_data={object_data}\n")
+            f"object_data={object_data}\n"
+        )
         dict_widgets.clear()
         self.clear_form_layout(form_layout)
         for config_parameter_key, config_parameter_data in config_object_data.items():
@@ -426,8 +433,7 @@ class MainWindow(QMainWindow):
             # значение параметра data
             value = (
                 # object_data.get(data_name, {})
-                object_data.get(config_parameter_key, {})
-                .get("value", "")
+                object_data.get(config_parameter_key, {}).get("value", "")
             )
             value = value if value else config_parameter_data.get("value", "")
             #
@@ -445,15 +451,17 @@ class MainWindow(QMainWindow):
         dict_widgets,
         form_layout,
         config_object_parameters,
-        object_data,
-        is_global=False,
+        object_parameters,
+        is_global=None,
     ) -> bool:
-        print("create_parameters_widgets():\n"
+        print(
+            "create_parameters_widgets():\n"
             f"dict_widgets={dict_widgets}\n"
             f"form_layout={form_layout}\n"
             f"config_object_parameters={config_object_parameters}\n"
-            f"object_data={object_data}\n"
-            f"is_global={is_global}\n")
+            f"object_parameters={object_parameters}\n"
+            f"is_global={is_global}\n"
+        )
         dict_widgets.clear()
         self.clear_form_layout(form_layout)
         for (
@@ -467,11 +475,13 @@ class MainWindow(QMainWindow):
             label_text = config_parameter_data.get("name", "")
             label = QLabel(label_text)
             # значение параметра parameters
-            value = (
-                object_data.get(config_parameter_key, {})
-                .get("value", "")
-            )
-            value = value if value else config_parameter_data.get("value", "")
+            # TODO Исправить
+            value = object_parameters.get(config_parameter_key, {}).get("value", None)
+            if "node_margin_top" == config_parameter_key:
+                print(f"BEFORE value: {value}")
+            value = value if value is not None else config_parameter_data.get("value", "")
+            if "node_margin_top" == config_parameter_key:
+                print(f"AFTER value: {value}")
             #
             # тип виджета
             widget_type = config_parameter_data.get("type", "")
@@ -484,8 +494,11 @@ class MainWindow(QMainWindow):
                 new_widget.setValue(value)
             #
             if (
-                is_global and config_parameter_data.get("is_global", None) is True
-                or not is_global and config_parameter_data.get("is_global", None) is False
+                is_global is None
+                or is_global
+                and config_parameter_data.get("is_global", None) is True
+                or not is_global
+                and config_parameter_data.get("is_global", None) is False
             ):
                 form_layout.addRow(label, new_widget)
                 dict_widgets[config_parameter_key] = [widget_type, new_widget]
@@ -503,11 +516,13 @@ class MainWindow(QMainWindow):
                     obj
                 )
             )
+        object_parameters = obj.get("parameters", {})
         flag = self.create_parameters_widgets(
             self.__editor_object_parameters_widgets,
             self.ui.fl_object_parameters,
             config_object_parameters,
-            obj
+            object_parameters,    
+            is_global=False,
         )
         self.ui.label_object_parameters.setVisible(flag)
         #
@@ -515,7 +530,7 @@ class MainWindow(QMainWindow):
             self.__editor_type_object_parameters_widgets,
             self.ui.fl_type_object_parameters,
             config_object_parameters,
-            obj,
+            object_parameters,
             is_global=True,
         )
         self.ui.label_type_object_parameters.setVisible(flag)
@@ -535,5 +550,5 @@ class MainWindow(QMainWindow):
             self.__editor_object_data_widgets,
             self.ui.fl_object_data,
             config_object_data,
-            object_data
+            object_data,
         )

@@ -13,8 +13,14 @@
                 "is_global": false,
                 "value": true,
                 "name": "Cоединение с тонкой линией местоположения",
-                "order": 3,
+                "order": 10,
                 "type": "bool"
+            },
+            "node_margin_top": {
+                "is_global": true,
+                "value": 16,
+                "name": "Высота названия над вершиной",
+                "order": 2
             }
         }
     },
@@ -32,8 +38,20 @@
                 "is_global": false,
                 "value": true,
                 "name": "Cоединение с тонкой линией местоположения",
-                "order": 0,
+                "order": 1,
                 "type": "bool"
+            },
+            "node_margin_top": {
+                "is_global": true,
+                "value": 16,
+                "name": "Высота названия над вершиной",
+                "order": 2
+            },
+            "node_margin_left_right": {
+                "is_global": true,
+                "value": 16,
+                "name": "Боковые отступы от вершин",
+                "order": 3
             }
         }
     }
