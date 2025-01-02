@@ -2,18 +2,18 @@
     "0": {
         "data": {
             "название": {
-                "value": "Маленький круг", 
+                "value": "Маленький круг",
                 "name": "Название",
                 "order": 0
             }
         },
         "is_wrap": false,
         "parameters": {
-            "is_connected_with_thin_line_location": {
+            "node_is_connected_with_thin_line_location": {
                 "is_global": false,
                 "value": true,
-                "name": "Cоединение с тонкой линией местоположения", 
-                "order": 5,
+                "name": "Cоединение с тонкой линией местоположения",
+                "order": 3,
                 "type": "bool"
             }
         }
@@ -21,17 +21,17 @@
     "1": {
         "data": {
             "название": {
-                "value" : "Большой круг", 
+                "value": "Большой круг",
                 "name": "Название",
                 "order": 0
             }
         },
         "is_wrap": false,
         "parameters": {
-            "is_connected_with_thin_line_location": {
+            "node_is_connected_with_thin_line_location": {
                 "is_global": false,
                 "value": true,
-                "name": "Cоединение с тонкой линией местоположения", 
+                "name": "Cоединение с тонкой линией местоположения",
                 "order": 0,
                 "type": "bool"
             }

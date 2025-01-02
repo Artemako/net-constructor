@@ -132,19 +132,6 @@ class Project:
                 break
         self.write_project()
 
-    def change_name_node(self, node, name):
-        _id = node.get("id", "")
-        for node in self.__data["nodes"]:
-            if node["id"] == _id:
-                node["data"]["название"]["value"] = name
-                break
-
-    def change_name_connection(self, connection, name):
-        _id = connection.get("id", "")
-        for connection in self.__data["connections"]:
-            if connection["id"] == _id:
-                connection["data"]["название"]["value"] = name
-                break
 
     def save_project(
         self,

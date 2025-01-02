@@ -44,52 +44,42 @@
         },
         "is_wrap": false,
         "parameters": {
-            "length": {
+            "connection_length": {
+                "is_global": false,
                 "value": 350,
                 "name": "Длина соединения",
-                "is_global": false,
+                
                 "order": 0 
             }, 
-            "left_right_margin": {
+            "connection_caption_margin_left_right": {
+                "is_global": true,
                 "value": 10,
                 "name": "Боковые отступы подписей от вершин",
-                "is_global": true,
                 "order": 1
             },
-            "main_label_vertical_padding": {
+            "connection_main_label_vertical_padding": {
+                "is_global": true,
                 "value": 10,
                 "name": "Высота подписей над/под соединением",
-                "is_global": true,
+                
                 "order": 2
             },
-            "delta_node_and_thin_line": {
-                "value": 100,
-                "name": "Расстояние между вершиной и тонкой линии",
+            "connection_thin_label_vertical_padding": {
                 "is_global": true,
-                "order": 3
-            },
-            "delta_thins_lines": {
-                "value": 50,
-                "name": "Расстояние между тонкими линиями",
-                "is_global": true,
-                "order": 4
-            },
-            "thin_label_vertical_padding": {
                 "value": 6,
                 "name": "Высота подписей над/под тонкой линией",
-                "is_global": true,
                 "order": 5
             },
-            "arrow_width": {
+            "connection_arrow_width": {
+                "is_global": true,
                 "value": 20,
                 "name": "Ширина стрелки",
-                "is_global": true,
                 "order": 6
             },
-            "arrow_height": {
+            "connection_arrow_height": {
+                "is_global": true,
                 "value": 8,
                 "name": "Высота стрелки",
-                "is_global": true,
                 "order": 7
             }
         }

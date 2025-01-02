@@ -446,7 +446,7 @@ class MainWindow(QMainWindow):
         form_layout,
         config_object_parameters,
         object_data,
-        is_global=None,
+        is_global=False,
     ) -> bool:
         print("create_parameters_widgets():\n"
             f"dict_widgets={dict_widgets}\n"
@@ -484,11 +484,8 @@ class MainWindow(QMainWindow):
                 new_widget.setValue(value)
             #
             if (
-                is_global is None
-                or is_global
-                and config_parameter_data.get("is_global", True)
-                or not is_global
-                and config_parameter_data.get("is_global", False)
+                is_global and config_parameter_data.get("is_global", None) is True
+                or not is_global and config_parameter_data.get("is_global", None) is False
             ):
                 form_layout.addRow(label, new_widget)
                 dict_widgets[config_parameter_key] = [widget_type, new_widget]

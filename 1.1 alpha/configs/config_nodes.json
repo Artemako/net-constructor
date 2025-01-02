@@ -9,13 +9,13 @@
         },
         "is_wrap": false,
         "parameters": {
-            "radius": {
+            "node_radius": {
                 "is_global": true,
                 "value": 16,
                 "name": "Радиус круга", 
                 "order": 4
             },
-            "margin_top": {
+            "node_margin_top": {
                 "is_global": false,
                 "value": 32,
                 "name": "Высота названия над вершиной", 
@@ -45,13 +45,13 @@
         },
         "is_wrap": false,
         "parameters": {
-            "radius": {
+            "node_radius": {
                 "is_global": true,
                 "value": 16,
                 "name": "Радиус круга", 
                 "order": 0
             },
-            "margin_top": {
+            "node_margin_top": {
                 "is_global": false,
                 "value": 32,
                 "name": "Высота названия над вершиной", 

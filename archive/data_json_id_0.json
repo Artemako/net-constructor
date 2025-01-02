@@ -133,7 +133,7 @@
                 }
             },
             "parameters": {
-                "length": {
+                "connection_length": {
                     "value": 400
                 }
             }
@@ -175,7 +175,7 @@
                 }
             },
             "parameters": {
-                "length": {
+                "connection_length": {
                     "value": 300
                 }
             }

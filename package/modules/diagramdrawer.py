@@ -73,21 +73,48 @@ class Connection:
     def get_data(self):
         return self.__connection.get("data", {})
 
+class Diagramm:
 
-class DiagramDrawer:
+    def __init__(self, data, config_diagramm_parameters):
+        self.__type = "diagramm"
+        self.__diagramm_type_id = data.get("diagramm_type_id", 0)
+        self.__diagramm_name = data.get("diagramm_name", "")
+        self.__diagramm_parameters = data.get("diagramm_parameters", {})
+        self.__config_diagramm_parameters = config_diagramm_parameters
+
+    def get_type(self):
+        return self.__type
+    
+    def get_diagramm_type_id(self):
+        return self.__diagramm_type_id
+    
+    def get_diagramm_name(self):
+        return self.__diagramm_name
+    
+    def get_parameters(self):
+        return self.__diagramm_parameters
+
+    def get_config_parameters(self):
+        return self.__config_diagramm_parameters
+
+
+class DiagrammDrawer:
     """Класс для рисования диаграммы."""
 
     def __init__(self, obsm, data):
         self.__obsm = obsm
         self.__data = data
         #
-        self.__nodes = data.get("nodes", [])
-        self.__connections = data.get("connections", [])
+        config_diagramm_parameters = self.__obsm.obj_configs.get_config_diagramm_parameters_by_type_id(data.get("diagramm_type_id", 0))
+        self.__object_diagramm = Diagramm(data, config_diagramm_parameters)
+        #
+        self.__nodes = self.__data.get("nodes", [])
+        self.__connections = self.__data.get("connections", [])
         #
         self.__config_nodes = self.__obsm.obj_configs.get_nodes()
         self.__config_connections = self.__obsm.obj_configs.get_connections()
 
-    def prepare_main_drawing_data(self, start_x, start_y):
+    def _prepare_main_drawing_data(self, start_x, start_y, delta_y):
         """Подготавливает данные для рисования: в оснвоном координаты."""
         x = start_x
         y = start_y
@@ -125,9 +152,9 @@ class DiagramDrawer:
                             "y": y,
                         }
                     )
-                    # TODO y += 200 на кастомное меняемое значение
+                    #
                     x = start_x
-                    y += 200
+                    y += delta_y
                     prepared_data.append(
                         {
                             "type": "node",
@@ -137,7 +164,6 @@ class DiagramDrawer:
                         }
                     )
 
-            # TODO Учитывать размер узла для подписей connections
             if i < len(self.__connections):
                 connection = self.__connections[i]
                 # config
@@ -161,16 +187,16 @@ class DiagramDrawer:
                 # увеличиваем координаты по длине соединения
                 parameters = connection.get("parameters", {})
                 config_parameters = config_connection.get("parameters", {})
-                length = parameters.get("length", config_parameters.get("length", {})).get(
-                    "value", 0
-                )
-                x += length
+                connection_length = parameters.get(
+                    "connection_length", config_parameters.get("connection_length", {})
+                ).get("value", 0)
+                x += connection_length
 
         return prepared_data
 
-    def draw(self, painter, start_x, start_y):
+    def draw(self, painter, start_x, start_y, delta_y):
         """Рисует диаграмму на переданном объекте QPainter."""
-        self.prepared_data = self.prepare_main_drawing_data(start_x, start_y)
+        self.prepared_data = self._prepare_main_drawing_data(start_x, start_y, delta_y)
         # сначала рисуем соединения
         for index, item in enumerate(self.prepared_data):
             if item.get("type") == "connection":
@@ -181,7 +207,7 @@ class DiagramDrawer:
                 x = item.get("x")
                 y = item.get("y")
                 #
-                self.draw_connection(
+                self._draw_connection(
                     painter,
                     object_connection,
                     object_node_before,
@@ -210,7 +236,7 @@ class DiagramDrawer:
                 x = item.get("x")
                 y = item.get("y")
                 #
-                self.draw_node(
+                self._draw_node(
                     painter,
                     object_node,
                     object_before,
@@ -219,7 +245,7 @@ class DiagramDrawer:
                     y,
                 )
 
-    def draw_node(
+    def _draw_node(
         self,
         painter,
         object_node,
@@ -230,6 +256,7 @@ class DiagramDrawer:
     ):
         node_obj = drawnode.DrawNode(
             painter,
+            self.__object_diagramm,
             object_node,
             object_before,
             object_after,
@@ -238,10 +265,16 @@ class DiagramDrawer:
         )
         node_obj.draw()
 
-    def draw_connection(
+    def _draw_connection(
         self, painter, object_connection, object_node_before, object_node_after, x, y
     ):
         connection_obj = drawconnection.DrawConnection(
-            painter, object_connection, object_node_before, object_node_after, x, y
+            painter,
+            self.__object_diagramm,
+            object_connection,
+            object_node_before,
+            object_node_after,
+            x,
+            y,
         )
         connection_obj.draw()

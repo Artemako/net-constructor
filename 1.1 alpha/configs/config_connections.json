@@ -34,17 +34,17 @@
         },
         "is_wrap": false,
         "parameters": {
-            "length": {
+            "connection_length": {
                 "value": 350,
                 "name": "Длина соединения",
                 "is_global": false
             }, 
-            "left_right_margin": {
+            "connection_caption_margin_left_right": {
                 "value": 10,
                 "name": "Боковые отступы подписей от вершин",
                 "is_global": false
             },
-            "main_label_vertical_padding": {
+            "connection_main_label_vertical_padding": {
                 "value": 10,
                 "name": "Высота подписей над/под соединением",
                 "is_global": false

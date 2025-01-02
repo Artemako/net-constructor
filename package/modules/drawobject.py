@@ -10,28 +10,28 @@ class DrawObject:
     def __init__(self, painter):
         self.__painter = painter
 
-    def node_gray_diagcross(self, x, y, radius):
+    def node_gray_diagcross(self, x, y, node_radius):
         fill_color = Qt.white
         hatch_color = Qt.gray
 
         self.__painter = painterconfigurator.PainterConfigurator(
             self.__painter, pen=QPen(Qt.black, 2), brush=QBrush(fill_color)
         ).get_painter()
-        self.__painter.drawEllipse(QPoint(x, y), radius, radius)
+        self.__painter.drawEllipse(QPoint(x, y), node_radius, node_radius)
 
         self.__painter = painterconfigurator.PainterConfigurator(
             self.__painter,
             pen=QPen(Qt.black, 2),
             brush=QBrush(hatch_color, Qt.DiagCrossPattern),
         ).get_painter()
-        self.__painter.drawEllipse(QPoint(x, y), radius, radius)
+        self.__painter.drawEllipse(QPoint(x, y), node_radius, node_radius)
 
         self.__painter = painterconfigurator.PainterConfigurator(
             self.__painter,
             pen=QPen(Qt.black, 2),
             brush=QBrush(Qt.NoBrush),
         ).get_painter()
-        self.__painter.drawEllipse(QPoint(x, y), radius, radius)
+        self.__painter.drawEllipse(QPoint(x, y), node_radius, node_radius)
 
     def arrow(self, x, y, width, height, direction):
         # direction = "left", "right"

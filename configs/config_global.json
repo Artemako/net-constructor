@@ -2,23 +2,28 @@
     "image_parameters": {
         "width": {
             "value": 2000,
-            "name": "Ширина изображения", 
+            "name": "Ширина изображения",
             "order": 0
         },
         "height": {
             "value": 800,
-            "name": "Высота изображения", 
+            "name": "Высота изображения",
             "order": 1
         },
         "start_x": {
             "value": 150,
-            "name": "Стартовая координата X", 
+            "name": "Стартовая координата X",
             "order": 2
         },
         "start_y": {
             "value": 100,
-            "name": "Стартовая координата Y", 
+            "name": "Стартовая координата Y",
             "order": 3
+        },
+        "delta_y": {
+            "value": 200,
+            "name": "Расстояние между рядами вершин по Y",
+            "order": 4
         }
     },
     "diagramms": {
@@ -34,28 +39,39 @@
                 "0"
             ],
             "parameters": {
-                "margin_left_right": {
-                    "value": 16,
-                    "name": "Боковые внешние отступы вершины", 
-                    "order": 0              
-                },
-                "margin_top": {
-                    "value": 64,
-                    "name": "Высота названия над вершиной", 
+                "node_margin_top": {
+                    "value": 32,
+                    "name": "Высота названия над вершиной",
                     "order": 1
+                },
+                "node_margin_left_right": {
+                    "value": 32,
+                    "name": "Боковые отступы от вершин",
+                    "order": 2
                 },
                 "title_pixel_size": {
                     "value": 12,
-                    "name": "Размер шрифта для названия", 
+                    "name": "Размер шрифта названия",
                     "order": 2
                 },
-                "radius": {
+                "node_radius": {
                     "value": 20,
-                    "name": "Радиус круга", 
+                    "name": "Радиус маленького круга вершин",
                     "order": 4
+                },
+                "delta_node_and_thin_line": {
+                    "value": 100,
+                    "name": "Расстояние между вершиной и тонкой линии",
+                    "is_global": true,
+                    "order": 5
+                },
+                "delta_thins_lines": {
+                    "value": 50,
+                    "name": "Расстояние между тонкими линиями",
+                    "is_global": true,
+                    "order": 6
                 }
             }
         }
     }
-    
 }

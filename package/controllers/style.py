@@ -429,7 +429,7 @@ QTreeView#modList::indicator {
 
 /* Radio buttons #QRadioButton */
 QRadioButton::indicator {
-    border-radius: 7px;
+    border-node_radius: 7px;
 }
 
 QRadioButton::indicator::checked {
