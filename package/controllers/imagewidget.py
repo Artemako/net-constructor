@@ -35,14 +35,14 @@ class ImageWidget(QWidget):
         height = data.get("image_parameters", {}).get("height", {}).get("value", 0)
         start_x = data.get("image_parameters", {}).get("start_x", {}).get("value", 0)
         start_y = data.get("image_parameters", {}).get("start_y", {}).get("value", 0)
-        delta_y = data.get("image_parameters", {}).get("delta_y", {}).get("value", 0)
+        delta_wrap_y = data.get("image_parameters", {}).get("delta_wrap_y", {}).get("value", 0)
 
         image = QImage(width, height, QImage.Format_ARGB32)
         image.fill(Qt.white)
 
         painter = QPainter(image)
         if self.__diagram_drawer:
-            self.__diagram_drawer.draw(painter, start_x, start_y, delta_y)
+            self.__diagram_drawer.draw(painter, start_x, start_y, delta_wrap_y)
         painter.end()
 
         return image

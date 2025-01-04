@@ -5,6 +5,7 @@ from PySide6.QtWidgets import (
     QFileDialog,
     QTableWidget,
     QTableWidgetItem,
+    QAbstractItemView,
     QPushButton,
     QHeaderView,
     QVBoxLayout,
@@ -17,7 +18,7 @@ from PySide6.QtWidgets import (
     QCheckBox,
 )
 
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt, QModelIndex
 
 import package.controllers.style as style
 import package.controllers.imagewidget as imagewidget
@@ -25,6 +26,7 @@ import package.controllers.imagewidget as imagewidget
 import package.components.nodeconnectionselectdialog as nodeconnectionselectdialog
 import package.components.nodeconnectiondeletedialog as nodeconnectiondeletedialog
 import package.components.diagrammtypeselectdialog as diagrammtypeselectdialog
+import package.components.changeorderdialog as changeorderdialog
 
 import package.ui.mainwindow_ui as mainwindow_ui
 
@@ -66,6 +68,7 @@ class MainWindow(QMainWindow):
         obj_style = style.Style()
         obj_style.set_style_for(self)
         #
+        self.resize(1280, 768)
         self.ui.centralwidget_splitter.setSizes([806, 560])
         #
         self.ui.tabw_right.tabBar().setTabVisible(2, False)
@@ -74,9 +77,11 @@ class MainWindow(QMainWindow):
         # self.update_menu_recent_projects()
         #
         self.ui.btn_addnode.clicked.connect(self.add_node)
+        self.ui.btn_movenodes.clicked.connect(self.move_nodes)
         self.ui.btn_deletenode.clicked.connect(self.delete_node)
         #
-        # self.ui.tabw_right
+        self.ui.btn_moveconnections.clicked.connect(self.move_connections)
+        #
         # создание нового файла
         self.ui.action_new.triggered.connect(self.create_file_nce)
         # октрытие файла
@@ -237,6 +242,30 @@ class MainWindow(QMainWindow):
                 self.ui.imagewidget.run(data)
                 self.reset_widgets_by_data(data)
 
+    def move_nodes(self):
+        if self.__obsm.obj_project.is_active():
+            nodes = self.__obsm.obj_project.get_data().get("nodes", [])
+            dialog = changeorderdialog.ChangeOrderDialog(nodes, "nodes", self)
+            if dialog.exec():
+                new_order_nodes = dialog.get_data()
+                self.__obsm.obj_project.set_new_order_nodes(new_order_nodes)
+                #
+                data = self.__obsm.obj_project.get_data()
+                self.ui.imagewidget.run(data)
+                self.reset_widgets_by_data(data)
+
+    def move_connections(self):
+        if self.__obsm.obj_project.is_active():
+            nodes = self.__obsm.obj_project.get_data().get("connections", [])
+            dialog = changeorderdialog.ChangeOrderDialog(nodes, "connections", self)
+            if dialog.exec():
+                new_order_connections = dialog.get_data()
+                self.__obsm.obj_project.set_new_order_connections(new_order_connections)
+                #
+                data = self.__obsm.obj_project.get_data()
+                self.ui.imagewidget.run(data)
+                self.reset_widgets_by_data(data)
+
     def delete_node(self, node):
         if self.__obsm.obj_project.is_active():
             nodes = self.__obsm.obj_project.get_data().get("nodes", [])
@@ -304,6 +333,7 @@ class MainWindow(QMainWindow):
         headers = ["Название", "Перенос", "Редактировать"]
         table_widget.setColumnCount(len(headers))
         table_widget.setHorizontalHeaderLabels(headers)
+        #
         print("NODES", nodes)
         for index, node in enumerate(nodes):
             print("NODE", node)
@@ -321,7 +351,6 @@ class MainWindow(QMainWindow):
             btn_edit.clicked.connect(
                 partial(self.edit_object, node, index + 1, is_node=True)
             )
-
         # Настраиваем режимы изменения размера для заголовков
         header = table_widget.horizontalHeader()
         header.setSectionResizeMode(0, QHeaderView.Stretch)
@@ -338,30 +367,33 @@ class MainWindow(QMainWindow):
         table_widget.blockSignals(True)
         table_widget.clearContents()
         table_widget.setRowCount(len(connections))
-        headers = ["Название", "Соединение", "Редактировать"]
+        headers = ["Название", "Редактировать"]
         table_widget.setColumnCount(len(headers))
         table_widget.setHorizontalHeaderLabels(headers)
+        #
+        row_headers = []
         for index, connection in enumerate(connections):
             connection_name = (
                 connection.get("data", {}).get("название", {}).get("value", "")
             )
+            print("CONNECTION_NAME:", connection_name)
             item = QTableWidgetItem(connection_name)
             table_widget.setItem(index, 0, item)
             #
-            connection_cell = QTableWidgetItem(f"{index + 1}—{index + 2}")
-            table_widget.setItem(index, 1, connection_cell)
+            connection_text = f"{index + 1}—{index + 2}"
+            row_headers.append(connection_text)
             #
             btn_edit = QPushButton("Редактировать")
-            table_widget.setCellWidget(index, 2, btn_edit)
+            table_widget.setCellWidget(index, 1, btn_edit)
             btn_edit.clicked.connect(
                 partial(self.edit_object, connection, index + 1, is_node=False)
             )
-
+        # Устанавливаем заголовки строк
+        table_widget.setVerticalHeaderLabels(row_headers)
         # Настраиваем режимы изменения размера для заголовков
         header = table_widget.horizontalHeader()
         header.setSectionResizeMode(0, QHeaderView.Stretch)
         header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
-        header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
         # Запрет на редактирование
         table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
         table_widget.blockSignals(False)
@@ -479,7 +511,9 @@ class MainWindow(QMainWindow):
             value = object_parameters.get(config_parameter_key, {}).get("value", None)
             if "node_margin_top" == config_parameter_key:
                 print(f"BEFORE value: {value}")
-            value = value if value is not None else config_parameter_data.get("value", "")
+            value = (
+                value if value is not None else config_parameter_data.get("value", "")
+            )
             if "node_margin_top" == config_parameter_key:
                 print(f"AFTER value: {value}")
             #
@@ -521,7 +555,7 @@ class MainWindow(QMainWindow):
             self.__editor_object_parameters_widgets,
             self.ui.fl_object_parameters,
             config_object_parameters,
-            object_parameters,    
+            object_parameters,
             is_global=False,
         )
         self.ui.label_object_parameters.setVisible(flag)

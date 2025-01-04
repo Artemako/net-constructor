@@ -5,14 +5,14 @@ class NodeConnectionDeleteDialog(QDialog):
         super(NodeConnectionDeleteDialog, self).__init__(parent)
         self.setWindowTitle("Удаление узла и соединения")
         
-        self.nodes = nodes
-        self.connections = connections
+        self.__nodes = nodes
+        self.__connections = connections
 
         # Выпадающий список для выбора узла
         label_node = QLabel("Выберите узел")
         self.combo_box_nodes = QComboBox(self)
-        for index, node in enumerate(nodes):
-            node_name = node["data"].get("название", {}).get("value", "")
+        for index, node in enumerate(self.__nodes):
+            node_name = node.get("data", {}).get("название", {}).get("value", "")
             self.combo_box_nodes.addItem(f"{index + 1}) {node_name}", node)
 
         # Выпадающий список для выбора соединения
@@ -49,7 +49,7 @@ class NodeConnectionDeleteDialog(QDialog):
 
         selected_node_order = selected_node.get("order", 0)
         available_connections = [
-            con for con in self.connections
+            con for con in self.__connections
             if con.get("order", 0) in [selected_node_order - 1, selected_node_order]
         ]
         if not available_connections:

@@ -22,7 +22,7 @@ class Ui_MainWindow(object):
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.setWindowModality(Qt.NonModal)
         MainWindow.setEnabled(True)
-        MainWindow.resize(1144, 600)
+        MainWindow.resize(1144, 628)
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -160,7 +160,7 @@ class Ui_MainWindow(object):
         self.sa_general.setWidgetResizable(True)
         self.sa_general_contents = QWidget()
         self.sa_general_contents.setObjectName(u"sa_general_contents")
-        self.sa_general_contents.setGeometry(QRect(0, 0, 747, 466))
+        self.sa_general_contents.setGeometry(QRect(0, 0, 747, 494))
         self.verticalLayout_8 = QVBoxLayout(self.sa_general_contents)
         self.verticalLayout_8.setSpacing(4)
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
@@ -256,6 +256,11 @@ class Ui_MainWindow(object):
 
         self.hl_btns.addWidget(self.btn_addnode)
 
+        self.btn_movenodes = QPushButton(self.verticalLayoutWidget)
+        self.btn_movenodes.setObjectName(u"btn_movenodes")
+
+        self.hl_btns.addWidget(self.btn_movenodes)
+
         self.btn_deletenode = QPushButton(self.verticalLayoutWidget)
         self.btn_deletenode.setObjectName(u"btn_deletenode")
 
@@ -288,6 +293,11 @@ class Ui_MainWindow(object):
 
         self.vl_connections.addWidget(self.tablew_connections)
 
+        self.btn_moveconnections = QPushButton(self.verticalLayoutWidget_2)
+        self.btn_moveconnections.setObjectName(u"btn_moveconnections")
+
+        self.vl_connections.addWidget(self.btn_moveconnections)
+
         self.splitter.addWidget(self.verticalLayoutWidget_2)
 
         self.verticalLayout_3.addWidget(self.splitter)
@@ -305,7 +315,7 @@ class Ui_MainWindow(object):
         self.editor_scrollarea.setWidgetResizable(True)
         self.editor_scrollarea_contents = QWidget()
         self.editor_scrollarea_contents.setObjectName(u"editor_scrollarea_contents")
-        self.editor_scrollarea_contents.setGeometry(QRect(0, 0, 747, 466))
+        self.editor_scrollarea_contents.setGeometry(QRect(0, 0, 747, 494))
         self.verticalLayout_4 = QVBoxLayout(self.editor_scrollarea_contents)
         self.verticalLayout_4.setSpacing(6)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
@@ -461,8 +471,10 @@ class Ui_MainWindow(object):
         self.tabw_right.setTabText(self.tabw_right.indexOf(self.tab_general), QCoreApplication.translate("MainWindow", u"\u041e\u0441\u043d\u043e\u0432\u043d\u044b\u0435 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438", None))
         self.label_nodes.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0412\u0435\u0440\u0448\u0438\u043d\u044b</span></p></body></html>", None))
         self.btn_addnode.setText(QCoreApplication.translate("MainWindow", u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0432\u0435\u0440\u0448\u0438\u043d\u0443", None))
+        self.btn_movenodes.setText(QCoreApplication.translate("MainWindow", u"\u0418\u0437\u043c\u0435\u043d\u0438\u0442\u044c \u043f\u043e\u0440\u044f\u0434\u043e\u043a \u0432\u0435\u0440\u0448\u0438\u043d", None))
         self.btn_deletenode.setText(QCoreApplication.translate("MainWindow", u"\u0423\u0434\u0430\u043b\u0438\u0442\u044c \u0432\u0435\u0440\u0448\u0438\u043d\u0443", None))
         self.label_connections.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0421\u043e\u0435\u0434\u0438\u043d\u0435\u043d\u0438\u044f</span></p></body></html>", None))
+        self.btn_moveconnections.setText(QCoreApplication.translate("MainWindow", u"\u0418\u0437\u043c\u0435\u043d\u0438\u0442\u044c \u043f\u043e\u0440\u044f\u0434\u043e\u043a \u0441\u043e\u0435\u0434\u0438\u043d\u0435\u043d\u0438\u0439", None))
         self.tabw_right.setTabText(self.tabw_right.indexOf(self.tab_elements), QCoreApplication.translate("MainWindow", u"\u042d\u043b\u0435\u043c\u0435\u043d\u0442\u044b", None))
         self.label_object_data.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0414\u0430\u043d\u043d\u044b\u0435</span></p></body></html>", None))
         self.label_object_parameters.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u041f\u0430\u0440\u0430\u043c\u0435\u0442\u0440\u044b</span></p></body></html>", None))

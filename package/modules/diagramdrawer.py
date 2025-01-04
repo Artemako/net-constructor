@@ -114,7 +114,15 @@ class DiagrammDrawer:
         self.__config_nodes = self.__obsm.obj_configs.get_nodes()
         self.__config_connections = self.__obsm.obj_configs.get_connections()
 
-    def _prepare_main_drawing_data(self, start_x, start_y, delta_y):
+    def _get_delta_wrap_x(self, node):
+        delta_wrap_x = node.get("parameters", {}).get("delta_wrap_x", {}).get("value", 0)
+        print("_get_delta_wrap_x")
+        print(node.get("parameters", {}))
+        print(node.get("parameters", {}).get("delta_wrap_x", {}))
+        print(node.get("parameters", {}).get("delta_wrap_x", {}).get("value", 0))
+        return delta_wrap_x
+
+    def _prepare_main_drawing_data(self, start_x, start_y, delta_wrap_y):
         """Подготавливает данные для рисования: в оснвоном координаты."""
         x = start_x
         y = start_y
@@ -123,9 +131,9 @@ class DiagrammDrawer:
         #
         max_length = max(len(self.__nodes), len(self.__connections))
         # проход по всем узлам и соединениям по очереди
-        for i in range(max_length):
-            if i < len(self.__nodes):
-                node = self.__nodes[i]
+        for index in range(max_length):
+            if index < len(self.__nodes):
+                node = self.__nodes[index]
                 # config
                 node_id = node.get("node_id")
                 if node_id is not None:
@@ -134,7 +142,17 @@ class DiagrammDrawer:
                 else:
                     config_node = {}
                 #
-                if not node.get("is_wrap"):
+                if index == 0:
+                    x = start_x + self._get_delta_wrap_x(node)
+                    prepared_data.append(
+                        {
+                            "type": "node",
+                            "object": Node(node, config_node, before_wrap=True),
+                            "x": x,
+                            "y": y,
+                        }
+                    )
+                elif not node.get("is_wrap"):
                     prepared_data.append(
                         {
                             "type": "node",
@@ -152,9 +170,8 @@ class DiagrammDrawer:
                             "y": y,
                         }
                     )
-                    #
-                    x = start_x
-                    y += delta_y
+                    x = start_x + self._get_delta_wrap_x(node)
+                    y += delta_wrap_y
                     prepared_data.append(
                         {
                             "type": "node",
@@ -164,8 +181,8 @@ class DiagrammDrawer:
                         }
                     )
 
-            if i < len(self.__connections):
-                connection = self.__connections[i]
+            if index < len(self.__connections):
+                connection = self.__connections[index]
                 # config
                 connection_id = connection.get("connection_id")
                 if connection_id is not None:
@@ -194,9 +211,9 @@ class DiagrammDrawer:
 
         return prepared_data
 
-    def draw(self, painter, start_x, start_y, delta_y):
+    def draw(self, painter, start_x, start_y, delta_wrap_y):
         """Рисует диаграмму на переданном объекте QPainter."""
-        self.prepared_data = self._prepare_main_drawing_data(start_x, start_y, delta_y)
+        self.prepared_data = self._prepare_main_drawing_data(start_x, start_y, delta_wrap_y)
         # сначала рисуем соединения
         for index, item in enumerate(self.prepared_data):
             if item.get("type") == "connection":

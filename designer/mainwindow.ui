@@ -13,7 +13,7 @@
     <x>0</x>
     <y>0</y>
     <width>1144</width>
-    <height>600</height>
+    <height>628</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -162,7 +162,7 @@
                  <x>0</x>
                  <y>0</y>
                  <width>747</width>
-                 <height>466</height>
+                 <height>494</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_8" stretch="0,0,0,0,0,0,0,0,0,0">
@@ -289,6 +289,13 @@
                    </widget>
                   </item>
                   <item>
+                   <widget class="QPushButton" name="btn_movenodes">
+                    <property name="text">
+                     <string>Изменить порядок вершин</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
                    <widget class="QPushButton" name="btn_deletenode">
                     <property name="text">
                      <string>Удалить вершину</string>
@@ -320,6 +327,13 @@
                 </item>
                 <item>
                  <widget class="QTableWidget" name="tablew_connections"/>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="btn_moveconnections">
+                  <property name="text">
+                   <string>Изменить порядок соединений</string>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </widget>
@@ -361,7 +375,7 @@
                  <x>0</x>
                  <y>0</y>
                  <width>747</width>
-                 <height>466</height>
+                 <height>494</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,0,0,0,0,0,0,1">

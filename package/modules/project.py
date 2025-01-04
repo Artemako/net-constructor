@@ -36,6 +36,27 @@ class Project:
             with open(self.__file_name, "w", encoding="utf-8") as f:
                 json.dump(self.__data, f, indent=4, ensure_ascii=False)
 
+    def set_new_order_nodes(self, new_order_nodes):
+        print("set_new_order_nodes():\n" f"new_order_nodes={new_order_nodes}\n")
+        nodes = []
+        for index, node in enumerate(new_order_nodes):
+            node["order"] = index
+            nodes.append(node)
+        # Это рискованно но ладно
+        self.__data["nodes"] = new_order_nodes
+
+    def set_new_order_connections(self, new_order_connections):
+        print(
+            "set_new_order_connections():\n"
+            f"new_order_connections={new_order_connections}\n"
+        )
+        connections = []
+        for index, connection in enumerate(new_order_connections):
+            connection["order"] = index
+            connections.append(connection)
+        # Это рискованно но ладно
+        self.__data["connections"] = new_order_connections
+
     def add_pair(self, key_dict_node_and_key_dict_connection):
         key_dict_node = key_dict_node_and_key_dict_connection.get("node")
         key_dict_connection = key_dict_node_and_key_dict_connection.get("connection")
@@ -132,7 +153,6 @@ class Project:
                 break
         self.write_project()
 
-
     def save_project(
         self,
         obj,
@@ -147,7 +167,7 @@ class Project:
         new_diagramm_parameters,
         new_data,
         new_parameters,
-    ):  
+    ):
         # Проверка на вкладку
         if is_general_tab:
             self.__data["diagramm_type_id"] = diagramm_type_id
