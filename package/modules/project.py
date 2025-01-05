@@ -13,7 +13,7 @@ class Project:
     def create_new_project(self, diagramm_data, image_parameters, file_path):
         self.__file_name = file_path
         self.__data = {
-            "diagramm_type_id": diagramm_data.get("type_id", 0),
+            "diagramm_type_id": diagramm_data.get("type_id", "0"),
             "diagramm_name": diagramm_data.get("name", ""),
             "diagramm_parameters": diagramm_data.get("parameters", {}),
             "image_parameters": image_parameters,
@@ -35,6 +35,13 @@ class Project:
         if self.__file_name:
             with open(self.__file_name, "w", encoding="utf-8") as f:
                 json.dump(self.__data, f, indent=4, ensure_ascii=False)
+
+    def change_type_diagramm(self, new_diagramm):
+        self.__data["diagramm_type_id"] = new_diagramm.get("type_id", "0")
+        self.__data["diagramm_name"] = new_diagramm.get("name", "")
+        # TODO Подумать что делать с параметрами
+        # self.__data["diagramm_parameters"] = new_diagramm.get("parameters", {})
+        self.write_project()
 
     def set_new_order_nodes(self, new_order_nodes):
         print("set_new_order_nodes():\n" f"new_order_nodes={new_order_nodes}\n")
@@ -62,13 +69,13 @@ class Project:
         key_dict_connection = key_dict_node_and_key_dict_connection.get("connection")
         #
         if len(self.__data.get("nodes", [])) == 0:
-            self.add_node(key_dict_node)
+            self._add_node(key_dict_node)
         else:
-            self.add_node(key_dict_node)
-            self.add_connection(key_dict_connection)
+            self._add_node(key_dict_node)
+            self._add_connection(key_dict_connection)
         self.write_project()
 
-    def add_node(self, key_dict_node):
+    def _add_node(self, key_dict_node):
         node_key = key_dict_node.get("node_key")
         node_dict = key_dict_node.get("node_dict")
         #
@@ -92,7 +99,7 @@ class Project:
         }
         self.__data["nodes"].append(new_dict)
 
-    def add_connection(self, key_dict_connection):
+    def _add_connection(self, key_dict_connection):
         connection_key = key_dict_connection.get("connection_key")
         connection_dict = key_dict_connection.get("connection_dict")
         #
@@ -185,9 +192,9 @@ class Project:
                         for key, value in new_data.items():
                             node["data"][key] = value
                         for key, value in new_parameters.items():
-                            self.check_empty_parameters_key(node, key, is_node=True)
+                            self._check_empty_parameters_key(node, key, is_node=True)
                             node["parameters"][key] = value
-                            self.check_global_parameters_key(
+                            self._check_global_parameters_key(
                                 config_nodes,
                                 config_connections,
                                 obj,
@@ -202,11 +209,11 @@ class Project:
                         for key, value in new_data.items():
                             connection["data"][key] = value
                         for key, value in new_parameters.items():
-                            self.check_empty_parameters_key(
+                            self._check_empty_parameters_key(
                                 connection, key, is_node=False
                             )
                             connection["parameters"][key] = value
-                            self.check_global_parameters_key(
+                            self._check_global_parameters_key(
                                 config_nodes,
                                 config_connections,
                                 obj,
@@ -216,7 +223,7 @@ class Project:
                         break
         self.write_project()
 
-    def check_empty_parameters_key(self, object, key, is_node=False):
+    def _check_empty_parameters_key(self, object, key, is_node=False):
         if is_node:
             if key not in object["parameters"]:
                 object["parameters"][key] = {}
@@ -224,7 +231,7 @@ class Project:
             if key not in object["parameters"]:
                 object["parameters"][key] = {}
 
-    def check_global_parameters_key(
+    def _check_global_parameters_key(
         self, config_nodes, config_connections, object, key, is_node=False
     ):
         if is_node:

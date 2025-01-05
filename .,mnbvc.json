@@ -1,71 +1,47 @@
 {
-    "diagramm_type_id": 0,
+    "diagramm_type_id": "0",
     "diagramm_name": "Скелетная схема ВОЛП и основные данные цепей кабеля",
     "diagramm_parameters": {
         "delta_node_and_thin_line": {
-            "name": "Расстояние между вершиной и тонкой линии",
-            "order": 5,
             "value": 100
         },
         "delta_thins_lines": {
-            "name": "Расстояние между тонкими линиями",
-            "order": 6,
             "value": 50
         },
         "distance_thin_line_after_connection_x": {
-            "name": "Расстояние тонкой линии после соединения по X",
-            "order": 7,
             "value": 5
         },
         "distance_thin_line_after_connection_y": {
-            "name": "Расстояние тонкой линии после соединения по Y",
-            "order": 8,
             "value": 5
         },
         "node_name_pixel_size": {
-            "name": "Размер шрифта названия вершины",
-            "order": 1,
             "value": 12
         },
         "node_radius": {
-            "name": "Радиус маленького круга вершин",
-            "order": 2,
             "value": 20
         }
     },
     "image_parameters": {
         "width": {
-            "value": 2000,
-            "name": "Ширина изображения",
-            "order": 0
+            "value": 2000
         },
         "height": {
-            "value": 800,
-            "name": "Высота изображения",
-            "order": 1
+            "value": 800
         },
         "start_x": {
-            "value": 150,
-            "name": "Стартовая координата X",
-            "order": 2
+            "value": 150
         },
         "start_y": {
-            "value": 100,
-            "name": "Стартовая координата Y",
-            "order": 3
+            "value": 100
         },
         "delta_wrap_y": {
-            "value": 200,
-            "name": "Расстояние между рядами вершин по Y",
-            "order": 4
+            "value": 300
         }
     },
     "nodes": [
         {
             "data": {
                 "название": {
-                    "name": "Название",
-                    "order": 0,
                     "value": "Большой круг"
                 }
             },
@@ -75,23 +51,13 @@
             "order": 0,
             "parameters": {
                 "node_is_connected_with_thin_line_location": {
-                    "is_global": false,
-                    "name": "Cоединение с тонкой линией местоположения",
-                    "order": 1,
-                    "type": "bool",
                     "value": true
                 },
                 "node_margin_left_right": {
-                    "is_global": true,
-                    "name": "Боковые отступы от вершин",
-                    "order": 3,
                     "value": 16
                 },
                 "node_margin_top": {
-                    "is_global": true,
-                    "name": "Высота названия над вершиной",
-                    "order": 2,
-                    "value": 32
+                    "value": 16
                 }
             }
         },
@@ -165,9 +131,6 @@
             }
         },
         {
-            "id": "5174853295f24542a66970d3e9e4f0db",
-            "order": 4,
-            "node_id": "1",
             "data": {
                 "название": {
                     "name": "Название",
@@ -175,7 +138,10 @@
                     "value": "Большой круг"
                 }
             },
+            "id": "5174853295f24542a66970d3e9e4f0db",
             "is_wrap": false,
+            "node_id": "1",
+            "order": 4,
             "parameters": {
                 "node_is_connected_with_thin_line_location": {
                     "is_global": false,
@@ -185,15 +151,9 @@
                     "value": true
                 },
                 "node_margin_left_right": {
-                    "is_global": true,
-                    "name": "Боковые отступы от вершин",
-                    "order": 31,
                     "value": 16
                 },
                 "node_margin_top": {
-                    "is_global": true,
-                    "name": "Высота названия над вершиной",
-                    "order": 20,
                     "value": 16
                 }
             }

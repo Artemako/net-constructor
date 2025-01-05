@@ -31,6 +31,7 @@ class ImageWidget(QWidget):
         self.__image.save(file_name, "PNG")
 
     def create_image(self, data):
+        print("create_image")
         width = data.get("image_parameters", {}).get("width", {}).get("value", 0)
         height = data.get("image_parameters", {}).get("height", {}).get("value", 0)
         start_x = data.get("image_parameters", {}).get("start_x", {}).get("value", 0)

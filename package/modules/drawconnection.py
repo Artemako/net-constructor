@@ -36,7 +36,7 @@ class DrawConnection:
             self.__object_node_after,
         )
         data = drawdataparameters.DrawData(self.__object_connection)
-        if self.__object_diagramm.get_diagramm_type_id() == 0:
+        if self.__object_diagramm.get_diagramm_type_id() == "0":
             if self.__object_connection.get_connection_id() == "0":
                 self._draw_connection_type_0(pars, data)
 

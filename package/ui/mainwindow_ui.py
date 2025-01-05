@@ -170,10 +170,10 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_8.addWidget(self.label_type)
 
-        self.combox_type = QComboBox(self.sa_general_contents)
-        self.combox_type.setObjectName(u"combox_type")
+        self.combox_type_diagramm = QComboBox(self.sa_general_contents)
+        self.combox_type_diagramm.setObjectName(u"combox_type_diagramm")
 
-        self.verticalLayout_8.addWidget(self.combox_type)
+        self.verticalLayout_8.addWidget(self.combox_type_diagramm)
 
         self.line_2 = QFrame(self.sa_general_contents)
         self.line_2.setObjectName(u"line_2")

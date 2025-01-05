@@ -189,7 +189,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QComboBox" name="combox_type"/>
+                 <widget class="QComboBox" name="combox_type_diagramm"/>
                 </item>
                 <item>
                  <widget class="Line" name="line_2">

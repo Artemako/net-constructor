@@ -30,7 +30,7 @@ class DrawNode:
     def draw(self):
         # Сначала выбор диграммы, а потом узла
         data = drawdataparameters.DrawData(self.__object_node)
-        if self.__object_diagramm.get_diagramm_type_id() == 0:
+        if self.__object_diagramm.get_diagramm_type_id() == "0":
             #
             pars = drawdataparameters.DrawParameters(
                 self.__object_diagramm,

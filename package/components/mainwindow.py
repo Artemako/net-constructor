@@ -27,6 +27,7 @@ import package.components.nodeconnectionselectdialog as nodeconnectionselectdial
 import package.components.nodeconnectiondeletedialog as nodeconnectiondeletedialog
 import package.components.diagrammtypeselectdialog as diagrammtypeselectdialog
 import package.components.changeorderdialog as changeorderdialog
+import package.components.confirmchangingdiagrammtypedialog as confirmchangingdiagrammtypedialog
 
 import package.ui.mainwindow_ui as mainwindow_ui
 
@@ -81,6 +82,8 @@ class MainWindow(QMainWindow):
         self.ui.btn_deletenode.clicked.connect(self.delete_node)
         #
         self.ui.btn_moveconnections.clicked.connect(self.move_connections)
+        #
+        self.ui.combox_type_diagramm.currentIndexChanged.connect(self.change_type_diagramm)
         #
         # создание нового файла
         self.ui.action_new.triggered.connect(self.create_file_nce)
@@ -175,8 +178,12 @@ class MainWindow(QMainWindow):
             if self.ui.tabw_right.currentIndex() == 0:
                 is_general_tab = True
                 #
-                diagramm_type_id = self.ui.combox_type.currentIndex()
-                diagramm_name = self.ui.combox_type.currentText()
+                diagramm_type_id = self.ui.combox_type_diagramm.currentData().get(
+                    "type_id", ""
+                )
+                diagramm_name = self.ui.combox_type_diagramm.currentData().get(
+                    "name", ""
+                )
                 new_image_parameters = self.get_new_parameters(
                     self.__general_image_parameters_widgets
                 )
@@ -256,8 +263,8 @@ class MainWindow(QMainWindow):
 
     def move_connections(self):
         if self.__obsm.obj_project.is_active():
-            nodes = self.__obsm.obj_project.get_data().get("connections", [])
-            dialog = changeorderdialog.ChangeOrderDialog(nodes, "connections", self)
+            connections = self.__obsm.obj_project.get_data().get("connections", [])
+            dialog = changeorderdialog.ChangeOrderDialog(connections, "connections", self)
             if dialog.exec():
                 new_order_connections = dialog.get_data()
                 self.__obsm.obj_project.set_new_order_connections(new_order_connections)
@@ -283,17 +290,50 @@ class MainWindow(QMainWindow):
                 self.ui.imagewidget.run(data)
                 self.reset_widgets_by_data(data)
 
+    def reset_combobox_type_diagramm(self, diagramm_type_id):
+        print("reset_combobox_type_diagramm():\n")
+        print(f"diagramm_type_id={diagramm_type_id}\n")
+        combox_widget = self.ui.combox_type_diagramm
+        combox_widget.blockSignals(True)
+        combox_widget.clear()
+        #
+        index = 0
+        global_diagramms = self.__obsm.obj_configs.get_config_diagramms()
+        for key, elem in global_diagramms.items():
+            print(f"key={key}, elem={elem}")
+            name = elem.get("name", "")
+            type_id = elem.get("type_id", "0")
+            combox_widget.addItem(name, elem)            
+            if type_id == diagramm_type_id:
+                combox_widget.setCurrentIndex(index)
+            index += 1
+        combox_widget.blockSignals(False)
+        #
+
+    # TODO Обработать сигнал смены типа диаграммы
+    def change_type_diagramm(self, index):
+        new_diagramm = self.ui.combox_type_diagramm.currentData()
+        new_type_id = new_diagramm.get("type_id", "0")
+        current_type_id = self.__obsm.obj_project.get_data().get("diagramm_type_id", None)
+        # диалоговое окно с выбором диаграммы
+        if self.__obsm.obj_project.is_active() and new_type_id != current_type_id:
+            dialog = confirmchangingdiagrammtypedialog.ConfirmChangingDiagrammType(new_diagramm, self)
+            if dialog.exec():
+                self.__obsm.obj_project.change_type_diagramm(new_diagramm)
+                #
+                data = self.__obsm.obj_project.get_data()
+                self.ui.imagewidget.run(data)
+                self.reset_widgets_by_data(data)
+
+
+
+
     def reset_tab_general(
         self, diagramm_type_id, diagramm_parameters, image_parameters
     ):
         print("reset_tab_general")
-        # очистка типа
-        self.ui.combox_type.clear()
-        # TODO combox_type
-        self.ui.combox_type.addItem(
-            "Скелетная схема ВОЛП и основные данные цепей кабеля", 0
-        )
-        self.ui.combox_type.setCurrentIndex(diagramm_type_id)
+        # очистка типа диаграммы
+        self.reset_combobox_type_diagramm(diagramm_type_id)
         # Параметры изображения
         config_image_parameters = self.__obsm.obj_configs.get_config_image_parameters()
         self.create_parameters_widgets(
@@ -507,7 +547,6 @@ class MainWindow(QMainWindow):
             label_text = config_parameter_data.get("name", "")
             label = QLabel(label_text)
             # значение параметра parameters
-            # TODO Исправить
             value = object_parameters.get(config_parameter_key, {}).get("value", None)
             if "node_margin_top" == config_parameter_key:
                 print(f"BEFORE value: {value}")
