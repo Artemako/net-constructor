@@ -60,28 +60,18 @@
             "node_id": "0",
             "data": {
                 "название": {
-                    "name": "Название",
-                    "order": 0,
                     "value": "Маленький круг"
                 }
             },
             "is_wrap": false,
             "parameters": {
                 "delta_wrap_x": {
-                    "name": "Расстояние переноса по X",
-                    "order": 2,
                     "value": 0
                 },
                 "node_is_connected_with_thin_line_location": {
-                    "name": "Cоединение с тонкой линией местоположения",
-                    "order": 10,
-                    "type": "bool",
                     "value": true
                 },
                 "node_margin_top": {
-                    "is_global": true,
-                    "name": "Высота названия над вершиной",
-                    "order": 20,
                     "value": 16
                 }
             }
@@ -92,7 +82,7 @@
             "node_id": "1",
             "data": {
                 "название": {
-                    "value": "Большой круг df dsf"
+                    "value": "Большой круг"
                 }
             },
             "is_wrap": false,
@@ -104,7 +94,7 @@
                     "value": 16
                 },
                 "node_margin_top": {
-                    "value": 50
+                    "value": 16
                 }
             }
         }

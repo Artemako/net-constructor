@@ -27,8 +27,9 @@ class Node:
     def get_parameters(self):
         return self.__node.get("parameters", {})
 
+    # TODO 
     def get_config_parameters(self):
-        return self.__config_node.get("parameters", {})
+        return {**self.__config_node.get("object_parameters", {}), **self.__config_node.get("type_object_parameters", {})} 
 
     def get_node_id(self):
         return self.__node.get("node_id")
@@ -63,9 +64,11 @@ class Connection:
 
     def get_parameters(self):
         return self.__connection.get("parameters", {})
-
+    
+    # TODO
     def get_config_parameters(self):
-        return self.__config_connection.get("parameters", {})
+        return {**self.__config_connection.get("object_parameters", {}), **self.__config_connection.get("type_object_parameters", {})} 
+
 
     def get_connection_id(self):
         return self.__connection.get("connection_id")
@@ -94,6 +97,7 @@ class Diagramm:
     def get_parameters(self):
         return self.__diagramm_parameters
 
+    # TODO
     def get_config_parameters(self):
         return self.__config_diagramm_parameters
 
