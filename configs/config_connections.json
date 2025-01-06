@@ -1,6 +1,7 @@
 {
     "0": {
-        "data": {
+        "is_wrap": false,
+        "object_data": {
             "название": {
                 "value": "Синяя линия",
                 "name": "Название (над линией)",
@@ -12,28 +13,28 @@
                 "order": 1
             },
             "ВОК": {
-                "value": "ВОК ",
+                "value": "",
                 "name": "ВОК",
                 "order": 2
             },
             "количество_ОВ": {
-                "value": "кол-во ОВ - ",
+                "value": "",
                 "name": "Количество ОВ",
                 "order": 3
             },
             "физическая_длина": {
-                "value": "физическая длина - ",
+                "value": "",
                 "name": "Физическая длина",
                 "order": 4
             },
             "оптическая_длина": {
-                "value": "оптическая_длина - ",
+                "value": "",
                 "name": "Оптическая длина",
                 "order": 5
             },
             "местоположение": {
-                "value": "Местоположение (над линией)",
-                "name": "",
+                "value": "",
+                "name": "Местоположение (над линией)",
                 "order": 6
             },
             "местоположение_доп": {
@@ -42,44 +43,77 @@
                 "order": 7
             }
         },
-        "is_wrap": false,
-        "parameters": {
+        "type_object_data": {
+            "префикс_ВОК": {
+                "value": "ВОК ",
+                "name": "Префикс ВОК",
+                "order": 3
+            },
+            "префикс_количество_ОВ": {
+                "value": "кол-во ОВ - ",
+                "name": "Префикс Количество ОВ",
+                "order": 3
+            },
+            "префикс_физическая_длина": {
+                "value": "физическая длина - ",
+                "name": "Префикс Физическая длина",
+                "order": 4
+            },
+            "префикс_оптическая_длина": {
+                "value": "оптическая длина - ",
+                "name": "Префикс Оптическая длина",
+                "order": 5
+            }
+        },
+        "object_parameters": {
             "connection_length": {
-                "is_global": false,
                 "value": 350,
                 "name": "Длина соединения",
-                
-                "order": 0 
-            }, 
+                "order": 0
+            }
+        },
+        "type_object_parameters": {
+            "Линия для всех соединений": {
+                "value": "заголовок",
+                "name": "Для всех вершин",
+                "order": 100,
+                "type": "title"
+            },
+            "connection_color": {
+                "value": "#0000ff",
+                "name": "Цвет соединения",
+                "order": 101,
+                "type": "color"
+            },
+            "connection_width": {
+                "value": 4,
+                "name": "Толщина соединения",
+                "order": 102
+            },
             "connection_caption_margin_left_right": {
-                "is_global": true,
                 "value": 10,
                 "name": "Боковые отступы подписей от вершин",
-                "order": 1
+                "order": 100
             },
             "connection_main_label_vertical_padding": {
-                "is_global": true,
                 "value": 10,
                 "name": "Высота подписей над/под соединением",
-                "order": 2
+                "order": 100
             },
             "connection_thin_label_vertical_padding": {
-                "is_global": true,
                 "value": 6,
                 "name": "Высота подписей над/под тонкой линией",
-                "order": 5
+                "order": 100
             },
             "connection_arrow_width": {
-                "is_global": true,
                 "value": 20,
                 "name": "Ширина стрелки",
-                "order": 6
+                "order": 100
             },
             "connection_arrow_height": {
-                "is_global": true,
                 "value": 8,
                 "name": "Высота стрелки",
-                "order": 7
+                "order": 100
             }
         }
     }

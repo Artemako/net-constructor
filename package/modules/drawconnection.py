@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QWidget
-from PySide6.QtGui import QPainter, QPen, QBrush, QImage, QFont, QPolygon
+from PySide6.QtGui import QPainter, QColor, QPen, QBrush, QImage, QFont, QPolygon
 from PySide6.QtCore import Qt, QPointF, QPoint
 
 import package.modules.painterconfigurator as painterconfigurator
@@ -66,9 +66,11 @@ class DrawConnection:
 
         # ОСНОВНАЯ ЛИНИЯ
         # region
+        # QPen("#000000", 2)
         self.__painter = painterconfigurator.PainterConfigurator(
-            self.__painter
-        ).get_bold_blue_line_painter()
+            self.__painter,
+            pen=QPen(QColor(pars.get_sp("connection_color")), pars.get_sp("connection_width")),
+        ).get_painter()
         self.__painter.drawLine(
             self.__x,
             self.__y,
@@ -85,7 +87,7 @@ class DrawConnection:
         # LT и прочие
         # в зависимости от типа вершины
         # region
-        text = data.get_sd("ВОК")
+        text = data.get_sd("префикс_ВОК") + data.get_sd("ВОК")
         drawtext.DrawText(self.__painter).draw_singleline_text_by_hl_vb(
             text,
             self.__x + before_delta_line_caption_and_node,
@@ -93,7 +95,7 @@ class DrawConnection:
         )
 
         # LB
-        text = data.get_sd("количество_ОВ")
+        text = data.get_sd("префикс_физическая_длина") + data.get_sd("количество_ОВ")
         drawtext.DrawText(self.__painter).draw_singleline_text_by_hl_vt(
             text,
             self.__x + before_delta_line_caption_and_node,
@@ -101,7 +103,7 @@ class DrawConnection:
         )
 
         # RT
-        text = data.get_sd("физическая_длина")
+        text = data.get_sd("префикс_оптическая_длина") + data.get_sd("физическая_длина")
         drawtext.DrawText(self.__painter).draw_singleline_text_by_hr_vb(
             text,
             self.__x
@@ -111,7 +113,7 @@ class DrawConnection:
         )
 
         # RB
-        text = data.get_sd("оптическая_длина")
+        text = data.get_sd("префикс_оптическая_длина") + data.get_sd("оптическая_длина")
         drawtext.DrawText(self.__painter).draw_singleline_text_by_hr_vt(
             text,
             self.__x
@@ -131,7 +133,9 @@ class DrawConnection:
         self.__painter.drawLine(
             self.__x - pars.get_sp("distance_thin_line_after_connection_x"),
             self.__y + pars.get_sp("delta_node_and_thin_line"),
-            self.__x + pars.get_sp("connection_length") + pars.get_sp("distance_thin_line_after_connection_x"),
+            self.__x
+            + pars.get_sp("connection_length")
+            + pars.get_sp("distance_thin_line_after_connection_x"),
             self.__y + pars.get_sp("delta_node_and_thin_line"),
         )
         # стрелки
@@ -159,7 +163,9 @@ class DrawConnection:
             self.__y
             + pars.get_sp("delta_node_and_thin_line")
             + pars.get_sp("delta_thins_lines"),
-            self.__x + pars.get_sp("connection_length") + pars.get_sp("distance_thin_line_after_connection_x"),
+            self.__x
+            + pars.get_sp("connection_length")
+            + pars.get_sp("distance_thin_line_after_connection_x"),
             self.__y
             + pars.get_sp("delta_node_and_thin_line")
             + pars.get_sp("delta_thins_lines"),

@@ -82,12 +82,12 @@ class Project:
         new_id = uuid.uuid4().hex
         #
         new_order = len(self.__data.get("nodes", []))
-        #
-        new_data = node_dict.get("data", {})
+        # TODO
+        new_data = {**node_dict.get("object_data", {}), **node_dict.get("type_object_data", {})}
         #
         new_is_wrap = node_dict.get("is_wrap", False)
-        #
-        new_parameters = node_dict.get("parameters", {})
+        # TODO 
+        new_parameters = {**node_dict.get("object_parameters", {}), **node_dict.get("type_object_parameters", {})}
         #
         new_dict = {
             "id": new_id,
@@ -106,10 +106,10 @@ class Project:
         new_id = uuid.uuid4().hex
         #
         new_order = len(self.__data.get("connections", []))
-        #
-        new_data = connection_dict.get("data", {})
-        #
-        new_parameters = connection_dict.get("parameters", {})
+        # TODO
+        new_data = {**connection_dict.get("object_data", {}), **connection_dict.get("type_object_data", {})}
+        # TODO
+        new_parameters = {**connection_dict.get("object_parameters", {}), **connection_dict.get("type_object_parameters", {})}
         #
         new_dict = {
             "id": new_id,

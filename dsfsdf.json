@@ -1,0 +1,189 @@
+{
+    "diagramm_type_id": "0",
+    "diagramm_name": "Скелетная схема ВОЛП и основные данные цепей кабеля",
+    "diagramm_parameters": {
+        "delta_node_and_thin_line": {
+            "value": 100
+        },
+        "delta_thins_lines": {
+            "value": 50
+        },
+        "distance_thin_line_after_connection_x": {
+            "value": 5
+        },
+        "distance_thin_line_after_connection_y": {
+            "value": 5
+        },
+        "node_name_color": {
+            "value": "#aa0000"
+        },
+        "node_name_pixel_size": {
+            "value": 12
+        },
+        "node_radius": {
+            "value": 20
+        },
+        "Для всех вершин": {
+            "name": "Для всех вершин",
+            "order": 0,
+            "type": "title",
+            "value": "заголовок"
+        },
+        "Для всех объектов": {
+            "name": "Для всех объектов",
+            "order": 100,
+            "type": "title",
+            "value": ""
+        }
+    },
+    "image_parameters": {
+        "width": {
+            "value": 2000
+        },
+        "height": {
+            "value": 800
+        },
+        "start_x": {
+            "value": 150
+        },
+        "start_y": {
+            "value": 100
+        },
+        "delta_wrap_y": {
+            "value": 200
+        }
+    },
+    "nodes": [
+        {
+            "id": "8a287df11fed4a93a12352222887162c",
+            "order": 0,
+            "node_id": "0",
+            "data": {
+                "название": {
+                    "name": "Название",
+                    "order": 0,
+                    "value": "Маленький круг"
+                }
+            },
+            "is_wrap": false,
+            "parameters": {
+                "delta_wrap_x": {
+                    "name": "Расстояние переноса по X",
+                    "order": 2,
+                    "value": 0
+                },
+                "node_is_connected_with_thin_line_location": {
+                    "name": "Cоединение с тонкой линией местоположения",
+                    "order": 10,
+                    "type": "bool",
+                    "value": true
+                },
+                "node_margin_top": {
+                    "is_global": true,
+                    "name": "Высота названия над вершиной",
+                    "order": 20,
+                    "value": 16
+                }
+            }
+        },
+        {
+            "id": "1740b4318ce14d969c4a60b62c055efa",
+            "order": 1,
+            "node_id": "1",
+            "data": {
+                "название": {
+                    "value": "Большой круг df dsf"
+                }
+            },
+            "is_wrap": false,
+            "parameters": {
+                "node_is_connected_with_thin_line_location": {
+                    "value": true
+                },
+                "node_margin_left_right": {
+                    "value": 16
+                },
+                "node_margin_top": {
+                    "value": 50
+                }
+            }
+        }
+    ],
+    "connections": [
+        {
+            "id": "f74ee177c3884ba88bff10f63a87f5f7",
+            "order": 0,
+            "connection_id": "0",
+            "data": {
+                "ВОК": {
+                    "value": ""
+                },
+                "количество_ОВ": {
+                    "value": ""
+                },
+                "местоположение": {
+                    "value": ""
+                },
+                "местоположение_доп": {
+                    "value": ""
+                },
+                "название": {
+                    "value": "Синяя линия"
+                },
+                "название_доп": {
+                    "value": ""
+                },
+                "оптическая_длина": {
+                    "value": ""
+                },
+                "физическая_длина": {
+                    "value": ""
+                },
+                "префикс_ВОК": {
+                    "value": "ВОК "
+                },
+                "префикс_количество_ОВ": {
+                    "value": "кол-во ОВ - "
+                },
+                "префикс_оптическая_длина": {
+                    "value": "оптическая длина - "
+                },
+                "префикс_физическая_длина": {
+                    "value": "физическая длина - "
+                }
+            },
+            "parameters": {
+                "connection_length": {
+                    "value": 500
+                },
+                "connection_arrow_height": {
+                    "value": 8
+                },
+                "connection_arrow_width": {
+                    "value": 20
+                },
+                "connection_caption_margin_left_right": {
+                    "value": 10
+                },
+                "connection_color": {
+                    "value": "#0000ff"
+                },
+                "connection_main_label_vertical_padding": {
+                    "value": 10
+                },
+                "connection_thin_label_vertical_padding": {
+                    "value": 6
+                },
+                "connection_width": {
+                    "value": 4
+                },
+                "Линия для всех соединений": {
+                    "name": "Для всех вершин",
+                    "order": 100,
+                    "type": "title",
+                    "value": "заголовок"
+                }
+            }
+        }
+    ]
+}

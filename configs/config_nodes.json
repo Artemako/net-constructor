@@ -1,27 +1,28 @@
 {
     "0": {
-        "data": {
+        "is_wrap": false,
+        "object_data": {
             "название": {
                 "value": "Маленький круг",
                 "name": "Название",
                 "order": 0
             }
         },
-        "is_wrap": false,
-        "parameters": {
+        "type_object_data": {},
+        "object_parameters": {
             "delta_wrap_x": {
-                "is_global": false,
                 "value": 0,
                 "name": "Расстояние переноса по X",
                 "order": 2
             },
             "node_is_connected_with_thin_line_location": {
-                "is_global": false,
                 "value": true,
                 "name": "Cоединение с тонкой линией местоположения",
                 "order": 10,
                 "type": "bool"
-            },
+            }
+        },
+        "type_object_parameters": {
             "node_margin_top": {
                 "is_global": true,
                 "value": 16,
@@ -31,22 +32,24 @@
         }
     },
     "1": {
-        "data": {
+        "is_wrap": false,
+        "object_data": {
             "название": {
                 "value": "Большой круг",
                 "name": "Название",
                 "order": 0
             }
         },
-        "is_wrap": false,
-        "parameters": {
+        "type_object_data": {},
+        "object_parameters": {
             "node_is_connected_with_thin_line_location": {
-                "is_global": false,
                 "value": true,
                 "name": "Cоединение с тонкой линией местоположения",
                 "order": 10,
                 "type": "bool"
-            },
+            }
+        },
+        "type_object_parameters": {
             "node_margin_top": {
                 "is_global": true,
                 "value": 16,

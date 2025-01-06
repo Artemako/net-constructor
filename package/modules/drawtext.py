@@ -11,7 +11,7 @@ class DrawText:
         start_y = bottom_y
         # Рисуем каждую строку текста
         text_y = start_y
-        for line in lines:
+        for line in reversed(lines):
             text_width = self.painter.fontMetrics().horizontalAdvance(line)
             # Центрируем каждую строку относительно center_x
             text_x = center_x - text_width // 2

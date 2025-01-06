@@ -378,7 +378,7 @@
                  <height>494</height>
                 </rect>
                </property>
-               <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,0,0,0,0,0,0,1">
+               <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,0,0,0,0,0,0,0,0,0,1">
                 <property name="spacing">
                  <number>6</number>
                 </property>
@@ -407,6 +407,23 @@
                    <enum>QFormLayout::WrapLongRows</enum>
                   </property>
                  </layout>
+                </item>
+                <item>
+                 <widget class="Line" name="line_7">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QLabel" name="label_type_object_data">
+                  <property name="text">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Данные типа выбранного элемента&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QFormLayout" name="fl_type_object_data"/>
                 </item>
                 <item>
                  <widget class="Line" name="line_4">
