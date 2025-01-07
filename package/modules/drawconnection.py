@@ -62,7 +62,7 @@ class DrawConnection:
             return painterconfigurator.PainterConfigurator(
                 self.__painter
             ).get_painter_figure_fill(
-                fill_color=pars.get_sp("thin_line_color"), fill_pattern=Qt.SolidPattern
+                fill_color=pars.get_sp("thin_line_color"), fill_pattern_name="Qt.SolidPattern"
             )
 
         def get_painter_text_name_and_location():

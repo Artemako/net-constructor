@@ -39,7 +39,7 @@
                 "0"
             ],
             "parameters": {
-                "Все вершины" : {
+                "Все названия вершины" : {
                     "value": "заголовок",
                     "name": "Все вершины",
                     "order": 0,
@@ -48,18 +48,47 @@
                 "node_name_color": {
                     "value": "#000000",
                     "name": "Цвет шрифта названия вершины",
-                    "order": 10,
+                    "order": 1,
                     "type": "color"
                 },
                 "node_name_pixel_size": {
                     "value": 16,
                     "name": "Размер шрифта названия вершины",
-                    "order": 20
+                    "order": 2
+                },
+                "Все вершины" : {
+                    "value": "заголовок",
+                    "name": "Все вершины",
+                    "order": 50,
+                    "type": "title"
+                },
+                "node_border_color": {
+                    "value": "#000000",
+                    "name": "Цвет рамки вершин",
+                    "order": 51,
+                    "type": "color"
+                },
+                "node_border_weight": {
+                    "value": 2,
+                    "name": "Толщина рамки вершин",
+                    "order": 52
+                },
+                "node_fill_color": {
+                    "value": "#A0A0A4",
+                    "name": "Цвет заливки вершин",
+                    "order": 53,
+                    "type": "color"
+                },
+                "node_fill_style": {
+                    "value": "DiagCrossPattern",
+                    "name": "Стиль заливки вершин",
+                    "order": 54,
+                    "type": "fill_style"
                 },
                 "node_radius": {
                     "value": 20,
                     "name": "Радиус маленького круга вершин",
-                    "order": 30
+                    "order": 55
                 },
                 "Все тонкие линии" : {
                     "value": "",

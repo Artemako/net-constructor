@@ -55,6 +55,18 @@
             "order": 100,
             "type": "title",
             "value": ""
+        },
+        "node_border_color": {
+            "value": "#00aaff"
+        },
+        "node_border_weight": {
+            "value": 2
+        },
+        "node_fill_color": {
+            "value": "#ff5500"
+        },
+        "node_fill_style": {
+            "value": "DiagCrossPattern"
         }
     },
     "image_parameters": {

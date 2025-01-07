@@ -48,16 +48,16 @@ class DrawNode:
         def get_painter_figure_border():
             return painterconfigurator.PainterConfigurator(
                 self.__painter
-            ).get_painter_figure_border(pen_color="#000000", pen_weight=2)
+            ).get_painter_figure_border(pen_color=pars.get_sp("node_border_color"), pen_weight=pars.get_sp("node_border_weight"))
 
         def get_painter_figure_border_fill():
             return painterconfigurator.PainterConfigurator(
                 self.__painter,
             ).get_painter_figure_border_fill(
-                pen_color=Qt.black,
-                pen_weight=2,
-                fill_color="A0A0A4",
-                fill_pattern=Qt.DiagCrossPattern,
+                pen_color=pars.get_sp("node_border_color"),
+                pen_weight=pars.get_sp("node_border_weight"),
+                fill_color=pars.get_sp("node_fill_color"),
+                fill_pattern_name=pars.get_sp("node_fill_style"),
             )
 
         def get_painter_text_name():
@@ -80,7 +80,7 @@ class DrawNode:
             return painterconfigurator.PainterConfigurator(
                 self.__painter
             ).get_painter_figure_fill(
-                fill_color=pars.get_sp("thin_line_color"), fill_pattern=Qt.SolidPattern
+                fill_color=pars.get_sp("thin_line_color"), fill_pattern_name="Qt.SolidPattern"
             )
         # радиус вершины
         node_border_radius = pars.get_sp("node_radius")

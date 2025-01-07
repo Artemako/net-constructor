@@ -17,6 +17,7 @@ from PySide6.QtWidgets import (
     QSizePolicy,
     QCheckBox,
     QColorDialog,
+    QComboBox
 )
 
 from PySide6.QtCore import Qt, QModelIndex
@@ -31,6 +32,8 @@ import package.components.changeorderdialog as changeorderdialog
 import package.components.confirmchangingdiagrammtypedialog as confirmchangingdiagrammtypedialog
 
 import package.ui.mainwindow_ui as mainwindow_ui
+
+import package.constants as constants
 
 import json
 from functools import partial
@@ -154,6 +157,8 @@ class MainWindow(QMainWindow):
                 new_parameters[key] = {"value": "заголовок"}
             elif widget_type == "color":
                 new_parameters[key] = {"value": widget.text()}
+            elif widget_type == "fill_style":
+                new_parameters[key] = {"value": widget.currentText()}
             elif widget_type == "bool":
                 new_parameters[key] = {"value": widget.isChecked()}
             else:
@@ -565,6 +570,14 @@ class MainWindow(QMainWindow):
             new_widget.setStyleSheet(f"background-color: {value};")
             new_widget.setText(value)
             new_widget.clicked.connect(open_color_dialog)
+        #
+        elif widget_type == "fill_style":
+            new_widget = QComboBox()
+            fill_styles = constants.Constants().fill_styles
+            for style_name in fill_styles.keys():
+                new_widget.addItem(style_name)
+                if style_name == value:
+                    new_widget.setCurrentText(style_name)
         #
         else:
             new_widget = QSpinBox()
