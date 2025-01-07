@@ -19,6 +19,21 @@ class DrawObject:
         self.__painter = painter_figure_border_fill()
         self.__painter.drawEllipse(QPoint(x, y), node_radius, node_radius)
 
+    def node_big_circle_and_triangle(self, painter_figure_border, x, y, node_border_radius):
+        # Рисуем круг и треугольник
+        points = QPolygon(
+            [
+                QPoint(x, y - node_border_radius),
+                QPoint(x - node_border_radius * 0.865, y + node_border_radius // 2),
+                QPoint(x + node_border_radius * 0.865, y + node_border_radius // 2),
+            ]
+        )
+        self.__painter = painter_figure_border()
+        self.__painter.drawEllipse(
+            QPoint(x, y), node_border_radius, node_border_radius
+        )
+        self.__painter.drawPolygon(points)
+
     def arrow(self, painter_arrow, x, y, width, height, direction):
         # direction = "left", "right"
         self.__painter = painter_arrow()

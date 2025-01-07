@@ -130,6 +130,8 @@ class DiagrammDrawer:
         """Подготавливает данные для рисования: в оснвоном координаты."""
         x = start_x
         y = start_y
+        # TODO to_right_ to_left
+        
         #
         prepared_data = []
         #
@@ -221,6 +223,7 @@ class DiagrammDrawer:
         # сначала рисуем соединения
         for index, item in enumerate(self.prepared_data):
             if item.get("type") == "connection":
+                # Кроме вершин ничего другого быть не может
                 object_node_before = self.prepared_data[index - 1].get("object")
                 object_node_after = self.prepared_data[index + 1].get("object")
                 #
