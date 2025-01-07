@@ -3,10 +3,10 @@
     "diagramm_name": "Скелетная схема ВОЛП и основные данные цепей кабеля",
     "diagramm_parameters": {
         "arrow_height": {
-            "value": 8
+            "value": 10
         },
         "arrow_length": {
-            "value": 20
+            "value": 60
         },
         "arrow_width": {
             "value": 20
@@ -33,7 +33,7 @@
             "value": 20
         },
         "thin_line_color": {
-            "value": "#95959f"
+            "value": "#ffaa7f"
         },
         "thin_line_weight": {
             "value": 2
@@ -59,7 +59,7 @@
     },
     "image_parameters": {
         "width": {
-            "value": 1000
+            "value": 1200
         },
         "height": {
             "value": 800
@@ -76,31 +76,6 @@
     },
     "nodes": [
         {
-            "id": "19bda053f4154c289cde1b8b80453b2a",
-            "order": 0,
-            "node_id": "0",
-            "data": {
-                "название": {
-                    "value": "Маленький круг"
-                }
-            },
-            "is_wrap": false,
-            "parameters": {
-                "delta_wrap_x": {
-                    "value": 0
-                },
-                "node_is_connected_with_thin_line_location": {
-                    "value": true
-                },
-                "node_margin_top": {
-                    "value": 36
-                }
-            }
-        },
-        {
-            "id": "7fcdf7099ab34f02be2ab8979c2817d2",
-            "order": 1,
-            "node_id": "1",
             "data": {
                 "название": {
                     "name": "Название",
@@ -108,7 +83,10 @@
                     "value": "Большой круг"
                 }
             },
+            "id": "7fcdf7099ab34f02be2ab8979c2817d2",
             "is_wrap": false,
+            "node_id": "1",
+            "order": 0,
             "parameters": {
                 "delta_wrap_x": {
                     "name": "Расстояние переноса по X",
@@ -128,12 +106,169 @@
                     "value": 16
                 }
             }
+        },
+        {
+            "data": {
+                "название": {
+                    "value": "Большой круг"
+                }
+            },
+            "id": "3d657b77f2b644bbbd99057e9383d6e3",
+            "is_wrap": false,
+            "node_id": "1",
+            "order": 1,
+            "parameters": {
+                "delta_wrap_x": {
+                    "value": 0
+                },
+                "node_is_connected_with_thin_line_location": {
+                    "value": true
+                },
+                "node_margin_top": {
+                    "value": 10
+                }
+            }
+        },
+        {
+            "data": {
+                "название": {
+                    "value": "Маленький круг"
+                }
+            },
+            "id": "19bda053f4154c289cde1b8b80453b2a",
+            "is_wrap": true,
+            "node_id": "0",
+            "order": 2,
+            "parameters": {
+                "delta_wrap_x": {
+                    "value": 0
+                },
+                "node_is_connected_with_thin_line_location": {
+                    "value": true
+                },
+                "node_margin_top": {
+                    "value": 18
+                }
+            }
+        },
+        {
+            "data": {
+                "название": {
+                    "value": "Маленький круг"
+                }
+            },
+            "id": "e58ac3f936ed4ba6abeda508444fd8eb",
+            "is_wrap": false,
+            "node_id": "0",
+            "order": 3,
+            "parameters": {
+                "delta_wrap_x": {
+                    "value": 0
+                },
+                "node_is_connected_with_thin_line_location": {
+                    "value": true
+                },
+                "node_margin_top": {
+                    "value": 18
+                }
+            }
         }
     ],
     "connections": [
         {
-            "id": "6acb591be6294758b4f41f3f39df8479",
+            "connection_id": "0",
+            "data": {
+                "ВОК": {
+                    "value": ""
+                },
+                "количество_ОВ": {
+                    "value": ""
+                },
+                "местоположение": {
+                    "value": ""
+                },
+                "местоположение_доп": {
+                    "value": "фывфвы"
+                },
+                "название": {
+                    "value": "Синяя линия"
+                },
+                "название_доп": {
+                    "value": ""
+                },
+                "оптическая_длина": {
+                    "value": ""
+                },
+                "префикс_ВОК": {
+                    "value": "ВОК"
+                },
+                "префикс_количество_ОВ": {
+                    "value": "кол-во ОВ - "
+                },
+                "префикс_оптическая_длина": {
+                    "value": "оптическая длина - "
+                },
+                "префикс_физическая_длина": {
+                    "value": "физическая длина - "
+                },
+                "физическая_длина": {
+                    "value": ""
+                }
+            },
+            "id": "88df3a72e2924ddd9ac05cc2eb0cdfe4",
             "order": 0,
+            "parameters": {
+                "connection_caption_color": {
+                    "value": "#000000"
+                },
+                "connection_caption_margin_left_right": {
+                    "value": 10
+                },
+                "connection_caption_pixel_size": {
+                    "value": 12
+                },
+                "connection_color": {
+                    "value": "#55ff00"
+                },
+                "connection_length": {
+                    "value": 300
+                },
+                "connection_main_label_vertical_padding": {
+                    "value": 10
+                },
+                "connection_name_color": {
+                    "value": "#000000"
+                },
+                "connection_name_pixel_size": {
+                    "value": 14
+                },
+                "connection_thin_label_vertical_padding": {
+                    "value": 6
+                },
+                "connection_width": {
+                    "value": 4
+                },
+                "Название и местоположение соединения": {
+                    "name": "Название и местоположение соединения",
+                    "order": 200,
+                    "type": "title",
+                    "value": "заголовок"
+                },
+                "Основная линия": {
+                    "name": "Основная линия соединения",
+                    "order": 0,
+                    "type": "title",
+                    "value": "заголовок"
+                },
+                "Подписи основной линии": {
+                    "name": "Основная линия соединения",
+                    "order": 100,
+                    "type": "title",
+                    "value": "заголовок"
+                }
+            }
+        },
+        {
             "connection_id": "0",
             "data": {
                 "ВОК": {
@@ -157,11 +292,106 @@
                 "оптическая_длина": {
                     "value": "fsdFsfF"
                 },
+                "префикс_ВОК": {
+                    "value": "ВОК"
+                },
+                "префикс_количество_ОВ": {
+                    "value": "кол-во ОВ - "
+                },
+                "префикс_оптическая_длина": {
+                    "value": "оптическая длина - "
+                },
+                "префикс_физическая_длина": {
+                    "value": "физическая длина - "
+                },
                 "физическая_длина": {
                     "value": "SFDS"
+                }
+            },
+            "id": "6acb591be6294758b4f41f3f39df8479",
+            "order": 1,
+            "parameters": {
+                "connection_caption_color": {
+                    "value": "#000000"
+                },
+                "connection_caption_margin_left_right": {
+                    "value": 10
+                },
+                "connection_caption_pixel_size": {
+                    "value": 12
+                },
+                "connection_color": {
+                    "value": "#55ff00"
+                },
+                "connection_length": {
+                    "value": 500
+                },
+                "connection_main_label_vertical_padding": {
+                    "value": 10
+                },
+                "connection_name_color": {
+                    "value": "#000000"
+                },
+                "connection_name_pixel_size": {
+                    "value": 14
+                },
+                "connection_thin_label_vertical_padding": {
+                    "value": 6
+                },
+                "connection_width": {
+                    "value": 4
+                },
+                "Название и местоположение соединения": {
+                    "name": "Название и местоположение соединения",
+                    "order": 200,
+                    "type": "title",
+                    "value": "заголовок"
+                },
+                "Основная линия": {
+                    "name": "Основная линия соединения",
+                    "order": 0,
+                    "type": "title",
+                    "value": "заголовок"
+                },
+                "Подписи основной линии": {
+                    "name": "Основная линия соединения",
+                    "order": 100,
+                    "type": "title",
+                    "value": "заголовок"
+                }
+            }
+        },
+        {
+            "id": "715729f33e4240229051e9cbeb0818f1",
+            "order": 2,
+            "connection_id": "0",
+            "data": {
+                "ВОК": {
+                    "value": ""
+                },
+                "количество_ОВ": {
+                    "value": ""
+                },
+                "местоположение": {
+                    "value": ""
+                },
+                "местоположение_доп": {
+                    "value": ""
+                },
+                "название": {
+                    "value": "Синяя линия"
+                },
+                "название_доп": {
+                    "value": ""
+                },
+                "оптическая_длина": {
+                    "value": ""
+                },
+                "физическая_длина": {
+                    "value": ""
                 },
                 "префикс_ВОК": {
-                    "value": "ВОК "
+                    "value": "ВОК"
                 },
                 "префикс_количество_ОВ": {
                     "value": "кол-во ОВ - "
@@ -175,7 +405,7 @@
             },
             "parameters": {
                 "connection_length": {
-                    "value": 500
+                    "value": 350
                 },
                 "connection_caption_color": {
                     "value": "#000000"
@@ -187,7 +417,7 @@
                     "value": 12
                 },
                 "connection_color": {
-                    "value": "#ffaaff"
+                    "value": "#55ff00"
                 },
                 "connection_main_label_vertical_padding": {
                     "value": 10
@@ -196,7 +426,7 @@
                     "value": "#000000"
                 },
                 "connection_name_pixel_size": {
-                    "value": 12
+                    "value": 14
                 },
                 "connection_thin_label_vertical_padding": {
                     "value": 6

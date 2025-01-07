@@ -9,8 +9,8 @@ class Node:
         self.__type = "node"
         self.__node = node
         self.__config_node = config_node
-        self.__before_wrap = False
-        self.__after_wrap = False
+        self.__before_wrap = before_wrap
+        self.__after_wrap = after_wrap
 
     def get_type(self):
         return self.__type
@@ -151,7 +151,7 @@ class DiagrammDrawer:
                     prepared_data.append(
                         {
                             "type": "node",
-                            "object": Node(node, config_node, before_wrap=True),
+                            "object": Node(node, config_node),
                             "x": x,
                             "y": y,
                         }

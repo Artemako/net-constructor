@@ -616,8 +616,8 @@ class MainWindow(QMainWindow):
             # тип виджета
             new_widget = self._get_parameter_widget(widget_type, value)
             #
+            form_layout.addRow(label, new_widget)
             if widget_type != "title":
-                form_layout.addRow(label, new_widget)
                 dict_widgets[config_parameter_key] = [widget_type, new_widget]
         print("BEFORE return len(dict_widgets) > 0: dict_widgets", dict_widgets)
         return len(dict_widgets) > 0

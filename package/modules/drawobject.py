@@ -5,20 +5,19 @@ from PySide6.QtCore import Qt, QPointF, QPoint
 import package.modules.painterconfigurator as painterconfigurator
 import package.modules.drawtext as drawtext
 
-class DrawObject:
 
+class DrawObject:
     def __init__(self):
         self.__painter = None
 
-    def node_gray_diagcross(self, painter_figure_border, painter_figure_border_fill, x, y, node_radius):
-
+    def node_gray_diagcross(
+        self, painter_figure_border, painter_figure_border_fill, x, y, node_radius
+    ):
         self.__painter = painter_figure_border()
         self.__painter.drawEllipse(QPoint(x, y), node_radius, node_radius)
         #
         self.__painter = painter_figure_border_fill()
         self.__painter.drawEllipse(QPoint(x, y), node_radius, node_radius)
-        
-        
 
     def arrow(self, painter_arrow, x, y, width, height, direction):
         # direction = "left", "right"
@@ -42,4 +41,21 @@ class DrawObject:
                 ]
             )
         self.__painter.drawPolygon(points)
-    
+
+    def wrap_arrow(
+        self, painter_arrow, painter_line, x, y, width, height, length, type_wrap
+    ):
+        # only right direction
+        if type_wrap == "before_wrap":
+            # стрелка
+            self.arrow(painter_arrow, x + length, y, width, height, "right")
+            #
+            self.__painter = painter_line()
+            self.__painter.drawLine(QPoint(x, y), QPoint(x + length, y))
+
+        elif type_wrap == "after_wrap":
+            # стрелка
+            self.arrow(painter_arrow, x, y, width, height, "right")
+            # линия
+            self.__painter = painter_line()
+            self.__painter.drawLine(QPoint(x - length, y), QPoint(x, y))

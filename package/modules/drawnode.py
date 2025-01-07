@@ -45,7 +45,6 @@ class DrawNode:
                 self._draw_node_ids_0_1(pars, data, node_id)
 
     def _draw_node_ids_0_1(self, pars, data, node_id="0"):
-        
         def get_painter_figure_border():
             return painterconfigurator.PainterConfigurator(
                 self.__painter
@@ -78,8 +77,40 @@ class DrawNode:
             )
 
         def get_painter_arrow():
-            return painterconfigurator.PainterConfigurator(self.__painter).get_painter_figure_fill(
+            return painterconfigurator.PainterConfigurator(
+                self.__painter
+            ).get_painter_figure_fill(
                 fill_color=pars.get_sp("thin_line_color"), fill_pattern=Qt.SolidPattern
+            )
+        # радиус вершины
+        node_border_radius = pars.get_sp("node_radius")
+        if node_id == "1":
+            node_border_radius *= 2
+
+        # рисование wrap стрелки
+        print("self.__object_node.get_before_wrap()", self.__object_node.get_before_wrap())
+        print("self.__object_node.get_after_wrap()", self.__object_node.get_after_wrap())
+        if self.__object_node.get_before_wrap():
+            drawobject.DrawObject().wrap_arrow(
+                get_painter_arrow,
+                get_painter_thin_line,
+                self.__x + node_border_radius,
+                self.__y,
+                pars.get_sp("arrow_width"),
+                pars.get_sp("arrow_height"),
+                pars.get_sp("arrow_length"),
+                "before_wrap",
+            )
+        elif self.__object_node.get_after_wrap():
+            drawobject.DrawObject().wrap_arrow(
+                get_painter_arrow,
+                get_painter_thin_line,
+                self.__x - node_border_radius,
+                self.__y,
+                pars.get_sp("arrow_width"),
+                pars.get_sp("arrow_height"),
+                pars.get_sp("arrow_length"),
+                "after_wrap",
             )
 
 
@@ -87,12 +118,8 @@ class DrawNode:
         def draw_vertical_thin_line():
             painter_thin_line = get_painter_thin_line()
             painter_thin_line.drawLine(
-                self.__x,
-                self.__y,
-                self.__x,
-                self.__y
-                + pars.get_sp("delta_node_and_thin_line")
-                + pars.get_sp("distance_thin_line_after_connection_y"),
+                QPointF(self.__x, self.__y),
+                QPointF(self.__x, self.__y + pars.get_sp("delta_node_and_thin_line") + pars.get_sp("distance_thin_line_after_connection_y"))
             )
             # рисовать линию - если pars.get_sp("node_is_connected_with_thin_line_location")
             if pars.get_sp("node_is_connected_with_thin_line_location"):
@@ -114,33 +141,31 @@ class DrawNode:
 
         if node_id == "1":
             # Рисуем большой круг с треугольником
-            big_radius = pars.get_sp("node_radius") * 2
             points = QPolygon(
                 [
-                    QPoint(self.__x, self.__y - big_radius),
-                    QPoint(self.__x - big_radius * 0.865, self.__y + big_radius // 2),
-                    QPoint(self.__x + big_radius * 0.865, self.__y + big_radius // 2),
+                    QPoint(self.__x, self.__y - node_border_radius),
+                    QPoint(self.__x - node_border_radius * 0.865, self.__y + node_border_radius // 2),
+                    QPoint(self.__x + node_border_radius * 0.865, self.__y + node_border_radius // 2),
                 ]
             )
 
             # Рисуем круг и треугольник
             self.__painter = get_painter_figure_border()
             self.__painter.drawEllipse(
-                QPoint(self.__x, self.__y), big_radius, big_radius
+                QPoint(self.__x, self.__y), node_border_radius, node_border_radius
             )
             self.__painter.drawPolygon(points)
 
         # Рисование вершины
         drawobject.DrawObject().node_gray_diagcross(
-            get_painter_figure_border, get_painter_figure_border_fill,
-            self.__x, self.__y, pars.get_sp("node_radius")
+            get_painter_figure_border,
+            get_painter_figure_border_fill,
+            self.__x,
+            self.__y,
+            pars.get_sp("node_radius"),
         )
 
-        # Рисование названия
-        node_border_radius = pars.get_sp("node_radius")
-        if node_id == "1":
-            node_border_radius *= 2
-        
+        # Рисование названия      
         text = data.get_sd("название")
         drawtext.DrawText().draw_multiline_text_by_hc_vb(
             get_painter_text_name,
@@ -149,12 +174,4 @@ class DrawNode:
             self.__y - node_border_radius - pars.get_sp("node_margin_top"),
         )
 
-
-        # рисование wrap стрелки
-        # drawobject.DrawObject().arrow(
-        #     self.__x + pars.get_sp("connection_length"),
-        #     self.__y + pars.get_sp("delta_node_and_thin_line"),
-        #     pars.get_sp("arrow_width"),
-        #     pars.get_sp("arrow_height"),
-        #     "right",
-        # )
+        
