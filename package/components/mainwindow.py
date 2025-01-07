@@ -19,7 +19,7 @@ from PySide6.QtWidgets import (
     QColorDialog,
     QComboBox
 )
-
+from PySide6.QtGui import QIntValidator
 from PySide6.QtCore import Qt, QModelIndex
 
 import package.controllers.style as style
@@ -150,7 +150,6 @@ class MainWindow(QMainWindow):
         print("get_new_parameters():\n" f"parameters_widgets={parameters_widgets}\n")
         new_parameters = {}
         for key, pair in parameters_widgets.items():
-            print(f"key={key}, pair={pair}")
             widget_type = pair[0]
             widget = pair[1]
             if widget_type == "title":
@@ -169,11 +168,20 @@ class MainWindow(QMainWindow):
     def _get_new_data(self, data_widgets):
         print("get_new_data():\n" f"data_widgets={data_widgets}\n")
         new_data = {}
-        for key, widget in data_widgets.items():
-            print(f"key={key}, widget={widget}")
-            new_data[key] = {"value": widget.toPlainText()}
+        for key, pair in data_widgets.items():
+            widget_type = pair[0]
+            widget = pair[1]
+            if widget_type == "title":
+                new_data[key] = {"value": "заголовок"}
+            elif widget_type == "line_string":
+                new_data[key] = {"value": widget.text()} 
+            elif widget_type == "number_int":
+                new_data[key] = {"value": widget.value()}
+            else:
+                new_data[key] = {"value": widget.toPlainText()}
         print(f"return new_data={new_data}")
         return new_data
+
 
     def _save_changes_to_file_nce(self):
         if self.__obsm.obj_project.is_active():
@@ -531,24 +539,42 @@ class MainWindow(QMainWindow):
             print(
                 f"config_parameter_key: {config_parameter_key}, config_parameter_data: {config_parameter_data}"
             )
-            # название параметра data
+            widget_type = config_parameter_data.get("type", "")
             label_text = config_parameter_data.get("name", "")
-            label = QLabel(label_text)
+            # названия параметра data
+            label = self._get_label_name(label_text, widget_type)
             # значение параметра data
-            value = (
-                # object_data.get(data_name, {})
-                object_data.get(config_parameter_key, {}).get("value", "")
-            )
-            value = value if value else config_parameter_data.get("value", "")
+            value = object_data.get(config_parameter_key, {}).get("value", None)
+            value = value if value is not None else config_parameter_data.get("value", "")
             #
-            text_edit = QTextEdit()
-            text_edit.setText(str(value))
-            text_edit.setFixedHeight(40)
-            form_layout.addRow(label, text_edit)
+            # тип виджета
+            new_widget = self._get_data_widget(widget_type, value)
+            #
+            form_layout.addRow(label, new_widget)
             # в словарь виджетов
-            dict_widgets[config_parameter_key] = text_edit
+            dict_widgets[config_parameter_key] = [widget_type, new_widget]
+
         print("BEFORE return len(dict_widgets) > 0: dict_widgets", dict_widgets)
         return len(dict_widgets) > 0
+
+    def _get_data_widget(self, widget_type, value):
+        if widget_type == "title":
+            new_widget = QLabel()
+        #
+        elif widget_type == "number_int":
+            new_widget = QSpinBox()
+            new_widget.setRange(0, 2147483647)
+            new_widget.setValue(value)
+        #
+        elif widget_type == "line_string":
+            new_widget = QLineEdit()
+            new_widget.setText(value)
+        #
+        else:
+            new_widget = QTextEdit()
+            new_widget.setText(str(value))
+            new_widget.setFixedHeight(40)
+        return new_widget
 
     def _get_parameter_widget(self, widget_type, value):
         if widget_type == "title":
@@ -573,7 +599,7 @@ class MainWindow(QMainWindow):
         #
         elif widget_type == "fill_style":
             new_widget = QComboBox()
-            fill_styles = constants.Constants().fill_styles
+            fill_styles = constants.FillStyles()
             for style_name in fill_styles.keys():
                 new_widget.addItem(style_name)
                 if style_name == value:
@@ -581,7 +607,7 @@ class MainWindow(QMainWindow):
         #
         else:
             new_widget = QSpinBox()
-            new_widget.setRange(0, 99999)
+            new_widget.setRange(0, 2147483647)
             new_widget.setValue(value)
         #
         return new_widget
@@ -618,13 +644,9 @@ class MainWindow(QMainWindow):
             label = self._get_label_name(label_text, widget_type)
             # значение параметра parameters
             value = object_parameters.get(config_parameter_key, {}).get("value", None)
-            if "node_margin_top" == config_parameter_key:
-                print(f"BEFORE value: {value}")
             value = (
                 value if value is not None else config_parameter_data.get("value", "")
             )
-            if "node_margin_top" == config_parameter_key:
-                print(f"AFTER value: {value}")
             #
             # тип виджета
             new_widget = self._get_parameter_widget(widget_type, value)

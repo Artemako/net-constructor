@@ -8,14 +8,14 @@ class PainterConfigurator:
     def __init__(self, painter, pen=None, brush=None, font=None):
         self.__painter = painter
         #
-        self.__constants = constants.Constants()
+        self.__constants = constants.FillStyles()
         #
         self.__painter.setPen(pen if pen is not None else Qt.NoPen)
         self.__painter.setBrush(brush if brush is not None else Qt.NoBrush)
         self.__painter.setFont(font if font is not None else QFont())
 
     def _get_fill_pattern(self, fill_pattern_name):
-        return self.__constants.fill_styles.get(fill_pattern_name, Qt.SolidPattern)
+        return self.__constants.get(fill_pattern_name, Qt.SolidPattern)
 
     def get_painter(self):
         return self.__painter

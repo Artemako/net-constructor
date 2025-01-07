@@ -135,7 +135,7 @@ class DrawConnection:
         )
 
         # RT
-        text = data.get_sd("префикс_физическая_длина") + data.get_sd("физическая_длина")
+        text = data.get_sd("префикс_физическая_длина") + data.get_sd("физическая_длина") + data.get_sd("постфикс_физическая_длина")
         drawtext.DrawText().draw_singleline_text_by_hr_vb(
             get_painter_text_caption,
             text,
@@ -146,7 +146,7 @@ class DrawConnection:
         )
 
         # RB
-        text = data.get_sd("префикс_оптическая_длина") + data.get_sd("оптическая_длина")
+        text = data.get_sd("префикс_оптическая_длина") + data.get_sd("оптическая_длина") + data.get_sd("постфикс_оптическая_длина")
         drawtext.DrawText().draw_singleline_text_by_hr_vt(
             get_painter_text_caption,
             text,

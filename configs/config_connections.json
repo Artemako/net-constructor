@@ -15,22 +15,26 @@
             "ВОК": {
                 "value": "",
                 "name": "ВОК",
-                "order": 2
+                "order": 2,
+                "type": "line_string"
             },
             "количество_ОВ": {
-                "value": "",
+                "value": 0,
                 "name": "Количество ОВ",
-                "order": 3
+                "order": 3,
+                "type": "number_int"
             },
             "физическая_длина": {
-                "value": "",
+                "value": 0,
                 "name": "Физическая длина",
-                "order": 4
+                "order": 4,
+                "type": "number_int"
             },
             "оптическая_длина": {
-                "value": "",
+                "value": 0,
                 "name": "Оптическая длина",
-                "order": 5
+                "order": 5,
+                "type": "number_int"
             },
             "местоположение": {
                 "value": "",
@@ -47,22 +51,38 @@
             "префикс_ВОК": {
                 "value": "ВОК ",
                 "name": "Префикс ВОК",
-                "order": 3
+                "order": 3,
+                "type": "line_string"
             },
             "префикс_количество_ОВ": {
                 "value": "кол-во ОВ - ",
                 "name": "Префикс Количество ОВ",
-                "order": 3
+                "order": 3,
+                "type": "line_string"
             },
             "префикс_физическая_длина": {
                 "value": "физическая длина - ",
                 "name": "Префикс Физическая длина",
-                "order": 4
+                "order": 4,
+                "type": "line_string"
+            },
+            "постфикс_физическая_длина": {
+                "value": " м",
+                "name": "Постфикс Физическая длина",
+                "order": 5,
+                "type": "line_string"
             },
             "префикс_оптическая_длина": {
                 "value": "оптическая длина - ",
                 "name": "Префикс Оптическая длина",
-                "order": 5
+                "order": 6,
+                "type": "line_string"
+            },
+            "постфикс_оптическая_длина": {
+                "value": " м",
+                "name": "Постфикс Оптическая длина",
+                "order": 7,
+                "type": "line_string"
             }
         },
         "object_parameters": {
@@ -128,7 +148,7 @@
                 "order": 200,
                 "type": "title"
             },
-            "connection_name_color" : {
+            "connection_name_color": {
                 "value": "#000000",
                 "name": "Цвет шрифта названия соединения",
                 "order": 201,

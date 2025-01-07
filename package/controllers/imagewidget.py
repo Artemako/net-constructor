@@ -32,11 +32,11 @@ class ImageWidget(QWidget):
 
     def create_image(self, data):
         print("create_image")
-        width = data.get("image_parameters", {}).get("width", {}).get("value", 0)
-        height = data.get("image_parameters", {}).get("height", {}).get("value", 0)
-        start_x = data.get("image_parameters", {}).get("start_x", {}).get("value", 0)
-        start_y = data.get("image_parameters", {}).get("start_y", {}).get("value", 0)
-        delta_wrap_y = data.get("image_parameters", {}).get("delta_wrap_y", {}).get("value", 0)
+        width = int(data.get("image_parameters", {}).get("width", {}).get("value", 0))
+        height = int(data.get("image_parameters", {}).get("height", {}).get("value", 0))
+        start_x = int(data.get("image_parameters", {}).get("start_x", {}).get("value", 0))
+        start_y = int(data.get("image_parameters", {}).get("start_y", {}).get("value", 0))
+        delta_wrap_y = int(data.get("image_parameters", {}).get("delta_wrap_y", {}).get("value", 0))
 
         image = QImage(width, height, QImage.Format_ARGB32)
         image.fill(Qt.white)

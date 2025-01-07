@@ -26,8 +26,6 @@ class Node:
 
     def get_parameters(self):
         return self.__node.get("parameters", {})
-
-    # TODO 
     def get_config_parameters(self):
         return {**self.__config_node.get("object_parameters", {}), **self.__config_node.get("type_object_parameters", {})} 
 
@@ -65,7 +63,6 @@ class Connection:
     def get_parameters(self):
         return self.__connection.get("parameters", {})
     
-    # TODO
     def get_config_parameters(self):
         return {**self.__config_connection.get("object_parameters", {}), **self.__config_connection.get("type_object_parameters", {})} 
 
@@ -96,8 +93,6 @@ class Diagramm:
     
     def get_parameters(self):
         return self.__diagramm_parameters
-
-    # TODO
     def get_config_parameters(self):
         return self.__config_diagramm_parameters
 
@@ -130,8 +125,9 @@ class DiagrammDrawer:
         """Подготавливает данные для рисования: в оснвоном координаты."""
         x = start_x
         y = start_y
-        # TODO to_right_ to_left
-        
+        #
+        optical_length = 0
+        physical_length = 0
         #
         prepared_data = []
         #
@@ -156,6 +152,8 @@ class DiagrammDrawer:
                             "object": Node(node, config_node),
                             "x": x,
                             "y": y,
+                            "to_right_optical_length": optical_length,
+                            "to_right_physical_length": physical_length,
                         }
                     )
                 elif not node.get("is_wrap"):
@@ -165,6 +163,8 @@ class DiagrammDrawer:
                             "object": Node(node, config_node),
                             "x": x,
                             "y": y,
+                            "to_right_optical_length": optical_length,
+                            "to_right_physical_length": physical_length,
                         }
                     )
                 else:
@@ -174,6 +174,8 @@ class DiagrammDrawer:
                             "object": Node(node, config_node, before_wrap=True),
                             "x": x,
                             "y": y,
+                            "to_right_optical_length": optical_length,
+                            "to_right_physical_length": physical_length,
                         }
                     )
                     x = start_x + self._get_delta_wrap_x(node)
@@ -184,6 +186,8 @@ class DiagrammDrawer:
                             "object": Node(node, config_node, after_wrap=True),
                             "x": x,
                             "y": y,
+                            "to_right_optical_length": optical_length,
+                            "to_right_physical_length": physical_length,
                         }
                     )
 
@@ -210,10 +214,19 @@ class DiagrammDrawer:
                 # увеличиваем координаты по длине соединения
                 parameters = connection.get("parameters", {})
                 config_parameters = config_connection.get("parameters", {})
-                connection_length = parameters.get(
+                connection_length = int(parameters.get(
                     "connection_length", config_parameters.get("connection_length", {})
-                ).get("value", 0)
+                ).get("value", 0))
                 x += connection_length
+                # увеличиваем optical_length и physical_length
+                # TODO
+                # optical_length = parameters.get(
+                #     "оптическая_длина", config_parameters.get("оптическая_длина", {})
+                # ).get("value", 0)
+                # physical_length = parameters.get(
+                #     "физическая_длина", config_parameters.get("физическая_длина", {})
+                # ).get("value", 0)
+                
 
         return prepared_data
 

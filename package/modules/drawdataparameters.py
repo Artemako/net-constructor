@@ -6,8 +6,8 @@ class DrawData:
         #
         self.__self_data = self.__object_target.get_data()
 
-    def get_sd(self, key):
-        return self.__self_data.get(key, {}).get("value", "")
+    def get_sd(self, key) -> str:
+        return str(self.__self_data.get(key, {}).get("value", ""))
 
 
 class DrawParameters:

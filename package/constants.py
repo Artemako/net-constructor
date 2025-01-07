@@ -1,6 +1,7 @@
 from PySide6.QtCore import Qt
 
-class Constants:
+
+class FillStyles:
     def __init__(self):
         self.fill_styles = {
             "SolidPattern": Qt.SolidPattern,
@@ -20,5 +21,25 @@ class Constants:
             "LinearGradientPattern": Qt.LinearGradientPattern,
             "RadialGradientPattern": Qt.RadialGradientPattern,
             "ConicalGradientPattern": Qt.ConicalGradientPattern,
-            "TexturePattern": Qt.TexturePattern
+            "TexturePattern": Qt.TexturePattern,
         }
+    
+    def keys(self):
+        return self.fill_styles.keys()
+
+    def get(self, fill_pattern_name, default):
+        return self.fill_styles.get(fill_pattern_name, default)
+
+class DiagrammToDiagramm:
+    def __init__(self):
+        self.diagramm_to_diagramm = {
+            "0": {
+                "50": {"nodes": {"0": "50", "1": "51"}, "connections": {"0": "50"}},
+                "100": {},
+                "150": {},
+            },
+            "50": {"100": {}, "150": {}},
+            "100": {"150": {}},
+        }
+
+    # TODO Проверка возможности перехода

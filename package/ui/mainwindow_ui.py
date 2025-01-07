@@ -141,7 +141,7 @@ class Ui_MainWindow(object):
         self.gb_right.setObjectName(u"gb_right")
         sizePolicy1.setHeightForWidth(self.gb_right.sizePolicy().hasHeightForWidth())
         self.gb_right.setSizePolicy(sizePolicy1)
-        self.gb_right.setMinimumSize(QSize(0, 0))
+        self.gb_right.setMinimumSize(QSize(500, 0))
         self.verticalLayout_2 = QVBoxLayout(self.gb_right)
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(4, 4, 4, 4)
@@ -157,6 +157,7 @@ class Ui_MainWindow(object):
         self.sa_general = QScrollArea(self.tab_general)
         self.sa_general.setObjectName(u"sa_general")
         self.sa_general.setFrameShape(QFrame.NoFrame)
+        self.sa_general.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.sa_general.setWidgetResizable(True)
         self.sa_general_contents = QWidget()
         self.sa_general_contents.setObjectName(u"sa_general_contents")
@@ -189,6 +190,7 @@ class Ui_MainWindow(object):
 
         self.fl_image_parameters = QFormLayout()
         self.fl_image_parameters.setObjectName(u"fl_image_parameters")
+        self.fl_image_parameters.setRowWrapPolicy(QFormLayout.WrapLongRows)
 
         self.verticalLayout_8.addLayout(self.fl_image_parameters)
 
@@ -206,6 +208,7 @@ class Ui_MainWindow(object):
 
         self.fl_diagramm_parameters = QFormLayout()
         self.fl_diagramm_parameters.setObjectName(u"fl_diagramm_parameters")
+        self.fl_diagramm_parameters.setRowWrapPolicy(QFormLayout.WrapLongRows)
 
         self.verticalLayout_8.addLayout(self.fl_diagramm_parameters)
 
@@ -312,6 +315,7 @@ class Ui_MainWindow(object):
         self.editor_scrollarea = QScrollArea(self.tab_editor)
         self.editor_scrollarea.setObjectName(u"editor_scrollarea")
         self.editor_scrollarea.setFrameShape(QFrame.NoFrame)
+        self.editor_scrollarea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.editor_scrollarea.setWidgetResizable(True)
         self.editor_scrollarea_contents = QWidget()
         self.editor_scrollarea_contents.setObjectName(u"editor_scrollarea_contents")
@@ -345,6 +349,7 @@ class Ui_MainWindow(object):
 
         self.fl_type_object_data = QFormLayout()
         self.fl_type_object_data.setObjectName(u"fl_type_object_data")
+        self.fl_type_object_data.setRowWrapPolicy(QFormLayout.WrapLongRows)
 
         self.verticalLayout_4.addLayout(self.fl_type_object_data)
 

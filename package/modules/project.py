@@ -39,8 +39,8 @@ class Project:
     def change_type_diagramm(self, new_diagramm):
         self.__data["diagramm_type_id"] = new_diagramm.get("type_id", "0")
         self.__data["diagramm_name"] = new_diagramm.get("name", "")
-        # TODO Подумать что делать с параметрами
-        # self.__data["diagramm_parameters"] = new_diagramm.get("parameters", {})
+        self.__data["diagramm_parameters"] = new_diagramm.get("parameters", {})
+        # TODO Проверить diagramm_parameters
         # data точно не трогаем
         self.write_project()
 
