@@ -7,39 +7,22 @@ import package.modules.drawtext as drawtext
 
 class DrawObject:
 
-    def __init__(self, painter):
-        self.__painter = painter
+    def __init__(self):
+        self.__painter = None
 
-    def node_gray_diagcross(self, x, y, node_radius):
-        fill_color = Qt.white
-        hatch_color = Qt.gray
+    def node_gray_diagcross(self, painter_figure_border, painter_figure_border_fill, x, y, node_radius):
 
-        self.__painter = painterconfigurator.PainterConfigurator(
-            self.__painter, pen=QPen(Qt.black, 2), brush=QBrush(fill_color)
-        ).get_painter()
+        self.__painter = painter_figure_border()
         self.__painter.drawEllipse(QPoint(x, y), node_radius, node_radius)
-
-        self.__painter = painterconfigurator.PainterConfigurator(
-            self.__painter,
-            pen=QPen(Qt.black, 2),
-            brush=QBrush(hatch_color, Qt.DiagCrossPattern),
-        ).get_painter()
+        #
+        self.__painter = painter_figure_border_fill()
         self.__painter.drawEllipse(QPoint(x, y), node_radius, node_radius)
+        
+        
 
-        self.__painter = painterconfigurator.PainterConfigurator(
-            self.__painter,
-            pen=QPen(Qt.black, 2),
-            brush=QBrush(Qt.NoBrush),
-        ).get_painter()
-        self.__painter.drawEllipse(QPoint(x, y), node_radius, node_radius)
-
-    def arrow(self, x, y, width, height, direction):
+    def arrow(self, painter_arrow, x, y, width, height, direction):
         # direction = "left", "right"
-        self.__painter = painterconfigurator.PainterConfigurator(
-            self.__painter,
-            pen=None,
-            brush=QBrush(Qt.black),            
-        ).get_painter()
+        self.__painter = painter_arrow()
         if direction == "right":
             points = QPolygon(
                 [

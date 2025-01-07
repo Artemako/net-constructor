@@ -39,97 +39,85 @@
                 "0"
             ],
             "parameters": {
-                "Для всех вершин" : {
+                "Все вершины" : {
                     "value": "заголовок",
-                    "name": "Для всех вершин",
+                    "name": "Все вершины",
                     "order": 0,
                     "type": "title"
-                },
-                "node_name_pixel_size": {
-                    "value": 12,
-                    "name": "Размер шрифта названия вершины",
-                    "order": 1
                 },
                 "node_name_color": {
                     "value": "#000000",
                     "name": "Цвет шрифта названия вершины",
-                    "order": 2,
+                    "order": 10,
                     "type": "color"
+                },
+                "node_name_pixel_size": {
+                    "value": 16,
+                    "name": "Размер шрифта названия вершины",
+                    "order": 20
                 },
                 "node_radius": {
                     "value": 20,
                     "name": "Радиус маленького круга вершин",
-                    "order": 3
+                    "order": 30
                 },
-                "Для всех объектов" : {
+                "Все тонкие линии" : {
                     "value": "",
-                    "name": "Для всех объектов",
+                    "name": "Все тонкие линии",
                     "order": 100,
                     "type": "title"
                 },
-                "delta_node_and_thin_line": {
-                    "value": 100,
-                    "name": "Расстояние между вершиной и тонкой линии",
-                    "order": 101
+                "thin_line_color": {
+                    "value": "#000000",
+                    "name": "Цвет тонкой линии",
+                    "order": 101,
+                    "type": "color"
                 },
-                "delta_thins_lines": {
-                    "value": 50,
-                    "name": "Расстояние между тонкими линиями",
+                "thin_line_weight": {
+                    "value": 2,
+                    "name": "Толщина тонкой линии",
                     "order": 102
                 },
-                "distance_thin_line_after_connection_x" : {
-                    "value": 5,
-                    "name": "Расстояние тонкой линии после соединения по X",
-                    "order": 103
-                },
-                "distance_thin_line_after_connection_y" : {
-                    "value": 5,
-                    "name": "Расстояние тонкой линии после соединения по Y",
-                    "order": 104
-                }
-            }
-        },
-        "10": {
-            "order": 1,
-            "type_id": "10",
-            "name": "...",
-            "nodes": [
-                "0",
-                "1"
-            ],
-            "connections": [
-                "0"
-            ],
-            "parameters": {
-                "node_name_pixel_size": {
-                    "value": 12,
-                    "name": "Размер шрифта названия вершины",
-                    "order": 1
-                },
-                "node_radius": {
-                    "value": 20,
-                    "name": "Радиус маленького круга вершин",
-                    "order": 2
-                },
                 "delta_node_and_thin_line": {
                     "value": 100,
                     "name": "Расстояние между вершиной и тонкой линии",
-                    "order": 5
+                    "order": 103
                 },
                 "delta_thins_lines": {
                     "value": 50,
                     "name": "Расстояние между тонкими линиями",
-                    "order": 6
+                    "order": 104
                 },
                 "distance_thin_line_after_connection_x" : {
                     "value": 5,
                     "name": "Расстояние тонкой линии после соединения по X",
-                    "order": 7
+                    "order": 105
                 },
                 "distance_thin_line_after_connection_y" : {
                     "value": 5,
                     "name": "Расстояние тонкой линии после соединения по Y",
-                    "order": 8
+                    "order": 106
+                },
+                "Все стрелки" : {
+                    "value": "",
+                    "name": "Все стрелки",
+                    "order": 200,
+                    "type": "title"
+                },
+                "arrow_width": {
+                    "value": 20,
+                    "name": "Ширина стрелки",
+                    "order": 201
+                },
+                "arrow_height": {
+                    "value": 8,
+                    "name": "Высота стрелки",
+                    "order": 202
+                },
+                "arrow_length": {
+                    "value": 20,
+                    "name": "Длина стрелки, обозначающая перенос",
+                    "order": 203
                 }
             }
         }

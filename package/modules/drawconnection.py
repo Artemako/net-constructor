@@ -41,7 +41,47 @@ class DrawConnection:
                 self._draw_connection_type_0(pars, data)
 
     def _draw_connection_type_0(self, pars, data):
-        """Скелетная схема ВОЛП и основные данные цепей кабеля"""
+        # Функции для получения различных пейнтеров
+        def get_painter_connection_line():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter
+            ).get_painter_line(
+                color=pars.get_sp("connection_color"),
+                weight=pars.get_sp("connection_width"),
+            )
+
+        def get_painter_thin_line():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter
+            ).get_painter_line(
+                color=pars.get_sp("thin_line_color"),
+                weight=pars.get_sp("thin_line_weight"),
+            )
+
+        def get_painter_arrow():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter
+            ).get_painter_figure_fill(
+                fill_color=pars.get_sp("thin_line_color"), fill_pattern=Qt.SolidPattern
+            )
+
+        def get_painter_text_name_and_location():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter
+            ).get_painter_text(
+                color=pars.get_sp("connection_name_color"),
+                pixel_size=pars.get_sp("connection_name_pixel_size"),
+            )
+
+        def get_painter_text_caption():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter
+            ).get_painter_text(
+                color=pars.get_sp("connection_caption_color"),
+                pixel_size=pars.get_sp("connection_caption_pixel_size"),
+            )
+
+
         #  Для LT и прочие
         before_delta_line_caption_and_node = 0
         after_delta_line_caption_and_node = 0
@@ -66,45 +106,38 @@ class DrawConnection:
 
         # ОСНОВНАЯ ЛИНИЯ
         # region
-        # QPen("#000000", 2)
-        self.__painter = painterconfigurator.PainterConfigurator(
-            self.__painter,
-            pen=QPen(QColor(pars.get_sp("connection_color")), pars.get_sp("connection_width")),
-        ).get_painter()
+        self.__painter = get_painter_connection_line()
         self.__painter.drawLine(
             self.__x,
             self.__y,
             self.__x + pars.get_sp("connection_length"),
             self.__y,
         )
-
-        # подписи к основной линии
-        self.__painter = painterconfigurator.PainterConfigurator(
-            self.__painter
-        ).get_main_caption_painter()
         # endregion
 
-        # LT и прочие
-        # в зависимости от типа вершины
+        # подписи к основной линии (LT и прочие)
         # region
         text = data.get_sd("префикс_ВОК") + data.get_sd("ВОК")
-        drawtext.DrawText(self.__painter).draw_singleline_text_by_hl_vb(
+        drawtext.DrawText().draw_singleline_text_by_hl_vb(
+            get_painter_text_caption,
             text,
             self.__x + before_delta_line_caption_and_node,
             self.__y - pars.get_sp("connection_main_label_vertical_padding"),
         )
 
         # LB
-        text = data.get_sd("префикс_физическая_длина") + data.get_sd("количество_ОВ")
-        drawtext.DrawText(self.__painter).draw_singleline_text_by_hl_vt(
+        text = data.get_sd("префикс_количество_ОВ") + data.get_sd("количество_ОВ")
+        drawtext.DrawText().draw_singleline_text_by_hl_vt(
+            get_painter_text_caption,
             text,
             self.__x + before_delta_line_caption_and_node,
             self.__y + pars.get_sp("connection_main_label_vertical_padding"),
         )
 
         # RT
-        text = data.get_sd("префикс_оптическая_длина") + data.get_sd("физическая_длина")
-        drawtext.DrawText(self.__painter).draw_singleline_text_by_hr_vb(
+        text = data.get_sd("префикс_физическая_длина") + data.get_sd("физическая_длина")
+        drawtext.DrawText().draw_singleline_text_by_hr_vb(
+            get_painter_text_caption,
             text,
             self.__x
             + pars.get_sp("connection_length")
@@ -114,7 +147,8 @@ class DrawConnection:
 
         # RB
         text = data.get_sd("префикс_оптическая_длина") + data.get_sd("оптическая_длина")
-        drawtext.DrawText(self.__painter).draw_singleline_text_by_hr_vt(
+        drawtext.DrawText().draw_singleline_text_by_hr_vt(
+            get_painter_text_caption,
             text,
             self.__x
             + pars.get_sp("connection_length")
@@ -123,13 +157,11 @@ class DrawConnection:
         )
         # endregion
 
-        # Сплошнык тонкие линии
+        # тонкие линии
         # region
         # (строительная_длина)
         # горизонтальная линия - название
-        self.__painter = painterconfigurator.PainterConfigurator(
-            self.__painter
-        ).get_thin_line_painter()
+        self.__painter = get_painter_thin_line()
         self.__painter.drawLine(
             self.__x - pars.get_sp("distance_thin_line_after_connection_x"),
             self.__y + pars.get_sp("delta_node_and_thin_line"),
@@ -139,25 +171,25 @@ class DrawConnection:
             self.__y + pars.get_sp("delta_node_and_thin_line"),
         )
         # стрелки
-        drawobject.DrawObject(self.__painter).arrow(
+        drawobject.DrawObject().arrow(
+            get_painter_arrow,
             self.__x + pars.get_sp("connection_length"),
             self.__y + pars.get_sp("delta_node_and_thin_line"),
-            pars.get_sp("connection_arrow_width"),
-            pars.get_sp("connection_arrow_height"),
+            pars.get_sp("arrow_width"),
+            pars.get_sp("arrow_height"),
             "right",
         )
-        drawobject.DrawObject(self.__painter).arrow(
+        drawobject.DrawObject().arrow(
+            get_painter_arrow,
             self.__x,
             self.__y + pars.get_sp("delta_node_and_thin_line"),
-            pars.get_sp("connection_arrow_width"),
-            pars.get_sp("connection_arrow_height"),
+            pars.get_sp("arrow_width"),
+            pars.get_sp("arrow_height"),
             "left",
         )
 
         # горизонтальная линия - местоположение
-        self.__painter = painterconfigurator.PainterConfigurator(
-            self.__painter
-        ).get_thin_line_painter()
+        self.__painter = get_painter_thin_line()
         self.__painter.drawLine(
             self.__x - pars.get_sp("distance_thin_line_after_connection_x"),
             self.__y
@@ -172,23 +204,25 @@ class DrawConnection:
         )
         # стрелки + проверка соседних узлов
         if pars.get_bp("node_is_connected_with_thin_line_location"):
-            drawobject.DrawObject(self.__painter).arrow(
+            drawobject.DrawObject().arrow(
+                get_painter_arrow,
                 self.__x,
                 self.__y
                 + pars.get_sp("delta_node_and_thin_line")
                 + pars.get_sp("delta_thins_lines"),
-                pars.get_sp("connection_arrow_width"),
-                pars.get_sp("connection_arrow_height"),
+                pars.get_sp("arrow_width"),
+                pars.get_sp("arrow_height"),
                 "left",
             )
         if pars.get_ap("node_is_connected_with_thin_line_location"):
-            drawobject.DrawObject(self.__painter).arrow(
+            drawobject.DrawObject().arrow(
+                get_painter_arrow,
                 self.__x + pars.get_sp("connection_length"),
                 self.__y
                 + pars.get_sp("delta_node_and_thin_line")
                 + pars.get_sp("delta_thins_lines"),
-                pars.get_sp("connection_arrow_width"),
-                pars.get_sp("connection_arrow_height"),
+                pars.get_sp("arrow_width"),
+                pars.get_sp("arrow_height"),
                 "right",
             )
         # endregion
@@ -196,10 +230,6 @@ class DrawConnection:
         # Тексты над/под название и название_доп и местоположение и местоположение_доп
         # region
         # Текст над/под с название и название_доп
-        self.__painter = painterconfigurator.PainterConfigurator(
-            self.__painter
-        ).get_thin_line_caption_painter()
-        #
         center_x = (self.__x + self.__x + pars.get_sp("connection_length")) // 2
         bottom_y = (
             self.__y
@@ -213,20 +243,16 @@ class DrawConnection:
         )
         #
         text = data.get_sd("название")
-        drawtext.DrawText(self.__painter).draw_multiline_text_by_hc_vb(
-            text, center_x, bottom_y
+        drawtext.DrawText().draw_multiline_text_by_hc_vb(
+            get_painter_text_name_and_location, text, center_x, bottom_y
         )
         #
         text = data.get_sd("название_доп")
-        drawtext.DrawText(self.__painter).draw_multiline_text_by_hc_vt(
-            text, center_x, top_y
+        drawtext.DrawText().draw_multiline_text_by_hc_vt(
+            get_painter_text_name_and_location, text, center_x, top_y
         )
 
         # Текст над/под с местоположение и местоположение_доп
-        self.__painter = painterconfigurator.PainterConfigurator(
-            self.__painter
-        ).get_thin_line_caption_painter()
-        #
         center_x = (self.__x + self.__x + pars.get_sp("connection_length")) // 2
         bottom_y = (
             self.__y
@@ -242,13 +268,13 @@ class DrawConnection:
         )
         #
         text = data.get_sd("местоположение")
-        drawtext.DrawText(self.__painter).draw_multiline_text_by_hc_vb(
-            text, center_x, bottom_y
+        drawtext.DrawText().draw_multiline_text_by_hc_vb(
+            get_painter_text_name_and_location, text, center_x, bottom_y
         )
         #
         text = data.get_sd("местоположение_доп")
-        drawtext.DrawText(self.__painter).draw_multiline_text_by_hc_vt(
-            text, center_x, top_y
+        drawtext.DrawText().draw_multiline_text_by_hc_vt(
+            get_painter_text_name_and_location, text, center_x, top_y
         )
 
         # endregion

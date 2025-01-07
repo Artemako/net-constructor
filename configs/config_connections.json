@@ -73,47 +73,71 @@
             }
         },
         "type_object_parameters": {
-            "Линия для всех соединений": {
+            "Основная линия": {
                 "value": "заголовок",
-                "name": "Для всех вершин",
-                "order": 100,
+                "name": "Основная линия соединения",
+                "order": 0,
                 "type": "title"
             },
             "connection_color": {
                 "value": "#0000ff",
-                "name": "Цвет соединения",
-                "order": 101,
+                "name": "Цвет основной линии соединения",
+                "order": 1,
                 "type": "color"
             },
             "connection_width": {
                 "value": 4,
-                "name": "Толщина соединения",
+                "name": "Толщина основной линии соединения",
+                "order": 2
+            },
+            "Подписи основной линии": {
+                "value": "заголовок",
+                "name": "Основная линия соединения",
+                "order": 100,
+                "type": "title"
+            },
+            "connection_caption_color": {
+                "value": "#000000",
+                "name": "Цвет шрифта подписей соединения",
+                "order": 101,
+                "type": "color"
+            },
+            "connection_caption_pixel_size": {
+                "value": 12,
+                "name": "Размер шрифта подписей соединения",
                 "order": 102
             },
             "connection_caption_margin_left_right": {
                 "value": 10,
                 "name": "Боковые отступы подписей от вершин",
-                "order": 100
+                "order": 103
             },
             "connection_main_label_vertical_padding": {
                 "value": 10,
                 "name": "Высота подписей над/под соединением",
-                "order": 100
+                "order": 104
             },
             "connection_thin_label_vertical_padding": {
                 "value": 6,
                 "name": "Высота подписей над/под тонкой линией",
-                "order": 100
+                "order": 105
             },
-            "connection_arrow_width": {
-                "value": 20,
-                "name": "Ширина стрелки",
-                "order": 100
+            "Название и местоположение соединения": {
+                "value": "заголовок",
+                "name": "Название и местоположение соединения",
+                "order": 200,
+                "type": "title"
             },
-            "connection_arrow_height": {
-                "value": 8,
-                "name": "Высота стрелки",
-                "order": 100
+            "connection_name_color" : {
+                "value": "#000000",
+                "name": "Цвет шрифта названия соединения",
+                "order": 201,
+                "type": "color"
+            },
+            "connection_name_pixel_size": {
+                "value": 12,
+                "name": "Размер шрифта названия соединения",
+                "order": 202
             }
         }
     }

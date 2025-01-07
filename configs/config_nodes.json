@@ -42,6 +42,11 @@
         },
         "type_object_data": {},
         "object_parameters": {
+            "delta_wrap_x": {
+                "value": 0,
+                "name": "Расстояние переноса по X",
+                "order": 2
+            },
             "node_is_connected_with_thin_line_location": {
                 "value": true,
                 "name": "Cоединение с тонкой линией местоположения",
@@ -55,12 +60,6 @@
                 "value": 16,
                 "name": "Высота названия над вершиной",
                 "order": 20
-            },
-            "node_margin_left_right": {
-                "is_global": true,
-                "value": 16,
-                "name": "Боковые отступы от вершин",
-                "order": 31
             }
         }
     }

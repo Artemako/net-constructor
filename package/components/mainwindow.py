@@ -623,7 +623,7 @@ class MainWindow(QMainWindow):
         return len(dict_widgets) > 0
 
     def _create_editor_parameters_widgets_by_object(self, obj, is_node=False):
-        # TODO
+        
         if is_node:
             config_object_parameters = (
                 self.__obsm.obj_configs.get_config_node_parameters_by_node(obj)
@@ -640,8 +640,8 @@ class MainWindow(QMainWindow):
             config_type_object_parameters = self.__obsm.obj_configs.get_config_type_connection_parameters_by_connection(
                 obj
             )
-            
-        object_parameters = obj.get("object_parameters", {})
+        # именно только parameters
+        object_parameters = obj.get("parameters", {})
         flag = self._create_parameters_widgets(
             self.__editor_object_parameters_widgets,
             self.ui.fl_object_parameters,
@@ -650,12 +650,11 @@ class MainWindow(QMainWindow):
         )
         self.ui.label_object_parameters.setVisible(flag)
         #
-        type_object_parameters = obj.get("type_object_parameters", {})
         flag = self._create_parameters_widgets(
             self.__editor_type_object_parameters_widgets,
             self.ui.fl_type_object_parameters,
             config_type_object_parameters,
-            type_object_parameters,
+            object_parameters,
         )
         self.ui.label_type_object_parameters.setVisible(flag)
 
@@ -664,7 +663,6 @@ class MainWindow(QMainWindow):
             config_object_data = self.__obsm.obj_configs.get_config_node_data_by_node(
                 obj
             )
-            # TODO
             config_type_object_data = self.__obsm.obj_configs.get_config_type_node_data_by_node(
                 obj
             )
@@ -675,8 +673,8 @@ class MainWindow(QMainWindow):
             config_type_object_data = self.__obsm.obj_configs.get_config_type_connection_data_by_connection(
                 obj
             )
-        #
-        object_data = obj.get("object_data", {})
+        # именно только data
+        object_data = obj.get("data", {})
         flag = self.create_data_widgets(
             self.__editor_object_data_widgets,
             self.ui.fl_object_data,
@@ -685,11 +683,10 @@ class MainWindow(QMainWindow):
         )
         self.ui.label_object_data.setVisible(flag)
         #
-        type_object_data = obj.get("type_object_data", {})
         flag = self.create_data_widgets(
             self.__editor_type_object_data_widgets,
             self.ui.fl_type_object_data,
             config_type_object_data,
-            type_object_data,
+            object_data,
         )
         self.ui.label_type_object_data.setVisible(flag)
