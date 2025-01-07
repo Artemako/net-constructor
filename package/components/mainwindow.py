@@ -160,6 +160,8 @@ class MainWindow(QMainWindow):
                 new_parameters[key] = {"value": widget.currentText()}
             elif widget_type == "bool":
                 new_parameters[key] = {"value": widget.isChecked()}
+            elif widget_type == "number_int_signed":
+                new_parameters[key] = {"value": widget.value()}
             else:
                 new_parameters[key] = {"value": widget.value()}
         print(f"new_parameters={new_parameters}")
@@ -585,7 +587,6 @@ class MainWindow(QMainWindow):
             new_widget.setChecked(bool(value))
         #
         elif widget_type == "color":
-
             def open_color_dialog():
                 color = QColorDialog.getColor()
                 if color.isValid():
@@ -605,6 +606,10 @@ class MainWindow(QMainWindow):
                 if style_name == value:
                     new_widget.setCurrentText(style_name)
         #
+        elif widget_type == "number_int_signed":
+            new_widget = QSpinBox()
+            new_widget.setRange(-2147483647, 2147483647)
+            new_widget.setValue(value)
         else:
             new_widget = QSpinBox()
             new_widget.setRange(0, 2147483647)

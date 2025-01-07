@@ -3,88 +3,51 @@
     "diagramm_name": "Скелетная схема ВОЛП и основные данные цепей кабеля",
     "diagramm_parameters": {
         "arrow_height": {
-            "name": "Высота стрелки",
-            "order": 202,
             "value": 8
         },
         "arrow_length": {
-            "name": "Длина стрелки, обозначающая перенос",
-            "order": 203,
             "value": 50
         },
         "arrow_width": {
-            "name": "Ширина стрелки",
-            "order": 201,
             "value": 20
         },
         "delta_node_and_thin_line": {
-            "name": "Расстояние между вершиной и тонкой линии",
-            "order": 103,
             "value": 100
         },
         "delta_thins_lines": {
-            "name": "Расстояние между тонкими линиями",
-            "order": 104,
             "value": 50
         },
         "distance_thin_line_after_connection_x": {
-            "name": "Расстояние тонкой линии после соединения по X",
-            "order": 105,
             "value": 5
         },
         "distance_thin_line_after_connection_y": {
-            "name": "Расстояние тонкой линии после соединения по Y",
-            "order": 106,
             "value": 5
         },
         "node_border_color": {
-            "name": "Цвет рамки вершин",
-            "order": 51,
-            "type": "color",
             "value": "#000000"
         },
         "node_border_weight": {
-            "name": "Толщина рамки вершин",
-            "order": 52,
             "value": 2
         },
         "node_fill_color": {
-            "name": "Цвет заливки вершин",
-            "order": 53,
-            "type": "color",
             "value": "#A0A0A4"
         },
         "node_fill_style": {
-            "name": "Стиль заливки вершин",
-            "order": 54,
-            "type": "fill_style",
             "value": "DiagCrossPattern"
         },
         "node_name_color": {
-            "name": "Цвет шрифта названия вершины",
-            "order": 1,
-            "type": "color",
             "value": "#000000"
         },
         "node_name_pixel_size": {
-            "name": "Размер шрифта названия вершины",
-            "order": 2,
             "value": 16
         },
         "node_radius": {
-            "name": "Радиус маленького круга вершин",
-            "order": 55,
             "value": 20
         },
         "thin_line_color": {
-            "name": "Цвет тонкой линии",
-            "order": 101,
-            "type": "color",
             "value": "#000000"
         },
         "thin_line_weight": {
-            "name": "Толщина тонкой линии",
-            "order": 102,
             "value": 2
         },
         "Все вершины": {
@@ -110,33 +73,26 @@
             "order": 100,
             "type": "title",
             "value": ""
+        },
+        "is_location": {
+            "value": true
         }
     },
     "image_parameters": {
         "width": {
-            "value": 2000,
-            "name": "Ширина изображения",
-            "order": 0
+            "value": 2000
         },
         "height": {
-            "value": 800,
-            "name": "Высота изображения",
-            "order": 1
+            "value": 800
         },
         "start_x": {
-            "value": 150,
-            "name": "Стартовая координата X",
-            "order": 2
+            "value": 150
         },
         "start_y": {
-            "value": 100,
-            "name": "Стартовая координата Y",
-            "order": 3
+            "value": 150
         },
         "delta_wrap_y": {
-            "value": 200,
-            "name": "Расстояние между рядами вершин по Y",
-            "order": 4
+            "value": 200
         }
     },
     "nodes": [
@@ -146,28 +102,18 @@
             "node_id": "0",
             "data": {
                 "название": {
-                    "name": "Название",
-                    "order": 0,
                     "value": "Установленная оптическая муфта"
                 }
             },
             "is_wrap": false,
             "parameters": {
                 "delta_wrap_x": {
-                    "name": "Расстояние переноса по X",
-                    "order": 2,
                     "value": 0
                 },
                 "node_is_connected_with_thin_line_location": {
-                    "name": "Cоединение с тонкой линией местоположения",
-                    "order": 10,
-                    "type": "bool",
                     "value": true
                 },
                 "node_margin_top": {
-                    "is_global": true,
-                    "name": "Высота названия над вершиной",
-                    "order": 20,
                     "value": 16
                 }
             }
@@ -178,28 +124,18 @@
             "node_id": "0",
             "data": {
                 "название": {
-                    "name": "Название",
-                    "order": 0,
                     "value": "Установленная оптическая муфта"
                 }
             },
-            "is_wrap": true,
+            "is_wrap": false,
             "parameters": {
                 "delta_wrap_x": {
-                    "name": "Расстояние переноса по X",
-                    "order": 2,
                     "value": 0
                 },
                 "node_is_connected_with_thin_line_location": {
-                    "name": "Cоединение с тонкой линией местоположения",
-                    "order": 10,
-                    "type": "bool",
-                    "value": true
+                    "value": false
                 },
                 "node_margin_top": {
-                    "is_global": true,
-                    "name": "Высота названия над вершиной",
-                    "order": 20,
                     "value": 16
                 }
             }
@@ -229,9 +165,6 @@
                     "value": true
                 },
                 "node_margin_top": {
-                    "is_global": true,
-                    "name": "Высота названия над вершиной",
-                    "order": 20,
                     "value": 16
                 }
             }
@@ -250,7 +183,7 @@
                     "value": 20
                 },
                 "местоположение": {
-                    "value": ""
+                    "value": "При"
                 },
                 "местоположение_доп": {
                     "value": ""
@@ -288,7 +221,7 @@
             },
             "parameters": {
                 "connection_length": {
-                    "value": 350
+                    "value": 500
                 },
                 "connection_caption_color": {
                     "value": "#000000"
@@ -334,6 +267,9 @@
                     "order": 100,
                     "type": "title",
                     "value": "заголовок"
+                },
+                "connection_location_delta_x": {
+                    "value": 0
                 }
             }
         },
@@ -455,6 +391,9 @@
                     "order": 100,
                     "type": "title",
                     "value": "заголовок"
+                },
+                "connection_location_delta_x": {
+                    "value": 0
                 }
             }
         }

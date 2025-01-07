@@ -150,14 +150,20 @@
             },
             "connection_name_color": {
                 "value": "#000000",
-                "name": "Цвет шрифта названия соединения",
+                "name": "Цвет шрифта названия и местоположения соединения",
                 "order": 201,
                 "type": "color"
             },
             "connection_name_pixel_size": {
                 "value": 12,
-                "name": "Размер шрифта названия соединения",
+                "name": "Размер шрифта названия и местоположения соединения",
                 "order": 202
+            },
+            "connection_location_delta_x": {
+                "value": 0,
+                "name": "Смещение местоположения соединения по X",
+                "order": 203,
+                "type": "number_int_signed"
             }
         }
     }

@@ -62,7 +62,8 @@ class DrawConnection:
             return painterconfigurator.PainterConfigurator(
                 self.__painter
             ).get_painter_figure_fill(
-                fill_color=pars.get_sp("thin_line_color"), fill_pattern_name="Qt.SolidPattern"
+                fill_color=pars.get_sp("thin_line_color"),
+                fill_pattern_name="Qt.SolidPattern",
             )
 
         def get_painter_text_name_and_location():
@@ -80,7 +81,6 @@ class DrawConnection:
                 color=pars.get_sp("connection_caption_color"),
                 pixel_size=pars.get_sp("connection_caption_pixel_size"),
             )
-
 
         #  Для LT и прочие
         before_delta_line_caption_and_node = 0
@@ -135,7 +135,11 @@ class DrawConnection:
         )
 
         # RT
-        text = data.get_sd("префикс_физическая_длина") + data.get_sd("физическая_длина") + data.get_sd("постфикс_физическая_длина")
+        text = (
+            data.get_sd("префикс_физическая_длина")
+            + data.get_sd("физическая_длина")
+            + data.get_sd("постфикс_физическая_длина")
+        )
         drawtext.DrawText().draw_singleline_text_by_hr_vb(
             get_painter_text_caption,
             text,
@@ -146,7 +150,11 @@ class DrawConnection:
         )
 
         # RB
-        text = data.get_sd("префикс_оптическая_длина") + data.get_sd("оптическая_длина") + data.get_sd("постфикс_оптическая_длина")
+        text = (
+            data.get_sd("префикс_оптическая_длина")
+            + data.get_sd("оптическая_длина")
+            + data.get_sd("постфикс_оптическая_длина")
+        )
         drawtext.DrawText().draw_singleline_text_by_hr_vt(
             get_painter_text_caption,
             text,
@@ -163,12 +171,16 @@ class DrawConnection:
         # горизонтальная линия - название
         self.__painter = get_painter_thin_line()
         self.__painter.drawLine(
-            self.__x - pars.get_sp("distance_thin_line_after_connection_x"),
-            self.__y + pars.get_sp("delta_node_and_thin_line"),
-            self.__x
-            + pars.get_sp("connection_length")
-            + pars.get_sp("distance_thin_line_after_connection_x"),
-            self.__y + pars.get_sp("delta_node_and_thin_line"),
+            QPoint(
+                self.__x - pars.get_sp("distance_thin_line_after_connection_x"),
+                self.__y + pars.get_sp("delta_node_and_thin_line"),
+            ),
+            QPoint(
+                self.__x
+                + pars.get_sp("connection_length")
+                + pars.get_sp("distance_thin_line_after_connection_x"),
+                self.__y + pars.get_sp("delta_node_and_thin_line"),
+            ),
         )
         # стрелки
         drawobject.DrawObject().arrow(
@@ -189,42 +201,47 @@ class DrawConnection:
         )
 
         # горизонтальная линия - местоположение
-        self.__painter = get_painter_thin_line()
-        self.__painter.drawLine(
-            self.__x - pars.get_sp("distance_thin_line_after_connection_x"),
-            self.__y
-            + pars.get_sp("delta_node_and_thin_line")
-            + pars.get_sp("delta_thins_lines"),
-            self.__x
-            + pars.get_sp("connection_length")
-            + pars.get_sp("distance_thin_line_after_connection_x"),
-            self.__y
-            + pars.get_sp("delta_node_and_thin_line")
-            + pars.get_sp("delta_thins_lines"),
-        )
-        # стрелки + проверка соседних узлов
-        if pars.get_bp("node_is_connected_with_thin_line_location"):
-            drawobject.DrawObject().arrow(
-                get_painter_arrow,
-                self.__x,
-                self.__y
-                + pars.get_sp("delta_node_and_thin_line")
-                + pars.get_sp("delta_thins_lines"),
-                pars.get_sp("arrow_width"),
-                pars.get_sp("arrow_height"),
-                "left",
+        if pars.get_bp("is_location"):
+            self.__painter = get_painter_thin_line()
+            self.__painter.drawLine(
+                QPoint(
+                    self.__x - pars.get_sp("distance_thin_line_after_connection_x"),
+                    self.__y
+                    + pars.get_sp("delta_node_and_thin_line")
+                    + pars.get_sp("delta_thins_lines"),
+                ),
+                QPoint(
+                    self.__x
+                    + pars.get_sp("connection_length")
+                    + pars.get_sp("distance_thin_line_after_connection_x"),
+                    self.__y
+                    + pars.get_sp("delta_node_and_thin_line")
+                    + pars.get_sp("delta_thins_lines"),
+                ),
             )
-        if pars.get_ap("node_is_connected_with_thin_line_location"):
-            drawobject.DrawObject().arrow(
-                get_painter_arrow,
-                self.__x + pars.get_sp("connection_length"),
-                self.__y
-                + pars.get_sp("delta_node_and_thin_line")
-                + pars.get_sp("delta_thins_lines"),
-                pars.get_sp("arrow_width"),
-                pars.get_sp("arrow_height"),
-                "right",
-            )
+            # стрелки + проверка соседних узлов
+            if pars.get_bp("node_is_connected_with_thin_line_location"):
+                drawobject.DrawObject().arrow(
+                    get_painter_arrow,
+                    self.__x,
+                    self.__y
+                    + pars.get_sp("delta_node_and_thin_line")
+                    + pars.get_sp("delta_thins_lines"),
+                    pars.get_sp("arrow_width"),
+                    pars.get_sp("arrow_height"),
+                    "left",
+                )
+            if pars.get_ap("node_is_connected_with_thin_line_location"):
+                drawobject.DrawObject().arrow(
+                    get_painter_arrow,
+                    self.__x + pars.get_sp("connection_length"),
+                    self.__y
+                    + pars.get_sp("delta_node_and_thin_line")
+                    + pars.get_sp("delta_thins_lines"),
+                    pars.get_sp("arrow_width"),
+                    pars.get_sp("arrow_height"),
+                    "right",
+                )
         # endregion
 
         # Тексты над/под название и название_доп и местоположение и местоположение_доп
@@ -253,28 +270,31 @@ class DrawConnection:
         )
 
         # Текст над/под с местоположение и местоположение_доп
-        center_x = (self.__x + self.__x + pars.get_sp("connection_length")) // 2
-        bottom_y = (
-            self.__y
-            + pars.get_sp("delta_node_and_thin_line")
-            + pars.get_sp("delta_thins_lines")
-            - pars.get_sp("connection_thin_label_vertical_padding")
-        )
-        top_y = (
-            self.__y
-            + pars.get_sp("delta_node_and_thin_line")
-            + pars.get_sp("delta_thins_lines")
-            + pars.get_sp("connection_thin_label_vertical_padding")
-        )
-        #
-        text = data.get_sd("местоположение")
-        drawtext.DrawText().draw_multiline_text_by_hc_vb(
-            get_painter_text_name_and_location, text, center_x, bottom_y
-        )
-        #
-        text = data.get_sd("местоположение_доп")
-        drawtext.DrawText().draw_multiline_text_by_hc_vt(
-            get_painter_text_name_and_location, text, center_x, top_y
-        )
+        if pars.get_bp("is_location"):
+            center_x_with_delta = (
+                (self.__x + self.__x + pars.get_sp("connection_length")) // 2
+            ) + pars.get_sp("connection_location_delta_x")
+            bottom_y = (
+                self.__y
+                + pars.get_sp("delta_node_and_thin_line")
+                + pars.get_sp("delta_thins_lines")
+                - pars.get_sp("connection_thin_label_vertical_padding")
+            )
+            top_y = (
+                self.__y
+                + pars.get_sp("delta_node_and_thin_line")
+                + pars.get_sp("delta_thins_lines")
+                + pars.get_sp("connection_thin_label_vertical_padding")
+            )
+            #
+            text = data.get_sd("местоположение")
+            drawtext.DrawText().draw_multiline_text_by_hc_vb(
+                get_painter_text_name_and_location, text, center_x_with_delta, bottom_y
+            )
+            #
+            text = data.get_sd("местоположение_доп")
+            drawtext.DrawText().draw_multiline_text_by_hc_vt(
+                get_painter_text_name_and_location, text, center_x_with_delta, top_y
+            )
 
         # endregion

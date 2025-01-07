@@ -104,12 +104,6 @@ class DrawNode:
             node_border_radius *= 2
 
         # рисование wrap стрелки
-        print(
-            "self.__object_node.get_before_wrap()", self.__object_node.get_before_wrap()
-        )
-        print(
-            "self.__object_node.get_after_wrap()", self.__object_node.get_after_wrap()
-        )
         if self.__object_node.get_before_wrap():
             drawobject.DrawObject().wrap_arrow(
                 get_painter_arrow,
@@ -145,8 +139,8 @@ class DrawNode:
                     + pars.get_sp("distance_thin_line_after_connection_y"),
                 ),
             )
-            # рисовать линию - если pars.get_sp("node_is_connected_with_thin_line_location")
-            if pars.get_sp("node_is_connected_with_thin_line_location"):
+            # рисовать линию ЕСЛИ is_location И node_is_connected_with_thin_line_location
+            if pars.get_sp("is_location") and pars.get_sp("node_is_connected_with_thin_line_location"):
                 painter_thin_line.drawLine(
                     self.__x,
                     self.__y + pars.get_sp("delta_node_and_thin_line"),

@@ -39,22 +39,28 @@
                 "0"
             ],
             "parameters": {
-                "Все названия вершины": {
-                    "value": "заголовок",
-                    "name": "Все вершины",
+                "is_location": {
+                    "value": true,
+                    "name": "Показывать местоположение",
                     "order": 0,
+                    "type": "bool"
+                },
+                "Все названия вершин": {
+                    "value": "заголовок",
+                    "name": "Все названия вершин",
+                    "order": 10,
                     "type": "title"
                 },
                 "node_name_color": {
                     "value": "#000000",
                     "name": "Цвет шрифта названия вершины",
-                    "order": 1,
+                    "order": 11,
                     "type": "color"
                 },
                 "node_name_pixel_size": {
                     "value": 16,
                     "name": "Размер шрифта названия вершины",
-                    "order": 2
+                    "order": 12
                 },
                 "Все вершины": {
                     "value": "заголовок",
