@@ -46,6 +46,8 @@ class DrawObject:
                     QPoint(int(x - 0.8 * width), y),
                 ]
             )
+            self.__painter.drawPolygon(points)
+        #
         elif direction == "left":
             points = QPolygon(
                 [
@@ -55,7 +57,7 @@ class DrawObject:
                     QPoint(int(x + 0.8 * width), y),
                 ]
             )
-        self.__painter.drawPolygon(points)
+            self.__painter.drawPolygon(points)
 
     def wrap_arrow(
         self, painter_arrow, painter_line, x, y, width, height, length, type_wrap

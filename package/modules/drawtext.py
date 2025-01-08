@@ -34,11 +34,6 @@ class DrawText:
             self.__painter.drawText(text_x, text_y, line)
             text_y += self.__painter.fontMetrics().height()
 
-    # def draw_lefted_by_left_single_line_text(self, text, left_x, y):
-    #     """Отображает однострочный текст, выровненный по левому краю, начиная с заданной координаты x."""
-    #     # Рисуем текст с начальной x-координаты, оставляя текст выровненным по левому краю
-    #     self.painter.drawText(left_x, y, text)
-
     def draw_singleline_text_by_hl_vb(self, painter_text, text, left_x, bottom_y):
         self.__painter = painter_text()
         text_y = bottom_y
@@ -48,32 +43,23 @@ class DrawText:
         self.__painter = painter_text()
         text_y = top_y + self.__painter.fontMetrics().height() * 0.618
         self.__painter.drawText(left_x, text_y, text)
-
-    # def draw_righted_by_right_single_line_text(self, text, right_x, y):
-    #     """Отображает однострочный текст, выровненный по правому краю, начиная с заданной координаты x."""
-    #     # Вычисляем ширину текста
-    #     text_width = self.painter.fontMetrics().horizontalAdvance(text)
-    #     # Рассчитываем начальную x-координату для выравнивания по правому краю
-    #     text_x = right_x - text_width
-    #     # Рисуем текст смещенный, чтобы правая граница текста совпадала с right_x
-    #     self.painter.drawText(text_x, y, text)
         
-    def draw_singleline_text_by_hr_vb(self, painter_text, text, right_x, y):
+    def draw_singleline_text_by_hr_vb(self, painter_text, text, right_x, bottom_y):
         self.__painter = painter_text()
         # Вычисляем ширину текста
         text_width = self.__painter.fontMetrics().horizontalAdvance(text)
         # Рассчитываем начальную x-координату для выравнивания по правому краю
         text_x = right_x - text_width
-        text_y = y
+        text_y = bottom_y
         # Рисуем текст смещенный, чтобы правая граница текста совпадала с right_x
         self.__painter.drawText(text_x, text_y, text)
 
-    def draw_singleline_text_by_hr_vt(self, painter_text, text, right_x, y):
+    def draw_singleline_text_by_hr_vt(self, painter_text, text, right_x, top_y):
         self.__painter = painter_text()
         # Вычисляем ширину текста
         text_width = self.__painter.fontMetrics().horizontalAdvance(text)
         # Рассчитываем начальную x-координату для выравнивания по правому краю
         text_x = right_x - text_width
-        text_y = y + self.__painter.fontMetrics().height() * 0.618 
+        text_y = top_y + self.__painter.fontMetrics().height() * 0.618 
         # Рисуем текст смещенный, чтобы правая граница текста совпадала с right_x
         self.__painter.drawText(text_x, text_y, text)

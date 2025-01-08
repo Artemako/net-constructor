@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QWidget
 from PySide6.QtGui import QPainter, QPen, QBrush, QImage, QFont, QPolygon
-from PySide6.QtCore import Qt, QPointF, QPoint
+from PySide6.QtCore import Qt, QPoint
 
 import package.modules.painterconfigurator as painterconfigurator
 import package.modules.drawdataparameters as drawdataparameters
@@ -30,10 +30,10 @@ class DrawNode:
         self.__object_after = object_after
         self.__x = x
         self.__y = y
-        self.__to_right_optical_length = to_right_optical_length
-        self.__to_right_physical_length = to_right_physical_length
-        self.__to_left_optical_length = to_left_optical_length
-        self.__to_left_physical_length = to_left_physical_length
+        self.__to_right_optical_length = str(to_right_optical_length)
+        self.__to_right_physical_length = str(to_right_physical_length)
+        self.__to_left_optical_length = str(to_left_optical_length)
+        self.__to_left_physical_length = str(to_left_physical_length)
 
     def draw(self):
         # Сначала выбор диграммы, а потом узла
@@ -51,7 +51,6 @@ class DrawNode:
             self._draw_node_ids_0_1(pars, data, node_id)
         # "Схема размещения строительных длин и смонтированных муфт на участках регенерации между оконечными пунктами ВОЛП"
         elif self.__object_diagramm.get_diagramm_type_id() == "50":
-            # TODO
             pars = drawdataparameters.DrawParameters(
                 self.__object_diagramm,
                 self.__object_node,
@@ -140,8 +139,8 @@ class DrawNode:
         def draw_vertical_thin_line():
             painter_thin_line = get_painter_thin_line()
             painter_thin_line.drawLine(
-                QPointF(self.__x, self.__y),
-                QPointF(
+                QPoint(self.__x, self.__y),
+                QPoint(
                     self.__x,
                     self.__y
                     + pars.get_sp("delta_node_and_thin_line")
@@ -153,13 +152,16 @@ class DrawNode:
                 "node_is_connected_with_thin_line_location"
             ):
                 painter_thin_line.drawLine(
-                    self.__x,
-                    self.__y + pars.get_sp("delta_node_and_thin_line"),
-                    self.__x,
-                    self.__y
-                    + pars.get_sp("delta_node_and_thin_line")
-                    + pars.get_sp("delta_thins_lines")
-                    + pars.get_sp("distance_thin_line_after_connection_y"),
+                    QPoint(
+                        self.__x, self.__y + pars.get_sp("delta_node_and_thin_line")
+                    ),
+                    QPoint(
+                        self.__x,
+                        self.__y
+                        + pars.get_sp("delta_node_and_thin_line")
+                        + pars.get_sp("delta_thins_lines")
+                        + pars.get_sp("distance_thin_line_after_connection_y"),
+                    ),
                 )
 
         # Проверяем наличие соединения
@@ -220,7 +222,17 @@ class DrawNode:
                 self.__painter,
             ).get_painter_text(
                 color=pars.get_sp("node_name_color"),
+                font_name=pars.get_sp("font_name"),
                 pixel_size=pars.get_sp("node_name_pixel_size"),
+            )
+
+        def get_painter_text_caption():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter
+            ).get_painter_text(
+                color=pars.get_sp("node_caption_color"),
+                font_name=pars.get_sp("font_name"),
+                pixel_size=pars.get_sp("node_caption_pixel_size"),
             )
 
         def get_painter_thin_line():
@@ -276,27 +288,168 @@ class DrawNode:
         ) + pars.get_sp("distance_thin_line_after_connection_y")
         #
         painter_thin_line.drawLine(
-            QPointF(
+            QPoint(
                 self.__x,
                 self.__y
                 - delta_node_and_arrow_and_distance_thin_line_after_connection_y,
             ),
-            QPointF(
+            QPoint(
                 self.__x,
                 self.__y
                 + delta_node_and_arrow_and_distance_thin_line_after_connection_y,
-            )
+            ),
         )
         # TODO + дельта ТЕкст и стрелочик (выбор над/под)
         # рисование to_right to_left стрелок с линией и со значениями
-        # to_right
-        if not(self.__object_node.get_after_wrap() or not self.__object_before):
-            ...
+        # слева (to_right)
+        if not (self.__object_node.get_after_wrap() or not self.__object_before):
+            painter_thin_line = get_painter_thin_line()
+
+            # верхняя линия
+            painter_thin_line.drawLine(
+                QPoint(
+                    self.__x - pars.get_sp("to_left_and_to_right_arrow_length"),
+                    self.__y - pars.get_sp("delta_node_and_to_right_arrow"),
+                ),
+                QPoint(
+                    self.__x, self.__y - pars.get_sp("delta_node_and_to_right_arrow")
+                ),
+            )
+            # нижняя линия
+            painter_thin_line.drawLine(
+                QPoint(
+                    self.__x - pars.get_sp("to_left_and_to_right_arrow_length"),
+                    self.__y + pars.get_sp("delta_node_and_to_right_arrow"),
+                ),
+                QPoint(
+                    self.__x, self.__y + pars.get_sp("delta_node_and_to_right_arrow")
+                ),
+            )
+
+            # стрелка верхняя
+            drawobject.DrawObject().arrow(
+                get_painter_arrow,
+                self.__x,
+                self.__y - pars.get_sp("delta_node_and_to_right_arrow"),
+                pars.get_sp("arrow_width"),
+                pars.get_sp("arrow_height"),
+                "right",
+            )
+            # стрелка нижняя
+            drawobject.DrawObject().arrow(
+                get_painter_arrow,
+                self.__x,
+                self.__y + pars.get_sp("delta_node_and_to_right_arrow"),
+                pars.get_sp("arrow_width"),
+                pars.get_sp("arrow_height"),
+                "right",
+            )
+
+            # текст верхний
+            text = self.__to_right_physical_length
+            is_top_node_top_caption = pars.get_sp("is_top_node_top_caption")
+            if is_top_node_top_caption:
+                drawtext.DrawText().draw_singleline_text_by_hr_vb(
+                    get_painter_text_caption,
+                    text,
+                    self.__x - pars.get_sp("arrow_width"),
+                    self.__y
+                    - pars.get_sp("delta_node_and_to_right_arrow")
+                    - pars.get_sp("node_caption_vertical_padding"),
+                )
+            else:
+                drawtext.DrawText().draw_singleline_text_by_hr_vt(
+                    get_painter_text_caption,
+                    text,
+                    self.__x - pars.get_sp("arrow_width"),
+                    self.__y
+                    - pars.get_sp("delta_node_and_to_right_arrow")
+                    + pars.get_sp("node_caption_vertical_padding"),
+                )
+
+
+            # # слева (to_right)
+            # text = self.__to_right_physical_length
+            # drawtext.DrawText().draw_singleline_text_by_hr_vb(
+            #     get_painter_text_caption,
+            #     text,
+            #     self.__x - pars.get_sp("arrow_width"),
+            #     text_y,
+            # )
+            # # справа (to_left)
+            # text = self.__to_left_physical_length
+            # drawtext.DrawText().draw_singleline_text_by_hl_vb(
+            #     get_painter_text_caption,
+            #     text,
+            #     self.__x + pars.get_sp("arrow_width"),
+            #     text_y,
+            # )
+
+            # текст нижний
+            text = self.__to_right_optical_length
+            is_top_node_bottom_caption = pars.get_sp("is_top_node_bottom_caption")
+            if is_top_node_bottom_caption:
+                drawtext.DrawText().draw_singleline_text_by_hr_vb(
+                    get_painter_text_caption,
+                    text,
+                    self.__x - pars.get_sp("arrow_width"),
+                    self.__y
+                    + pars.get_sp("delta_node_and_to_right_arrow")
+                    - pars.get_sp("node_caption_vertical_padding"),
+                )
+            else:
+                drawtext.DrawText().draw_singleline_text_by_hr_vt(
+                    get_painter_text_caption,
+                    text,
+                    self.__x - pars.get_sp("arrow_width"),
+                    self.__y
+                    + pars.get_sp("delta_node_and_to_right_arrow")
+                    + pars.get_sp("node_caption_vertical_padding"),
+                )
 
         # to_left
-        if not(self.__object_node.get_before_wrap() or not self.__object_after):
-            ...
-    
+        if not (self.__object_node.get_before_wrap() or not self.__object_after):
+            painter_thin_line = get_painter_thin_line()
+            # верхняя линия
+            painter_thin_line.drawLine(
+                QPoint(
+                    self.__x + pars.get_sp("to_left_and_to_right_arrow_length"),
+                    self.__y - pars.get_sp("delta_node_and_to_left_arrow"),
+                ),
+                QPoint(
+                    self.__x, self.__y - pars.get_sp("delta_node_and_to_left_arrow")
+                ),
+            )
+            # нижняя линия
+            painter_thin_line.drawLine(
+                QPoint(
+                    self.__x + pars.get_sp("to_left_and_to_right_arrow_length"),
+                    self.__y + pars.get_sp("delta_node_and_to_left_arrow"),
+                ),
+                QPoint(
+                    self.__x, self.__y + pars.get_sp("delta_node_and_to_left_arrow")
+                ),
+            )
+            # стрелка верхняя
+            drawobject.DrawObject().arrow(
+                get_painter_arrow,
+                self.__x,
+                self.__y - pars.get_sp("delta_node_and_to_left_arrow"),
+                pars.get_sp("arrow_width"),
+                pars.get_sp("arrow_height"),
+                "left",
+            )
+            # стрелка нижняя
+            drawobject.DrawObject().arrow(
+                get_painter_arrow,
+                self.__x,
+                self.__y + pars.get_sp("delta_node_and_to_left_arrow"),
+                pars.get_sp("arrow_width"),
+                pars.get_sp("arrow_height"),
+                "left",
+            )
+
+            # TODO
 
         # # рисовать линию ЕСЛИ is_location И node_is_connected_with_thin_line_location
         # if pars.get_sp("is_location") and pars.get_sp(
