@@ -117,7 +117,7 @@ class DrawConnection:
 
         # подписи к основной линии (LT и прочие)
         # region
-        text = data.get_sd("префикс_ВОК") + data.get_sd("ВОК")
+        text = pars.get_sp("префикс_ВОК") + data.get_sd("ВОК")
         drawtext.DrawText().draw_singleline_text_by_hl_vb(
             get_painter_text_caption,
             text,
@@ -126,7 +126,7 @@ class DrawConnection:
         )
 
         # LB
-        text = data.get_sd("префикс_количество_ОВ") + data.get_sd("количество_ОВ")
+        text = pars.get_sp("префикс_количество_ОВ") + data.get_sd("количество_ОВ")
         drawtext.DrawText().draw_singleline_text_by_hl_vt(
             get_painter_text_caption,
             text,
@@ -136,9 +136,9 @@ class DrawConnection:
 
         # RT
         text = (
-            data.get_sd("префикс_физическая_длина")
+            pars.get_sp("префикс_физическая_длина")
             + data.get_sd("физическая_длина")
-            + data.get_sd("постфикс_физическая_длина")
+            + pars.get_sp("постфикс_физическая_длина")
         )
         drawtext.DrawText().draw_singleline_text_by_hr_vb(
             get_painter_text_caption,
@@ -151,9 +151,9 @@ class DrawConnection:
 
         # RB
         text = (
-            data.get_sd("префикс_оптическая_длина")
+            pars.get_sp("префикс_оптическая_длина")
             + data.get_sd("оптическая_длина")
-            + data.get_sd("постфикс_оптическая_длина")
+            + pars.get_sp("постфикс_оптическая_длина")
         )
         drawtext.DrawText().draw_singleline_text_by_hr_vt(
             get_painter_text_caption,

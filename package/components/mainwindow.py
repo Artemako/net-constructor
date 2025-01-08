@@ -146,43 +146,32 @@ class MainWindow(QMainWindow):
             self._reset_widgets_by_data(project_data)
             self.start_qt_actions()
 
-    def _get_new_parameters(self, parameters_widgets):
-        print("get_new_parameters():\n" f"parameters_widgets={parameters_widgets}\n")
-        new_parameters = {}
-        for key, pair in parameters_widgets.items():
+    def _get_new_data_or_parameters(self, dict_widgets, is_parameters=True):
+        new_data_or_parameters = {}
+        for key, pair in dict_widgets.items():
             widget_type = pair[0]
             widget = pair[1]
             if widget_type == "title":
-                new_parameters[key] = {"value": "заголовок"}
+                new_data_or_parameters[key] = {"value": "заголовок"}
             elif widget_type == "color":
-                new_parameters[key] = {"value": widget.text()}
-            elif widget_type == "fill_style":
-                new_parameters[key] = {"value": widget.currentText()}
-            elif widget_type == "bool":
-                new_parameters[key] = {"value": widget.isChecked()}
-            elif widget_type == "number_int_signed":
-                new_parameters[key] = {"value": widget.value()}
-            else:
-                new_parameters[key] = {"value": widget.value()}
-        print(f"new_parameters={new_parameters}")
-        return new_parameters
-
-    def _get_new_data(self, data_widgets):
-        print("get_new_data():\n" f"data_widgets={data_widgets}\n")
-        new_data = {}
-        for key, pair in data_widgets.items():
-            widget_type = pair[0]
-            widget = pair[1]
-            if widget_type == "title":
-                new_data[key] = {"value": "заголовок"}
+                new_data_or_parameters[key] = {"value": widget.text()}
             elif widget_type == "line_string":
-                new_data[key] = {"value": widget.text()} 
+                new_data_or_parameters[key] = {"value": widget.text()} 
+            elif widget_type == "fill_style":
+                new_data_or_parameters[key] = {"value": widget.currentText()}
+            elif widget_type == "bool":
+                new_data_or_parameters[key] = {"value": widget.isChecked()}
+            elif widget_type == "number_int_signed":
+                new_data_or_parameters[key] = {"value": widget.value()}
             elif widget_type == "number_int":
-                new_data[key] = {"value": widget.value()}
+                new_data_or_parameters[key] = {"value": widget.value()}
             else:
-                new_data[key] = {"value": widget.toPlainText()}
-        print(f"return new_data={new_data}")
-        return new_data
+                if is_parameters:
+                    new_data_or_parameters[key] = {"value": widget.value()}
+                else:
+                    new_data_or_parameters[key] = {"value": widget.toPlainText()}
+
+        return new_data_or_parameters
 
 
     def _save_changes_to_file_nce(self):
@@ -206,26 +195,26 @@ class MainWindow(QMainWindow):
                 diagramm_name = self.ui.combox_type_diagramm.currentData().get(
                     "name", ""
                 )
-                new_image_parameters = self._get_new_parameters(
-                    self.__general_image_parameters_widgets
+                new_image_parameters = self._get_new_data_or_parameters(
+                    self.__general_image_parameters_widgets, is_parameters=True
                 )
-                new_diagramm_parameters = self._get_new_parameters(
-                    self.__general_diagramm_parameters_widgets
+                new_diagramm_parameters = self._get_new_data_or_parameters(
+                    self.__general_diagramm_parameters_widgets, is_parameters=True
                 )
             elif self.ui.tabw_right.currentIndex() == 2:
                 is_editor_tab = True
                 # Объединить дата с двух разных форм
-                new_data = self._get_new_data(self.__editor_object_data_widgets)
-                new_type_parameters = self._get_new_data(
-                    self.__editor_type_object_data_widgets
+                new_data = self._get_new_data_or_parameters(self.__editor_object_data_widgets, is_parameters=False)
+                new_type_parameters = self._get_new_data_or_parameters(
+                    self.__editor_type_object_data_widgets, is_parameters=False
                 )
                 new_data.update(new_type_parameters)
                 # Объединить параметры с двух разных форм
-                new_parameters = self._get_new_parameters(
-                    self.__editor_object_parameters_widgets
+                new_parameters = self._get_new_data_or_parameters(
+                    self.__editor_object_parameters_widgets, is_parameters=True
                 )
-                new_type_parameters = self._get_new_parameters(
-                    self.__editor_type_object_parameters_widgets
+                new_type_parameters = self._get_new_data_or_parameters(
+                    self.__editor_type_object_parameters_widgets, is_parameters=True
                 )
                 new_parameters.update(new_type_parameters)
             #
@@ -550,7 +539,7 @@ class MainWindow(QMainWindow):
             value = value if value is not None else config_parameter_data.get("value", "")
             #
             # тип виджета
-            new_widget = self._get_data_widget(widget_type, value)
+            new_widget = self._get_widget(widget_type, value, is_parameters=False)
             #
             form_layout.addRow(label, new_widget)
             # в словарь виджетов
@@ -559,26 +548,8 @@ class MainWindow(QMainWindow):
         print("BEFORE return len(dict_widgets) > 0: dict_widgets", dict_widgets)
         return len(dict_widgets) > 0
 
-    def _get_data_widget(self, widget_type, value):
-        if widget_type == "title":
-            new_widget = QLabel()
-        #
-        elif widget_type == "number_int":
-            new_widget = QSpinBox()
-            new_widget.setRange(0, 2147483647)
-            new_widget.setValue(value)
-        #
-        elif widget_type == "line_string":
-            new_widget = QLineEdit()
-            new_widget.setText(value)
-        #
-        else:
-            new_widget = QTextEdit()
-            new_widget.setText(str(value))
-            new_widget.setFixedHeight(40)
-        return new_widget
 
-    def _get_parameter_widget(self, widget_type, value):
+    def _get_widget(self, widget_type, value, is_parameters=True):
         if widget_type == "title":
             new_widget = QLabel()
         #
@@ -598,6 +569,10 @@ class MainWindow(QMainWindow):
             new_widget.setText(value)
             new_widget.clicked.connect(open_color_dialog)
         #
+        elif widget_type == "line_string":
+            new_widget = QLineEdit()
+            new_widget.setText(value)
+        #
         elif widget_type == "fill_style":
             new_widget = QComboBox()
             fill_styles = constants.FillStyles()
@@ -610,12 +585,25 @@ class MainWindow(QMainWindow):
             new_widget = QSpinBox()
             new_widget.setRange(-2147483647, 2147483647)
             new_widget.setValue(value)
-        else:
+        #
+        elif widget_type == "number_int":
             new_widget = QSpinBox()
             new_widget.setRange(0, 2147483647)
             new_widget.setValue(value)
         #
+        else:
+            if is_parameters:
+                new_widget = QSpinBox()
+                new_widget.setRange(0, 2147483647)
+                new_widget.setValue(value)
+            else:
+                new_widget = QTextEdit()
+                new_widget.setText(str(value))
+                new_widget.setFixedHeight(40)
+        #
         return new_widget
+
+
 
     def _get_label_name(self, label_text, widget_type):
         label = QLabel(label_text)
@@ -654,7 +642,7 @@ class MainWindow(QMainWindow):
             )
             #
             # тип виджета
-            new_widget = self._get_parameter_widget(widget_type, value)
+            new_widget = self._get_widget(widget_type, value, is_parameters=True)
             #
             form_layout.addRow(label, new_widget)
             if widget_type != "title":
