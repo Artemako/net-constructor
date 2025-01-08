@@ -27,7 +27,7 @@
                 "is_global": true,
                 "value": 16,
                 "name": "Высота названия над вершиной",
-                "order": 20
+                "order": 36
             }
         }
     },
@@ -64,6 +64,38 @@
         }
     },
     "50": {
+        "is_wrap": false,
+        "object_data": {
+            "название": {
+                "value": "Установленная оптическая муфта",
+                "name": "Название",
+                "order": 0
+            }
+        },
+        "type_object_data": {
+            "постфикс_расстояния": {
+                "value": " м",
+                "name": "Постфикс расстояния",
+                "order": 0
+            }
+        },
+        "object_parameters": {
+            "delta_wrap_x": {
+                "value": 0,
+                "name": "Расстояние переноса по X",
+                "order": 2
+            }
+        },
+        "type_object_parameters": {
+            "node_margin_top": {
+                "is_global": true,
+                "value": 16,
+                "name": "Высота названия над вершиной",
+                "order": 0
+            }
+        }
+    },
+    "51": {
         "is_wrap": false,
         "object_data": {
             "название": {

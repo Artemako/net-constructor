@@ -44,7 +44,7 @@
                 "name": "Боковые отступы подписей от вершин",
                 "is_global": false
             },
-            "connection_main_label_vertical_padding": {
+            "connection_main_caption_vertical_padding": {
                 "value": 10,
                 "name": "Высота подписей над/под соединением",
                 "is_global": false

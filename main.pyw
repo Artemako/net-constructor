@@ -13,8 +13,4 @@ if __name__ == "__main__":
 
 # TODO Замена типа диаграммы
 
-# TODO start_x, start_y, delta_wrap_y в параметры диаграммы
-
 # TODO Сохранить КАК
-
-# TODO Шрифт

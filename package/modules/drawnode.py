@@ -121,7 +121,7 @@ class DrawNode:
                 self.__y,
                 pars.get_sp("arrow_width"),
                 pars.get_sp("arrow_height"),
-                pars.get_sp("arrow_length"),
+                pars.get_sp("wrap_arrow_length"),
                 "before_wrap",
             )
         elif self.__object_node.get_after_wrap():
@@ -132,7 +132,7 @@ class DrawNode:
                 self.__y,
                 pars.get_sp("arrow_width"),
                 pars.get_sp("arrow_height"),
-                pars.get_sp("arrow_length"),
+                pars.get_sp("wrap_arrow_length"),
                 "after_wrap",
             )
 
@@ -194,108 +194,123 @@ class DrawNode:
             self.__y - node_border_radius - pars.get_sp("node_margin_top"),
         )
 
-
-
-
-
     def _draw_node_ids_50_51(self, pars, data, node_id="50"):
         ...
-        # def get_painter_figure_border():
-        #     return painterconfigurator.PainterConfigurator(
-        #         self.__painter
-        #     ).get_painter_figure_border(
-        #         pen_color=pars.get_sp("node_border_color"),
-        #         pen_weight=pars.get_sp("node_border_weight"),
-        #     )
 
-        # def get_painter_figure_border_fill():
-        #     return painterconfigurator.PainterConfigurator(
-        #         self.__painter,
-        #     ).get_painter_figure_border_fill(
-        #         pen_color=pars.get_sp("node_border_color"),
-        #         pen_weight=pars.get_sp("node_border_weight"),
-        #         fill_color=pars.get_sp("node_fill_color"),
-        #         fill_pattern_name=pars.get_sp("node_fill_style"),
-        #     )
+        def get_painter_figure_border():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter
+            ).get_painter_figure_border(
+                pen_color=pars.get_sp("node_border_color"),
+                pen_weight=pars.get_sp("node_border_weight"),
+            )
 
-        # def get_painter_text_name():
-        #     return painterconfigurator.PainterConfigurator(
-        #         self.__painter,
-        #     ).get_painter_text(
-        #         color=pars.get_sp("node_name_color"),
-        #         pixel_size=pars.get_sp("node_name_pixel_size"),
-        #     )
+        def get_painter_figure_border_fill():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter,
+            ).get_painter_figure_border_fill(
+                pen_color=pars.get_sp("node_border_color"),
+                pen_weight=pars.get_sp("node_border_weight"),
+                fill_color=pars.get_sp("node_fill_color"),
+                fill_pattern_name=pars.get_sp("node_fill_style"),
+            )
 
-        # def get_painter_thin_line():
-        #     return painterconfigurator.PainterConfigurator(
-        #         self.__painter
-        #     ).get_painter_line(
-        #         color=pars.get_sp("thin_line_color"),
-        #         weight=pars.get_sp("thin_line_weight"),
-        #     )
+        def get_painter_text_name():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter,
+            ).get_painter_text(
+                color=pars.get_sp("node_name_color"),
+                pixel_size=pars.get_sp("node_name_pixel_size"),
+            )
 
-        # def get_painter_arrow():
-        #     return painterconfigurator.PainterConfigurator(
-        #         self.__painter
-        #     ).get_painter_figure_fill(
-        #         fill_color=pars.get_sp("thin_line_color"),
-        #         fill_pattern_name="Qt.SolidPattern",
-        #     )
+        def get_painter_thin_line():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter
+            ).get_painter_line(
+                color=pars.get_sp("thin_line_color"),
+                weight=pars.get_sp("thin_line_weight"),
+            )
 
-        # # радиус вершины
-        # node_border_radius = pars.get_sp("node_radius")
-        # if node_id == "1":
-        #     node_border_radius *= 2
+        def get_painter_arrow():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter
+            ).get_painter_figure_fill(
+                fill_color=pars.get_sp("thin_line_color"),
+                fill_pattern_name="Qt.SolidPattern",
+            )
 
-        # # рисование wrap стрелки
-        # if self.__object_node.get_before_wrap():
-        #     drawobject.DrawObject().wrap_arrow(
-        #         get_painter_arrow,
-        #         get_painter_thin_line,
-        #         self.__x + node_border_radius,
-        #         self.__y,
-        #         pars.get_sp("arrow_width"),
-        #         pars.get_sp("arrow_height"),
-        #         pars.get_sp("arrow_length"),
-        #         "before_wrap",
-        #     )
-        # elif self.__object_node.get_after_wrap():
-        #     drawobject.DrawObject().wrap_arrow(
-        #         get_painter_arrow,
-        #         get_painter_thin_line,
-        #         self.__x - node_border_radius,
-        #         self.__y,
-        #         pars.get_sp("arrow_width"),
-        #         pars.get_sp("arrow_height"),
-        #         pars.get_sp("arrow_length"),
-        #         "after_wrap",
-        #     )
+        # радиус вершины
+        node_border_radius = pars.get_sp("node_radius")
+        if node_id == "51":
+            node_border_radius *= 2
 
-        # # тонкая вертикальная линия
-        # def draw_vertical_thin_line():
-        #     painter_thin_line = get_painter_thin_line()
+        # рисование wrap стрелки
+        if self.__object_node.get_before_wrap():
+            drawobject.DrawObject().wrap_arrow(
+                get_painter_arrow,
+                get_painter_thin_line,
+                self.__x + node_border_radius,
+                self.__y,
+                pars.get_sp("arrow_width"),
+                pars.get_sp("arrow_height"),
+                pars.get_sp("wrap_arrow_length"),
+                "before_wrap",
+            )
+        elif self.__object_node.get_after_wrap():
+            drawobject.DrawObject().wrap_arrow(
+                get_painter_arrow,
+                get_painter_thin_line,
+                self.__x - node_border_radius,
+                self.__y,
+                pars.get_sp("arrow_width"),
+                pars.get_sp("arrow_height"),
+                pars.get_sp("wrap_arrow_length"),
+                "after_wrap",
+            )
+
+        # тонкая вертикальная линия
+        painter_thin_line = get_painter_thin_line()
+        delta_node_and_arrow_and_distance_thin_line_after_connection_y = max(
+            pars.get_sp("delta_node_and_to_right_arrow"),
+            pars.get_sp("delta_node_and_to_left_arrow"),
+        ) + pars.get_sp("distance_thin_line_after_connection_y")
+        #
+        painter_thin_line.drawLine(
+            QPointF(
+                self.__x,
+                self.__y
+                - delta_node_and_arrow_and_distance_thin_line_after_connection_y,
+            ),
+            QPointF(
+                self.__x,
+                self.__y
+                + delta_node_and_arrow_and_distance_thin_line_after_connection_y,
+            )
+        )
+        # TODO + дельта ТЕкст и стрелочик (выбор над/под)
+        # рисование to_right to_left стрелок с линией и со значениями
+        # to_right
+        if not(self.__object_node.get_after_wrap() or not self.__object_before):
+            ...
+
+        # to_left
+        if not(self.__object_node.get_before_wrap() or not self.__object_after):
+            ...
+    
+
+        # # рисовать линию ЕСЛИ is_location И node_is_connected_with_thin_line_location
+        # if pars.get_sp("is_location") and pars.get_sp(
+        #     "node_is_connected_with_thin_line_location"
+        # ):
         #     painter_thin_line.drawLine(
-        #         QPointF(self.__x, self.__y),
-        #         QPointF(
-        #             self.__x,
-        #             self.__y
-        #             + pars.get_sp("delta_node_and_thin_line")
-        #             + pars.get_sp("distance_thin_line_after_connection_y"),
-        #         ),
+        #         self.__x,
+        #         self.__y + pars.get_sp("delta_node_and_thin_line"),
+        #         self.__x,
+        #         self.__y
+        #         + pars.get_sp("delta_node_and_thin_line")
+        #         + pars.get_sp("delta_thins_lines")
+        #         + pars.get_sp("distance_thin_line_after_connection_y"),
         #     )
-        #     # рисовать линию ЕСЛИ is_location И node_is_connected_with_thin_line_location
-        #     if pars.get_sp("is_location") and pars.get_sp(
-        #         "node_is_connected_with_thin_line_location"
-        #     ):
-        #         painter_thin_line.drawLine(
-        #             self.__x,
-        #             self.__y + pars.get_sp("delta_node_and_thin_line"),
-        #             self.__x,
-        #             self.__y
-        #             + pars.get_sp("delta_node_and_thin_line")
-        #             + pars.get_sp("delta_thins_lines")
-        #             + pars.get_sp("distance_thin_line_after_connection_y"),
-        #         )
 
         # # Проверяем наличие соединения
         # if self.__object_before and self.__object_before.get_type() == "connection":

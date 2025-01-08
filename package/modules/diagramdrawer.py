@@ -134,8 +134,12 @@ class DiagrammDrawer:
         print(node.get("parameters", {}).get("delta_wrap_x", {}).get("value", 0))
         return delta_wrap_x
 
-    def _prepare_main_drawing_data(self, start_x, start_y, delta_wrap_y):
+    def _prepare_main_drawing_data(self):
         """Подготавливает данные для рисования"""
+        start_x = int(self.__data.get("diagramm_parameters", {}).get("start_x", {}).get("value", 0))
+        start_y = int(self.__data.get("diagramm_parameters", {}).get("start_y", {}).get("value", 0))
+        delta_wrap_y = int(self.__data.get("diagramm_parameters", {}).get("delta_wrap_y", {}).get("value", 0))
+        #
         x = start_x
         y = start_y
         #
@@ -266,10 +270,10 @@ class DiagrammDrawer:
 
         return prepared_data
 
-    def draw(self, painter, start_x, start_y, delta_wrap_y):
+    def draw(self, painter):
         """Рисует диаграмму на переданном объекте QPainter."""
         # подготавливаем данные
-        prepared_data, to_right_optical_length, to_right_physical_length = self._prepare_main_drawing_data(start_x, start_y, delta_wrap_y)
+        prepared_data, to_right_optical_length, to_right_physical_length = self._prepare_main_drawing_data()
         self.prepared_data = self._set_to_left_lengths(prepared_data, to_right_optical_length, to_right_physical_length)
         # сначала рисуем соединения
         for index, item in enumerate(self.prepared_data):
