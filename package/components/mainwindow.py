@@ -44,9 +44,6 @@ class MainWindow(QMainWindow):
     def __init__(self, obsm):
         self.__obsm = obsm
         #
-        self.__nodes_data = []
-        self.__connections_data = []
-        #
         self.__current_object = None
         self.__current_is_node = None
         #
@@ -55,8 +52,10 @@ class MainWindow(QMainWindow):
         #
         self.__editor_object_data_widgets = {}
         self.__editor_type_object_data_widgets = {}
+        self.__editor_objects_data_widgets = {}
         self.__editor_object_parameters_widgets = {}
         self.__editor_type_object_parameters_widgets = {}
+        self.__editor_objects_parameters_widgets = {}
         #
         super(MainWindow, self).__init__()
         self.ui = mainwindow_ui.Ui_MainWindow()
@@ -103,11 +102,14 @@ class MainWindow(QMainWindow):
         self.ui.action_export_to_image.triggered.connect(self._export_to_image)
         #
 
+
     def start_qt_actions(self):
         self.ui.action_new.setEnabled(True)
         self.ui.action_open.setEnabled(True)
         self.ui.action_save.setEnabled(True)
         self.ui.action_export_to_image.setEnabled(True)
+
+
 
     def create_file_nce(self):
         file_name, _ = QFileDialog.getSaveFileName(
@@ -121,6 +123,8 @@ class MainWindow(QMainWindow):
             result = dialog.exec()
             if result == QDialog.Accepted:
                 diagramm_data = dialog.get_data()
+                #
+                self.ui.tabw_right.setCurrentIndex(0)
                 #
                 image_parameters = self.__obsm.obj_configs.get_config_image_parameters()
                 #
@@ -139,6 +143,9 @@ class MainWindow(QMainWindow):
             self, " ", "", "NCE (пока json) files (*.json)"
         )
         if file_name:
+            #
+            self.ui.tabw_right.setCurrentIndex(0)
+            #
             self.__obsm.obj_project.open_project(file_name)
             #
             project_data = self.__obsm.obj_project.get_data()
@@ -205,22 +212,33 @@ class MainWindow(QMainWindow):
                 )
             elif self.ui.tabw_right.currentIndex() == 2:
                 is_editor_tab = True
-                # Объединить дата с двух разных форм
-                new_data = self._get_new_data_or_parameters(
+                # Объединить дата с 3x разных форм
+                object_data_widgets = self._get_new_data_or_parameters(
                     self.__editor_object_data_widgets, is_parameters=False
                 )
-                new_type_parameters = self._get_new_data_or_parameters(
+                type_object_data_widgets = self._get_new_data_or_parameters(
                     self.__editor_type_object_data_widgets, is_parameters=False
                 )
-                new_data.update(new_type_parameters)
-                # Объединить параметры с двух разных форм
-                new_parameters = self._get_new_data_or_parameters(
+                objects_data_widgets = self._get_new_data_or_parameters(
+                    self.__editor_objects_data_widgets, is_parameters=False
+                )
+                new_data = {**object_data_widgets, **type_object_data_widgets, **objects_data_widgets}
+                #
+                # Объединить параметры с 3x  разных форм
+                object_parameters_widgets = self._get_new_data_or_parameters(
                     self.__editor_object_parameters_widgets, is_parameters=True
                 )
-                new_type_parameters = self._get_new_data_or_parameters(
+                type_object_parameters_widgets = self._get_new_data_or_parameters(
                     self.__editor_type_object_parameters_widgets, is_parameters=True
                 )
-                new_parameters.update(new_type_parameters)
+                objects_parameters_widgets = self._get_new_data_or_parameters(
+                    self.__editor_objects_parameters_widgets, is_parameters=True
+                )
+                new_parameters = {
+                    **object_parameters_widgets,
+                    **type_object_parameters_widgets,
+                    **objects_parameters_widgets,
+                }
             #
             if is_editor_tab or is_general_tab:
                 config_nodes = self.__obsm.obj_configs.get_nodes()
@@ -251,9 +269,10 @@ class MainWindow(QMainWindow):
             print(f"save_image to {file_name}")
             self.ui.imagewidget.save_image(file_name)
 
+
+
     def _add_node(self):
         if self.__obsm.obj_project.is_active():
-            # TODO в зависимости от выбранной диаграммы
             diagramm_type_id = self.__obsm.obj_project.get_data().get(
                 "diagramm_type_id", ""
             )
@@ -400,7 +419,6 @@ class MainWindow(QMainWindow):
 
     def _reset_table_nodes(self, nodes):
         print("reset_table_nodes")
-        self.__nodes_data = nodes
         table_widget = self.ui.tablew_nodes
         table_widget.blockSignals(True)
         table_widget.clearContents()
@@ -437,7 +455,6 @@ class MainWindow(QMainWindow):
 
     def _reset_table_connections(self, connections):
         print("reset_table_connections")
-        self.__connections_data = connections
         table_widget = self.ui.tablew_connections
         table_widget.blockSignals(True)
         table_widget.clearContents()
@@ -672,6 +689,9 @@ class MainWindow(QMainWindow):
             config_type_object_parameters = (
                 self.__obsm.obj_configs.get_config_type_node_parameters_by_node(obj)
             )
+            config_objects_parameters = (
+                self.__obsm.obj_configs.get_config_objects_parameters_by_node(obj)
+            )
         elif not is_node:
             config_object_parameters = (
                 self.__obsm.obj_configs.get_config_connection_parameters_by_connection(
@@ -680,6 +700,9 @@ class MainWindow(QMainWindow):
             )
             config_type_object_parameters = self.__obsm.obj_configs.get_config_type_connection_parameters_by_connection(
                 obj
+            )
+            config_objects_parameters = (
+                self.__obsm.obj_configs.get_config_objects_parameters_by_connection(obj)
             )
         # именно только parameters
         object_parameters = obj.get("parameters", {})
@@ -698,6 +721,14 @@ class MainWindow(QMainWindow):
             object_parameters,
         )
         self.ui.label_type_object_parameters.setVisible(flag)
+        #
+        flag = self._create_parameters_widgets(
+            self.__editor_objects_parameters_widgets,
+            self.ui.fl_objects_parameters,
+            config_objects_parameters,
+            object_parameters,
+        )
+        self.ui.label_objects_parameters.setVisible(flag)
 
     def _create_editor_data_widgets_by_object(self, obj, is_node=False):
         if is_node:
@@ -707,6 +738,9 @@ class MainWindow(QMainWindow):
             config_type_object_data = (
                 self.__obsm.obj_configs.get_config_type_node_data_by_node(obj)
             )
+            config_objects_data = (
+                self.__obsm.obj_configs.get_config_objects_data_by_node(obj)
+            )
         elif not is_node:
             config_object_data = (
                 self.__obsm.obj_configs.get_config_connection_data_by_connection(obj)
@@ -715,6 +749,9 @@ class MainWindow(QMainWindow):
                 self.__obsm.obj_configs.get_config_type_connection_data_by_connection(
                     obj
                 )
+            )
+            config_objects_data = (
+                self.__obsm.obj_configs.get_config_objects_data_by_connection(obj)
             )
         # именно только data
         object_data = obj.get("data", {})
@@ -733,3 +770,11 @@ class MainWindow(QMainWindow):
             object_data,
         )
         self.ui.label_type_object_data.setVisible(flag)
+        #
+        flag = self.create_data_widgets(
+            self.__editor_objects_data_widgets,
+            self.ui.fl_objects_data,
+            config_objects_data,
+            object_data,
+        )
+        self.ui.label_objects_data.setVisible(flag)

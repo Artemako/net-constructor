@@ -83,12 +83,20 @@ class Project:
         new_id = uuid.uuid4().hex
         #
         new_order = len(self.__data.get("nodes", []))
-        # TODO
-        new_data = {**node_dict.get("object_data", {}), **node_dict.get("type_object_data", {})}
+        #
+        new_data = {
+            **node_dict.get("object_data", {}),
+            **node_dict.get("type_object_data", {}),
+            **node_dict.get("objects_data", {}),
+        }
         #
         new_is_wrap = node_dict.get("is_wrap", False)
-        # TODO 
-        new_parameters = {**node_dict.get("object_parameters", {}), **node_dict.get("type_object_parameters", {})}
+        #
+        new_parameters = {
+            **node_dict.get("object_parameters", {}),
+            **node_dict.get("type_object_parameters", {}),
+            **node_dict.get("objects_parameters", {}),
+        }
         #
         new_dict = {
             "id": new_id,
@@ -107,10 +115,18 @@ class Project:
         new_id = uuid.uuid4().hex
         #
         new_order = len(self.__data.get("connections", []))
-        # TODO
-        new_data = {**connection_dict.get("object_data", {}), **connection_dict.get("type_object_data", {})}
-        # TODO
-        new_parameters = {**connection_dict.get("object_parameters", {}), **connection_dict.get("type_object_parameters", {})}
+        # 
+        new_data = {
+            **connection_dict.get("object_data", {}),
+            **connection_dict.get("type_object_data", {}),
+            **connection_dict.get("objects_data", {}),
+        }
+        # 
+        new_parameters = {
+            **connection_dict.get("object_parameters", {}),
+            **connection_dict.get("type_object_parameters", {}),
+            **connection_dict.get("objects_parameters", {}),
+        }
         #
         new_dict = {
             "id": new_id,
@@ -191,25 +207,32 @@ class Project:
                 for node in self.__data.get("nodes", []):
                     if node["id"] == _id:
                         for key, value in new_data.items():
-                            # TODO _check_empty_parameters_key и _check_type_object_parameters_key
                             self._check_empty_data_key(node, key)
                             node["data"][key] = value
-                            self._check_type_object_data_key(
+                            self._check_type_object_key(
                                 config_nodes,
                                 config_connections,
                                 obj,
                                 key,
                                 is_node=True,
+                                is_parameter=False,
+                            )
+                            self._check_objects_key(
+                                config_nodes, config_connections, obj, key, is_node=True, is_parameter=False
                             )
                         for key, value in new_parameters.items():
                             self._check_empty_parameters_key(node, key)
                             node["parameters"][key] = value
-                            self._check_type_object_parameters_key(
+                            self._check_type_object_key(
                                 config_nodes,
                                 config_connections,
                                 obj,
                                 key,
                                 is_node=True,
+                                is_parameter=True,
+                            ) 
+                            self._check_objects_key(
+                                config_nodes, config_connections, obj, key, is_node=True, is_parameter=True
                             )
                         break
             else:
@@ -219,24 +242,30 @@ class Project:
                         for key, value in new_data.items():
                             self._check_empty_data_key(connection, key)
                             connection["data"][key] = value
-                            self._check_type_object_data_key(
+                            self._check_type_object_key(
                                 config_nodes,
                                 config_connections,
                                 obj,
                                 key,
                                 is_node=False,
+                                is_parameter=False,
+                            )
+                            self._check_objects_key(
+                                config_nodes, config_connections, obj, key, is_node=False, is_parameter=False
                             )
                         for key, value in new_parameters.items():
-                            self._check_empty_parameters_key(
-                                connection, key
-                            )
+                            self._check_empty_parameters_key(connection, key)
                             connection["parameters"][key] = value
-                            self._check_type_object_parameters_key(
+                            self._check_type_object_key(
                                 config_nodes,
                                 config_connections,
                                 obj,
                                 key,
                                 is_node=False,
+                                is_parameter=True,
+                            )
+                            self._check_objects_key(
+                                config_nodes, config_connections, obj, key, is_node=False, is_parameter=True
                             )
                         break
         self.write_project()
@@ -249,50 +278,40 @@ class Project:
         if key not in object["data"]:
             object["data"][key] = {}
 
-    def _check_type_object_parameters_key(
-        self, config_nodes, config_connections, object, key, is_node=False
+    def _check_type_object_key(
+        self, config_nodes, config_connections, obj, key, is_node=False, is_parameter=True
     ):
-        if is_node:
-            node_id = object.get("node_id", "")
-            node_dict = config_nodes.get(node_id, {})
-            is_type_object = node_dict.get("type_object_parameters", {}).get(key, {})
-            if is_type_object:
-                value = object["parameters"].get(key, {}).get("value", None)
-                if value is not None:
-                    for other_node in self.__data.get("nodes", []):
-                        if other_node.get("node_id", "") == node_id:
-                            other_node["parameters"][key] = {"value": value}
-        else:
-            connection_id = object.get("connection_id", "")
-            connection_dict = config_connections.get(connection_id, {})
-            is_type_object = connection_dict.get("type_object_parameters", {}).get(key, {})
-            if is_type_object:
-                value = object["parameters"].get(key, {}).get("value", None)
-                if value is not None:
-                    for other_connection in self.__data.get("connections", []):
-                        if other_connection.get("connection_id", "") == connection_id:
-                            other_connection["parameters"][key] = {"value": value}
+        obj_id = obj.get("node_id" if is_node else "connection_id", "")
+        # 
+        config_dict = config_nodes if is_node else config_connections
+        obj_dict = config_dict.get(obj_id, {})
+        # 
+        type_object_key = "type_object_parameters" if is_parameter else "type_object_data"
+        is_type_object = obj_dict.get(type_object_key, {}).get(key, {})
+        if is_type_object:
+            target_section = "parameters" if is_parameter else "data"
+            value = obj[target_section].get(key, {}).get("value", None)
+            if value is not None:
+                data_section = "nodes" if is_node else "connections"
+                for other_obj in self.__data.get(data_section, []):
+                    if other_obj.get("node_id" if is_node else "connection_id", "") == obj_id:
+                        other_obj[target_section][key] = {"value": value}
 
-    def _check_type_object_data_key(
-        self, config_nodes, config_connections, object, key, is_node=False
-    ):
-        if is_node:
-            node_id = object.get("node_id", "")
-            node_dict = config_nodes.get(node_id, {})
-            is_type_object = node_dict.get("type_object_data", {}).get(key, {})
-            if is_type_object:
-                value = object["data"].get(key, {}).get("value", None)
-                if value is not None:
-                    for other_node in self.__data.get("nodes", []):
-                        if other_node.get("node_id", "") == node_id:
-                            other_node["data"][key] = {"value": value}
-        else:
-            connection_id = object.get("connection_id", "")
-            connection_dict = config_connections.get(connection_id, {})
-            is_type_object = connection_dict.get("type_object_data", {}).get(key, {})
-            if is_type_object:
-                value = object["data"].get(key, {}).get("value", None)
-                if value is not None:
-                    for other_connection in self.__data.get("connections", []):
-                        if other_connection.get("connection_id", "") == connection_id:
-                            other_connection["data"][key] = {"value": value}
+    def _check_objects_key(self, config_nodes, config_connections, obj, key, is_node=False, is_parameter=True):
+        print("_check_objects_key")
+        obj_id = obj.get("node_id" if is_node else "connection_id", "")
+        # 
+        config_dict = config_nodes if is_node else config_connections
+        obj_dict = config_dict.get(obj_id, {})
+        # 
+        objects_key = "objects_parameters" if is_parameter else "objects_data"
+        is_objects = obj_dict.get(objects_key, {}).get(key, {})
+        if is_objects:
+            target_section = "parameters" if is_parameter else "data"
+            value = obj[target_section].get(key, {}).get("value", None)
+            if value is not None:
+                data_section = "nodes" if is_node else "connections"
+                print("data_section", data_section)
+                print("key", key, "value", value)
+                for other_obj in self.__data.get(data_section, []):
+                    other_obj[target_section][key] = {"value": value}

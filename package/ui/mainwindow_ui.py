@@ -360,6 +360,24 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addWidget(self.line_4)
 
+        self.label_objects_data = QLabel(self.editor_scrollarea_contents)
+        self.label_objects_data.setObjectName(u"label_objects_data")
+
+        self.verticalLayout_4.addWidget(self.label_objects_data)
+
+        self.fl_objects_data = QFormLayout()
+        self.fl_objects_data.setObjectName(u"fl_objects_data")
+        self.fl_objects_data.setRowWrapPolicy(QFormLayout.WrapLongRows)
+
+        self.verticalLayout_4.addLayout(self.fl_objects_data)
+
+        self.line_8 = QFrame(self.editor_scrollarea_contents)
+        self.line_8.setObjectName(u"line_8")
+        self.line_8.setFrameShape(QFrame.HLine)
+        self.line_8.setFrameShadow(QFrame.Sunken)
+
+        self.verticalLayout_4.addWidget(self.line_8)
+
         self.label_object_parameters = QLabel(self.editor_scrollarea_contents)
         self.label_object_parameters.setObjectName(u"label_object_parameters")
 
@@ -389,11 +407,29 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addLayout(self.fl_type_object_parameters)
 
+        self.line_9 = QFrame(self.editor_scrollarea_contents)
+        self.line_9.setObjectName(u"line_9")
+        self.line_9.setFrameShape(QFrame.HLine)
+        self.line_9.setFrameShadow(QFrame.Sunken)
+
+        self.verticalLayout_4.addWidget(self.line_9)
+
+        self.label_objects_parameters = QLabel(self.editor_scrollarea_contents)
+        self.label_objects_parameters.setObjectName(u"label_objects_parameters")
+
+        self.verticalLayout_4.addWidget(self.label_objects_parameters)
+
+        self.fl_objects_parameters = QFormLayout()
+        self.fl_objects_parameters.setObjectName(u"fl_objects_parameters")
+        self.fl_objects_parameters.setRowWrapPolicy(QFormLayout.WrapLongRows)
+
+        self.verticalLayout_4.addLayout(self.fl_objects_parameters)
+
         self.vertical_spacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout_4.addItem(self.vertical_spacer)
 
-        self.verticalLayout_4.setStretch(11, 1)
+        self.verticalLayout_4.setStretch(17, 1)
         self.editor_scrollarea.setWidget(self.editor_scrollarea_contents)
 
         self.verticalLayout_7.addWidget(self.editor_scrollarea)
@@ -439,6 +475,7 @@ class Ui_MainWindow(object):
         self.tb_main.addAction(self.action_new)
         self.tb_main.addAction(self.action_open)
         self.tb_main.addAction(self.action_save)
+        self.tb_main.addAction(self.action_export_to_image)
 
         self.retranslateUi(MainWindow)
 
@@ -499,9 +536,11 @@ class Ui_MainWindow(object):
         self.btn_moveconnections.setText(QCoreApplication.translate("MainWindow", u"\u0418\u0437\u043c\u0435\u043d\u0438\u0442\u044c \u043f\u043e\u0440\u044f\u0434\u043e\u043a \u0441\u043e\u0435\u0434\u0438\u043d\u0435\u043d\u0438\u0439", None))
         self.tabw_right.setTabText(self.tabw_right.indexOf(self.tab_elements), QCoreApplication.translate("MainWindow", u"\u042d\u043b\u0435\u043c\u0435\u043d\u0442\u044b", None))
         self.label_object_data.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0414\u0430\u043d\u043d\u044b\u0435</span></p></body></html>", None))
-        self.label_type_object_data.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0414\u0430\u043d\u043d\u044b\u0435 \u0442\u0438\u043f\u0430 \u0432\u044b\u0431\u0440\u0430\u043d\u043d\u043e\u0433\u043e \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u0430</span></p></body></html>", None))
+        self.label_type_object_data.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0422\u0438\u043f\u043e\u0432\u044b\u0435 \u0434\u0430\u043d\u043d\u044b\u0435</span></p></body></html>", None))
+        self.label_objects_data.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0413\u043b\u043e\u0431\u0430\u043b\u044c\u043d\u044b\u0435 \u0434\u0430\u043d\u043d\u044b\u0435</span></p></body></html>", None))
         self.label_object_parameters.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u041f\u0430\u0440\u0430\u043c\u0435\u0442\u0440\u044b</span></p></body></html>", None))
-        self.label_type_object_parameters.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u041f\u0430\u0440\u0430\u043c\u0435\u0442\u0440\u044b \u0442\u0438\u043f\u0430 \u0432\u044b\u0431\u0440\u0430\u043d\u043d\u043e\u0433\u043e \u044d\u043b\u0435\u043c\u0435\u043d\u0442\u0430</span></p></body></html>", None))
+        self.label_type_object_parameters.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0422\u0438\u043f\u043e\u0432\u044b\u0435 \u043f\u0430\u0440\u0430\u043c\u0435\u0442\u0440\u044b</span></p></body></html>", None))
+        self.label_objects_parameters.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0413\u043b\u043e\u0431\u0430\u043b\u044c\u043d\u044b\u0435 \u043f\u0430\u0440\u0430\u043c\u0435\u0442\u0440\u044b</span></p></body></html>", None))
         self.tabw_right.setTabText(self.tabw_right.indexOf(self.tab_editor), QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0434\u0430\u043a\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435", None))
         self.menu_file.setTitle(QCoreApplication.translate("MainWindow", u"\u0424\u0430\u0439\u043b", None))
         self.tb_main.setWindowTitle(QCoreApplication.translate("MainWindow", u"\u041f\u0430\u043d\u0435\u043b\u044c \u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u043e\u0432", None))

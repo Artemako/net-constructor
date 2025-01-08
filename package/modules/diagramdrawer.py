@@ -31,6 +31,7 @@ class Node:
         return {
             **self.__config_node.get("object_parameters", {}),
             **self.__config_node.get("type_object_parameters", {}),
+            **self.__config_node.get("objects_parameters", {}),
         }
 
     def get_node_id(self):
@@ -71,6 +72,7 @@ class Connection:
         return {
             **self.__config_connection.get("object_parameters", {}),
             **self.__config_connection.get("type_object_parameters", {}),
+            **self.__config_connection.get("objects_parameters", {}),
         }
 
     def get_connection_id(self):
@@ -219,21 +221,30 @@ class DiagrammDrawer:
                     )
                 else:
                     config_connection = {}
-                # параметры соединения
+                # parameters соединения
                 parameters = connection.get("parameters", {})
+                # Так по идее не работает config_connection.get("parameters", {})
                 config_parameters = config_connection.get("parameters", {})
-                # значения connection_optical_length и connection_physical_length
-                connection_optical_length = parameters.get(
-                    "оптическая_длина", config_parameters.get("оптическая_длина", {})
-                ).get("value", 0)
-                connection_physical_length = parameters.get(
-                    "физическая_длина", config_parameters.get("физическая_длина", {})
-                ).get("value", 0)
-                # длина соединения
+                #
                 connection_length = parameters.get(
                     "connection_length",
                     config_parameters.get("connection_length", {}),
                 ).get("value", 0)
+                # data соединения
+                data = connection.get("data", {})
+                # Так по идее не работает config_connection.get("data", {})
+                config_data = config_connection.get("data", {})
+                connection_optical_length = data.get(
+                    "оптическая_длина", config_data.get("оптическая_длина", {})
+                ).get("value", 0)
+                connection_physical_length = data.get(
+                    "физическая_длина", config_data.get("физическая_длина", {})
+                ).get("value", 0)
+                #
+                print("index = ", index)
+                print("connection_optical_length", connection_optical_length)
+                print("connection_physical_length", connection_physical_length)
+                print("connection_length", connection_length)
                 #
                 prepared_data.append(
                     {
@@ -259,16 +270,18 @@ class DiagrammDrawer:
         to_left_optical_length = to_right_optical_length
         to_left_physical_length = to_right_physical_length
         #
-        for item in reversed(prepared_data):
+        for item in prepared_data:
             if item.get("type") == "node":
                 item["to_left_optical_length"] = to_left_optical_length
                 item["to_left_physical_length"] = to_left_physical_length
+                print("_set_to_left_lengths item", item)
             #
             elif item.get("type") == "connection":
                 to_left_optical_length -= item.get("connection_optical_length", 0)
                 to_left_physical_length -= item.get("connection_physical_length", 0)
 
         return prepared_data
+    
 
     def draw(self, painter):
         """Рисует диаграмму на переданном объекте QPainter."""
@@ -301,7 +314,8 @@ class DiagrammDrawer:
                 #
                 object_before = None
                 try:
-                    object_before = self.prepared_data[index - 1].get("object")
+                    if index > 0:
+                        object_before = self.prepared_data[index - 1].get("object")
                 except IndexError:
                     object_before = None
                 #

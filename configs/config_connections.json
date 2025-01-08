@@ -48,6 +48,7 @@
             }
         },
         "type_object_data": {},
+        "objects_data": {},
         "object_parameters": {
             "connection_length": {
                 "value": 350,
@@ -164,7 +165,8 @@
                 "order": 204,
                 "type": "number_int_signed"
             }
-        }
+        },
+        "objects_parameters": {}
     },
     "50": {
         "is_wrap": false,
@@ -188,6 +190,7 @@
             }
         },
         "type_object_data": {},
+        "objects_data": {},
         "object_parameters": {
             "connection_length": {
                 "value": 350,
@@ -259,6 +262,7 @@
                 "order": 111,
                 "type": "line_string"
             }
-        }
+        },
+        "objects_parameters": {}
     }
 }

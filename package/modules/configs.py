@@ -74,6 +74,11 @@ class Configs:
             sorted(type_object_data.items(), key=lambda x: x[1].get("order", 0))
         )
 
+    def get_config_objects_data_by_node(self, node) -> dict:
+        node_id = node.get("node_id", "0")
+        objects_data = self.__nodes.get(node_id, {}).get("objects_data", {})
+        return dict(sorted(objects_data.items(), key=lambda x: x[1].get("order", 0)))
+
     def get_config_connection_data_by_connection(self, connection) -> dict:
         connection_id = connection.get("connection_id", "0")
         object_data = self.__connections.get(connection_id, {}).get("object_data", {})
@@ -87,6 +92,11 @@ class Configs:
         return dict(
             sorted(type_object_data.items(), key=lambda x: x[1].get("order", 0))
         )
+
+    def get_config_objects_data_by_connection(self, connection) -> dict:
+        connection_id = connection.get("connection_id", "0")
+        objects_data = self.__connections.get(connection_id, {}).get("objects_data", {})
+        return dict(sorted(objects_data.items(), key=lambda x: x[1].get("order", 0)))
 
     # TODO
     def get_config_node_parameters_by_node(self, node) -> dict:
@@ -105,6 +115,14 @@ class Configs:
             sorted(type_object_parameters.items(), key=lambda x: x[1].get("order", 0))
         )
 
+    def get_config_objects_parameters_by_node(self, node) -> dict:
+        objects_parameters = self.__nodes.get(node.get("node_id", "0"), {}).get(
+            "objects_parameters", {}
+        )
+        return dict(
+            sorted(objects_parameters.items(), key=lambda x: x[1].get("order", 0))
+        )
+
     def get_config_connection_parameters_by_connection(self, connection) -> dict:
         object_parameters = self.__connections.get(
             connection.get("connection_id", "0"), {}
@@ -119,4 +137,12 @@ class Configs:
         ).get("type_object_parameters", {})
         return dict(
             sorted(type_object_parameters.items(), key=lambda x: x[1].get("order", 0))
+        )
+
+    def get_config_objects_parameters_by_connection(self, connection) -> dict:
+        objects_parameters = self.__connections.get(
+            connection.get("connection_id", "0"), {}
+        ).get("objects_parameters", {})
+        return dict(
+            sorted(objects_parameters.items(), key=lambda x: x[1].get("order", 0))
         )
