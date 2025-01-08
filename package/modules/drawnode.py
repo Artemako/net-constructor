@@ -87,6 +87,7 @@ class DrawNode:
                 self.__painter,
             ).get_painter_text(
                 color=pars.get_sp("node_name_color"),
+                font_name=pars.get_sp("font_name"),
                 pixel_size=pars.get_sp("node_name_pixel_size"),
             )
 

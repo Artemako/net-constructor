@@ -20,9 +20,10 @@ class PainterConfigurator:
     def get_painter(self):
         return self.__painter
 
-    def get_painter_text(self, color, pixel_size):
+    def get_painter_text(self, color, font_name, pixel_size):
         self.__painter.setPen(QPen(QColor(color), 2))
         font = QFont()
+        font.fromString(font_name)
         font.setPixelSize(pixel_size)
         self.__painter.setFont(font)
         return self.__painter

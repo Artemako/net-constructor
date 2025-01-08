@@ -17,9 +17,10 @@ from PySide6.QtWidgets import (
     QSizePolicy,
     QCheckBox,
     QColorDialog,
-    QComboBox
+    QComboBox,
+    QFontComboBox,
 )
-from PySide6.QtGui import QIntValidator
+from PySide6.QtGui import QIntValidator, QFont
 from PySide6.QtCore import Qt, QModelIndex
 
 import package.controllers.style as style
@@ -153,10 +154,12 @@ class MainWindow(QMainWindow):
             widget = pair[1]
             if widget_type == "title":
                 new_data_or_parameters[key] = {"value": "заголовок"}
+            elif widget_type == "font_name":
+                new_data_or_parameters[key] = {"value": widget.currentFont().toString()}
             elif widget_type == "color":
                 new_data_or_parameters[key] = {"value": widget.text()}
             elif widget_type == "line_string":
-                new_data_or_parameters[key] = {"value": widget.text()} 
+                new_data_or_parameters[key] = {"value": widget.text()}
             elif widget_type == "fill_style":
                 new_data_or_parameters[key] = {"value": widget.currentText()}
             elif widget_type == "bool":
@@ -172,7 +175,6 @@ class MainWindow(QMainWindow):
                     new_data_or_parameters[key] = {"value": widget.toPlainText()}
 
         return new_data_or_parameters
-
 
     def _save_changes_to_file_nce(self):
         if self.__obsm.obj_project.is_active():
@@ -204,7 +206,9 @@ class MainWindow(QMainWindow):
             elif self.ui.tabw_right.currentIndex() == 2:
                 is_editor_tab = True
                 # Объединить дата с двух разных форм
-                new_data = self._get_new_data_or_parameters(self.__editor_object_data_widgets, is_parameters=False)
+                new_data = self._get_new_data_or_parameters(
+                    self.__editor_object_data_widgets, is_parameters=False
+                )
                 new_type_parameters = self._get_new_data_or_parameters(
                     self.__editor_type_object_data_widgets, is_parameters=False
                 )
@@ -536,7 +540,9 @@ class MainWindow(QMainWindow):
             label = self._get_label_name(label_text, widget_type)
             # значение параметра data
             value = object_data.get(config_parameter_key, {}).get("value", None)
-            value = value if value is not None else config_parameter_data.get("value", "")
+            value = (
+                value if value is not None else config_parameter_data.get("value", "")
+            )
             #
             # тип виджета
             new_widget = self._get_widget(widget_type, value, is_parameters=False)
@@ -548,7 +554,6 @@ class MainWindow(QMainWindow):
         print("BEFORE return len(dict_widgets) > 0: dict_widgets", dict_widgets)
         return len(dict_widgets) > 0
 
-
     def _get_widget(self, widget_type, value, is_parameters=True):
         if widget_type == "title":
             new_widget = QLabel()
@@ -557,7 +562,14 @@ class MainWindow(QMainWindow):
             new_widget = QCheckBox()
             new_widget.setChecked(bool(value))
         #
+        elif widget_type == "font_name":
+            new_widget = QFontComboBox()
+            font = QFont()
+            if font.fromString(value):
+                new_widget.setCurrentFont(font)
+        #
         elif widget_type == "color":
+
             def open_color_dialog():
                 color = QColorDialog.getColor()
                 if color.isValid():
@@ -603,8 +615,6 @@ class MainWindow(QMainWindow):
         #
         return new_widget
 
-
-
     def _get_label_name(self, label_text, widget_type):
         label = QLabel(label_text)
         if widget_type == "title":
@@ -636,10 +646,14 @@ class MainWindow(QMainWindow):
             # название параметра parameters
             label = self._get_label_name(label_text, widget_type)
             # значение параметра parameters
+            if widget_type == "font_name":
+                print("font_name BEFORE")
             value = object_parameters.get(config_parameter_key, {}).get("value", None)
+            print("value", value)
             value = (
                 value if value is not None else config_parameter_data.get("value", "")
             )
+            print("new_value", value)
             #
             # тип виджета
             new_widget = self._get_widget(widget_type, value, is_parameters=True)
@@ -651,13 +665,12 @@ class MainWindow(QMainWindow):
         return len(dict_widgets) > 0
 
     def _create_editor_parameters_widgets_by_object(self, obj, is_node=False):
-        
         if is_node:
             config_object_parameters = (
                 self.__obsm.obj_configs.get_config_node_parameters_by_node(obj)
             )
-            config_type_object_parameters = self.__obsm.obj_configs.get_config_type_node_parameters_by_node(
-                obj
+            config_type_object_parameters = (
+                self.__obsm.obj_configs.get_config_type_node_parameters_by_node(obj)
             )
         elif not is_node:
             config_object_parameters = (
@@ -691,15 +704,17 @@ class MainWindow(QMainWindow):
             config_object_data = self.__obsm.obj_configs.get_config_node_data_by_node(
                 obj
             )
-            config_type_object_data = self.__obsm.obj_configs.get_config_type_node_data_by_node(
-                obj
+            config_type_object_data = (
+                self.__obsm.obj_configs.get_config_type_node_data_by_node(obj)
             )
         elif not is_node:
             config_object_data = (
                 self.__obsm.obj_configs.get_config_connection_data_by_connection(obj)
             )
-            config_type_object_data = self.__obsm.obj_configs.get_config_type_connection_data_by_connection(
-                obj
+            config_type_object_data = (
+                self.__obsm.obj_configs.get_config_type_connection_data_by_connection(
+                    obj
+                )
             )
         # именно только data
         object_data = obj.get("data", {})

@@ -39,6 +39,12 @@
                 "0"
             ],
             "parameters": {
+                "font_name": {
+                    "value": "",
+                    "name": "Название шрифта",
+                    "order": 0,
+                    "type": "font_name"
+                },
                 "is_location": {
                     "value": true,
                     "name": "Показывать местоположение",
