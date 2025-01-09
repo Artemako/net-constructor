@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QWidget
 from PySide6.QtGui import QPainter, QPen, QBrush, QImage, QFont, QPolygon
-from PySide6.QtCore import Qt, QPointF, QPoint
+from PySide6.QtCore import Qt, QPointF, QPoint, QRect
 
 import package.modules.painterconfigurator as painterconfigurator
 import package.modules.drawtext as drawtext
@@ -33,6 +33,14 @@ class DrawObject:
             QPoint(x, y), node_border_radius, node_border_radius
         )
         self.__painter.drawPolygon(points)
+
+    def node_reactangle(self, painter_figure_border, painter_figure_border_fill, center_x, center_y, width, height):
+        self.__painter = painter_figure_border()
+        self.__painter.drawRect(QRect(center_x - width // 2, center_y - height // 2, width, height))
+        #
+        self.__painter = painter_figure_border_fill()
+        self.__painter.drawRect(QRect(center_x - width // 2, center_y - height // 2, width, height))
+
 
     def arrow(self, painter_arrow, x, y, width, height, direction):
         # direction = "left", "right"

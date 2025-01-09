@@ -515,7 +515,7 @@
                 "order": 52
             },
             "node_margin_top": {
-                "value": 140,
+                "value": 60,
                 "name": "Высота названия над вершиной",
                 "order": 53
             }
@@ -539,11 +539,11 @@
                 "order": 102
             },
             "node_caption_physics_vertical_padding": {
-                "value": 5,
+                "value": 40,
                 "name": "Высота подписей физ. длин под вершинами",
                 "order": 103
-            },
-            "постфикс_расстояния": {
+            },  
+            "постфикс_физическая_длина": {
                 "value": " м",
                 "name": "Постфикс расстояния",
                 "order": 104
@@ -557,6 +557,11 @@
                 "value": "Смонтированный оптический кросс",
                 "name": "Название",
                 "order": 0
+            },
+            "название_доп": {
+                "value": "",
+                "name": "Дополнительное название (внутри вершины)",
+                "order": 1
             }
         },
         "type_object_data": {},
@@ -588,18 +593,18 @@
                 "type": "color"
             },
             "node_fill_style": {
-                "value": "DiagCrossPattern",
+                "value": "NoBrush",
                 "name": "Стиль заливки вершин",
                 "order": 4,
                 "type": "fill_style"
             },
             "node_width": {
-                "value": 20,
+                "value": 120,
                 "name": "Ширина вершин",
                 "order": 5
             },
             "node_height": {
-                "value": 20,
+                "value": 40,
                 "name": "Высота вершин",
                 "order": 6
             },
@@ -627,9 +632,26 @@
                 "type": "text_align"
             },
             "node_margin_top": {
-                "value": 140,
+                "value": 60,
                 "name": "Высота названия над вершиной",
                 "order": 54
+            },
+            "Диапазон вершин": {
+                "value": "заголовок",
+                "name": "Диапазон вершин",
+                "order": 100,
+                "type": "title"
+            },
+            "node_name_add_color": {
+                "value": "#000000",
+                "name": "Цвет шрифта диапазона вершины",
+                "order": 101,
+                "type": "color"
+            },
+            "node_name_add_pixel_size": {
+                "value": 16,
+                "name": "Размер шрифта диапазона вершины",
+                "order": 102
             }
         },
         "objects_parameters": {
@@ -651,11 +673,11 @@
                 "order": 102
             },
             "node_caption_physics_vertical_padding": {
-                "value": 5,
+                "value": 40,
                 "name": "Высота подписей физ. длин под вершинами",
                 "order": 103
             },  
-            "постфикс_расстояния": {
+            "постфикс_физическая_длина": {
                 "value": " м",
                 "name": "Постфикс расстояния",
                 "order": 104
@@ -694,7 +716,7 @@
                 "order": 2
             },
             "node_height": {
-                "value": 20,
+                "value": 30,
                 "name": "Высота линии вершин",
                 "order": 6
             }
@@ -718,11 +740,11 @@
                 "order": 102
             },
             "node_caption_physics_vertical_padding": {
-                "value": 5,
+                "value": 40,
                 "name": "Высота подписей физ. длин под вершинами",
                 "order": 103
             },  
-            "постфикс_расстояния": {
+            "постфикс_физическая_длина": {
                 "value": " м",
                 "name": "Постфикс расстояния",
                 "order": 104

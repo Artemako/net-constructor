@@ -4,6 +4,7 @@ from PySide6.QtCore import Qt
 class FillStyles:
     def __init__(self):
         self.__fill_styles = {
+            "NoBrush": Qt.NoBrush,
             "SolidPattern": Qt.SolidPattern,
             "Dense1Pattern": Qt.Dense1Pattern,
             "Dense2Pattern": Qt.Dense2Pattern,
@@ -34,8 +35,8 @@ class TextAlignments:
     def __init__(self):
         self.__text_alignments = {
             "LeftAlign": Qt.AlignLeft,
-            "RightAlign": Qt.AlignRight,
-            "CenterAlign": Qt.AlignCenter
+            "CenterAlign": Qt.AlignCenter,
+            "RightAlign": Qt.AlignRight
         }
     
     def keys(self):

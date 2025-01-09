@@ -11,6 +11,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QLabel,
     QSpinBox,
+    QDoubleSpinBox,
     QFormLayout,
     QLineEdit,
     QTextEdit,
@@ -169,11 +170,15 @@ class MainWindow(QMainWindow):
                 new_data_or_parameters[key] = {"value": widget.text()}
             elif widget_type == "fill_style":
                 new_data_or_parameters[key] = {"value": widget.currentText()}
+            elif widget_type == "text_align":
+                new_data_or_parameters[key] = {"value": widget.currentText()}
             elif widget_type == "bool":
                 new_data_or_parameters[key] = {"value": widget.isChecked()}
             elif widget_type == "number_int_signed":
                 new_data_or_parameters[key] = {"value": widget.value()}
             elif widget_type == "number_int":
+                new_data_or_parameters[key] = {"value": widget.value()}
+            elif widget_type == "number_float":
                 new_data_or_parameters[key] = {"value": widget.value()}
             else:
                 if is_parameters:
@@ -627,6 +632,11 @@ class MainWindow(QMainWindow):
         #
         elif widget_type == "number_int":
             new_widget = QSpinBox()
+            new_widget.setRange(0, 2147483647)
+            new_widget.setValue(value)
+        #
+        elif widget_type == "number_float":
+            new_widget = QDoubleSpinBox()
             new_widget.setRange(0, 2147483647)
             new_widget.setValue(value)
         #

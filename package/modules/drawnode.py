@@ -39,11 +39,11 @@ class DrawNode:
         # Сначала выбор диграммы, а потом узла
         data = drawdataparameters.DrawData(self.__object_node)
         pars = drawdataparameters.DrawParameters(
-                self.__object_diagramm,
-                self.__object_node,
-                self.__object_before,
-                self.__object_after,
-            )
+            self.__object_diagramm,
+            self.__object_node,
+            self.__object_before,
+            self.__object_after,
+        )
         node_id = self.__object_node.get_node_id()
         # "Скелетная схема ВОЛП и основные данные цепей кабеля"
         if self.__object_diagramm.get_diagramm_type_id() == "0":
@@ -192,7 +192,6 @@ class DrawNode:
         )
 
     def _draw_node_ids_50_51(self, pars, data, node_id="50"):
-
         def get_painter_figure_border():
             return painterconfigurator.PainterConfigurator(
                 self.__painter
@@ -306,7 +305,7 @@ class DrawNode:
                 y - delta,
                 pars.get_sp("arrow_width"),
                 pars.get_sp("arrow_height"),
-                direction
+                direction,
             )
             drawobject.DrawObject().arrow(
                 get_painter_arrow,
@@ -314,10 +313,18 @@ class DrawNode:
                 y + delta,
                 pars.get_sp("arrow_width"),
                 pars.get_sp("arrow_height"),
-                direction
+                direction,
             )
 
-        def draw_text_caption(text, x, y, is_top_caption, horizontal_padding, vertical_padding, is_to_right=False):
+        def draw_text_caption(
+            text,
+            x,
+            y,
+            is_top_caption,
+            horizontal_padding,
+            vertical_padding,
+            is_to_right=False,
+        ):
             draw_func = None
             if is_to_right:
                 draw_func = (
@@ -336,7 +343,7 @@ class DrawNode:
                 get_painter_text_caption,
                 text,
                 x - horizontal_padding if is_to_right else x + horizontal_padding,
-                y - vertical_padding if is_top_caption else y + vertical_padding
+                y - vertical_padding if is_top_caption else y + vertical_padding,
             )
 
         def draw_to_right():
@@ -345,7 +352,9 @@ class DrawNode:
             #
             draw_line_and_arrow(self.__x, self.__y, -length, delta, "right")
             #
-            text_physical = self.__to_right_physical_length + pars.get_sp("постфикс_расстояния")
+            text_physical = self.__to_right_physical_length + pars.get_sp(
+                "постфикс_расстояния"
+            )
             draw_text_caption(
                 text_physical,
                 self.__x,
@@ -353,10 +362,12 @@ class DrawNode:
                 pars.get_sp("is_top_node_top_caption"),
                 pars.get_sp("node_caption_horizontal_padding"),
                 pars.get_sp("node_caption_vertical_padding"),
-                is_to_right = True
+                is_to_right=True,
             )
             #
-            text_optical = self.__to_right_optical_length + pars.get_sp("постфикс_расстояния")
+            text_optical = self.__to_right_optical_length + pars.get_sp(
+                "постфикс_расстояния"
+            )
             draw_text_caption(
                 text_optical,
                 self.__x,
@@ -364,10 +375,10 @@ class DrawNode:
                 pars.get_sp("is_top_node_bottom_caption"),
                 pars.get_sp("node_caption_horizontal_padding"),
                 pars.get_sp("node_caption_vertical_padding"),
-                is_to_right = True
+                is_to_right=True,
             )
 
-        def draw_to_left():            
+        def draw_to_left():
             length = pars.get_sp("to_left_and_to_right_arrow_length")
             delta = pars.get_sp("delta_node_and_to_left_arrow")
             #
@@ -376,7 +387,9 @@ class DrawNode:
             print(f"self.__to_left_physical_length = {self.__to_left_physical_length}")
             print("постфикс_расстояния", pars.get_sp("постфикс_расстояния"))
 
-            text_physical = self.__to_left_physical_length + pars.get_sp("постфикс_расстояния")
+            text_physical = self.__to_left_physical_length + pars.get_sp(
+                "постфикс_расстояния"
+            )
             draw_text_caption(
                 text_physical,
                 self.__x,
@@ -384,10 +397,12 @@ class DrawNode:
                 pars.get_sp("is_top_node_top_caption"),
                 pars.get_sp("node_caption_horizontal_padding"),
                 pars.get_sp("node_caption_vertical_padding"),
-                is_to_right = False
+                is_to_right=False,
             )
             #
-            text_optical = self.__to_left_optical_length + pars.get_sp("постфикс_расстояния")
+            text_optical = self.__to_left_optical_length + pars.get_sp(
+                "постфикс_расстояния"
+            )
             print(f"text_optical = {text_optical}")
             print(f"постфикс_расстояния = {data.get_sd('постфикс_расстояния')}")
             print(f"self.__to_left_optical_length = {self.__to_left_optical_length}")
@@ -398,7 +413,7 @@ class DrawNode:
                 pars.get_sp("is_top_node_bottom_caption"),
                 pars.get_sp("node_caption_horizontal_padding"),
                 pars.get_sp("node_caption_vertical_padding"),
-                is_to_right = False
+                is_to_right=False,
             )
 
         #
@@ -407,8 +422,6 @@ class DrawNode:
         #
         if not (self.__object_node.get_before_wrap() or not self.__object_after):
             draw_to_left()
-
-
 
         if node_id == "51":
             drawobject.DrawObject().node_big_circle_and_triangle(
@@ -436,52 +449,50 @@ class DrawNode:
             self.__y - pars.get_sp("node_margin_top"),
         )
 
-
-
     def _draw_node_ids_100_101_102(self, pars, data, node_id="100"):
-        ...
-        # def get_painter_figure_border():
-        #     return painterconfigurator.PainterConfigurator(
-        #         self.__painter
-        #     ).get_painter_figure_border(
-        #         pen_color=pars.get_sp("node_border_color"),
-        #         pen_weight=pars.get_sp("node_border_weight"),
-        #     )
-
-        # def get_painter_figure_border_fill():
-        #     return painterconfigurator.PainterConfigurator(
-        #         self.__painter,
-        #     ).get_painter_figure_border_fill(
-        #         pen_color=pars.get_sp("node_border_color"),
-        #         pen_weight=pars.get_sp("node_border_weight"),
-        #         fill_color=pars.get_sp("node_fill_color"),
-        #         fill_pattern_name=pars.get_sp("node_fill_style"),
-        #     )
-
-        # def get_painter_text_name():
-        #     return painterconfigurator.PainterConfigurator(
-        #         self.__painter,
-        #     ).get_painter_text(
-        #         color=pars.get_sp("node_name_color"),
-        #         font_name=pars.get_sp("font_name"),
-        #         pixel_size=pars.get_sp("node_name_pixel_size"),
-        #     )
-
-        # def get_painter_text_caption():
-        #     return painterconfigurator.PainterConfigurator(
-        #         self.__painter
-        #     ).get_painter_text(
-        #         color=pars.get_sp("node_caption_color"),
-        #         font_name=pars.get_sp("font_name"),
-        #         pixel_size=pars.get_sp("node_caption_pixel_size"),
-        #     )
-
-        def get_painter_thin_line():
+        def get_painter_figure_border():
             return painterconfigurator.PainterConfigurator(
                 self.__painter
-            ).get_painter_line(
-                color=pars.get_sp("thin_line_color"),
-                weight=pars.get_sp("thin_line_weight"),
+            ).get_painter_figure_border(
+                pen_color=pars.get_sp("node_border_color"),
+                pen_weight=pars.get_sp("node_border_weight"),
+            )
+
+        def get_painter_figure_border_fill():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter,
+            ).get_painter_figure_border_fill(
+                pen_color=pars.get_sp("node_border_color"),
+                pen_weight=pars.get_sp("node_border_weight"),
+                fill_color=pars.get_sp("node_fill_color"),
+                fill_pattern_name=pars.get_sp("node_fill_style"),
+            )
+
+        def get_painter_text_name():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter,
+            ).get_painter_text(
+                color=pars.get_sp("node_name_color"),
+                font_name=pars.get_sp("font_name"),
+                pixel_size=pars.get_sp("node_name_pixel_size"),
+            )
+
+        def get_painter_text_name_add():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter,
+            ).get_painter_text(
+                color=pars.get_sp("node_name_add_color"),
+                font_name=pars.get_sp("font_name"),
+                pixel_size=pars.get_sp("node_name_add_pixel_size"),
+            )
+
+        def get_painter_text_caption():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter
+            ).get_painter_text(
+                color=pars.get_sp("node_caption_physics_color"),
+                font_name=pars.get_sp("font_name"),
+                pixel_size=pars.get_sp("node_caption_physics_pixel_size"),
             )
 
         def get_painter_arrow():
@@ -491,3 +502,91 @@ class DrawNode:
                 fill_color=pars.get_sp("thin_line_color"),
                 fill_pattern_name="Qt.SolidPattern",
             )
+
+        def draw_node_id_100():
+            # Рисование вершины
+            drawobject.DrawObject().node_gray_diagcross(
+                get_painter_figure_border,
+                get_painter_figure_border_fill,
+                self.__x,
+                self.__y,
+                pars.get_sp("node_radius"),
+            )
+
+            # Рисование названия
+            text = data.get_sd("название")
+            drawtext.DrawText().draw_multiline_text_by_hc_vb(
+                get_painter_text_name,
+                text,
+                self.__x,
+                self.__y - pars.get_sp("node_margin_top"),
+            )
+
+        def draw_node_id_101():
+            node_width = pars.get_sp("node_width")
+            node_height = pars.get_sp("node_height")
+            # Рисование вершины прямоугольника
+            drawobject.DrawObject().node_reactangle(
+                get_painter_figure_border,
+                get_painter_figure_border_fill,
+                self.__x,
+                self.__y,
+                node_width,
+                node_height,
+            )
+            # Рисование названия
+            text = data.get_sd("название")
+            text_align_name = pars.get_sp("node_name_align")
+            #
+            if text_align_name == "LeftAlign":
+                drawtext.DrawText().draw_multiline_text_by_hl_vb(
+                    get_painter_text_name,
+                    text,
+                    self.__x - node_width // 2,
+                    self.__y - pars.get_sp("node_margin_top"),
+                )
+            elif text_align_name == "RightAlign":
+                drawtext.DrawText().draw_multiline_text_by_hr_vb(
+                    get_painter_text_name,
+                    text,
+                    self.__x + node_width // 2,
+                    self.__y - pars.get_sp("node_margin_top"),
+                )
+            else:
+                drawtext.DrawText().draw_multiline_text_by_hc_vb(
+                    get_painter_text_name,
+                    text,
+                    self.__x,
+                    self.__y - pars.get_sp("node_margin_top"),
+                )
+
+            # Рисование диапазона c 24 по 48 (внутри прямоугольника)
+            text = data.get_sd("название_доп")
+            drawtext.DrawText().draw_multiline_text_by_hc_vc(
+                get_painter_text_name_add, text, self.__x, self.__y
+            )
+
+        def draw_node_id_102():
+            self.__painter = get_painter_figure_border()
+            self.__painter.drawLine(
+                self.__x,
+                self.__y - pars.get_sp("node_height"),
+                self.__x,
+                self.__y + pars.get_sp("node_height"),
+            )
+
+        # рисование вершины
+        if node_id == "100":
+            draw_node_id_100()
+        elif node_id == "101":
+            draw_node_id_101()
+        elif node_id == "102":
+            draw_node_id_102()
+
+        # рисование значения физической длины
+        drawtext.DrawText().draw_singleline_text_rotated_by_hc_vt(
+            get_painter_text_caption,
+            self.__to_right_physical_length + pars.get_sp("постфикс_физическая_длина"),
+            self.__x,
+            self.__y + pars.get_sp("node_caption_physics_vertical_padding"),
+        )

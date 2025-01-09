@@ -21,7 +21,7 @@ class PainterConfigurator:
     def get_painter(self):
         return self.__painter
 
-    def get_painter_text(self, color, font_name, pixel_size, text_alignment_name="CenterAlign"):
+    def get_painter_text(self, color, font_name, pixel_size):
         self.__painter.setPen(QPen(QColor(color), 2))
         #
         font = QFont()
@@ -36,13 +36,7 @@ class PainterConfigurator:
             font.setPixelSize(12)
         #
         self.__painter.setFont(font)
-        #
-        alignment = self.__text_alignments.get(text_alignment_name, Qt.AlignCenter)
         self.__painter.setRenderHint(QPainter.TextAntialiasing, True)
-        # Используем выравнивание
-        option = QTextOption()
-        option.setAlignment(alignment)
-        #
         return self.__painter
 
     def get_painter_line(self, color, weight):

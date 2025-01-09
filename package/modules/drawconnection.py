@@ -44,6 +44,10 @@ class DrawConnection:
         elif self.__object_diagramm.get_diagramm_type_id() == "50":
             if self.__object_connection.get_connection_id() == "50":
                 self._draw_connection_type_50(pars, data)
+        #
+        elif self.__object_diagramm.get_diagramm_type_id() == "100":
+            if self.__object_connection.get_connection_id() == "100":
+                self._draw_connection_type_100(pars, data)
 
     def _draw_connection_type_0(self, pars, data):
         # Функции для получения различных пейнтеров
@@ -318,22 +322,6 @@ class DrawConnection:
                 weight=pars.get_sp("connection_width"),
             )
 
-        def get_painter_thin_line():
-            return painterconfigurator.PainterConfigurator(
-                self.__painter
-            ).get_painter_line(
-                color=pars.get_sp("thin_line_color"),
-                weight=pars.get_sp("thin_line_weight"),
-            )
-
-        def get_painter_arrow():
-            return painterconfigurator.PainterConfigurator(
-                self.__painter
-            ).get_painter_figure_fill(
-                fill_color=pars.get_sp("thin_line_color"),
-                fill_pattern_name="Qt.SolidPattern",
-            )
-
         def get_painter_text_caption():
             return painterconfigurator.PainterConfigurator(
                 self.__painter
@@ -372,4 +360,48 @@ class DrawConnection:
             (2 * self.__x + pars.get_sp("connection_length")) // 2,
             self.__y + pars.get_sp("connection_main_caption_vertical_padding"),
             False,
+        )
+
+
+
+
+    def _draw_connection_type_100(self, pars, data):
+        def get_painter_connection_line():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter
+            ).get_painter_line(
+                color=pars.get_sp("connection_color"),
+                weight=pars.get_sp("connection_width"),
+            )
+
+        def get_painter_text_caption():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter
+            ).get_painter_text(
+                color=pars.get_sp("connection_caption_color"),
+                font_name=pars.get_sp("font_name"),
+                pixel_size=pars.get_sp("connection_caption_pixel_size"),
+            )
+
+        # ОСНОВНАЯ ЛИНИЯ
+        self.__painter = get_painter_connection_line()
+        self.__painter.drawLine(
+            self.__x,
+            self.__y,
+            self.__x + pars.get_sp("connection_length"),
+            self.__y,
+        )
+            
+        drawtext.DrawText().draw_multiline_text_by_hc_vb(
+            get_painter_text_caption,
+            data.get_sd("название"),
+            (2 * self.__x + pars.get_sp("connection_length")) // 2,
+            self.__y - pars.get_sp("connection_main_caption_vertical_padding")
+        )
+
+        drawtext.DrawText().draw_multiline_text_by_hc_vt(
+            get_painter_text_caption,
+            data.get_sd("физическая_длина") + pars.get_sp("постфикс_физическая_длина"),
+            (2 * self.__x + pars.get_sp("connection_length")) // 2,
+            self.__y + pars.get_sp("connection_main_caption_vertical_padding")
         )
