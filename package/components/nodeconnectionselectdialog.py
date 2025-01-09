@@ -14,6 +14,7 @@ class NodeConnectSelectDialog(QDialog):
     ):
         super(NodeConnectSelectDialog, self).__init__(parent)
         self.setWindowTitle("Выберите узел и соединение")
+        #
         label_node = QLabel("Узел")
         self.combo_box_nodes = QComboBox(self)
         for node_key, node_dict in config_diagramm_nodes.items():
@@ -21,6 +22,7 @@ class NodeConnectSelectDialog(QDialog):
             self.combo_box_nodes.addItem(
                 node_name, ({"node_key": node_key, "node_dict": node_dict})
             )
+        #
         label_connection = QLabel("Соединение")
         self.combo_box_connections = QComboBox(self)
         print("config_connections", config_diagramm_connections)

@@ -63,3 +63,27 @@ class DrawText:
         text_y = top_y + self.__painter.fontMetrics().height() * 0.618 
         # Рисуем текст смещенный, чтобы правая граница текста совпадала с right_x
         self.__painter.drawText(text_x, text_y, text)
+
+    
+    def draw_rotated_text_90(self, painter_text, text, center_x, top_y):
+        self.__painter = painter_text()
+        # Сохраняем состояние контекста рисования
+        self.__painter.save()
+        # Перемещаем систему координат к точке, где нужно нарисовать текст
+        self.__painter.translate(center_x, top_y)
+        # Поворачиваем контекст на 90 градусов по часовой стрелке
+        self.__painter.rotate(90)
+        # Рисуем текст
+        text_width = self.__painter.fontMetrics().horizontalAdvance(text)
+        text_height = self.__painter.fontMetrics().height()
+        # Смещаем на половину ширины, чтобы текст был центрирован
+        self.__painter.drawText(-text_height // 2, text_width // 2, text)
+        # Восстанавливаем состояние контекста рисования
+        self.__painter.restore()
+
+# "is_left_node_caption": {
+#     "value": true,
+#     "name": "Расположение нижних подписей вершин у левого/правого края",
+#     "order": ...,
+#     "type": "bool"
+# },

@@ -16,11 +16,11 @@
             "order": 0,
             "type_id": "0",
             "name": "Скелетная схема ВОЛП и основные данные цепей кабеля",
-            "nodes": [
+            "id_nodes": [
                 "0",
                 "1"
             ],
-            "connections": [
+            "id_connections": [
                 "0"
             ],
             "parameters": {
@@ -121,11 +121,11 @@
             "order": 1,
             "type_id": "50",
             "name": "Схема размещения строительных длин и смонтированных муфт на участках регенерации между оконечными пунктами ВОЛП",
-            "nodes": [
+            "id_nodes": [
                 "50",
                 "51"
             ],
-            "connections": [
+            "id_connections": [
                 "50"
             ],
             "parameters": {
@@ -194,16 +194,76 @@
             "order": 2,
             "type_id": "100",
             "name": "Скелетная схема размещения строительных длин кабеля и смонтированных муфт на участке регенерации",
-            "nodes": [],
-            "connections": [],
-            "parameters": {}
+            "id_nodes": ["100", "101", "102"],
+            "id_connections": ["100"],
+            "parameters": {
+                "start_x": {
+                    "value": 200,
+                    "name": "Стартовая координата X",
+                    "order": 1
+                },
+                "start_y": {
+                    "value": 200,
+                    "name": "Стартовая координата Y",
+                    "order": 2
+                },
+                "delta_wrap_y": {
+                    "value": 300,
+                    "name": "Расстояние между рядами вершин по Y",
+                    "order": 3
+                },
+                "font_name": {
+                    "value": "",
+                    "name": "Название шрифта диграммы",
+                    "order": 4,
+                    "type": "font_name"
+                },
+                "Тонкие линии": {
+                    "value": "",
+                    "name": "Тонкие линии",
+                    "order": 150,
+                    "type": "title"
+                },
+                "thin_line_color": {
+                    "value": "#000000",
+                    "name": "Цвет тонкой линии",
+                    "order": 151,
+                    "type": "color"
+                },
+                "thin_line_weight": {
+                    "value": 2,
+                    "name": "Толщина тонкой линии",
+                    "order": 152
+                },
+                "Стрелки": {
+                    "value": "",
+                    "name": "Стрелки",
+                    "order": 200,
+                    "type": "title"
+                },
+                "arrow_width": {
+                    "value": 20,
+                    "name": "Ширина стрелки",
+                    "order": 201
+                },
+                "arrow_height": {
+                    "value": 8,
+                    "name": "Высота стрелки",
+                    "order": 202
+                },
+                "wrap_arrow_length": {
+                    "value": 50,
+                    "name": "Длина линии стрелки переноса",
+                    "order": 203
+                }
+            }
         },
         "150": {
             "order": 3,
             "type_id": "150",
             "name": "Монтажная схема участка регенерации",
-            "nodes": [],
-            "connections": [],
+            "id_nodes": [],
+            "id_connections": [],
             "parameters": {}
         }
     }

@@ -3,7 +3,7 @@ from PySide6.QtCore import Qt
 
 class FillStyles:
     def __init__(self):
-        self.fill_styles = {
+        self.__fill_styles = {
             "SolidPattern": Qt.SolidPattern,
             "Dense1Pattern": Qt.Dense1Pattern,
             "Dense2Pattern": Qt.Dense2Pattern,
@@ -25,21 +25,38 @@ class FillStyles:
         }
     
     def keys(self):
-        return self.fill_styles.keys()
+        return self.__fill_styles.keys()
 
     def get(self, fill_pattern_name, default):
-        return self.fill_styles.get(fill_pattern_name, default)
+        return self.__fill_styles.get(fill_pattern_name, default)
+    
+class TextAlignments:
+    def __init__(self):
+        self.__text_alignments = {
+            "LeftAlign": Qt.AlignLeft,
+            "RightAlign": Qt.AlignRight,
+            "CenterAlign": Qt.AlignCenter
+        }
+    
+    def keys(self):
+        return self.__text_alignments.keys()
+
+    def get(self, text_alignment_name, default):
+        return self.__text_alignments.get(text_alignment_name, default)
+
+
 
 class DiagrammToDiagramm:
     def __init__(self):
-        self.diagramm_to_diagramm = {
-            "0": {
-                "50": {"nodes": {"0": "50", "1": "51"}, "connections": {"0": "50"}},
-                "100": {},
-                "150": {},
-            },
-            "50": {"100": {}, "150": {}},
-            "100": {"150": {}},
+        self.__nodes_mapping = {
+            ("0", "50"): {"0": "50", "1": "51"},
+            ("50", "0"): {"50": "0", "51": "1"},
+        }
+        self.__connections_mapping = {
+            ("0", "50"): {"0": "50"},
+            ("50", "0"): {"50": "0"},
         }
 
-    # TODO Проверка возможности перехода
+    def get_new_type_id(self, old_diagramm_type_id, new_diagramm_type_id, object_type_id, is_node=False):
+        mapping = self.__nodes_mapping if is_node else self.__connections_mapping
+        return mapping.get((old_diagramm_type_id, new_diagramm_type_id), {}).get(object_type_id)

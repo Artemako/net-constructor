@@ -84,10 +84,16 @@
             "is_wrap": false,
             "parameters": {
                 "delta_wrap_x": {
-                    "value": 0
+                    "value": 0,
+                    "name": "Расстояние переноса по X",
+                    "order": 2,
+                    "type": "number_int_signed"
                 },
                 "node_is_connected_with_thin_line_location": {
-                    "value": true
+                    "value": true,
+                    "name": "Cоединение с тонкой линией местоположения",
+                    "order": 10,
+                    "type": "bool"
                 },
                 "node_border_color": {
                     "value": "#000000"
@@ -101,8 +107,14 @@
                 "node_fill_style": {
                     "value": "DiagCrossPattern"
                 },
-                "node_margin_top": {
-                    "value": 50
+                "node_radius": {
+                    "value": 20
+                },
+                "Названия вершин": {
+                    "value": "заголовок",
+                    "name": "Названия вершин",
+                    "order": 100,
+                    "type": "title"
                 },
                 "node_name_color": {
                     "value": "#000000"
@@ -110,14 +122,8 @@
                 "node_name_pixel_size": {
                     "value": 16
                 },
-                "node_radius": {
-                    "value": 20
-                },
-                "Названия вершин": {
-                    "name": "Названия вершин",
-                    "order": 100,
-                    "type": "title",
-                    "value": "заголовок"
+                "node_margin_top": {
+                    "value": 50
                 }
             }
         },
@@ -130,13 +136,19 @@
                     "value": "Смонтированный оптический кросс"
                 }
             },
-            "is_wrap": true,
+            "is_wrap": false,
             "parameters": {
                 "delta_wrap_x": {
                     "value": 0
                 },
                 "node_is_connected_with_thin_line_location": {
-                    "value": true
+                    "value": false
+                },
+                "Вершины": {
+                    "value": "заголовок",
+                    "name": "Вершины",
+                    "order": 50,
+                    "type": "title"
                 },
                 "node_border_color": {
                     "value": "#000000"
@@ -150,8 +162,14 @@
                 "node_fill_style": {
                     "value": "DiagCrossPattern"
                 },
-                "node_margin_top": {
-                    "value": 50
+                "node_radius": {
+                    "value": 20
+                },
+                "Названия вершин": {
+                    "value": "заголовок",
+                    "name": "Названия вершин",
+                    "order": 100,
+                    "type": "title"
                 },
                 "node_name_color": {
                     "value": "#000000"
@@ -159,20 +177,8 @@
                 "node_name_pixel_size": {
                     "value": 16
                 },
-                "node_radius": {
-                    "value": 20
-                },
-                "Вершины": {
-                    "name": "Вершины",
-                    "order": 50,
-                    "type": "title",
-                    "value": "заголовок"
-                },
-                "Названия вершин": {
-                    "name": "Названия вершин",
-                    "order": 100,
-                    "type": "title",
-                    "value": "заголовок"
+                "node_margin_top": {
+                    "value": 50
                 }
             }
         },
@@ -190,16 +196,16 @@
             "is_wrap": false,
             "parameters": {
                 "delta_wrap_x": {
+                    "value": 0,
                     "name": "Расстояние переноса по X",
                     "order": 2,
-                    "type": "number_int_signed",
-                    "value": 0
+                    "type": "number_int_signed"
                 },
                 "node_is_connected_with_thin_line_location": {
+                    "value": true,
                     "name": "Cоединение с тонкой линией местоположения",
                     "order": 10,
-                    "type": "bool",
-                    "value": true
+                    "type": "bool"
                 },
                 "node_border_color": {
                     "value": "#000000"
@@ -213,8 +219,14 @@
                 "node_fill_style": {
                     "value": "DiagCrossPattern"
                 },
-                "node_margin_top": {
-                    "value": 50
+                "node_radius": {
+                    "value": 20
+                },
+                "Названия вершин": {
+                    "value": "заголовок",
+                    "name": "Названия вершин",
+                    "order": 100,
+                    "type": "title"
                 },
                 "node_name_color": {
                     "value": "#000000"
@@ -222,14 +234,8 @@
                 "node_name_pixel_size": {
                     "value": 16
                 },
-                "node_radius": {
-                    "value": 20
-                },
-                "Названия вершин": {
-                    "name": "Названия вершин",
-                    "order": 100,
-                    "type": "title",
-                    "value": "заголовок"
+                "node_margin_top": {
+                    "value": 50
                 }
             }
         }
@@ -247,10 +253,10 @@
                     "value": 0
                 },
                 "местоположение": {
-                    "value": "ываывавы"
+                    "value": ""
                 },
                 "местоположение_доп": {
-                    "value": "аывавыавыа"
+                    "value": ""
                 },
                 "название": {
                     "value": "Участок\nразмещения проложенного кабеля"
@@ -267,25 +273,61 @@
             },
             "parameters": {
                 "connection_length": {
-                    "value": 500
+                    "value": 350
                 },
-                "connection_caption_color": {
-                    "value": "#000000"
-                },
-                "connection_caption_margin_left_right": {
-                    "value": 10
-                },
-                "connection_caption_pixel_size": {
-                    "value": 12
+                "Основная линия соединения": {
+                    "value": "заголовок",
+                    "name": "Основная линия соединения",
+                    "order": 0,
+                    "type": "title"
                 },
                 "connection_color": {
                     "value": "#0000ff"
                 },
-                "connection_location_delta_x": {
-                    "value": 0
+                "connection_width": {
+                    "value": 4
+                },
+                "Подписи основной линии": {
+                    "value": "заголовок",
+                    "name": "Подписи основной линии",
+                    "order": 100,
+                    "type": "title"
+                },
+                "connection_caption_color": {
+                    "value": "#000000"
+                },
+                "connection_caption_pixel_size": {
+                    "value": 12
+                },
+                "connection_caption_margin_left_right": {
+                    "value": 10
                 },
                 "connection_main_caption_vertical_padding": {
                     "value": 10
+                },
+                "префикс_ВОК": {
+                    "value": "ВОК "
+                },
+                "префикс_количество_ОВ": {
+                    "value": "кол-во ОВ - "
+                },
+                "префикс_физическая_длина": {
+                    "value": "физическая длина - "
+                },
+                "постфикс_физическая_длина": {
+                    "value": " м"
+                },
+                "префикс_оптическая_длина": {
+                    "value": "оптическая длина - "
+                },
+                "постфикс_оптическая_длина": {
+                    "value": " м"
+                },
+                "Название и местоположение соединения": {
+                    "value": "заголовок",
+                    "name": "Название и местоположение соединения",
+                    "order": 200,
+                    "type": "title"
                 },
                 "connection_name_color": {
                     "value": "#000000"
@@ -296,44 +338,8 @@
                 "connection_thin_caption_vertical_padding": {
                     "value": 6
                 },
-                "connection_width": {
-                    "value": 4
-                },
-                "Название и местоположение соединения": {
-                    "name": "Название и местоположение соединения",
-                    "order": 200,
-                    "type": "title",
-                    "value": "заголовок"
-                },
-                "Основная линия соединения": {
-                    "name": "Основная линия соединения",
-                    "order": 0,
-                    "type": "title",
-                    "value": "заголовок"
-                },
-                "Подписи основной линии": {
-                    "name": "Подписи основной линии",
-                    "order": 100,
-                    "type": "title",
-                    "value": "заголовок"
-                },
-                "постфикс_оптическая_длина": {
-                    "value": " м"
-                },
-                "постфикс_физическая_длина": {
-                    "value": " м"
-                },
-                "префикс_ВОК": {
-                    "value": "ВОК "
-                },
-                "префикс_количество_ОВ": {
-                    "value": "кол-во ОВ - "
-                },
-                "префикс_оптическая_длина": {
-                    "value": "оптическая длина - "
-                },
-                "префикс_физическая_длина": {
-                    "value": "физическая длина - "
+                "connection_location_delta_x": {
+                    "value": -175
                 }
             }
         },
@@ -369,25 +375,63 @@
             },
             "parameters": {
                 "connection_length": {
-                    "value": 350
+                    "value": 350,
+                    "name": "Длина соединения",
+                    "order": 0
                 },
-                "connection_caption_color": {
-                    "value": "#000000"
-                },
-                "connection_caption_margin_left_right": {
-                    "value": 10
-                },
-                "connection_caption_pixel_size": {
-                    "value": 12
+                "Основная линия соединения": {
+                    "value": "заголовок",
+                    "name": "Основная линия соединения",
+                    "order": 0,
+                    "type": "title"
                 },
                 "connection_color": {
                     "value": "#0000ff"
                 },
-                "connection_location_delta_x": {
-                    "value": 0
+                "connection_width": {
+                    "value": 4
+                },
+                "Подписи основной линии": {
+                    "value": "заголовок",
+                    "name": "Подписи основной линии",
+                    "order": 100,
+                    "type": "title"
+                },
+                "connection_caption_color": {
+                    "value": "#000000"
+                },
+                "connection_caption_pixel_size": {
+                    "value": 12
+                },
+                "connection_caption_margin_left_right": {
+                    "value": 10
                 },
                 "connection_main_caption_vertical_padding": {
                     "value": 10
+                },
+                "префикс_ВОК": {
+                    "value": "ВОК "
+                },
+                "префикс_количество_ОВ": {
+                    "value": "кол-во ОВ - "
+                },
+                "префикс_физическая_длина": {
+                    "value": "физическая длина - "
+                },
+                "постфикс_физическая_длина": {
+                    "value": " м"
+                },
+                "префикс_оптическая_длина": {
+                    "value": "оптическая длина - "
+                },
+                "постфикс_оптическая_длина": {
+                    "value": " м"
+                },
+                "Название и местоположение соединения": {
+                    "value": "заголовок",
+                    "name": "Название и местоположение соединения",
+                    "order": 200,
+                    "type": "title"
                 },
                 "connection_name_color": {
                     "value": "#000000"
@@ -398,44 +442,8 @@
                 "connection_thin_caption_vertical_padding": {
                     "value": 6
                 },
-                "connection_width": {
-                    "value": 4
-                },
-                "Название и местоположение соединения": {
-                    "name": "Название и местоположение соединения",
-                    "order": 200,
-                    "type": "title",
-                    "value": "заголовок"
-                },
-                "Основная линия соединения": {
-                    "name": "Основная линия соединения",
-                    "order": 0,
-                    "type": "title",
-                    "value": "заголовок"
-                },
-                "Подписи основной линии": {
-                    "name": "Подписи основной линии",
-                    "order": 100,
-                    "type": "title",
-                    "value": "заголовок"
-                },
-                "постфикс_оптическая_длина": {
-                    "value": " м"
-                },
-                "постфикс_физическая_длина": {
-                    "value": " м"
-                },
-                "префикс_ВОК": {
-                    "value": "ВОК "
-                },
-                "префикс_количество_ОВ": {
-                    "value": "кол-во ОВ - "
-                },
-                "префикс_оптическая_длина": {
-                    "value": "оптическая длина - "
-                },
-                "префикс_физическая_длина": {
-                    "value": "физическая длина - "
+                "connection_location_delta_x": {
+                    "value": -175
                 }
             }
         }

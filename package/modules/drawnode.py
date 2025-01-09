@@ -38,28 +38,23 @@ class DrawNode:
     def draw(self):
         # Сначала выбор диграммы, а потом узла
         data = drawdataparameters.DrawData(self.__object_node)
-        # "Скелетная схема ВОЛП и основные данные цепей кабеля"
-        if self.__object_diagramm.get_diagramm_type_id() == "0":
-            #
-            pars = drawdataparameters.DrawParameters(
+        pars = drawdataparameters.DrawParameters(
                 self.__object_diagramm,
                 self.__object_node,
                 self.__object_before,
                 self.__object_after,
             )
-            node_id = self.__object_node.get_node_id()
+        node_id = self.__object_node.get_node_id()
+        # "Скелетная схема ВОЛП и основные данные цепей кабеля"
+        if self.__object_diagramm.get_diagramm_type_id() == "0":
             self._draw_node_ids_0_1(pars, data, node_id)
         # "Схема размещения строительных длин и смонтированных муфт на участках регенерации между оконечными пунктами ВОЛП"
         elif self.__object_diagramm.get_diagramm_type_id() == "50":
-            pars = drawdataparameters.DrawParameters(
-                self.__object_diagramm,
-                self.__object_node,
-                self.__object_before,
-                self.__object_after,
-            )
-            node_id = self.__object_node.get_node_id()
             self._draw_node_ids_50_51(pars, data, node_id)
         # "Скелетная схема размещения строительных длин кабеля и смонтированных муфт на участке регенерации"
+        elif self.__object_diagramm.get_diagramm_type_id() == "100":
+            self._draw_node_ids_100_101_102(pars, data, node_id)
+
         # "Монтажная схема участка регенерации"
 
     def _draw_node_ids_0_1(self, pars, data, node_id="0"):
@@ -351,8 +346,6 @@ class DrawNode:
             draw_line_and_arrow(self.__x, self.__y, -length, delta, "right")
             #
             text_physical = self.__to_right_physical_length + pars.get_sp("постфикс_расстояния")
-            # print(f"self.__to_right_physical_length = {self.__to_right_physical_length}")
-            # print(f"text_physical = {text_physical}")
             draw_text_caption(
                 text_physical,
                 self.__x,
@@ -380,6 +373,9 @@ class DrawNode:
             #
             draw_line_and_arrow(self.__x, self.__y, length, delta, "left")
             #
+            print(f"self.__to_left_physical_length = {self.__to_left_physical_length}")
+            print("постфикс_расстояния", pars.get_sp("постфикс_расстояния"))
+
             text_physical = self.__to_left_physical_length + pars.get_sp("постфикс_расстояния")
             draw_text_caption(
                 text_physical,
@@ -439,3 +435,59 @@ class DrawNode:
             self.__x,
             self.__y - pars.get_sp("node_margin_top"),
         )
+
+
+
+    def _draw_node_ids_100_101_102(self, pars, data, node_id="100"):
+        ...
+        # def get_painter_figure_border():
+        #     return painterconfigurator.PainterConfigurator(
+        #         self.__painter
+        #     ).get_painter_figure_border(
+        #         pen_color=pars.get_sp("node_border_color"),
+        #         pen_weight=pars.get_sp("node_border_weight"),
+        #     )
+
+        # def get_painter_figure_border_fill():
+        #     return painterconfigurator.PainterConfigurator(
+        #         self.__painter,
+        #     ).get_painter_figure_border_fill(
+        #         pen_color=pars.get_sp("node_border_color"),
+        #         pen_weight=pars.get_sp("node_border_weight"),
+        #         fill_color=pars.get_sp("node_fill_color"),
+        #         fill_pattern_name=pars.get_sp("node_fill_style"),
+        #     )
+
+        # def get_painter_text_name():
+        #     return painterconfigurator.PainterConfigurator(
+        #         self.__painter,
+        #     ).get_painter_text(
+        #         color=pars.get_sp("node_name_color"),
+        #         font_name=pars.get_sp("font_name"),
+        #         pixel_size=pars.get_sp("node_name_pixel_size"),
+        #     )
+
+        # def get_painter_text_caption():
+        #     return painterconfigurator.PainterConfigurator(
+        #         self.__painter
+        #     ).get_painter_text(
+        #         color=pars.get_sp("node_caption_color"),
+        #         font_name=pars.get_sp("font_name"),
+        #         pixel_size=pars.get_sp("node_caption_pixel_size"),
+        #     )
+
+        def get_painter_thin_line():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter
+            ).get_painter_line(
+                color=pars.get_sp("thin_line_color"),
+                weight=pars.get_sp("thin_line_weight"),
+            )
+
+        def get_painter_arrow():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter
+            ).get_painter_figure_fill(
+                fill_color=pars.get_sp("thin_line_color"),
+                fill_pattern_name="Qt.SolidPattern",
+            )

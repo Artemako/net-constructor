@@ -376,7 +376,9 @@ class MainWindow(QMainWindow):
                 new_diagramm, self
             )
             if dialog.exec():
-                self.__obsm.obj_project.change_type_diagramm(new_diagramm)
+                config_nodes = self.__obsm.obj_configs.get_nodes()
+                config_connections = self.__obsm.obj_configs.get_connections()
+                self.__obsm.obj_project.change_type_diagramm(new_diagramm, config_nodes, config_connections)
                 #
                 project_data = self.__obsm.obj_project.get_data()
                 self.ui.imagewidget.run(project_data)
@@ -609,6 +611,14 @@ class MainWindow(QMainWindow):
                 new_widget.addItem(style_name)
                 if style_name == value:
                     new_widget.setCurrentText(style_name)
+        #
+        elif widget_type == "text_align":
+            new_widget = QComboBox()
+            text_alignments = constants.TextAlignments()
+            for align_name in text_alignments.keys():
+                new_widget.addItem(align_name)
+                if align_name == value:
+                    new_widget.setCurrentText(align_name)
         #
         elif widget_type == "number_int_signed":
             new_widget = QSpinBox()
