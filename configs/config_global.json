@@ -45,10 +45,22 @@
                     "order": 4,
                     "type": "font_name"
                 },
+                "precision_number": {
+                    "value": 0,
+                    "name": "Кол-во знаков после разделителя",
+                    "order": 5,
+                    "type": "number_int"
+                },
+                "precision_separator": {
+                    "value": true,
+                    "name": "Разделитель точка/запятая",
+                    "order": 6,
+                    "type": "bool"
+                },
                 "is_location": {
                     "value": true,
                     "name": "Показывать местоположение",
-                    "order": 5,
+                    "order": 7,
                     "type": "bool"
                 },
                 "Тонкие линии": {
@@ -150,6 +162,18 @@
                     "order": 4,
                     "type": "font_name"
                 },
+                "precision_number": {
+                    "value": 0,
+                    "name": "Кол-во знаков после разделителя",
+                    "order": 5,
+                    "type": "number_int"
+                },
+                "precision_separator": {
+                    "value": true,
+                    "name": "Разделитель точка/запятая",
+                    "order": 6,
+                    "type": "bool"
+                },
                 "Тонкие линии": {
                     "value": "",
                     "name": "Тонкие линии",
@@ -217,6 +241,18 @@
                     "name": "Название шрифта диграммы",
                     "order": 4,
                     "type": "font_name"
+                },
+                "precision_number": {
+                    "value": 0,
+                    "name": "Кол-во знаков после разделителя",
+                    "order": 5,
+                    "type": "number_int"
+                },
+                "precision_separator": {
+                    "value": true,
+                    "name": "Разделитель точка/запятая",
+                    "order": 6,
+                    "type": "bool"
                 },
                 "Тонкие линии": {
                     "value": "",

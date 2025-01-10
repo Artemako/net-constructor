@@ -109,12 +109,11 @@ class Project:
         for node in self.__data.get("nodes", []):
             old_node_id = node.get("node_id")
             new_node_id = dtd.get_new_type_id(
-                old_diagramm_type_id,
                 new_diagramm_type_id,
                 old_node_id,
                 is_node=True,
             )
-            node["node_id"] = new_node_id
+            node["node_id"] = new_node_id if new_node_id else old_node_id
             node["parameters"] = self._get_combined_parameters(
                 config_nodes.get(new_node_id, {})
             )
@@ -126,12 +125,11 @@ class Project:
         for connection in self.__data.get("connections", []):
             old_connection_id = connection.get("connection_id")
             new_connection_id = dtd.get_new_type_id(
-                old_diagramm_type_id,
                 new_diagramm_type_id,
                 old_connection_id,
                 is_node=False,
             )
-            connection["connection_id"] = new_connection_id
+            connection["connection_id"] = new_connection_id if new_connection_id else old_connection_id
             connection["parameters"] = self._get_combined_parameters(
                 config_connections.get(new_connection_id, {})
             )

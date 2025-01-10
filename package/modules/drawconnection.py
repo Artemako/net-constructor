@@ -6,6 +6,7 @@ import package.modules.painterconfigurator as painterconfigurator
 import package.modules.drawdataparameters as drawdataparameters
 import package.modules.drawtext as drawtext
 import package.modules.drawobject as drawobject
+import package.modules.numberformatter as numberformatter
 
 
 class DrawConnection:
@@ -37,19 +38,26 @@ class DrawConnection:
         )
         data = drawdataparameters.DrawData(self.__object_connection)
         #
-        if self.__object_diagramm.get_diagramm_type_id() == "0":
-            if self.__object_connection.get_connection_id() == "0":
-                self._draw_connection_type_0(pars, data)
+        diagramm_type_id = self.__object_diagramm.get_diagramm_type_id()
+        connection_id = self.__object_connection.get_connection_id()
         #
-        elif self.__object_diagramm.get_diagramm_type_id() == "50":
-            if self.__object_connection.get_connection_id() == "50":
-                self._draw_connection_type_50(pars, data)
+        nf = numberformatter.NumberFormatter()
+        nf.set_precision_number(pars.get_sp("precision_number"))
+        nf.set_precision_separator(pars.get_sp("precision_separator"))
         #
-        elif self.__object_diagramm.get_diagramm_type_id() == "100":
-            if self.__object_connection.get_connection_id() == "100":
-                self._draw_connection_type_100(pars, data)
+        if diagramm_type_id == "0":
+            if connection_id == "0":
+                self._draw_connection_type_0(pars, data, nf)
+        #
+        elif diagramm_type_id == "50":
+            if connection_id == "50":
+                self._draw_connection_type_50(pars, data, nf)
+        #
+        elif diagramm_type_id == "100":
+            if connection_id == "100":
+                self._draw_connection_type_100(pars, data, nf)
 
-    def _draw_connection_type_0(self, pars, data):
+    def _draw_connection_type_0(self, pars, data, nf):
         # Функции для получения различных пейнтеров
         def get_painter_connection_line():
             return painterconfigurator.PainterConfigurator(
@@ -148,7 +156,7 @@ class DrawConnection:
         # RT
         text = (
             pars.get_sp("префикс_физическая_длина")
-            + data.get_sd("физическая_длина")
+            + nf.get(data.get_sd("физическая_длина"))
             + pars.get_sp("постфикс_физическая_длина")
         )
         drawtext.DrawText().draw_singleline_text_by_hr_vb(
@@ -163,7 +171,7 @@ class DrawConnection:
         # RB
         text = (
             pars.get_sp("префикс_оптическая_длина")
-            + data.get_sd("оптическая_длина")
+            + nf.get(data.get_sd("оптическая_длина"))
             + pars.get_sp("постфикс_оптическая_длина")
         )
         drawtext.DrawText().draw_singleline_text_by_hr_vt(
@@ -310,9 +318,7 @@ class DrawConnection:
 
         # endregion
 
-
-
-    def _draw_connection_type_50(self, pars, data):
+    def _draw_connection_type_50(self, pars, data, nf):
         # Функции для получения различных пейнтеров
         def get_painter_connection_line():
             return painterconfigurator.PainterConfigurator(
@@ -347,25 +353,26 @@ class DrawConnection:
                 else drawtext.DrawText().draw_multiline_text_by_hc_vb
             )
             func_text(get_painter_text_caption, text, center_x, y)
-            
+
         draw_text_caption(
-            pars.get_sp("префикс_физическая_длина") + data.get_sd("физическая_длина") + pars.get_sp("постфикс_физическая_длина"),
+            pars.get_sp("префикс_физическая_длина")
+            + nf.get(data.get_sd("физическая_длина"))
+            + pars.get_sp("постфикс_физическая_длина"),
             (2 * self.__x + pars.get_sp("connection_length")) // 2,
             self.__y - pars.get_sp("connection_main_caption_vertical_padding"),
             True,
         )
 
         draw_text_caption(
-            pars.get_sp("префикс_оптическая_длина") + data.get_sd("оптическая_длина") + pars.get_sp("постфикс_оптическая_длина"),
+            pars.get_sp("префикс_оптическая_длина")
+            + nf.get(data.get_sd("оптическая_длина"))
+            + pars.get_sp("постфикс_оптическая_длина"),
             (2 * self.__x + pars.get_sp("connection_length")) // 2,
             self.__y + pars.get_sp("connection_main_caption_vertical_padding"),
             False,
         )
 
-
-
-
-    def _draw_connection_type_100(self, pars, data):
+    def _draw_connection_type_100(self, pars, data, nf):
         def get_painter_connection_line():
             return painterconfigurator.PainterConfigurator(
                 self.__painter
@@ -391,17 +398,31 @@ class DrawConnection:
             self.__x + pars.get_sp("connection_length"),
             self.__y,
         )
-            
+
+        # Текст над/под с названием и физическая_длина
+        before_width = 0
+        after_width = 0
+        #
+        if self.__object_node_before.get_node_id() == "101":
+            before_width = pars.get_bp("node_width")
+        if self.__object_node_after.get_node_id() == "101":
+            after_width = pars.get_ap("node_width")
+        #
+        center_x = (
+            (self.__x + before_width // 2)
+            + (self.__x - after_width // 2 + pars.get_sp("connection_length"))
+        ) // 2
+        #
         drawtext.DrawText().draw_multiline_text_by_hc_vb(
             get_painter_text_caption,
             data.get_sd("название"),
-            (2 * self.__x + pars.get_sp("connection_length")) // 2,
-            self.__y - pars.get_sp("connection_main_caption_vertical_padding")
+            center_x,
+            self.__y - pars.get_sp("connection_main_caption_vertical_padding"),
         )
-
+        #
         drawtext.DrawText().draw_multiline_text_by_hc_vt(
             get_painter_text_caption,
-            data.get_sd("физическая_длина") + pars.get_sp("постфикс_физическая_длина"),
-            (2 * self.__x + pars.get_sp("connection_length")) // 2,
-            self.__y + pars.get_sp("connection_main_caption_vertical_padding")
+            nf.get(data.get_sd("физическая_длина")) + pars.get_sp("постфикс_физическая_длина"),
+            center_x,
+            self.__y + pars.get_sp("connection_main_caption_vertical_padding"),
         )

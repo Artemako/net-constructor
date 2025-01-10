@@ -47,17 +47,68 @@ class TextAlignments:
 
 
 
+# class DiagrammToDiagramm:
+    # def __init__(self):
+    #     self.__nodes_mapping = {
+    #         ("0", "50"): {"0": "50", "1": "51"},
+    #         ("50", "0"): {"50": "0", "51": "1"},
+    #         ("0", "100"): {"0": "100", "1": "101"},
+    #         ("100", "0"): {"100": "0", "101": "1"},
+    #         ("50", "100"): {"50": "100", "51": "101"},
+    #         ("100", "50"): {"100": "50", "101": "51", "102": None},
+    #     }
+    #     self.__connections_mapping = {
+    #         ("0", "50"): {"0": "50"},
+    #         ("50", "0"): {"50": "0"},
+    #         ("0", "100"): {"0": "100"},
+    #         ("100", "0"): {"100": "0"},
+    #         ("50", "100"): {"50": "100"},
+    #         ("100", "50"): {"100": "50"}
+    #     }
+    #     # TODO 
+
+    # def get_new_type_id(self, old_diagramm_type_id, new_diagramm_type_id, object_type_id, is_node=False):
+    #     mapping = self.__nodes_mapping if is_node else self.__connections_mapping
+    #     return mapping.get((old_diagramm_type_id, new_diagramm_type_id), {}).get(object_type_id, None)
+
 class DiagrammToDiagramm:
     def __init__(self):
         self.__nodes_mapping = {
-            ("0", "50"): {"0": "50", "1": "51"},
-            ("50", "0"): {"50": "0", "51": "1"},
+            "0": {
+                "50": "0",
+                "51": "1",
+                "100": "0",
+                "101": "1"
+            },
+            "50": {
+                "0": "50",
+                "1": "51",
+                "100": "50",
+                "101": "51",
+                "102": None
+            },
+            "100": {
+                "0": "100",
+                "1": "101",
+                "50": "100",
+                "51": "101"
+            },
         }
         self.__connections_mapping = {
-            ("0", "50"): {"0": "50"},
-            ("50", "0"): {"50": "0"},
+            "0": {
+                "50": "0",
+                "100": "0"
+            },
+            "50": {
+                "0": "50",
+                "100": "50"
+            },
+            "100": {
+                "0": "100",
+                "50": "100"
+            },
         }
 
-    def get_new_type_id(self, old_diagramm_type_id, new_diagramm_type_id, object_type_id, is_node=False):
+    def get_new_type_id(self, new_diagramm_type_id, object_type_id, is_node=False):
         mapping = self.__nodes_mapping if is_node else self.__connections_mapping
-        return mapping.get((old_diagramm_type_id, new_diagramm_type_id), {}).get(object_type_id)
+        return mapping.get(new_diagramm_type_id, {}).get(object_type_id, None)

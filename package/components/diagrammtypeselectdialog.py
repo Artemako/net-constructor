@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import (
     QDialog, QVBoxLayout, QListWidget, QLabel, QDialogButtonBox, QHBoxLayout, QListWidgetItem
 )
-from PySide6.QtGui import QPixmap
+# from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt
 
 import resources_rc
@@ -22,9 +22,9 @@ class DiagramTypeSelectDialog(QDialog):
         self.list_widget = QListWidget()
         self.list_widget.setMinimumWidth(200)
         
-        self.image_label = QLabel()
-        self.image_label.setAlignment(Qt.AlignCenter)
-        self.image_label.setFixedSize(600, 300) 
+        # self.image_label = QLabel()
+        # self.image_label.setAlignment(Qt.AlignCenter)
+        # self.image_label.setFixedSize(600, 300) 
         
         for key, elem in global_diagramms.items():
             name = elem.get("name", "")
@@ -32,10 +32,10 @@ class DiagramTypeSelectDialog(QDialog):
             item.setData(Qt.UserRole, elem)
             self.list_widget.addItem(item)
         
-        self.list_widget.currentItemChanged.connect(self.load_image)
+        # self.list_widget.currentItemChanged.connect(self.load_image)
         
         layout.addWidget(self.list_widget)
-        layout.addWidget(self.image_label)
+        # layout.addWidget(self.image_label)
         
         button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
         button_box.accepted.connect(self.accept)
@@ -44,16 +44,16 @@ class DiagramTypeSelectDialog(QDialog):
         main_layout.addLayout(layout)
         main_layout.addWidget(button_box)
 
-    def load_image(self, current, previous):
-        if current:
-            type_id = current.data(Qt.UserRole).get("type_id", "")
-            image_path = f":/diagramm_previews/resources/diagramm_previews/{type_id}.png"
-            pixmap = QPixmap(image_path)
-            self.image_label.setPixmap(pixmap.scaled(
-                self.image_label.size(), 
-                Qt.KeepAspectRatio, 
-                Qt.SmoothTransformation
-            ))
+    # def load_image(self, current, previous):
+    #     if current:
+    #         type_id = current.data(Qt.UserRole).get("type_id", "")
+    #         image_path = f":/diagramm_previews/resources/diagramm_previews/{type_id}.png"
+    #         pixmap = QPixmap(image_path)
+    #         self.image_label.setPixmap(pixmap.scaled(
+    #             self.image_label.size(), 
+    #             Qt.KeepAspectRatio, 
+    #             Qt.SmoothTransformation
+    #         ))
 
     def get_data(self):
         return self.__data

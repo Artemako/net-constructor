@@ -241,10 +241,10 @@ class DiagrammDrawer:
                     "физическая_длина", config_data.get("физическая_длина", {})
                 ).get("value", 0)
                 #
-                print("index = ", index)
-                print("connection_optical_length", connection_optical_length)
-                print("connection_physical_length", connection_physical_length)
-                print("connection_length", connection_length)
+                # print("index = ", index)
+                # print("connection_optical_length", connection_optical_length)
+                # print("connection_physical_length", connection_physical_length)
+                # print("connection_length", connection_length)
                 #
                 prepared_data.append(
                     {

@@ -6,6 +6,7 @@ import package.modules.painterconfigurator as painterconfigurator
 import package.modules.drawdataparameters as drawdataparameters
 import package.modules.drawtext as drawtext
 import package.modules.drawobject as drawobject
+import package.modules.numberformatter as numberformatter
 
 
 class DrawNode:
@@ -44,20 +45,31 @@ class DrawNode:
             self.__object_before,
             self.__object_after,
         )
+        diagramm_type_id = self.__object_diagramm.get_diagramm_type_id()
         node_id = self.__object_node.get_node_id()
+        #
+        nf = numberformatter.NumberFormatter()
+        nf.set_precision_number(pars.get_sp("precision_number"))
+        nf.set_precision_separator(pars.get_sp("precision_separator"))
+        #
         # "Скелетная схема ВОЛП и основные данные цепей кабеля"
-        if self.__object_diagramm.get_diagramm_type_id() == "0":
-            self._draw_node_ids_0_1(pars, data, node_id)
+
+        if diagramm_type_id == "0":
+            if node_id == "0" or node_id == "1":
+                self._draw_node_ids_0_1(pars, data, node_id, nf)
         # "Схема размещения строительных длин и смонтированных муфт на участках регенерации между оконечными пунктами ВОЛП"
-        elif self.__object_diagramm.get_diagramm_type_id() == "50":
-            self._draw_node_ids_50_51(pars, data, node_id)
+        elif diagramm_type_id == "50":
+            if node_id == "50" or node_id == "51":
+                self._draw_node_ids_50_51(pars, data, node_id, nf)
         # "Скелетная схема размещения строительных длин кабеля и смонтированных муфт на участке регенерации"
-        elif self.__object_diagramm.get_diagramm_type_id() == "100":
-            self._draw_node_ids_100_101_102(pars, data, node_id)
+        elif diagramm_type_id == "100":
+            if node_id == "100" or node_id == "101" or node_id == "102":
+                print("_draw_node_ids_100_101_102")
+                self._draw_node_ids_100_101_102(pars, data, node_id, nf)
 
         # "Монтажная схема участка регенерации"
 
-    def _draw_node_ids_0_1(self, pars, data, node_id="0"):
+    def _draw_node_ids_0_1(self, pars, data, node_id, nf):
         def get_painter_figure_border():
             return painterconfigurator.PainterConfigurator(
                 self.__painter
@@ -191,7 +203,7 @@ class DrawNode:
             self.__y - pars.get_sp("node_margin_top"),
         )
 
-    def _draw_node_ids_50_51(self, pars, data, node_id="50"):
+    def _draw_node_ids_50_51(self, pars, data, node_id, nf):
         def get_painter_figure_border():
             return painterconfigurator.PainterConfigurator(
                 self.__painter
@@ -352,7 +364,7 @@ class DrawNode:
             #
             draw_line_and_arrow(self.__x, self.__y, -length, delta, "right")
             #
-            text_physical = self.__to_right_physical_length + pars.get_sp(
+            text_physical = nf.get(self.__to_right_physical_length) + pars.get_sp(
                 "постфикс_расстояния"
             )
             draw_text_caption(
@@ -365,7 +377,7 @@ class DrawNode:
                 is_to_right=True,
             )
             #
-            text_optical = self.__to_right_optical_length + pars.get_sp(
+            text_optical = nf.get(self.__to_right_optical_length) + pars.get_sp(
                 "постфикс_расстояния"
             )
             draw_text_caption(
@@ -384,10 +396,7 @@ class DrawNode:
             #
             draw_line_and_arrow(self.__x, self.__y, length, delta, "left")
             #
-            print(f"self.__to_left_physical_length = {self.__to_left_physical_length}")
-            print("постфикс_расстояния", pars.get_sp("постфикс_расстояния"))
-
-            text_physical = self.__to_left_physical_length + pars.get_sp(
+            text_physical = nf.get(self.__to_left_physical_length) + pars.get_sp(
                 "постфикс_расстояния"
             )
             draw_text_caption(
@@ -400,12 +409,10 @@ class DrawNode:
                 is_to_right=False,
             )
             #
-            text_optical = self.__to_left_optical_length + pars.get_sp(
+            text_optical = nf.get(self.__to_left_optical_length) + pars.get_sp(
                 "постфикс_расстояния"
             )
-            print(f"text_optical = {text_optical}")
-            print(f"постфикс_расстояния = {data.get_sd('постфикс_расстояния')}")
-            print(f"self.__to_left_optical_length = {self.__to_left_optical_length}")
+
             draw_text_caption(
                 text_optical,
                 self.__x,
@@ -449,7 +456,7 @@ class DrawNode:
             self.__y - pars.get_sp("node_margin_top"),
         )
 
-    def _draw_node_ids_100_101_102(self, pars, data, node_id="100"):
+    def _draw_node_ids_100_101_102(self, pars, data, node_id, nf):
         def get_painter_figure_border():
             return painterconfigurator.PainterConfigurator(
                 self.__painter
@@ -495,6 +502,14 @@ class DrawNode:
                 pixel_size=pars.get_sp("node_caption_physics_pixel_size"),
             )
 
+        def get_painter_thin_line():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter
+            ).get_painter_line(
+                color=pars.get_sp("thin_line_color"),
+                weight=pars.get_sp("thin_line_weight"),
+            )
+
         def get_painter_arrow():
             return painterconfigurator.PainterConfigurator(
                 self.__painter
@@ -503,7 +518,35 @@ class DrawNode:
                 fill_pattern_name="Qt.SolidPattern",
             )
 
+        # рисование wrap стрелки
+        def draw_wrap_arrow(node_border_width):
+            if self.__object_node.get_before_wrap():
+                drawobject.DrawObject().wrap_arrow(
+                    get_painter_arrow,
+                    get_painter_thin_line,
+                    self.__x + node_border_width,
+                    self.__y,
+                    pars.get_sp("arrow_width"),
+                    pars.get_sp("arrow_height"),
+                    pars.get_sp("wrap_arrow_length"),
+                    "before_wrap",
+                )
+            elif self.__object_node.get_after_wrap():
+                drawobject.DrawObject().wrap_arrow(
+                    get_painter_arrow,
+                    get_painter_thin_line,
+                    self.__x - node_border_width,
+                    self.__y,
+                    pars.get_sp("arrow_width"),
+                    pars.get_sp("arrow_height"),
+                    pars.get_sp("wrap_arrow_length"),
+                    "after_wrap",
+                )
+
         def draw_node_id_100():
+            # Рисование wrap стрелки
+            draw_wrap_arrow(pars.get_sp("node_radius"))
+
             # Рисование вершины
             drawobject.DrawObject().node_gray_diagcross(
                 get_painter_figure_border,
@@ -523,6 +566,9 @@ class DrawNode:
             )
 
         def draw_node_id_101():
+            # Рисование wrap стрелки
+            draw_wrap_arrow(pars.get_sp("node_width") // 2)
+
             node_width = pars.get_sp("node_width")
             node_height = pars.get_sp("node_height")
             # Рисование вершины прямоугольника
@@ -567,6 +613,9 @@ class DrawNode:
             )
 
         def draw_node_id_102():
+            # Рисование wrap стрелки
+            draw_wrap_arrow(0)
+            #
             self.__painter = get_painter_figure_border()
             self.__painter.drawLine(
                 self.__x,
@@ -584,9 +633,14 @@ class DrawNode:
             draw_node_id_102()
 
         # рисование значения физической длины
+        x = self.__x
+        if node_id == "101" and (not self.__object_before or self.__object_node.get_after_wrap()):
+            x += pars.get_sp("node_width") // 2
+        elif node_id == "101" and (not self.__object_after or self.__object_node.get_before_wrap()):
+            x -= pars.get_sp("node_width") // 2
         drawtext.DrawText().draw_singleline_text_rotated_by_hc_vt(
             get_painter_text_caption,
-            self.__to_right_physical_length + pars.get_sp("постфикс_физическая_длина"),
-            self.__x,
+            nf.get(self.__to_right_physical_length) + pars.get_sp("постфикс_физическая_длина"),
+            x,
             self.__y + pars.get_sp("node_caption_physics_vertical_padding"),
         )

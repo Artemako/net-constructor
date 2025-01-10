@@ -560,7 +560,7 @@
             },
             "название_доп": {
                 "value": "",
-                "name": "Дополнительное название (внутри вершины)",
+                "name": "Диапазон (внутри вершины)",
                 "order": 1
             }
         },
@@ -572,6 +572,12 @@
                 "name": "Расстояние переноса по X",
                 "order": 2,
                 "type": "number_int_signed"
+            },
+            "node_name_align": {
+                "value" : "LeftAlign",
+                "name": "Выравнивание названия вершины",
+                "order": 53,
+                "type": "text_align"
             }
         },
         "type_object_parameters": {
@@ -625,12 +631,7 @@
                 "name": "Размер шрифта названия вершины",
                 "order": 52
             },
-            "node_name_align": {
-                "value" : "LeftAlign",
-                "name": "Выравнивание названия вершины",
-                "order": 53,
-                "type": "text_align"
-            },
+        
             "node_margin_top": {
                 "value": 60,
                 "name": "Высота названия над вершиной",
