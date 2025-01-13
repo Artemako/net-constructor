@@ -82,43 +82,43 @@ class Connection:
         return self.__connection.get("data", {})
 
 
-class Diagramm:
-    def __init__(self, data, config_diagramm_parameters):
-        self.__type = "diagramm"
-        self.__diagramm_type_id = data.get("diagramm_type_id", 0)
-        self.__diagramm_name = data.get("diagramm_name", "")
-        self.__diagramm_parameters = data.get("diagramm_parameters", {})
-        self.__config_diagramm_parameters = config_diagramm_parameters
+class Diagram:
+    def __init__(self, data, config_diagram_parameters):
+        self.__type = "diagram"
+        self.__diagram_type_id = data.get("diagram_type_id", 0)
+        self.__diagram_name = data.get("diagram_name", "")
+        self.__diagram_parameters = data.get("diagram_parameters", {})
+        self.__config_diagram_parameters = config_diagram_parameters
 
     def get_type(self):
         return self.__type
 
-    def get_diagramm_type_id(self):
-        return self.__diagramm_type_id
+    def get_diagram_type_id(self):
+        return self.__diagram_type_id
 
-    def get_diagramm_name(self):
-        return self.__diagramm_name
+    def get_diagram_name(self):
+        return self.__diagram_name
 
     def get_parameters(self):
-        return self.__diagramm_parameters
+        return self.__diagram_parameters
 
     def get_config_parameters(self):
-        return self.__config_diagramm_parameters
+        return self.__config_diagram_parameters
 
 
-class DiagrammDrawer:
+class DiagramDrawer:
     """Класс для рисования диаграммы."""
 
     def __init__(self, obsm, data):
         self.__obsm = obsm
         self.__data = data
         #
-        config_diagramm_parameters = (
-            self.__obsm.obj_configs.get_config_diagramm_parameters_by_type_id(
-                data.get("diagramm_type_id", 0)
+        config_diagram_parameters = (
+            self.__obsm.obj_configs.get_config_diagram_parameters_by_type_id(
+                data.get("diagram_type_id", 0)
             )
         )
-        self.__object_diagramm = Diagramm(data, config_diagramm_parameters)
+        self.__object_diagram = Diagram(data, config_diagram_parameters)
         #
         self.__nodes = self.__data.get("nodes", [])
         self.__connections = self.__data.get("connections", [])
@@ -138,9 +138,9 @@ class DiagrammDrawer:
 
     def _prepare_main_drawing_data(self):
         """Подготавливает данные для рисования"""
-        start_x = int(self.__data.get("diagramm_parameters", {}).get("start_x", {}).get("value", 0))
-        start_y = int(self.__data.get("diagramm_parameters", {}).get("start_y", {}).get("value", 0))
-        delta_wrap_y = int(self.__data.get("diagramm_parameters", {}).get("delta_wrap_y", {}).get("value", 0))
+        start_x = int(self.__data.get("diagram_parameters", {}).get("start_x", {}).get("value", 0))
+        start_y = int(self.__data.get("diagram_parameters", {}).get("start_y", {}).get("value", 0))
+        delta_wrap_y = int(self.__data.get("diagram_parameters", {}).get("delta_wrap_y", {}).get("value", 0))
         #
         x = start_x
         y = start_y
@@ -360,7 +360,7 @@ class DiagrammDrawer:
     ):
         node_obj = drawnode.DrawNode(
             painter,
-            self.__object_diagramm,
+            self.__object_diagram,
             object_node,
             object_before,
             object_after,
@@ -378,7 +378,7 @@ class DiagrammDrawer:
     ):
         connection_obj = drawconnection.DrawConnection(
             painter,
-            self.__object_diagramm,
+            self.__object_diagram,
             object_connection,
             object_node_before,
             object_node_after,

@@ -13,7 +13,7 @@ class DrawConnection:
     def __init__(
         self,
         painter,
-        object_diagramm,
+        object_diagram,
         object_connection,
         object_node_before,
         object_node_after,
@@ -21,7 +21,7 @@ class DrawConnection:
         y,
     ):
         self.__painter = painter
-        self.__object_diagramm = object_diagramm
+        self.__object_diagram = object_diagram
         self.__object_connection = object_connection
         self.__object_node_before = object_node_before
         self.__object_node_after = object_node_after
@@ -31,31 +31,35 @@ class DrawConnection:
     def draw(self):
         # Сначала выбор диграммы, а потом соединения
         pars = drawdataparameters.DrawParameters(
-            self.__object_diagramm,
+            self.__object_diagram,
             self.__object_connection,
             self.__object_node_before,
             self.__object_node_after,
         )
         data = drawdataparameters.DrawData(self.__object_connection)
         #
-        diagramm_type_id = self.__object_diagramm.get_diagramm_type_id()
+        diagram_type_id = self.__object_diagram.get_diagram_type_id()
         connection_id = self.__object_connection.get_connection_id()
         #
         nf = numberformatter.NumberFormatter()
         nf.set_precision_number(pars.get_sp("precision_number"))
         nf.set_precision_separator(pars.get_sp("precision_separator"))
         #
-        if diagramm_type_id == "0":
+        if diagram_type_id == "0":
             if connection_id == "0":
                 self._draw_connection_type_0(pars, data, nf)
         #
-        elif diagramm_type_id == "50":
+        elif diagram_type_id == "50":
             if connection_id == "50":
                 self._draw_connection_type_50(pars, data, nf)
         #
-        elif diagramm_type_id == "100":
+        elif diagram_type_id == "100":
             if connection_id == "100":
                 self._draw_connection_type_100(pars, data, nf)
+        #
+        elif diagram_type_id == "150":
+            if connection_id == "150":
+                self._draw_connection_type_150(pars, data, nf)
 
     def _draw_connection_type_0(self, pars, data, nf):
         # Функции для получения различных пейнтеров
@@ -65,6 +69,7 @@ class DrawConnection:
             ).get_painter_line(
                 color=pars.get_sp("connection_color"),
                 weight=pars.get_sp("connection_width"),
+                style_name=pars.get_sp("connection_style"),
             )
 
         def get_painter_thin_line():
@@ -73,6 +78,7 @@ class DrawConnection:
             ).get_painter_line(
                 color=pars.get_sp("thin_line_color"),
                 weight=pars.get_sp("thin_line_weight"),
+                style_name="SolidLine",
             )
 
         def get_painter_arrow():
@@ -80,7 +86,7 @@ class DrawConnection:
                 self.__painter
             ).get_painter_figure_fill(
                 fill_color=pars.get_sp("thin_line_color"),
-                fill_pattern_name="Qt.SolidPattern",
+                fill_pattern_name="SolidPattern",
             )
 
         def get_painter_text_name_and_location():
@@ -157,7 +163,7 @@ class DrawConnection:
         text = (
             pars.get_sp("префикс_физическая_длина")
             + nf.get(data.get_sd("физическая_длина"))
-            + pars.get_sp("постфикс_физическая_длина")
+            + pars.get_sp("постфикс_расстояния")
         )
         drawtext.DrawText().draw_singleline_text_by_hr_vb(
             get_painter_text_caption,
@@ -172,7 +178,7 @@ class DrawConnection:
         text = (
             pars.get_sp("префикс_оптическая_длина")
             + nf.get(data.get_sd("оптическая_длина"))
-            + pars.get_sp("постфикс_оптическая_длина")
+            + pars.get_sp("постфикс_расстояния")
         )
         drawtext.DrawText().draw_singleline_text_by_hr_vt(
             get_painter_text_caption,
@@ -326,6 +332,7 @@ class DrawConnection:
             ).get_painter_line(
                 color=pars.get_sp("connection_color"),
                 weight=pars.get_sp("connection_width"),
+                style_name=pars.get_sp("connection_style"),
             )
 
         def get_painter_text_caption():
@@ -357,7 +364,7 @@ class DrawConnection:
         draw_text_caption(
             pars.get_sp("префикс_физическая_длина")
             + nf.get(data.get_sd("физическая_длина"))
-            + pars.get_sp("постфикс_физическая_длина"),
+            + pars.get_sp("постфикс_расстояния"),
             (2 * self.__x + pars.get_sp("connection_length")) // 2,
             self.__y - pars.get_sp("connection_main_caption_vertical_padding"),
             True,
@@ -366,7 +373,7 @@ class DrawConnection:
         draw_text_caption(
             pars.get_sp("префикс_оптическая_длина")
             + nf.get(data.get_sd("оптическая_длина"))
-            + pars.get_sp("постфикс_оптическая_длина"),
+            + pars.get_sp("постфикс_расстояния"),
             (2 * self.__x + pars.get_sp("connection_length")) // 2,
             self.__y + pars.get_sp("connection_main_caption_vertical_padding"),
             False,
@@ -379,6 +386,7 @@ class DrawConnection:
             ).get_painter_line(
                 color=pars.get_sp("connection_color"),
                 weight=pars.get_sp("connection_width"),
+                style_name=pars.get_sp("connection_style"),
             )
 
         def get_painter_text_caption():
@@ -422,7 +430,69 @@ class DrawConnection:
         #
         drawtext.DrawText().draw_multiline_text_by_hc_vt(
             get_painter_text_caption,
-            nf.get(data.get_sd("физическая_длина")) + pars.get_sp("постфикс_физическая_длина"),
+            nf.get(data.get_sd("физическая_длина"))
+            + pars.get_sp("постфикс_расстояния"),
+            center_x,
+            self.__y + pars.get_sp("connection_main_caption_vertical_padding"),
+        )
+
+
+    def _draw_connection_type_150(self, pars, data, nf):
+        def get_painter_connection_line():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter
+            ).get_painter_line(
+                color=pars.get_sp("connection_color"),
+                weight=pars.get_sp("connection_width"),
+                style_name=pars.get_sp("connection_style"),
+            )
+
+        def get_painter_text_caption():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter
+            ).get_painter_text(
+                color=pars.get_sp("connection_caption_color"),
+                font_name=pars.get_sp("font_name"),
+                pixel_size=pars.get_sp("connection_caption_pixel_size"),
+            )
+
+        # ОСНОВНАЯ ЛИНИЯ
+        self.__painter = get_painter_connection_line()
+        self.__painter.drawLine(
+            self.__x,
+            self.__y,
+            self.__x + pars.get_sp("connection_length"),
+            self.__y,
+        )
+
+        # Текст над/под 
+        before_width = 0
+        after_width = 0
+        #
+        if self.__object_node_before.get_node_id() == "151":
+            before_width = pars.get_bp("node_width")
+        if self.__object_node_after.get_node_id() == "151":
+            after_width = pars.get_ap("node_width")
+        #
+        center_x = (
+            (self.__x + before_width // 2)
+            + (self.__x - after_width // 2 + pars.get_sp("connection_length"))
+        ) // 2
+        #
+        drawtext.DrawText().draw_multiline_text_by_hc_vb(
+            get_painter_text_caption,
+            nf.get(data.get_sd("оптическая_длина"))
+            + pars.get_sp("постфикс_расстояния"),
+            center_x,
+            self.__y - pars.get_sp("connection_main_caption_vertical_padding"),
+        )
+        #
+        drawtext.DrawText().draw_multiline_text_by_hc_vt(
+            get_painter_text_caption,
+            data.get_sd("название_доп")
+            + "\n"
+            + nf.get(data.get_sd("физическая_длина"))
+            + pars.get_sp("постфикс_расстояния"),
             center_x,
             self.__y + pars.get_sp("connection_main_caption_vertical_padding"),
         )

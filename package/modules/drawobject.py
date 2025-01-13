@@ -10,7 +10,7 @@ class DrawObject:
     def __init__(self):
         self.__painter = None
 
-    def node_gray_diagcross(
+    def node_circle(
         self, painter_figure_border, painter_figure_border_fill, x, y, node_radius
     ):
         self.__painter = painter_figure_border()

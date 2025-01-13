@@ -13,12 +13,12 @@ class DrawData:
 class DrawParameters:
     def __init__(
         self,
-        object_diagramm,
+        object_diagram,
         object_target,
         object_before=None,
         object_after=None
     ):
-        self.__object_diagramm = object_diagramm
+        self.__object_diagram = object_diagram
         self.__object_self = object_target
         self.__object_before = object_before
         self.__object_after = object_after
@@ -27,12 +27,12 @@ class DrawParameters:
         self.__before_parameters = {}
         self.__after_parameters = {}
 
-        new_dict_diagramm_parameters = self._get_dict(
-            self.__object_diagramm.get_parameters(),
-            self.__object_diagramm.get_config_parameters(),
+        new_dict_diagram_parameters = self._get_dict(
+            self.__object_diagram.get_parameters(),
+            self.__object_diagram.get_config_parameters(),
         )
         self.__self_parameters = {
-            **new_dict_diagramm_parameters,
+            **new_dict_diagram_parameters,
             **self._get_dict(
                 self.__object_self.get_parameters(),
                 self.__object_self.get_config_parameters(),
@@ -41,7 +41,7 @@ class DrawParameters:
 
         if self.__object_before:
             self.__before_parameters = {
-                **new_dict_diagramm_parameters,
+                **new_dict_diagram_parameters,
                 **self._get_dict(
                     self.__object_before.get_parameters(),
                     self.__object_before.get_config_parameters(),
@@ -49,7 +49,7 @@ class DrawParameters:
             }
         if self.__object_after:
             self.__after_parameters = {
-                **new_dict_diagramm_parameters,
+                **new_dict_diagram_parameters,
                 **self._get_dict(
                     self.__object_after.get_parameters(),
                     self.__object_after.get_config_parameters(),

@@ -23,7 +23,7 @@ class ImageWidget(QWidget):
 
     def run(self, data):
         """Инициализирует данные и создает изображение."""
-        self.__diagram_drawer = diagramdrawer.DiagrammDrawer(self.__obsm, data)
+        self.__diagram_drawer = diagramdrawer.DiagramDrawer(self.__obsm, data)
         self.__image = self.create_image(data)
         self.update()
 

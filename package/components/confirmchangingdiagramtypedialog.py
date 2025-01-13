@@ -1,15 +1,15 @@
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QLabel, QComboBox, QPushButton, QHBoxLayout, QMessageBox
 
 
-class ConfirmChangingDiagrammType(QDialog):
-    def __init__(self, new_diagramm, parent=None):
-        super(ConfirmChangingDiagrammType, self).__init__(parent)
-        self.__new_diagramm = new_diagramm
+class ConfirmChangingDiagramType(QDialog):
+    def __init__(self, new_diagram, parent=None):
+        super(ConfirmChangingDiagramType, self).__init__(parent)
+        self.__new_diagram = new_diagram
         #
         self.setWindowTitle("Подтверждение")
         #
-        diagramm_name = self.__new_diagramm.get("name", "")
-        self.label = QLabel(f'Вы уверены, что хотите изменить тип диаграммы на "{diagramm_name}"?')
+        diagram_name = self.__new_diagram.get("name", "")
+        self.label = QLabel(f'Вы уверены, что хотите изменить тип диаграммы на "{diagram_name}"?')
         
         self.ok_button = QPushButton("ОК")
         self.cancel_button = QPushButton("Отмена")

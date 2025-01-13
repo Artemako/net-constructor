@@ -15,7 +15,7 @@
                 "name": "Радиус круга", 
                 "order": 4
             },
-            "node_margin_top": {
+            "node_name_height": {
                 "is_global": false,
                 "value": 32,
                 "name": "Высота названия над вершиной", 
@@ -51,7 +51,7 @@
                 "name": "Радиус круга", 
                 "order": 0
             },
-            "node_margin_top": {
+            "node_name_height": {
                 "is_global": false,
                 "value": 32,
                 "name": "Высота названия над вершиной", 

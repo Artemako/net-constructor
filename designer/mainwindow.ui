@@ -192,7 +192,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QComboBox" name="combox_type_diagramm"/>
+                 <widget class="QComboBox" name="combox_type_diagram"/>
                 </item>
                 <item>
                  <widget class="Line" name="line_2">
@@ -223,14 +223,14 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLabel" name="label_diagramm_parameters">
+                 <widget class="QLabel" name="label_diagram_parameters">
                   <property name="text">
                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Параметры диаграммы&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <layout class="QFormLayout" name="fl_diagramm_parameters">
+                 <layout class="QFormLayout" name="fl_diagram_parameters">
                   <property name="rowWrapPolicy">
                    <enum>QFormLayout::WrapLongRows</enum>
                   </property>

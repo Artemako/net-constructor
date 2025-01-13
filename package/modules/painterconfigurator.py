@@ -9,7 +9,9 @@ class PainterConfigurator:
         self.__painter = painter
         #
         self.__fill_styles = constants.FillStyles()
-        self.__text_alignments = constants.TextAlignments()
+        # self.__text_alignments = constants.TextAlignments()
+        self.__line_styles = constants.LineStyles()
+
         #
         self.__painter.setPen(pen if pen is not None else Qt.NoPen)
         self.__painter.setBrush(brush if brush is not None else Qt.NoBrush)
@@ -39,8 +41,10 @@ class PainterConfigurator:
         self.__painter.setRenderHint(QPainter.TextAntialiasing, True)
         return self.__painter
 
-    def get_painter_line(self, color, weight):
-        self.__painter.setPen(QPen(QColor(color), weight))
+    def get_painter_line(self, color, weight, style_name):
+        # self.__painter.setPen(QPen(QColor(color), weight))
+        style = self.__line_styles.get(style_name, Qt.SolidLine)
+        self.__painter.setPen(QPen(QColor(color), weight, style))
         return self.__painter
 
     def get_painter_figure_border(self, pen_color, pen_weight):

@@ -26,9 +26,9 @@ import json
 #     def get_connections(self) -> dict:
 #         return self.__connections
 
-#     def get_config_diagramms(self) -> dict:
-#         diagramms = self.__global.get("diagramms", {})
-#         return dict(sorted(diagramms.items(), key=lambda x: x[1].get("order", 0)))
+#     def get_config_diagrams(self) -> dict:
+#         diagrams = self.__global.get("diagrams", {})
+#         return dict(sorted(diagrams.items(), key=lambda x: x[1].get("order", 0)))
 
 #     def get_config_image_parameters(self) -> dict:
 #         image_parameters = self.__global.get("image_parameters", {})
@@ -36,30 +36,30 @@ import json
 #             sorted(image_parameters.items(), key=lambda x: x[1].get("order", 0))
 #         )
 
-#     def get_config_diagramm_parameters_by_type_id(self, diagramm_type_id) -> dict:
-#         diagramms = self.__global.get("diagramms", {})
-#         parameters = diagramms.get(str(diagramm_type_id), {}).get("parameters", {})
+#     def get_config_diagram_parameters_by_type_id(self, diagram_type_id) -> dict:
+#         diagrams = self.__global.get("diagrams", {})
+#         parameters = diagrams.get(str(diagram_type_id), {}).get("parameters", {})
 #         return dict(sorted(parameters.items(), key=lambda x: x[1].get("order", 0)))
 
-#     def get_config_diagramm_nodes_by_type_id(self, diagramm_type_id) -> dict:
-#         diagramms = self.__global.get("diagramms", {})
-#         id_nodes = diagramms.get(str(diagramm_type_id), {}).get("id_nodes", [])
+#     def get_config_diagram_nodes_by_type_id(self, diagram_type_id) -> dict:
+#         diagrams = self.__global.get("diagrams", {})
+#         id_nodes = diagrams.get(str(diagram_type_id), {}).get("id_nodes", [])
 #         #
-#         config_diagramm_nodes = dict()
+#         config_diagram_nodes = dict()
 #         for node_type_id in id_nodes:
-#             config_diagramm_nodes[node_type_id] = self.__nodes.get(node_type_id, {})
-#         return config_diagramm_nodes
+#             config_diagram_nodes[node_type_id] = self.__nodes.get(node_type_id, {})
+#         return config_diagram_nodes
 
-#     def get_config_diagramm_connections_by_type_id(self, diagramm_type_id) -> dict:
-#         diagramms = self.__global.get("diagramms", {})
-#         id_connections = diagramms.get(str(diagramm_type_id), {}).get("id_connections", [])
+#     def get_config_diagram_connections_by_type_id(self, diagram_type_id) -> dict:
+#         diagrams = self.__global.get("diagrams", {})
+#         id_connections = diagrams.get(str(diagram_type_id), {}).get("id_connections", [])
 #         #
-#         config_diagramm_connections = dict()
+#         config_diagram_connections = dict()
 #         for connection_type_id in id_connections:
-#             config_diagramm_connections[connection_type_id] = self.__connections.get(
+#             config_diagram_connections[connection_type_id] = self.__connections.get(
 #                 connection_type_id, {}
 #             )
-#         return config_diagramm_connections
+#         return config_diagram_connections
 
 #     # TODO
 #     def get_config_node_data_by_node(self, node) -> dict:
@@ -175,9 +175,9 @@ class Configs:
     def get_connections(self) -> dict:
         return self.__connections
 
-    def get_config_diagramms(self) -> dict:
-        diagramms = self.__global.get("diagramms", {})
-        return dict(sorted(diagramms.items(), key=lambda x: x[1].get("order", 0)))
+    def get_config_diagrams(self) -> dict:
+        diagrams = self.__global.get("diagrams", {})
+        return dict(sorted(diagrams.items(), key=lambda x: x[1].get("order", 0)))
 
     def get_config_image_parameters(self) -> dict:
         image_parameters = self.__global.get("image_parameters", {})
@@ -185,22 +185,22 @@ class Configs:
             sorted(image_parameters.items(), key=lambda x: x[1].get("order", 0))
         )
 
-    def get_config_diagramm_parameters_by_type_id(self, diagramm_type_id) -> dict:
-        diagramms = self.__global.get("diagramms", {})
-        parameters = diagramms.get(str(diagramm_type_id), {}).get("parameters", {})
+    def get_config_diagram_parameters_by_type_id(self, diagram_type_id) -> dict:
+        diagrams = self.__global.get("diagrams", {})
+        parameters = diagrams.get(str(diagram_type_id), {}).get("parameters", {})
         return dict(sorted(parameters.items(), key=lambda x: x[1].get("order", 0)))
 
-    def get_config_diagramm_nodes_by_type_id(self, diagramm_type_id) -> dict:
-        diagramms = self.__global.get("diagramms", {})
-        id_nodes = diagramms.get(str(diagramm_type_id), {}).get("id_nodes", [])
-        config_diagramm_nodes = {node_type_id: self.get_node(node_type_id) for node_type_id in id_nodes}
-        return config_diagramm_nodes
+    def get_config_diagram_nodes_by_type_id(self, diagram_type_id) -> dict:
+        diagrams = self.__global.get("diagrams", {})
+        id_nodes = diagrams.get(str(diagram_type_id), {}).get("id_nodes", [])
+        config_diagram_nodes = {node_type_id: self.get_node(node_type_id) for node_type_id in id_nodes}
+        return config_diagram_nodes
 
-    def get_config_diagramm_connections_by_type_id(self, diagramm_type_id) -> dict:
-        diagramms = self.__global.get("diagramms", {})
-        id_connections = diagramms.get(str(diagramm_type_id), {}).get("id_connections", [])
-        config_diagramm_connections = {connection_type_id: self.get_connection(connection_type_id) for connection_type_id in id_connections}
-        return config_diagramm_connections
+    def get_config_diagram_connections_by_type_id(self, diagram_type_id) -> dict:
+        diagrams = self.__global.get("diagrams", {})
+        id_connections = diagrams.get(str(diagram_type_id), {}).get("id_connections", [])
+        config_diagram_connections = {connection_type_id: self.get_connection(connection_type_id) for connection_type_id in id_connections}
+        return config_diagram_connections
 
     def get_config_node_data_by_node(self, node) -> dict:
         node_id = node.get("node_id", "0")

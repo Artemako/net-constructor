@@ -13,7 +13,7 @@ class DrawNode:
     def __init__(
         self,
         painter,
-        object_diagramm,
+        object_diagram,
         object_node,
         object_before,
         object_after,
@@ -25,7 +25,7 @@ class DrawNode:
         to_left_physical_length,
     ):
         self.__painter = painter
-        self.__object_diagramm = object_diagramm
+        self.__object_diagram = object_diagram
         self.__object_node = object_node
         self.__object_before = object_before
         self.__object_after = object_after
@@ -40,12 +40,12 @@ class DrawNode:
         # Сначала выбор диграммы, а потом узла
         data = drawdataparameters.DrawData(self.__object_node)
         pars = drawdataparameters.DrawParameters(
-            self.__object_diagramm,
+            self.__object_diagram,
             self.__object_node,
             self.__object_before,
             self.__object_after,
         )
-        diagramm_type_id = self.__object_diagramm.get_diagramm_type_id()
+        diagram_type_id = self.__object_diagram.get_diagram_type_id()
         node_id = self.__object_node.get_node_id()
         #
         nf = numberformatter.NumberFormatter()
@@ -54,20 +54,22 @@ class DrawNode:
         #
         # "Скелетная схема ВОЛП и основные данные цепей кабеля"
 
-        if diagramm_type_id == "0":
+        if diagram_type_id == "0":
             if node_id == "0" or node_id == "1":
                 self._draw_node_ids_0_1(pars, data, node_id, nf)
         # "Схема размещения строительных длин и смонтированных муфт на участках регенерации между оконечными пунктами ВОЛП"
-        elif diagramm_type_id == "50":
+        elif diagram_type_id == "50":
             if node_id == "50" or node_id == "51":
                 self._draw_node_ids_50_51(pars, data, node_id, nf)
         # "Скелетная схема размещения строительных длин кабеля и смонтированных муфт на участке регенерации"
-        elif diagramm_type_id == "100":
+        elif diagram_type_id == "100":
             if node_id == "100" or node_id == "101" or node_id == "102":
                 print("_draw_node_ids_100_101_102")
                 self._draw_node_ids_100_101_102(pars, data, node_id, nf)
-
         # "Монтажная схема участка регенерации"
+        elif diagram_type_id == "150":
+            if node_id == "150" or node_id == "151":
+                self._draw_node_ids_150_151(pars, data, node_id, nf)
 
     def _draw_node_ids_0_1(self, pars, data, node_id, nf):
         def get_painter_figure_border():
@@ -103,6 +105,7 @@ class DrawNode:
             ).get_painter_line(
                 color=pars.get_sp("thin_line_color"),
                 weight=pars.get_sp("thin_line_weight"),
+                style_name="SolidLine",
             )
 
         def get_painter_arrow():
@@ -110,7 +113,7 @@ class DrawNode:
                 self.__painter
             ).get_painter_figure_fill(
                 fill_color=pars.get_sp("thin_line_color"),
-                fill_pattern_name="Qt.SolidPattern",
+                fill_pattern_name="SolidPattern",
             )
 
         # радиус вершины
@@ -119,28 +122,29 @@ class DrawNode:
             node_border_radius *= 2
 
         # рисование wrap стрелки
-        if self.__object_node.get_before_wrap():
-            drawobject.DrawObject().wrap_arrow(
-                get_painter_arrow,
-                get_painter_thin_line,
-                self.__x + node_border_radius,
-                self.__y,
-                pars.get_sp("arrow_width"),
-                pars.get_sp("arrow_height"),
-                pars.get_sp("wrap_arrow_length"),
-                "before_wrap",
-            )
-        elif self.__object_node.get_after_wrap():
-            drawobject.DrawObject().wrap_arrow(
-                get_painter_arrow,
-                get_painter_thin_line,
-                self.__x - node_border_radius,
-                self.__y,
-                pars.get_sp("arrow_width"),
-                pars.get_sp("arrow_height"),
-                pars.get_sp("wrap_arrow_length"),
-                "after_wrap",
-            )
+        if pars.get_sp("is_wrap_arrow"):
+            if self.__object_node.get_before_wrap():
+                drawobject.DrawObject().wrap_arrow(
+                    get_painter_arrow,
+                    get_painter_thin_line,
+                    self.__x + node_border_radius,
+                    self.__y,
+                    pars.get_sp("arrow_width"),
+                    pars.get_sp("arrow_height"),
+                    pars.get_sp("wrap_arrow_length"),
+                    "before_wrap",
+                )
+            elif self.__object_node.get_after_wrap():
+                drawobject.DrawObject().wrap_arrow(
+                    get_painter_arrow,
+                    get_painter_thin_line,
+                    self.__x - node_border_radius,
+                    self.__y,
+                    pars.get_sp("arrow_width"),
+                    pars.get_sp("arrow_height"),
+                    pars.get_sp("wrap_arrow_length"),
+                    "after_wrap",
+                )
 
         # тонкая вертикальная линия
         def draw_vertical_thin_line():
@@ -186,7 +190,7 @@ class DrawNode:
             )
 
         # Рисование вершины
-        drawobject.DrawObject().node_gray_diagcross(
+        drawobject.DrawObject().node_circle(
             get_painter_figure_border,
             get_painter_figure_border_fill,
             self.__x,
@@ -200,7 +204,7 @@ class DrawNode:
             get_painter_text_name,
             text,
             self.__x,
-            self.__y - pars.get_sp("node_margin_top"),
+            self.__y - pars.get_sp("node_name_height"),
         )
 
     def _draw_node_ids_50_51(self, pars, data, node_id, nf):
@@ -246,6 +250,7 @@ class DrawNode:
             ).get_painter_line(
                 color=pars.get_sp("thin_line_color"),
                 weight=pars.get_sp("thin_line_weight"),
+                style_name="SolidLine",
             )
 
         def get_painter_arrow():
@@ -253,7 +258,7 @@ class DrawNode:
                 self.__painter
             ).get_painter_figure_fill(
                 fill_color=pars.get_sp("thin_line_color"),
-                fill_pattern_name="Qt.SolidPattern",
+                fill_pattern_name="SolidPattern",
             )
 
         # радиус вершины
@@ -262,28 +267,29 @@ class DrawNode:
             node_border_radius *= 2
 
         # рисование wrap стрелки
-        if self.__object_node.get_before_wrap():
-            drawobject.DrawObject().wrap_arrow(
-                get_painter_arrow,
-                get_painter_thin_line,
-                self.__x + node_border_radius,
-                self.__y,
-                pars.get_sp("arrow_width"),
-                pars.get_sp("arrow_height"),
-                pars.get_sp("wrap_arrow_length"),
-                "before_wrap",
-            )
-        elif self.__object_node.get_after_wrap():
-            drawobject.DrawObject().wrap_arrow(
-                get_painter_arrow,
-                get_painter_thin_line,
-                self.__x - node_border_radius,
-                self.__y,
-                pars.get_sp("arrow_width"),
-                pars.get_sp("arrow_height"),
-                pars.get_sp("wrap_arrow_length"),
-                "after_wrap",
-            )
+        if pars.get_sp("is_wrap_arrow"):
+            if self.__object_node.get_before_wrap():
+                drawobject.DrawObject().wrap_arrow(
+                    get_painter_arrow,
+                    get_painter_thin_line,
+                    self.__x + node_border_radius,
+                    self.__y,
+                    pars.get_sp("arrow_width"),
+                    pars.get_sp("arrow_height"),
+                    pars.get_sp("wrap_arrow_length"),
+                    "before_wrap",
+                )
+            elif self.__object_node.get_after_wrap():
+                drawobject.DrawObject().wrap_arrow(
+                    get_painter_arrow,
+                    get_painter_thin_line,
+                    self.__x - node_border_radius,
+                    self.__y,
+                    pars.get_sp("arrow_width"),
+                    pars.get_sp("arrow_height"),
+                    pars.get_sp("wrap_arrow_length"),
+                    "after_wrap",
+                )
 
         # тонкая вертикальная линия
         painter_thin_line = get_painter_thin_line()
@@ -439,7 +445,7 @@ class DrawNode:
             )
 
         # Рисование вершины
-        drawobject.DrawObject().node_gray_diagcross(
+        drawobject.DrawObject().node_circle(
             get_painter_figure_border,
             get_painter_figure_border_fill,
             self.__x,
@@ -453,7 +459,7 @@ class DrawNode:
             get_painter_text_name,
             text,
             self.__x,
-            self.__y - pars.get_sp("node_margin_top"),
+            self.__y - pars.get_sp("node_name_height"),
         )
 
     def _draw_node_ids_100_101_102(self, pars, data, node_id, nf):
@@ -508,6 +514,7 @@ class DrawNode:
             ).get_painter_line(
                 color=pars.get_sp("thin_line_color"),
                 weight=pars.get_sp("thin_line_weight"),
+                style_name="SolidLine",
             )
 
         def get_painter_arrow():
@@ -515,40 +522,41 @@ class DrawNode:
                 self.__painter
             ).get_painter_figure_fill(
                 fill_color=pars.get_sp("thin_line_color"),
-                fill_pattern_name="Qt.SolidPattern",
+                fill_pattern_name="SolidPattern",
             )
 
         # рисование wrap стрелки
         def draw_wrap_arrow(node_border_width):
-            if self.__object_node.get_before_wrap():
-                drawobject.DrawObject().wrap_arrow(
-                    get_painter_arrow,
-                    get_painter_thin_line,
-                    self.__x + node_border_width,
-                    self.__y,
-                    pars.get_sp("arrow_width"),
-                    pars.get_sp("arrow_height"),
-                    pars.get_sp("wrap_arrow_length"),
-                    "before_wrap",
-                )
-            elif self.__object_node.get_after_wrap():
-                drawobject.DrawObject().wrap_arrow(
-                    get_painter_arrow,
-                    get_painter_thin_line,
-                    self.__x - node_border_width,
-                    self.__y,
-                    pars.get_sp("arrow_width"),
-                    pars.get_sp("arrow_height"),
-                    pars.get_sp("wrap_arrow_length"),
-                    "after_wrap",
-                )
+            if pars.get_sp("is_wrap_arrow"):
+                if self.__object_node.get_before_wrap():
+                    drawobject.DrawObject().wrap_arrow(
+                        get_painter_arrow,
+                        get_painter_thin_line,
+                        self.__x + node_border_width,
+                        self.__y,
+                        pars.get_sp("arrow_width"),
+                        pars.get_sp("arrow_height"),
+                        pars.get_sp("wrap_arrow_length"),
+                        "before_wrap",
+                    )
+                elif self.__object_node.get_after_wrap():
+                    drawobject.DrawObject().wrap_arrow(
+                        get_painter_arrow,
+                        get_painter_thin_line,
+                        self.__x - node_border_width,
+                        self.__y,
+                        pars.get_sp("arrow_width"),
+                        pars.get_sp("arrow_height"),
+                        pars.get_sp("wrap_arrow_length"),
+                        "after_wrap",
+                    )
 
         def draw_node_id_100():
             # Рисование wrap стрелки
             draw_wrap_arrow(pars.get_sp("node_radius"))
 
             # Рисование вершины
-            drawobject.DrawObject().node_gray_diagcross(
+            drawobject.DrawObject().node_circle(
                 get_painter_figure_border,
                 get_painter_figure_border_fill,
                 self.__x,
@@ -562,7 +570,7 @@ class DrawNode:
                 get_painter_text_name,
                 text,
                 self.__x,
-                self.__y - pars.get_sp("node_margin_top"),
+                self.__y - pars.get_sp("node_name_height"),
             )
 
         def draw_node_id_101():
@@ -589,21 +597,21 @@ class DrawNode:
                     get_painter_text_name,
                     text,
                     self.__x - node_width // 2,
-                    self.__y - pars.get_sp("node_margin_top"),
+                    self.__y - pars.get_sp("node_name_height"),
                 )
             elif text_align_name == "RightAlign":
                 drawtext.DrawText().draw_multiline_text_by_hr_vb(
                     get_painter_text_name,
                     text,
                     self.__x + node_width // 2,
-                    self.__y - pars.get_sp("node_margin_top"),
+                    self.__y - pars.get_sp("node_name_height"),
                 )
             else:
                 drawtext.DrawText().draw_multiline_text_by_hc_vb(
                     get_painter_text_name,
                     text,
                     self.__x,
-                    self.__y - pars.get_sp("node_margin_top"),
+                    self.__y - pars.get_sp("node_name_height"),
                 )
 
             # Рисование диапазона c 24 по 48 (внутри прямоугольника)
@@ -640,7 +648,145 @@ class DrawNode:
             x -= pars.get_sp("node_width") // 2
         drawtext.DrawText().draw_singleline_text_rotated_by_hc_vt(
             get_painter_text_caption,
-            nf.get(self.__to_right_physical_length) + pars.get_sp("постфикс_физическая_длина"),
+            nf.get(self.__to_right_physical_length) + pars.get_sp("постфикс_расстояния"),
             x,
             self.__y + pars.get_sp("node_caption_physics_vertical_padding"),
         )
+
+
+    def _draw_node_ids_150_151(self, pars, data, node_id, nf):
+    
+        def get_painter_figure_border():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter
+            ).get_painter_figure_border(
+                pen_color=pars.get_sp("node_border_color"),
+                pen_weight=pars.get_sp("node_border_weight"),
+            )
+
+        def get_painter_figure_border_fill():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter,
+            ).get_painter_figure_border_fill(
+                pen_color=pars.get_sp("node_border_color"),
+                pen_weight=pars.get_sp("node_border_weight"),
+                fill_color=pars.get_sp("node_fill_color"),
+                fill_pattern_name=pars.get_sp("node_fill_style"),
+            )
+
+        def get_painter_text_name():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter,
+            ).get_painter_text(
+                color=pars.get_sp("node_name_color"),
+                font_name=pars.get_sp("font_name"),
+                pixel_size=pars.get_sp("node_name_pixel_size"),
+            )
+
+        def get_painter_text_name_add():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter,
+            ).get_painter_text(
+                color=pars.get_sp("node_name_add_color"),
+                font_name=pars.get_sp("font_name"),
+                pixel_size=pars.get_sp("node_name_add_pixel_size"),
+            )
+
+        def get_painter_thin_line():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter
+            ).get_painter_line(
+                color=pars.get_sp("thin_line_color"),
+                weight=pars.get_sp("thin_line_weight"),
+                style_name="SolidLine",
+            )
+
+        def get_painter_arrow():
+            return painterconfigurator.PainterConfigurator(
+                self.__painter
+            ).get_painter_figure_fill(
+                fill_color=pars.get_sp("thin_line_color"),
+                fill_pattern_name="SolidPattern",
+            )
+        
+
+        
+        # рисование wrap стрелки
+        def draw_wrap_arrow(node_border_width):
+            if pars.get_sp("is_wrap_arrow"):
+                if self.__object_node.get_before_wrap():
+                    drawobject.DrawObject().wrap_arrow(
+                        get_painter_arrow,
+                        get_painter_thin_line,
+                        self.__x + node_border_width,
+                        self.__y,
+                        pars.get_sp("arrow_width"),
+                        pars.get_sp("arrow_height"),
+                        pars.get_sp("wrap_arrow_length"),
+                        "before_wrap",
+                    )
+                elif self.__object_node.get_after_wrap():
+                    drawobject.DrawObject().wrap_arrow(
+                        get_painter_arrow,
+                        get_painter_thin_line,
+                        self.__x - node_border_width,
+                        self.__y,
+                        pars.get_sp("arrow_width"),
+                        pars.get_sp("arrow_height"),
+                        pars.get_sp("wrap_arrow_length"),
+                        "after_wrap",
+                    )
+
+        def draw_node_id_150():
+            # рисование wrap стрелки
+            draw_wrap_arrow(pars.get_sp("node_radius"))
+            # вершина
+            drawobject.DrawObject().node_circle(
+                get_painter_figure_border,
+                get_painter_figure_border_fill,
+                self.__x,
+                self.__y,
+                pars.get_sp("node_radius"),
+            )
+            # Рисование названия
+            text = data.get_sd("название")
+            drawtext.DrawText().draw_multiline_text_by_hc_vb(
+                get_painter_text_name,
+                text,
+                self.__x,
+                self.__y - pars.get_sp("node_name_height"),
+            )
+            # Рисование номера (внутри круга)
+            text = data.get_sd("название_доп")
+            drawtext.DrawText().draw_multiline_text_by_hc_vc(
+                get_painter_text_name_add, text, self.__x, self.__y
+            )
+
+        
+        def draw_node_id_151():
+            # рисование wrap стрелки
+            draw_wrap_arrow(pars.get_sp("node_width") // 2)
+            # вершина
+            drawobject.DrawObject().node_reactangle(
+                get_painter_figure_border,
+                get_painter_figure_border_fill,
+                self.__x,
+                self.__y,
+                pars.get_sp("node_width"),
+                pars.get_sp("node_height"),
+            )
+            # Рисование названия
+            text = data.get_sd("название")
+            drawtext.DrawText().draw_multiline_text_by_hc_vb(
+                get_painter_text_name,
+                text,
+                self.__x,
+                self.__y - pars.get_sp("node_name_height"),
+            )
+
+        
+        if node_id == "150":
+            draw_node_id_150()
+        elif node_id == "151":
+            draw_node_id_151()
+

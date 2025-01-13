@@ -7,7 +7,7 @@ from PySide6.QtCore import Qt
 import resources_rc
 
 class DiagramTypeSelectDialog(QDialog):
-    def __init__(self, global_diagramms, parent=None):
+    def __init__(self, global_diagrams, parent=None):
         self.__data = None
 
         super().__init__(parent)
@@ -26,7 +26,7 @@ class DiagramTypeSelectDialog(QDialog):
         # self.image_label.setAlignment(Qt.AlignCenter)
         # self.image_label.setFixedSize(600, 300) 
         
-        for key, elem in global_diagramms.items():
+        for key, elem in global_diagrams.items():
             name = elem.get("name", "")
             item = QListWidgetItem(name)
             item.setData(Qt.UserRole, elem)
@@ -47,7 +47,7 @@ class DiagramTypeSelectDialog(QDialog):
     # def load_image(self, current, previous):
     #     if current:
     #         type_id = current.data(Qt.UserRole).get("type_id", "")
-    #         image_path = f":/diagramm_previews/resources/diagramm_previews/{type_id}.png"
+    #         image_path = f":/diagram_previews/resources/diagram_previews/{type_id}.png"
     #         pixmap = QPixmap(image_path)
     #         self.image_label.setPixmap(pixmap.scaled(
     #             self.image_label.size(), 

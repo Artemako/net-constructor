@@ -3,10 +3,10 @@
     <file>resources/fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf</file>
     <file>resources/fonts/OpenSans-VariableFont_wdth,wght.ttf</file>
   </qresource>
-  <qresource prefix="diagramm_previews">
-    <file>resources/diagramm_previews/0.png</file>
-    <file>resources/diagramm_previews/1.png</file>
-    <file>resources/diagramm_previews/2.png</file>
+  <qresource prefix="diagram_previews">
+    <file>resources/diagram_previews/0.png</file>
+    <file>resources/diagram_previews/1.png</file>
+    <file>resources/diagram_previews/2.png</file>
   </qresource>
   <qresource prefix="png">
     <file>resources/png/branch-closed.png</file>

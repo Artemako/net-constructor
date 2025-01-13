@@ -12,12 +12,12 @@ class Project:
     def get_data(self):
         return self.__data
 
-    def create_new_project(self, diagramm_data, image_parameters, file_path):
+    def create_new_project(self, diagram_data, image_parameters, file_path):
         self.__file_name = file_path
         self.__data = {
-            "diagramm_type_id": diagramm_data.get("type_id", "0"),
-            "diagramm_name": diagramm_data.get("name", ""),
-            "diagramm_parameters": diagramm_data.get("parameters", {}),
+            "diagram_type_id": diagram_data.get("type_id", "0"),
+            "diagram_name": diagram_data.get("name", ""),
+            "diagram_parameters": diagram_data.get("parameters", {}),
             "image_parameters": image_parameters,
             "nodes": [],
             "connections": [],
@@ -38,20 +38,20 @@ class Project:
             with open(self.__file_name, "w", encoding="utf-8") as f:
                 json.dump(self.__data, f, indent=4, ensure_ascii=False)
 
-    def change_type_diagramm(self, new_diagramm, config_nodes, config_connections):
-        old_diagramm_type_id = self.__data["diagramm_type_id"]
-        new_diagramm_type_id = new_diagramm.get("type_id", "0")
+    def change_type_diagram(self, new_diagram, config_nodes, config_connections):
+        old_diagram_type_id = self.__data["diagram_type_id"]
+        new_diagram_type_id = new_diagram.get("type_id", "0")
         #
-        self._update_diagramm_nodes(
-            old_diagramm_type_id, new_diagramm_type_id, config_nodes
+        self._update_diagram_nodes(
+            old_diagram_type_id, new_diagram_type_id, config_nodes
         )
-        self._update_diagramm_connections(
-            old_diagramm_type_id, new_diagramm_type_id, config_connections
+        self._update_diagram_connections(
+            old_diagram_type_id, new_diagram_type_id, config_connections
         )
         #
-        self.__data["diagramm_type_id"] = new_diagramm_type_id
-        self.__data["diagramm_name"] = new_diagramm.get("name", "")
-        self.__data["diagramm_parameters"] = new_diagramm.get("parameters", {})
+        self.__data["diagram_type_id"] = new_diagram_type_id
+        self.__data["diagram_name"] = new_diagram.get("name", "")
+        self.__data["diagram_parameters"] = new_diagram.get("parameters", {})
         # data точно не трогаем
         self._write_project()
 
@@ -87,29 +87,29 @@ class Project:
             self._add_connection(key_dict_connection)
         self._write_project()
 
-    # def _update_diagramm_nodes(self, old_diagramm_type_id, new_diagramm_type_id):
-    #     dtd = constants.DiagrammToDiagramm()
+    # def _update_diagram_nodes(self, old_diagram_type_id, new_diagram_type_id):
+    #     dtd = constants.DiagramToDiagram()
     #     for item in self.__data["nodes"]:
     #         old_node_id = item.get("node_id", "0")
-    #         new_node_id = dtd.get_new_type_id(old_diagramm_type_id, new_diagramm_type_id, old_node_id, is_node=True)
+    #         new_node_id = dtd.get_new_type_id(old_diagram_type_id, new_diagram_type_id, old_node_id, is_node=True)
     #         item["node_id"] = new_node_id
 
-    # def _update_diagramm_connections(self, old_diagramm_type_id, new_diagramm_type_id):
-    #     dtd = constants.DiagrammToDiagramm()
+    # def _update_diagram_connections(self, old_diagram_type_id, new_diagram_type_id):
+    #     dtd = constants.DiagramToDiagram()
     #     for item in self.__data["connections"]:
     #         # old_connection_id = item.get("connection_id", "0")
-    #         # new_connection_id = dtd.get_new_type_id(old_diagramm_type_id, new_diagramm_type_id, old_connection_id, is_node=False)
+    #         # new_connection_id = dtd.get_new_type_id(old_diagram_type_id, new_diagram_type_id, old_connection_id, is_node=False)
     #         # item["connection_id"] = new_connection_id
 
     # TODO
-    def _update_diagramm_nodes(
-        self, old_diagramm_type_id, new_diagramm_type_id, config_nodes
+    def _update_diagram_nodes(
+        self, old_diagram_type_id, new_diagram_type_id, config_nodes
     ):
-        dtd = constants.DiagrammToDiagramm()
+        dtd = constants.DiagramToDiagram()
         for node in self.__data.get("nodes", []):
             old_node_id = node.get("node_id")
             new_node_id = dtd.get_new_type_id(
-                new_diagramm_type_id,
+                new_diagram_type_id,
                 old_node_id,
                 is_node=True,
             )
@@ -118,14 +118,14 @@ class Project:
                 config_nodes.get(new_node_id, {})
             )
 
-    def _update_diagramm_connections(
-        self, old_diagramm_type_id, new_diagramm_type_id, config_connections
+    def _update_diagram_connections(
+        self, old_diagram_type_id, new_diagram_type_id, config_connections
     ):
-        dtd = constants.DiagrammToDiagramm()
+        dtd = constants.DiagramToDiagram()
         for connection in self.__data.get("connections", []):
             old_connection_id = connection.get("connection_id")
             new_connection_id = dtd.get_new_type_id(
-                new_diagramm_type_id,
+                new_diagram_type_id,
                 old_connection_id,
                 is_node=False,
             )
@@ -298,20 +298,20 @@ class Project:
         is_editor_tab,
         config_nodes,
         config_connections,
-        diagramm_type_id,
-        diagramm_name,
+        diagram_type_id,
+        diagram_name,
         new_image_parameters,
-        new_diagramm_parameters,
+        new_diagram_parameters,
         new_data,
         new_parameters,
     ):
         # Проверка на вкладку
         if is_general_tab:
-            self.__data["diagramm_type_id"] = diagramm_type_id
-            self.__data["diagramm_name"] = diagramm_name
+            self.__data["diagram_type_id"] = diagram_type_id
+            self.__data["diagram_name"] = diagram_name
             #
-            for key, value in new_diagramm_parameters.items():
-                self.__data["diagramm_parameters"][key] = value
+            for key, value in new_diagram_parameters.items():
+                self.__data["diagram_parameters"][key] = value
             for key, value in new_image_parameters.items():
                 self.__data["image_parameters"][key] = value
         elif is_editor_tab:

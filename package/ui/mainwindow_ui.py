@@ -171,10 +171,10 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_8.addWidget(self.label_type)
 
-        self.combox_type_diagramm = QComboBox(self.sa_general_contents)
-        self.combox_type_diagramm.setObjectName(u"combox_type_diagramm")
+        self.combox_type_diagram = QComboBox(self.sa_general_contents)
+        self.combox_type_diagram.setObjectName(u"combox_type_diagram")
 
-        self.verticalLayout_8.addWidget(self.combox_type_diagramm)
+        self.verticalLayout_8.addWidget(self.combox_type_diagram)
 
         self.line_2 = QFrame(self.sa_general_contents)
         self.line_2.setObjectName(u"line_2")
@@ -201,16 +201,16 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_8.addWidget(self.line_6)
 
-        self.label_diagramm_parameters = QLabel(self.sa_general_contents)
-        self.label_diagramm_parameters.setObjectName(u"label_diagramm_parameters")
+        self.label_diagram_parameters = QLabel(self.sa_general_contents)
+        self.label_diagram_parameters.setObjectName(u"label_diagram_parameters")
 
-        self.verticalLayout_8.addWidget(self.label_diagramm_parameters)
+        self.verticalLayout_8.addWidget(self.label_diagram_parameters)
 
-        self.fl_diagramm_parameters = QFormLayout()
-        self.fl_diagramm_parameters.setObjectName(u"fl_diagramm_parameters")
-        self.fl_diagramm_parameters.setRowWrapPolicy(QFormLayout.WrapLongRows)
+        self.fl_diagram_parameters = QFormLayout()
+        self.fl_diagram_parameters.setObjectName(u"fl_diagram_parameters")
+        self.fl_diagram_parameters.setRowWrapPolicy(QFormLayout.WrapLongRows)
 
-        self.verticalLayout_8.addLayout(self.fl_diagramm_parameters)
+        self.verticalLayout_8.addLayout(self.fl_diagram_parameters)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
@@ -526,7 +526,7 @@ class Ui_MainWindow(object):
         self.action_clear_trash.setText(QCoreApplication.translate("MainWindow", u"\u041e\u0447\u0438\u0441\u0442\u043a\u0430 \u043e\u0442 \u043c\u0443\u0441\u043e\u0440\u0430", None))
         self.label_type.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0422\u0438\u043f \u0434\u0438\u0430\u0433\u0440\u0430\u043c\u043c\u044b</span></p></body></html>", None))
         self.label_image_parameters.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u041f\u0430\u0440\u0430\u043c\u0435\u0442\u0440\u044b \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f</span></p></body></html>", None))
-        self.label_diagramm_parameters.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u041f\u0430\u0440\u0430\u043c\u0435\u0442\u0440\u044b \u0434\u0438\u0430\u0433\u0440\u0430\u043c\u043c\u044b</span></p></body></html>", None))
+        self.label_diagram_parameters.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u041f\u0430\u0440\u0430\u043c\u0435\u0442\u0440\u044b \u0434\u0438\u0430\u0433\u0440\u0430\u043c\u043c\u044b</span></p></body></html>", None))
         self.tabw_right.setTabText(self.tabw_right.indexOf(self.tab_general), QCoreApplication.translate("MainWindow", u"\u041e\u0441\u043d\u043e\u0432\u043d\u044b\u0435 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438", None))
         self.label_nodes.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0412\u0435\u0440\u0448\u0438\u043d\u044b</span></p></body></html>", None))
         self.btn_addnode.setText(QCoreApplication.translate("MainWindow", u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0432\u0435\u0440\u0448\u0438\u043d\u0443", None))
