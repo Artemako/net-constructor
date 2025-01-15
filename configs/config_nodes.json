@@ -866,7 +866,7 @@
                 "type": "number_int_signed"
             },
             "node_name_align": {
-                "value": "LeftAlign",
+                "value": "CenterAlign",
                 "name": "Выравнивание названия вершины",
                 "order": 53,
                 "type": "text_align"

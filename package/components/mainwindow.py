@@ -22,7 +22,7 @@ from PySide6.QtWidgets import (
     QFontComboBox,
 )
 from PySide6.QtGui import QIntValidator, QFont
-from PySide6.QtCore import Qt, QModelIndex
+from PySide6.QtCore import Qt, QModelIndex, QLocale
 
 import package.controllers.style as style
 import package.controllers.imagewidget as imagewidget
@@ -57,6 +57,9 @@ class MainWindow(QMainWindow):
         self.__editor_object_parameters_widgets = {}
         self.__editor_type_object_parameters_widgets = {}
         self.__editor_objects_parameters_widgets = {}
+        #
+        # self.__text_format = "NCE (пока json) files (*.json)"]
+        self.__text_format = "NCE files (*.nce)"
         #
         super(MainWindow, self).__init__()
         self.ui = mainwindow_ui.Ui_MainWindow()
@@ -99,19 +102,28 @@ class MainWindow(QMainWindow):
         self.ui.action_open.triggered.connect(self.open_file_nce)
         # сохранение текущих данных
         self.ui.action_save.triggered.connect(self._save_changes_to_file_nce)
+        #
+        self.ui.action_saveas.triggered.connect(self._save_as_file_nce)
         # экспорт в картинку
         self.ui.action_export_to_image.triggered.connect(self._export_to_image)
         #
 
-    def start_qt_actions(self):
+    def _start_qt_actions(self):
         self.ui.action_new.setEnabled(True)
         self.ui.action_open.setEnabled(True)
         self.ui.action_save.setEnabled(True)
+        self.ui.action_saveas.setEnabled(True)
         self.ui.action_export_to_image.setEnabled(True)
+
+    def _update_status_bar_with_project_name(self, file_name):
+        if file_name:
+            self.statusBar().showMessage(f"Текущий проект: {file_name}")
+        else:
+            self.statusBar().showMessage("Проект не открыт")
 
     def create_file_nce(self):
         file_name, _ = QFileDialog.getSaveFileName(
-            self, " ", "", "NCE (пока json) files (*.json)"
+            self, " ", "", self.__text_format
         )
         if file_name:
             global_diagrams = self.__obsm.obj_configs.get_config_diagrams()
@@ -134,11 +146,13 @@ class MainWindow(QMainWindow):
                 #
                 self.ui.imagewidget.run(project_data)
                 self._reset_widgets_by_data(project_data)
-                self.start_qt_actions()
+                self._start_qt_actions()
+                #
+                self._update_status_bar_with_project_name(file_name)
 
     def open_file_nce(self):
         file_name, _ = QFileDialog.getOpenFileName(
-            self, " ", "", "NCE (пока json) files (*.json)"
+            self, " ", "", self.__text_format
         )
         if file_name:
             #
@@ -150,42 +164,20 @@ class MainWindow(QMainWindow):
             #
             self.ui.imagewidget.run(project_data)
             self._reset_widgets_by_data(project_data)
-            self.start_qt_actions()
+            self._start_qt_actions()
+            #
+            self._update_status_bar_with_project_name(file_name)
 
-    def _get_new_data_or_parameters(self, dict_widgets, is_parameters=True):
-        new_data_or_parameters = {}
-        for key, pair in dict_widgets.items():
-            widget_type = pair[0]
-            widget = pair[1]
-            if widget_type == "title":
-                new_data_or_parameters[key] = {"value": "заголовок"}
-            elif widget_type == "font_name":
-                new_data_or_parameters[key] = {"value": widget.currentFont().toString()}
-            elif widget_type == "color":
-                new_data_or_parameters[key] = {"value": widget.text()}
-            elif widget_type == "line_string":
-                new_data_or_parameters[key] = {"value": widget.text()}
-            elif (
-                widget_type == "fill_style"
-                or widget_type == "text_align"
-                or widget_type == "line_style"
-            ):
-                new_data_or_parameters[key] = {"value": widget.currentText()}
-            elif widget_type == "bool":
-                new_data_or_parameters[key] = {"value": widget.isChecked()}
-            elif (
-                widget_type == "number_int_signed"
-                or widget_type == "number_int"
-                or widget_type == "number_float"
-            ):
-                new_data_or_parameters[key] = {"value": widget.value()}
-            else:
-                if is_parameters:
-                    new_data_or_parameters[key] = {"value": widget.value()}
-                else:
-                    new_data_or_parameters[key] = {"value": widget.toPlainText()}
-
-        return new_data_or_parameters
+    def _save_as_file_nce(self):
+        if self.__obsm.obj_project.is_active():
+            file_name, _ = QFileDialog.getSaveFileName(
+                self, "Сохранить как", "", self.__text_format
+            )
+            if file_name:
+                self._save_changes_to_file_nce()
+                self.__obsm.obj_project.save_as_project(file_name)
+                #
+                self._update_status_bar_with_project_name(file_name)
 
     def _save_changes_to_file_nce(self):
         if self.__obsm.obj_project.is_active():
@@ -274,6 +266,41 @@ class MainWindow(QMainWindow):
         if file_name:
             print(f"save_image to {file_name}")
             self.ui.imagewidget.save_image(file_name)
+
+    def _get_new_data_or_parameters(self, dict_widgets, is_parameters=True):
+        new_data_or_parameters = {}
+        for key, pair in dict_widgets.items():
+            widget_type = pair[0]
+            widget = pair[1]
+            if widget_type == "title":
+                new_data_or_parameters[key] = {"value": "заголовок"}
+            elif widget_type == "font_name":
+                new_data_or_parameters[key] = {"value": widget.currentFont().toString()}
+            elif widget_type == "color":
+                new_data_or_parameters[key] = {"value": widget.text()}
+            elif widget_type == "line_string":
+                new_data_or_parameters[key] = {"value": widget.text()}
+            elif (
+                widget_type == "fill_style"
+                or widget_type == "text_align"
+                or widget_type == "line_style"
+            ):
+                new_data_or_parameters[key] = {"value": widget.currentText()}
+            elif widget_type == "bool":
+                new_data_or_parameters[key] = {"value": widget.isChecked()}
+            elif (
+                widget_type == "number_int_signed"
+                or widget_type == "number_int"
+                or widget_type == "number_float"
+            ):
+                new_data_or_parameters[key] = {"value": widget.value()}
+            else:
+                if is_parameters:
+                    new_data_or_parameters[key] = {"value": widget.value()}
+                else:
+                    new_data_or_parameters[key] = {"value": widget.toPlainText()}
+
+        return new_data_or_parameters
 
     def _add_node(self):
         if self.__obsm.obj_project.is_active():
@@ -390,7 +417,7 @@ class MainWindow(QMainWindow):
                 self.ui.imagewidget.run(project_data)
                 self._reset_widgets_by_data(project_data)
 
-    def reset_tab_general(self, diagram_type_id, diagram_parameters, image_parameters):
+    def reset_tab_general(self, diagram_type_id, diagram_parameters, image_parameters, precision_separator):
         print("reset_tab_general")
         # очистка типа диаграммы
         self._reset_combobox_type_diagram(diagram_type_id)
@@ -401,6 +428,7 @@ class MainWindow(QMainWindow):
             self.ui.fl_image_parameters,
             config_image_parameters,
             image_parameters,
+            precision_separator
         )
         # Параметры диаграммы
         config_diagram_parameters = (
@@ -413,6 +441,7 @@ class MainWindow(QMainWindow):
             self.ui.fl_diagram_parameters,
             config_diagram_parameters,
             diagram_parameters,
+            precision_separator
         )
 
     def reset_tab_elements(self, nodes, connections):
@@ -429,33 +458,40 @@ class MainWindow(QMainWindow):
         table_widget.blockSignals(True)
         table_widget.clearContents()
         table_widget.setRowCount(len(nodes))
-        headers = ["Название", "Перенос", "Редактировать"]
+        #
+        headers = ["№", "Название", "Перенос", "Редактировать"]
         table_widget.setColumnCount(len(headers))
         table_widget.setHorizontalHeaderLabels(headers)
+        table_widget.verticalHeader().setVisible(False)
         #
         print("NODES", nodes)
         for index, node in enumerate(nodes):
             print("NODE", node)
+            # Добавляем номера строк в отдельный столбец
+            item_number = QTableWidgetItem(str(index + 1))
+            table_widget.setItem(index, 0, item_number)
+            #
             node_name = node.get("data", {}).get("название", {}).get("value", "")
             item = QTableWidgetItem(node_name)
-            table_widget.setItem(index, 0, item)
+            table_widget.setItem(index, 1, item)
             #
             is_wrap = node.get("is_wrap", False)
             btn_wrap = QPushButton("Не переносить" if is_wrap else "Переносить")
-            table_widget.setCellWidget(index, 1, btn_wrap)
+            table_widget.setCellWidget(index, 2, btn_wrap)
             btn_wrap.clicked.connect(partial(self._wrap_node, node))
             #
             btn_edit = QPushButton("Редактировать")
-            table_widget.setCellWidget(index, 2, btn_edit)
+            table_widget.setCellWidget(index, 3, btn_edit)
             btn_edit.clicked.connect(
                 partial(self.edit_object, node, index + 1, is_node=True)
             )
-        # Настраиваем режимы изменения размера для заголовков
+        #
         header = table_widget.horizontalHeader()
-        header.setSectionResizeMode(0, QHeaderView.Stretch)
-        header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(1, QHeaderView.Stretch)
         header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
-        # Запрет на редактирование
+        header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
+        #
         table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
         table_widget.blockSignals(False)
 
@@ -465,43 +501,48 @@ class MainWindow(QMainWindow):
         table_widget.blockSignals(True)
         table_widget.clearContents()
         table_widget.setRowCount(len(connections))
-        headers = ["Название", "Редактировать"]
+        #        
+        headers = ["№", "Название", "Редактировать"]
         table_widget.setColumnCount(len(headers))
         table_widget.setHorizontalHeaderLabels(headers)
+        table_widget.verticalHeader().setVisible(False)
         #
-        row_headers = []
         for index, connection in enumerate(connections):
             connection_name = (
                 connection.get("data", {}).get("название", {}).get("value", "")
             )
             print("CONNECTION_NAME:", connection_name)
-            item = QTableWidgetItem(connection_name)
-            table_widget.setItem(index, 0, item)
+            # 
+            item_number = QTableWidgetItem(f"{index + 1}—{index + 2}")
+            table_widget.setItem(index, 0, item_number)
             #
-            connection_text = f"{index + 1}—{index + 2}"
-            row_headers.append(connection_text)
+            item = QTableWidgetItem(connection_name)
+            table_widget.setItem(index, 1, item)
             #
             btn_edit = QPushButton("Редактировать")
-            table_widget.setCellWidget(index, 1, btn_edit)
+            table_widget.setCellWidget(index, 2, btn_edit)
             btn_edit.clicked.connect(
                 partial(self.edit_object, connection, index + 1, is_node=False)
             )
-        # Устанавливаем заголовки строк
-        table_widget.setVerticalHeaderLabels(row_headers)
-        # Настраиваем режимы изменения размера для заголовков
+        #
         header = table_widget.horizontalHeader()
-        header.setSectionResizeMode(0, QHeaderView.Stretch)
-        header.setSectionResizeMode(1, QHeaderView.ResizeToContents)
-        # Запрет на редактирование
+        header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(1, QHeaderView.Stretch)
+        header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
+        
         table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
         table_widget.blockSignals(False)
+
 
     def _reset_widgets_by_data(self, data):
         #
         diagram_type_id = data.get("diagram_type_id", "")
         diagram_parameters = data.get("diagram_parameters", {})
         image_parameters = data.get("image_parameters", {})
-        self.reset_tab_general(diagram_type_id, diagram_parameters, image_parameters)
+        # Сепаратор для виджета
+        precision_separator = diagram_parameters.get("precision_separator", True)
+        #
+        self.reset_tab_general(diagram_type_id, diagram_parameters, image_parameters, precision_separator)
         #
         nodes = data.get("nodes", [])
         connections = data.get("connections", [])
@@ -577,7 +618,7 @@ class MainWindow(QMainWindow):
         print("BEFORE return len(dict_widgets) > 0: dict_widgets", dict_widgets)
         return len(dict_widgets) > 0
 
-    def _get_widget(self, widget_type, value, is_parameters=True):
+    def _get_widget(self, widget_type, value, is_parameters=True, precision_separator = None):
         if widget_type == "title":
             new_widget = QLabel()
         #
@@ -646,6 +687,12 @@ class MainWindow(QMainWindow):
             new_widget = QDoubleSpinBox()
             new_widget.setRange(0, 2147483647)
             new_widget.setValue(value)
+            if precision_separator == 0:
+                locale = QLocale(QLocale.Russian)
+            else:
+                locale = QLocale(QLocale.C)
+            new_widget.setLocale(locale)
+            
         #
         else:
             if is_parameters:
@@ -666,7 +713,7 @@ class MainWindow(QMainWindow):
         return label
 
     def _create_parameters_widgets(
-        self, dict_widgets, form_layout, config_object_parameters, object_parameters
+        self, dict_widgets, form_layout, config_object_parameters, object_parameters, precision_separator = None
     ) -> bool:
         print(
             "create_parameters_widgets():\n"
@@ -700,7 +747,7 @@ class MainWindow(QMainWindow):
             print("new_value", value)
             #
             # тип виджета
-            new_widget = self._get_widget(widget_type, value, is_parameters=True)
+            new_widget = self._get_widget(widget_type, value, is_parameters=True, precision_separator=precision_separator)
             #
             form_layout.addRow(label, new_widget)
             if widget_type != "title":
@@ -788,7 +835,7 @@ class MainWindow(QMainWindow):
             config_object_data,
             object_data,
         )
-        self.ui.label_object_data.setVisible(flag)
+        self.ui.label_object_data.setVisible(flag) 
         #
         flag = self.create_data_widgets(
             self.__editor_type_object_data_widgets,

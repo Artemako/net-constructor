@@ -22,11 +22,3 @@ class NumberFormatter:
         formatted_number = formatted_number.replace('.', separator) if separator == ',' else formatted_number
         return formatted_number
 
-
-# # Пример использования:
-# formatter = NumberFormatter()
-# formatter.set_precision_number(2)
-# formatter.set_precision_separator(0)
-# print(formatter.get("1234.56"))
-# print(formatter.get(str(125.6789)))
-

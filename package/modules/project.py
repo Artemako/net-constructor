@@ -33,20 +33,24 @@ class Project:
         with open(file_path, "r", encoding="utf-8") as f:
             self.__data = json.load(f)
 
+    def save_as_project(self, file_path):
+        self.__file_name = file_path
+        self._write_project()
+
     def _write_project(self):
         if self.__file_name:
             with open(self.__file_name, "w", encoding="utf-8") as f:
                 json.dump(self.__data, f, indent=4, ensure_ascii=False)
 
     def change_type_diagram(self, new_diagram, config_nodes, config_connections):
-        old_diagram_type_id = self.__data["diagram_type_id"]
+        # old_diagram_type_id = self.__data["diagram_type_id"]
         new_diagram_type_id = new_diagram.get("type_id", "0")
         #
         self._update_diagram_nodes(
-            old_diagram_type_id, new_diagram_type_id, config_nodes
+            new_diagram_type_id, config_nodes
         )
         self._update_diagram_connections(
-            old_diagram_type_id, new_diagram_type_id, config_connections
+            new_diagram_type_id, config_connections
         )
         #
         self.__data["diagram_type_id"] = new_diagram_type_id
@@ -87,23 +91,8 @@ class Project:
             self._add_connection(key_dict_connection)
         self._write_project()
 
-    # def _update_diagram_nodes(self, old_diagram_type_id, new_diagram_type_id):
-    #     dtd = constants.DiagramToDiagram()
-    #     for item in self.__data["nodes"]:
-    #         old_node_id = item.get("node_id", "0")
-    #         new_node_id = dtd.get_new_type_id(old_diagram_type_id, new_diagram_type_id, old_node_id, is_node=True)
-    #         item["node_id"] = new_node_id
-
-    # def _update_diagram_connections(self, old_diagram_type_id, new_diagram_type_id):
-    #     dtd = constants.DiagramToDiagram()
-    #     for item in self.__data["connections"]:
-    #         # old_connection_id = item.get("connection_id", "0")
-    #         # new_connection_id = dtd.get_new_type_id(old_diagram_type_id, new_diagram_type_id, old_connection_id, is_node=False)
-    #         # item["connection_id"] = new_connection_id
-
-    # TODO
     def _update_diagram_nodes(
-        self, old_diagram_type_id, new_diagram_type_id, config_nodes
+        self, new_diagram_type_id, config_nodes
     ):
         dtd = constants.DiagramToDiagram()
         for node in self.__data.get("nodes", []):
@@ -119,7 +108,7 @@ class Project:
             )
 
     def _update_diagram_connections(
-        self, old_diagram_type_id, new_diagram_type_id, config_connections
+        self, new_diagram_type_id, config_connections
     ):
         dtd = constants.DiagramToDiagram()
         for connection in self.__data.get("connections", []):
@@ -189,66 +178,6 @@ class Project:
         }
         self.__data["connections"].append(new_dict)
 
-    # def _add_node(self, key_dict_node):
-    #     node_key = key_dict_node.get("node_key")
-    #     node_dict = key_dict_node.get("node_dict")
-    #     #
-    #     new_id = uuid.uuid4().hex
-    #     #
-    #     new_order = len(self.__data.get("nodes", []))
-    #     #
-    #     new_data = {
-    #         **node_dict.get("object_data", {}),
-    #         **node_dict.get("type_object_data", {}),
-    #         **node_dict.get("objects_data", {}),
-    #     }
-    #     #
-    #     new_is_wrap = node_dict.get("is_wrap", False)
-    #     #
-    #     new_parameters = {
-    #         **node_dict.get("object_parameters", {}),
-    #         **node_dict.get("type_object_parameters", {}),
-    #         **node_dict.get("objects_parameters", {}),
-    #     }
-    #     #
-    #     new_dict = {
-    #         "id": new_id,
-    #         "order": new_order,
-    #         "node_id": node_key,
-    #         "data": new_data,
-    #         "is_wrap": new_is_wrap,
-    #         "parameters": new_parameters,
-    #     }
-    #     self.__data["nodes"].append(new_dict)
-    #
-    # def _add_connection(self, key_dict_connection):
-    #     connection_key = key_dict_connection.get("connection_key")
-    #     connection_dict = key_dict_connection.get("connection_dict")
-    #     #
-    #     new_id = uuid.uuid4().hex
-    #     #
-    #     new_order = len(self.__data.get("connections", []))
-    #     #
-    #     new_data = {
-    #         **connection_dict.get("object_data", {}),
-    #         **connection_dict.get("type_object_data", {}),
-    #         **connection_dict.get("objects_data", {}),
-    #     }
-    #     #
-    #     new_parameters = {
-    #         **connection_dict.get("object_parameters", {}),
-    #         **connection_dict.get("type_object_parameters", {}),
-    #         **connection_dict.get("objects_parameters", {}),
-    #     }
-    #     #
-    #     new_dict = {
-    #         "id": new_id,
-    #         "order": new_order,
-    #         "connection_id": connection_key,
-    #         "data": new_data,
-    #         "parameters": new_parameters,
-    #     }
-    #     self.__data["connections"].append(new_dict)
 
     def delete_pair(self, node, connection):
         if node:

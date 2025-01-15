@@ -764,25 +764,49 @@ class DrawNode:
 
         
         def draw_node_id_151():
+            node_width = pars.get_sp("node_width")
             # рисование wrap стрелки
-            draw_wrap_arrow(pars.get_sp("node_width") // 2)
+            draw_wrap_arrow(node_width // 2)
             # вершина
             drawobject.DrawObject().node_reactangle(
                 get_painter_figure_border,
                 get_painter_figure_border_fill,
                 self.__x,
                 self.__y,
-                pars.get_sp("node_width"),
+                node_width,
                 pars.get_sp("node_height"),
             )
             # Рисование названия
             text = data.get_sd("название")
-            drawtext.DrawText().draw_multiline_text_by_hc_vb(
-                get_painter_text_name,
-                text,
-                self.__x,
-                self.__y - pars.get_sp("node_name_height"),
-            )
+
+            text_align_name = pars.get_sp("node_name_align")
+            #
+            if text_align_name == "LeftAlign":
+                drawtext.DrawText().draw_multiline_text_by_hl_vb(
+                    get_painter_text_name,
+                    text,
+                    self.__x - node_width // 2,
+                    self.__y - pars.get_sp("node_name_height"),
+                )
+            elif text_align_name == "RightAlign":
+                drawtext.DrawText().draw_multiline_text_by_hr_vb(
+                    get_painter_text_name,
+                    text,
+                    self.__x + node_width // 2,
+                    self.__y - pars.get_sp("node_name_height"),
+                )
+            else:
+                drawtext.DrawText().draw_multiline_text_by_hc_vb(
+                    get_painter_text_name,
+                    text,
+                    self.__x,
+                    self.__y - pars.get_sp("node_name_height"),
+                )
+
+
+
+
+
 
         
         if node_id == "150":
