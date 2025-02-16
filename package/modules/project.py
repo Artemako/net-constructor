@@ -21,6 +21,7 @@ class Project:
             "image_parameters": image_parameters,
             "nodes": [],
             "connections": [],
+            "archived_parameters": {},
         }
         #
         self._write_project()
@@ -42,31 +43,58 @@ class Project:
             with open(self.__file_name, "w", encoding="utf-8") as f:
                 json.dump(self.__data, f, indent=4, ensure_ascii=False)
 
+
     def change_type_diagram(self, new_diagram, config_nodes, config_connections):
-        # old_diagram_type_id = self.__data["diagram_type_id"]
+        # Сохраняем текущие параметры в архив
+        current_type_id = self.__data["diagram_type_id"]
+
+        # Инициализируем архив для текущего типа диаграммы, если его еще нет
+        if current_type_id not in self.__data["archived_parameters"]:
+            self.__data["archived_parameters"][current_type_id] = {
+                "nodes": {},
+                "connections": {},
+            }
+
+        # Сохраняем параметры узлов
+        for node in self.__data["nodes"]:
+            node_id = node["id"]
+            self.__data["archived_parameters"][current_type_id]["nodes"][node_id] = {
+                "parameters": node["parameters"]
+            }
+
+        # Сохраняем параметры соединений
+        for connection in self.__data["connections"]:
+            connection_id = connection["id"]
+            self.__data["archived_parameters"][current_type_id]["connections"][
+                connection_id
+            ] = {"parameters": connection["parameters"]}
+
+        # Обновляем тип диаграммы и параметры
         new_diagram_type_id = new_diagram.get("type_id", "0")
-        #
-        self._update_diagram_nodes(
-            new_diagram_type_id, config_nodes
-        )
-        self._update_diagram_connections(
-            new_diagram_type_id, config_connections
-        )
-        #
+        self._update_diagram_nodes(new_diagram_type_id, config_nodes)
+        self._update_diagram_connections(new_diagram_type_id, config_connections)
+        # Восстанавливаем параметры из архива, если они есть, иначе выбираем параметры из новой диаграммы
+        if new_diagram_type_id in self.__data["archived_parameters"]:
+            archived_params = self.__data["archived_parameters"][new_diagram_type_id]
+            # Восстанавливаем параметры узлов / соединений
+            for node in self.__data["nodes"]:
+                node_id = node["id"]
+                if node_id in archived_params["nodes"]:
+                    node["parameters"] = archived_params["nodes"][node_id]["parameters"]
+            #
+            for connection in self.__data["connections"]:
+                connection_id = connection["id"]
+                if connection_id in archived_params["connections"]:
+                    connection["parameters"] = archived_params["connections"][
+                        connection_id
+                    ]["parameters"]
+        else:
+            self.__data["diagram_parameters"] = new_diagram.get("parameters", {})
+
+        # Обновляем данные диаграммы
         self.__data["diagram_type_id"] = new_diagram_type_id
         self.__data["diagram_name"] = new_diagram.get("name", "")
-        self.__data["diagram_parameters"] = new_diagram.get("parameters", {})
-        # data точно не трогаем
         self._write_project()
-
-    def set_new_order_nodes(self, new_order_nodes):
-        print("set_new_order_nodes():\n" f"new_order_nodes={new_order_nodes}\n")
-        nodes = []
-        for index, node in enumerate(new_order_nodes):
-            node["order"] = index
-            nodes.append(node)
-        # Это рискованно но ладно
-        self.__data["nodes"] = new_order_nodes
 
     def set_new_order_connections(self, new_order_connections):
         print(
@@ -91,9 +119,7 @@ class Project:
             self._add_connection(key_dict_connection)
         self._write_project()
 
-    def _update_diagram_nodes(
-        self, new_diagram_type_id, config_nodes
-    ):
+    def _update_diagram_nodes(self, new_diagram_type_id, config_nodes):
         dtd = constants.DiagramToDiagram()
         for node in self.__data.get("nodes", []):
             old_node_id = node.get("node_id")
@@ -107,9 +133,7 @@ class Project:
                 config_nodes.get(new_node_id, {})
             )
 
-    def _update_diagram_connections(
-        self, new_diagram_type_id, config_connections
-    ):
+    def _update_diagram_connections(self, new_diagram_type_id, config_connections):
         dtd = constants.DiagramToDiagram()
         for connection in self.__data.get("connections", []):
             old_connection_id = connection.get("connection_id")
@@ -118,7 +142,9 @@ class Project:
                 old_connection_id,
                 is_node=False,
             )
-            connection["connection_id"] = new_connection_id if new_connection_id else old_connection_id
+            connection["connection_id"] = (
+                new_connection_id if new_connection_id else old_connection_id
+            )
             connection["parameters"] = self._get_combined_parameters(
                 config_connections.get(new_connection_id, {})
             )
@@ -177,7 +203,6 @@ class Project:
             "parameters": new_parameters,
         }
         self.__data["connections"].append(new_dict)
-
 
     def delete_pair(self, node, connection):
         if node:
