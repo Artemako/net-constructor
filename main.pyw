@@ -20,3 +20,7 @@ if __name__ == "__main__":
 #   PySide6.QtWidgets.QSpinBox.setValue(str)
 # Supported signatures:
 #   PySide6.QtWidgets.QSpinBox.setValue(int)
+
+
+# TODO Контрольные сектора
+# TODO EDIT Контрольная сектора

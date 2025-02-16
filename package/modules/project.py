@@ -43,7 +43,6 @@ class Project:
             with open(self.__file_name, "w", encoding="utf-8") as f:
                 json.dump(self.__data, f, indent=4, ensure_ascii=False)
 
-
     def change_type_diagram(self, new_diagram, config_nodes, config_connections):
         # Сохраняем текущие параметры в архив
         current_type_id = self.__data["diagram_type_id"]
@@ -96,6 +95,15 @@ class Project:
         self.__data["diagram_name"] = new_diagram.get("name", "")
         self._write_project()
 
+    def set_new_order_nodes(self, new_order_nodes):
+        print(f"set_new_order_nodes():\nnew_order_nodes={new_order_nodes}\n")
+        nodes = []
+        for index, node in enumerate(new_order_nodes):
+            node["order"] = index
+            nodes.append(node)
+        # Это рискованно но ладно
+        self.__data["nodes"] = new_order_nodes
+
     def set_new_order_connections(self, new_order_connections):
         print(
             "set_new_order_connections():\n"
@@ -108,6 +116,25 @@ class Project:
         # Это рискованно но ладно
         self.__data["connections"] = new_order_connections
 
+    def set_new_order_control_sectors(self, obj, new_order_control_sectors):
+        # TODO set_new_order_control_sectors - проверить
+        print(
+            "set_new_order_control_sectors():\n"
+            f"new_order_control_sectors={new_order_control_sectors}\n"
+        )
+        control_sectors = []
+        for index, control_sector in enumerate(new_order_control_sectors):
+            control_sector["order"] = index
+            control_sectors.append(control_sector)
+        #
+        connection_id = obj.get("id")
+        for connection in self.__data.get("connections", []):
+            if connection["id"] == connection_id:
+                connection["control_sectors"] = control_sectors
+                break
+        self._write_project()
+        return control_sectors
+
     def add_pair(self, key_dict_node_and_key_dict_connection):
         key_dict_node = key_dict_node_and_key_dict_connection.get("node")
         key_dict_connection = key_dict_node_and_key_dict_connection.get("connection")
@@ -118,6 +145,26 @@ class Project:
             self._add_node(key_dict_node)
             self._add_connection(key_dict_connection)
         self._write_project()
+
+    def add_control_sector(self, obj) -> list:
+        # TODO add_control_sector - проверить
+        connection_id = obj.get("id")
+        control_sectors_return = []
+        for connection in self.__data.get("connections", []):
+            if connection["id"] == connection_id:
+                new_id = uuid.uuid4().hex
+                new_order = len(connection.get("control_sectors", []))
+                new_control_sector = {
+                    "id": new_id,
+                    "order": new_order,
+                    "cs_name": "Контрольный сектор",
+                    "cs_lenght": "0",
+                }
+                connection["control_sectors"].append(new_control_sector)
+                control_sectors_return = connection.get("control_sectors", [])
+                break
+        self._write_project()
+        return control_sectors_return
 
     def _update_diagram_nodes(self, new_diagram_type_id, config_nodes):
         dtd = constants.DiagramToDiagram()
@@ -201,6 +248,7 @@ class Project:
             "connection_id": connection_key,
             "data": new_data,
             "parameters": new_parameters,
+            "control_sectors": [],
         }
         self.__data["connections"].append(new_dict)
 
@@ -235,6 +283,27 @@ class Project:
                     connection["order"] = index
                     self.__data["connections"].append(connection)
         self._write_project()
+
+    def delete_control_sector(self, obj, selected_cs) -> list:
+        # TODO delete_control_sector - проверить
+        connection_id = obj.get("id")
+        control_sectors_return = []
+        for connection in self.__data.get("connections", []):
+            if connection["id"] == connection_id:
+                # удаляем кт
+                control_sectors = connection.get("control_sectors", [])
+                control_sectors = [
+                    cs for cs in control_sectors if cs["id"] != selected_cs["id"]
+                ]
+                # обновляем порядок оставшихся кт
+                for index, cs in enumerate(control_sectors):
+                    cs["order"] = index
+                # обновляем список кт
+                connection["control_sectors"] = control_sectors
+                control_sectors_return = control_sectors
+                break
+        self._write_project()
+        return control_sectors_return
 
     def wrap_node(self, node):
         _id = node.get("id", "")

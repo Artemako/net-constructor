@@ -13,6 +13,8 @@ class ChangeOrderDialog(QDialog):
             self.setWindowTitle("Изменение порядка вершин")
         elif self.__type_objects == "connections":
             self.setWindowTitle("Изменение порядка соединений")
+        elif self.__type_objects == "control_sectors":
+            self.setWindowTitle("Изменение порядка контрольных точек")
         
         self.layout = QVBoxLayout(self)
         
@@ -50,13 +52,16 @@ class ChangeOrderDialog(QDialog):
 
     def _populate_list(self):
         for index, obj in enumerate(self.__objects):
-            obj_name = obj.get("data", {}).get("название", {}).get("value", "")
-            
             item_name = ""
             if self.__type_objects == "nodes":
+                obj_name = obj.get("data", {}).get("название", {}).get("value", "")
                 item_name = f"{index + 1}) {obj_name}"
             elif self.__type_objects == "connections":
+                obj_name = obj.get("data", {}).get("название", {}).get("value", "")
                 item_name = f"{index + 1}—{index + 2}) {obj_name}"
+            elif self.__type_objects == "control_sectors":
+                obj_name = obj.get("cs_name", "")
+                item_name = f"{index + 1}) {obj_name}"
             
             item = QListWidgetItem(item_name)
             item.setData(Qt.UserRole, obj)

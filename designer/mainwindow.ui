@@ -35,7 +35,7 @@
    <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_6">
+   <layout class="QHBoxLayout" name="horizontalLayout">
     <property name="leftMargin">
      <number>4</number>
     </property>
@@ -123,7 +123,7 @@
         <item>
          <widget class="QTabWidget" name="tabw_right">
           <property name="currentIndex">
-           <number>0</number>
+           <number>3</number>
           </property>
           <property name="documentMode">
            <bool>false</bool>
@@ -388,11 +388,11 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>747</width>
-                 <height>494</height>
+                 <width>730</width>
+                 <height>526</height>
                 </rect>
                </property>
-               <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1">
+               <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1">
                 <property name="spacing">
                  <number>6</number>
                 </property>
@@ -408,6 +408,55 @@
                 <property name="bottomMargin">
                  <number>0</number>
                 </property>
+                <item>
+                 <widget class="QLabel" name="label_control_sectors">
+                  <property name="text">
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Контрольные сектора соединения&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QVBoxLayout" name="vl_control_sectors">
+                  <property name="spacing">
+                   <number>4</number>
+                  </property>
+                  <item>
+                   <widget class="QTableWidget" name="tw_control_sectors"/>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="hl_control_sectors_buttons">
+                    <item>
+                     <widget class="QPushButton" name="btn_add_control_sector">
+                      <property name="text">
+                       <string>Добавить сектор</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="btn_move_control_sectors">
+                      <property name="text">
+                       <string>Изменить порядок</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QPushButton" name="btn_delete_control_sector">
+                      <property name="text">
+                       <string>Удалить сектор</string>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="Line" name="line_10">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
                 <item>
                  <widget class="QLabel" name="label_object_data">
                   <property name="text">
@@ -543,6 +592,16 @@
                </layout>
               </widget>
              </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tab_control">
+           <attribute name="title">
+            <string>Редактирование контрольного сектора</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_6">
+            <item>
+             <layout class="QFormLayout" name="fl_control"/>
             </item>
            </layout>
           </widget>

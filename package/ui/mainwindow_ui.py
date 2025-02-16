@@ -110,9 +110,9 @@ class Ui_MainWindow(object):
         self.action_clear_trash.setIcon(icon10)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.verticalLayout_6 = QVBoxLayout(self.centralwidget)
-        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
-        self.verticalLayout_6.setContentsMargins(4, 0, 4, 0)
+        self.horizontalLayout = QHBoxLayout(self.centralwidget)
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
+        self.horizontalLayout.setContentsMargins(4, 0, 4, 0)
         self.centralwidget_splitter = QSplitter(self.centralwidget)
         self.centralwidget_splitter.setObjectName(u"centralwidget_splitter")
         self.centralwidget_splitter.setOrientation(Qt.Horizontal)
@@ -319,11 +319,54 @@ class Ui_MainWindow(object):
         self.editor_scrollarea.setWidgetResizable(True)
         self.editor_scrollarea_contents = QWidget()
         self.editor_scrollarea_contents.setObjectName(u"editor_scrollarea_contents")
-        self.editor_scrollarea_contents.setGeometry(QRect(0, 0, 747, 494))
+        self.editor_scrollarea_contents.setGeometry(QRect(0, 0, 730, 526))
         self.verticalLayout_4 = QVBoxLayout(self.editor_scrollarea_contents)
         self.verticalLayout_4.setSpacing(6)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.label_control_sectors = QLabel(self.editor_scrollarea_contents)
+        self.label_control_sectors.setObjectName(u"label_control_sectors")
+
+        self.verticalLayout_4.addWidget(self.label_control_sectors)
+
+        self.vl_control_sectors = QVBoxLayout()
+        self.vl_control_sectors.setSpacing(4)
+        self.vl_control_sectors.setObjectName(u"vl_control_sectors")
+        self.tw_control_sectors = QTableWidget(self.editor_scrollarea_contents)
+        self.tw_control_sectors.setObjectName(u"tw_control_sectors")
+
+        self.vl_control_sectors.addWidget(self.tw_control_sectors)
+
+        self.hl_control_sectors_buttons = QHBoxLayout()
+        self.hl_control_sectors_buttons.setObjectName(u"hl_control_sectors_buttons")
+        self.btn_add_control_sector = QPushButton(self.editor_scrollarea_contents)
+        self.btn_add_control_sector.setObjectName(u"btn_add_control_sector")
+
+        self.hl_control_sectors_buttons.addWidget(self.btn_add_control_sector)
+
+        self.btn_move_control_sectors = QPushButton(self.editor_scrollarea_contents)
+        self.btn_move_control_sectors.setObjectName(u"btn_move_control_sectors")
+
+        self.hl_control_sectors_buttons.addWidget(self.btn_move_control_sectors)
+
+        self.btn_delete_control_sector = QPushButton(self.editor_scrollarea_contents)
+        self.btn_delete_control_sector.setObjectName(u"btn_delete_control_sector")
+
+        self.hl_control_sectors_buttons.addWidget(self.btn_delete_control_sector)
+
+
+        self.vl_control_sectors.addLayout(self.hl_control_sectors_buttons)
+
+
+        self.verticalLayout_4.addLayout(self.vl_control_sectors)
+
+        self.line_10 = QFrame(self.editor_scrollarea_contents)
+        self.line_10.setObjectName(u"line_10")
+        self.line_10.setFrameShape(QFrame.HLine)
+        self.line_10.setFrameShadow(QFrame.Sunken)
+
+        self.verticalLayout_4.addWidget(self.line_10)
+
         self.label_object_data = QLabel(self.editor_scrollarea_contents)
         self.label_object_data.setObjectName(u"label_object_data")
 
@@ -429,18 +472,28 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addItem(self.vertical_spacer)
 
-        self.verticalLayout_4.setStretch(17, 1)
+        self.verticalLayout_4.setStretch(20, 1)
         self.editor_scrollarea.setWidget(self.editor_scrollarea_contents)
 
         self.verticalLayout_7.addWidget(self.editor_scrollarea)
 
         self.tabw_right.addTab(self.tab_editor, "")
+        self.tab_control = QWidget()
+        self.tab_control.setObjectName(u"tab_control")
+        self.verticalLayout_6 = QVBoxLayout(self.tab_control)
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.fl_control = QFormLayout()
+        self.fl_control.setObjectName(u"fl_control")
+
+        self.verticalLayout_6.addLayout(self.fl_control)
+
+        self.tabw_right.addTab(self.tab_control, "")
 
         self.verticalLayout_2.addWidget(self.tabw_right)
 
         self.centralwidget_splitter.addWidget(self.gb_right)
 
-        self.verticalLayout_6.addWidget(self.centralwidget_splitter)
+        self.horizontalLayout.addWidget(self.centralwidget_splitter)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menu_bar = QMenuBar(MainWindow)
@@ -479,7 +532,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabw_right.setCurrentIndex(0)
+        self.tabw_right.setCurrentIndex(3)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -535,6 +588,10 @@ class Ui_MainWindow(object):
         self.label_connections.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0421\u043e\u0435\u0434\u0438\u043d\u0435\u043d\u0438\u044f</span></p></body></html>", None))
         self.btn_moveconnections.setText(QCoreApplication.translate("MainWindow", u"\u0418\u0437\u043c\u0435\u043d\u0438\u0442\u044c \u043f\u043e\u0440\u044f\u0434\u043e\u043a \u0441\u043e\u0435\u0434\u0438\u043d\u0435\u043d\u0438\u0439", None))
         self.tabw_right.setTabText(self.tabw_right.indexOf(self.tab_elements), QCoreApplication.translate("MainWindow", u"\u042d\u043b\u0435\u043c\u0435\u043d\u0442\u044b", None))
+        self.label_control_sectors.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u041a\u043e\u043d\u0442\u0440\u043e\u043b\u044c\u043d\u044b\u0435 \u0441\u0435\u043a\u0442\u043e\u0440\u0430 \u0441\u043e\u0435\u0434\u0438\u043d\u0435\u043d\u0438\u044f</span></p></body></html>", None))
+        self.btn_add_control_sector.setText(QCoreApplication.translate("MainWindow", u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0441\u0435\u043a\u0442\u043e\u0440", None))
+        self.btn_move_control_sectors.setText(QCoreApplication.translate("MainWindow", u"\u0418\u0437\u043c\u0435\u043d\u0438\u0442\u044c \u043f\u043e\u0440\u044f\u0434\u043e\u043a", None))
+        self.btn_delete_control_sector.setText(QCoreApplication.translate("MainWindow", u"\u0423\u0434\u0430\u043b\u0438\u0442\u044c \u0441\u0435\u043a\u0442\u043e\u0440", None))
         self.label_object_data.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0414\u0430\u043d\u043d\u044b\u0435</span></p></body></html>", None))
         self.label_type_object_data.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0422\u0438\u043f\u043e\u0432\u044b\u0435 \u0434\u0430\u043d\u043d\u044b\u0435</span></p></body></html>", None))
         self.label_objects_data.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0413\u043b\u043e\u0431\u0430\u043b\u044c\u043d\u044b\u0435 \u0434\u0430\u043d\u043d\u044b\u0435</span></p></body></html>", None))
@@ -542,6 +599,7 @@ class Ui_MainWindow(object):
         self.label_type_object_parameters.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0422\u0438\u043f\u043e\u0432\u044b\u0435 \u043f\u0430\u0440\u0430\u043c\u0435\u0442\u0440\u044b</span></p></body></html>", None))
         self.label_objects_parameters.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0413\u043b\u043e\u0431\u0430\u043b\u044c\u043d\u044b\u0435 \u043f\u0430\u0440\u0430\u043c\u0435\u0442\u0440\u044b</span></p></body></html>", None))
         self.tabw_right.setTabText(self.tabw_right.indexOf(self.tab_editor), QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0434\u0430\u043a\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435", None))
+        self.tabw_right.setTabText(self.tabw_right.indexOf(self.tab_control), QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0434\u0430\u043a\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435 \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u044c\u043d\u043e\u0433\u043e \u0441\u0435\u043a\u0442\u043e\u0440\u0430", None))
         self.menu_file.setTitle(QCoreApplication.translate("MainWindow", u"\u0424\u0430\u0439\u043b", None))
         self.tb_main.setWindowTitle(QCoreApplication.translate("MainWindow", u"\u041f\u0430\u043d\u0435\u043b\u044c \u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u043e\u0432", None))
     # retranslateUi

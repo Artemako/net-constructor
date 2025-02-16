@@ -32,6 +32,7 @@ import package.components.nodeconnectiondeletedialog as nodeconnectiondeletedial
 import package.components.diagramtypeselectdialog as diagramtypeselectdialog
 import package.components.changeorderdialog as changeorderdialog
 import package.components.confirmchangingdiagramtypedialog as confirmchangingdiagramtypedialog
+import package.components.controlsectordeletedialog as controlsectordeletedialog
 
 import package.ui.mainwindow_ui as mainwindow_ui
 
@@ -82,6 +83,7 @@ class MainWindow(QMainWindow):
         self.ui.centralwidget_splitter.setSizes([806, 560])
         #
         self.ui.tabw_right.tabBar().setTabVisible(2, False)
+        self.ui.tabw_right.tabBar().setTabVisible(3, False)
         self.ui.tabw_right.currentChanged.connect(self._tab_right_changed)
 
         # self.update_menu_recent_projects()
@@ -122,9 +124,7 @@ class MainWindow(QMainWindow):
             self.statusBar().showMessage("Проект не открыт")
 
     def create_file_nce(self):
-        file_name, _ = QFileDialog.getSaveFileName(
-            self, " ", "", self.__text_format
-        )
+        file_name, _ = QFileDialog.getSaveFileName(self, " ", "", self.__text_format)
         if file_name:
             global_diagrams = self.__obsm.obj_configs.get_config_diagrams()
             dialog = diagramtypeselectdialog.DiagramTypeSelectDialog(
@@ -151,9 +151,7 @@ class MainWindow(QMainWindow):
                 self._update_status_bar_with_project_name(file_name)
 
     def open_file_nce(self):
-        file_name, _ = QFileDialog.getOpenFileName(
-            self, " ", "", self.__text_format
-        )
+        file_name, _ = QFileDialog.getOpenFileName(self, " ", "", self.__text_format)
         if file_name:
             #
             self.ui.tabw_right.setCurrentIndex(0)
@@ -179,9 +177,91 @@ class MainWindow(QMainWindow):
                 #
                 self._update_status_bar_with_project_name(file_name)
 
+    # def _save_changes_to_file_nce(self):
+    #     if self.__obsm.obj_project.is_active():
+    #         #
+    #         diagram_type_id = str()
+    #         diagram_name = str()
+    #         new_diagram_parameters = {}
+    #         new_image_parameters = {}
+    #         #
+    #         new_data = {}
+    #         new_parameters = {}
+    #         #
+    #         is_general_tab = False
+    #         is_editor_tab = False
+    #         #
+    #         if self.ui.tabw_right.currentIndex() == 0:
+    #             is_general_tab = True
+    #             diagram_type_id = self.ui.combox_type_diagram.currentData().get(
+    #                 "type_id", ""
+    #             )
+    #             diagram_name = self.ui.combox_type_diagram.currentData().get("name", "")
+    #             new_image_parameters = self._get_new_data_or_parameters(
+    #                 self.__general_image_parameters_widgets, is_parameters=True
+    #             )
+    #             new_diagram_parameters = self._get_new_data_or_parameters(
+    #                 self.__general_diagram_parameters_widgets, is_parameters=True
+    #             )
+    #         elif self.ui.tabw_right.currentIndex() == 2:
+    #             is_editor_tab = True
+    #             # Объединить дата с 3x разных форм
+    #             object_data_widgets = self._get_new_data_or_parameters(
+    #                 self.__editor_object_data_widgets, is_parameters=False
+    #             )
+    #             type_object_data_widgets = self._get_new_data_or_parameters(
+    #                 self.__editor_type_object_data_widgets, is_parameters=False
+    #             )
+    #             objects_data_widgets = self._get_new_data_or_parameters(
+    #                 self.__editor_objects_data_widgets, is_parameters=False
+    #             )
+    #             new_data = {
+    #                 **object_data_widgets,
+    #                 **type_object_data_widgets,
+    #                 **objects_data_widgets,
+    #             }
+    #             #
+    #             # Объединить параметры с 3x  разных форм
+    #             object_parameters_widgets = self._get_new_data_or_parameters(
+    #                 self.__editor_object_parameters_widgets, is_parameters=True
+    #             )
+    #             type_object_parameters_widgets = self._get_new_data_or_parameters(
+    #                 self.__editor_type_object_parameters_widgets, is_parameters=True
+    #             )
+    #             objects_parameters_widgets = self._get_new_data_or_parameters(
+    #                 self.__editor_objects_parameters_widgets, is_parameters=True
+    #             )
+    #             new_parameters = {
+    #                 **object_parameters_widgets,
+    #                 **type_object_parameters_widgets,
+    #                 **objects_parameters_widgets,
+    #             }
+    #         #
+    #         if is_editor_tab or is_general_tab:
+    #             config_nodes = self.__obsm.obj_configs.get_nodes()
+    #             config_connections = self.__obsm.obj_configs.get_connections()
+    #             #
+    #             self.__obsm.obj_project.save_project(
+    #                 self.__current_object,
+    #                 self.__current_is_node,
+    #                 is_general_tab,
+    #                 is_editor_tab,
+    #                 config_nodes,
+    #                 config_connections,
+    #                 diagram_type_id,
+    #                 diagram_name,
+    #                 new_image_parameters,
+    #                 new_diagram_parameters,
+    #                 new_data,
+    #                 new_parameters,
+    #             )
+    #         #
+    #         project_data = self.__obsm.obj_project.get_data()
+    #         self.ui.imagewidget.run(project_data)
+    #         self._reset_widgets_by_data(project_data)
+
     def _save_changes_to_file_nce(self):
         if self.__obsm.obj_project.is_active():
-            #
             diagram_type_id = str()
             diagram_name = str()
             new_diagram_parameters = {}
@@ -192,6 +272,8 @@ class MainWindow(QMainWindow):
             #
             is_general_tab = False
             is_editor_tab = False
+            is_control_sector_tab = False
+            #
             if self.ui.tabw_right.currentIndex() == 0:
                 is_general_tab = True
                 diagram_type_id = self.ui.combox_type_diagram.currentData().get(
@@ -204,6 +286,7 @@ class MainWindow(QMainWindow):
                 new_diagram_parameters = self._get_new_data_or_parameters(
                     self.__general_diagram_parameters_widgets, is_parameters=True
                 )
+            #
             elif self.ui.tabw_right.currentIndex() == 2:
                 is_editor_tab = True
                 # Объединить дата с 3x разных форм
@@ -221,7 +304,6 @@ class MainWindow(QMainWindow):
                     **type_object_data_widgets,
                     **objects_data_widgets,
                 }
-                #
                 # Объединить параметры с 3x  разных форм
                 object_parameters_widgets = self._get_new_data_or_parameters(
                     self.__editor_object_parameters_widgets, is_parameters=True
@@ -238,7 +320,15 @@ class MainWindow(QMainWindow):
                     **objects_parameters_widgets,
                 }
             #
-            if is_editor_tab or is_general_tab:
+            elif self.ui.tabw_right.currentIndex() == 3:
+                is_control_sector_tab = True
+                new_cs_name = self.cs_name_edit.text()
+                new_cs_length = self.cs_length_edit.value()
+                self.__current_control_sector["cs_name"] = new_cs_name
+                self.__current_control_sector["cs_lenght"] = new_cs_length
+            #
+            #
+            if is_editor_tab or is_general_tab or is_control_sector_tab:
                 config_nodes = self.__obsm.obj_configs.get_nodes()
                 config_connections = self.__obsm.obj_configs.get_connections()
                 #
@@ -417,7 +507,9 @@ class MainWindow(QMainWindow):
                 self.ui.imagewidget.run(project_data)
                 self._reset_widgets_by_data(project_data)
 
-    def reset_tab_general(self, diagram_type_id, diagram_parameters, image_parameters, precision_separator):
+    def reset_tab_general(
+        self, diagram_type_id, diagram_parameters, image_parameters, precision_separator
+    ):
         print("reset_tab_general")
         # очистка типа диаграммы
         self._reset_combobox_type_diagram(diagram_type_id)
@@ -428,7 +520,7 @@ class MainWindow(QMainWindow):
             self.ui.fl_image_parameters,
             config_image_parameters,
             image_parameters,
-            precision_separator
+            precision_separator,
         )
         # Параметры диаграммы
         config_diagram_parameters = (
@@ -441,7 +533,7 @@ class MainWindow(QMainWindow):
             self.ui.fl_diagram_parameters,
             config_diagram_parameters,
             diagram_parameters,
-            precision_separator
+            precision_separator,
         )
 
     def reset_tab_elements(self, nodes, connections):
@@ -483,7 +575,7 @@ class MainWindow(QMainWindow):
             btn_edit = QPushButton("Редактировать")
             table_widget.setCellWidget(index, 3, btn_edit)
             btn_edit.clicked.connect(
-                partial(self.edit_object, node, index + 1, is_node=True)
+                partial(self._edit_object, node, index + 1, is_node=True)
             )
         #
         header = table_widget.horizontalHeader()
@@ -501,7 +593,7 @@ class MainWindow(QMainWindow):
         table_widget.blockSignals(True)
         table_widget.clearContents()
         table_widget.setRowCount(len(connections))
-        #        
+        #
         headers = ["№", "Название", "Редактировать"]
         table_widget.setColumnCount(len(headers))
         table_widget.setHorizontalHeaderLabels(headers)
@@ -512,7 +604,7 @@ class MainWindow(QMainWindow):
                 connection.get("data", {}).get("название", {}).get("value", "")
             )
             print("CONNECTION_NAME:", connection_name)
-            # 
+            #
             item_number = QTableWidgetItem(f"{index + 1}—{index + 2}")
             table_widget.setItem(index, 0, item_number)
             #
@@ -522,17 +614,50 @@ class MainWindow(QMainWindow):
             btn_edit = QPushButton("Редактировать")
             table_widget.setCellWidget(index, 2, btn_edit)
             btn_edit.clicked.connect(
-                partial(self.edit_object, connection, index + 1, is_node=False)
+                partial(self._edit_object, connection, index + 1, is_node=False)
             )
         #
         header = table_widget.horizontalHeader()
         header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
         header.setSectionResizeMode(1, QHeaderView.Stretch)
         header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
-        
+
         table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
         table_widget.blockSignals(False)
 
+    def _reset_table_control_sectors(self, control_sectors):
+        # TODO _reset_table_control_sectors
+        print("reset_table_control_sectors")
+        table_widget = self.ui.tw_control_sectors
+        table_widget.blockSignals(True)
+        table_widget.clearContents()
+        table_widget.setRowCount(len(control_sectors))
+        #
+        headers = ["№", "Название", "Редактировать"]
+        table_widget.setColumnCount(len(headers))
+        table_widget.setHorizontalHeaderLabels(headers)
+        table_widget.verticalHeader().setVisible(False)
+        #
+        for index, control_sector in enumerate(control_sectors):
+            # Добавляем номера строк в отдельный столбец
+            item_number = QTableWidgetItem(str(index + 1))
+            table_widget.setItem(index, 0, item_number)
+            #
+            control_sector_name = control_sector.get("cs_name")
+            item = QTableWidgetItem(control_sector_name)
+            table_widget.setItem(index, 1, item)
+            #
+            btn_edit = QPushButton("Редактировать")
+            table_widget.setCellWidget(index, 2, btn_edit)
+            btn_edit.clicked.connect(partial(self._edit_control_sector, control_sector))
+        #
+        header = table_widget.horizontalHeader()
+        header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(1, QHeaderView.Stretch)
+        header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
+
+        table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
+        table_widget.blockSignals(False)
 
     def _reset_widgets_by_data(self, data):
         #
@@ -542,13 +667,15 @@ class MainWindow(QMainWindow):
         # Сепаратор для виджета
         precision_separator = diagram_parameters.get("precision_separator", True)
         #
-        self.reset_tab_general(diagram_type_id, diagram_parameters, image_parameters, precision_separator)
+        self.reset_tab_general(
+            diagram_type_id, diagram_parameters, image_parameters, precision_separator
+        )
         #
         nodes = data.get("nodes", [])
         connections = data.get("connections", [])
         self.reset_tab_elements(nodes, connections)
 
-    def edit_object(self, obj, index, is_node=False):
+    def _edit_object(self, obj, index, is_node=False):
         self.__current_object = obj
         self.__current_is_node = is_node
         #
@@ -557,8 +684,34 @@ class MainWindow(QMainWindow):
         #
         self._change_name_tab_editor(index, is_node)
         #
+        self._create_editor_control_sectors_by_object(obj, is_node)
+        #
         self._create_editor_data_widgets_by_object(obj, is_node)
         self._create_editor_parameters_widgets_by_object(obj, is_node)
+    
+    def _edit_control_sector(self, cs):
+        self.__current_control_sector = cs  
+        self.ui.tabw_right.tabBar().setTabVisible(3, True)
+        self.ui.tabw_right.setCurrentIndex(3)        
+        self.ui.tabw_right.setTabText(3, f"Редактирование контрольного сектора {cs.get('order', 0) + 1}")       
+        # 
+        self._clear_form_layout(self.ui.fl_control)
+        self._create_control_sector_widgets(cs)
+
+    def _create_control_sector_widgets(self, cp):
+        # TODO _create_control_sector_widgets (ТУТА)
+        self._clear_form_layout(self.ui.fl_control)
+        # 
+        label_name = QLabel("Название контрольного сектора")
+        self.cs_name_edit = QLineEdit(cp.get("cs_name", ""))
+        self.ui.fl_control.addRow(label_name, self.cs_name_edit)
+        # 
+        label_length = QLabel("Длина контрольного сектора")
+        self.cs_length_edit = QSpinBox()
+        self.cs_length_edit.setRange(0, 2147483647)
+        self.cs_length_edit.setValue(int(cp.get("cs_lenght", 0))) 
+        self.ui.fl_control.addRow(label_length, self.cs_length_edit)
+
 
     def _wrap_node(self, node):
         self.__obsm.obj_project.wrap_node(node)
@@ -618,7 +771,9 @@ class MainWindow(QMainWindow):
         print("BEFORE return len(dict_widgets) > 0: dict_widgets", dict_widgets)
         return len(dict_widgets) > 0
 
-    def _get_widget(self, widget_type, value, is_parameters=True, precision_separator = None):
+    def _get_widget(
+        self, widget_type, value, is_parameters=True, precision_separator=None
+    ):
         if widget_type == "title":
             new_widget = QLabel()
         #
@@ -692,7 +847,7 @@ class MainWindow(QMainWindow):
             else:
                 locale = QLocale(QLocale.C)
             new_widget.setLocale(locale)
-            
+
         #
         else:
             if is_parameters:
@@ -709,11 +864,16 @@ class MainWindow(QMainWindow):
     def _get_label_name(self, label_text, widget_type):
         label = QLabel(label_text)
         if widget_type == "title":
-            label.setStyleSheet("font-style: italic; font-weight: bold; ")
+            label.setStyleSheet("font-styleF italic; font-weight: bold; ")
         return label
 
     def _create_parameters_widgets(
-        self, dict_widgets, form_layout, config_object_parameters, object_parameters, precision_separator = None
+        self,
+        dict_widgets,
+        form_layout,
+        config_object_parameters,
+        object_parameters,
+        precision_separator=None,
     ) -> bool:
         print(
             "create_parameters_widgets():\n"
@@ -747,13 +907,77 @@ class MainWindow(QMainWindow):
             print("new_value", value)
             #
             # тип виджета
-            new_widget = self._get_widget(widget_type, value, is_parameters=True, precision_separator=precision_separator)
+            new_widget = self._get_widget(
+                widget_type,
+                value,
+                is_parameters=True,
+                precision_separator=precision_separator,
+            )
             #
             form_layout.addRow(label, new_widget)
             if widget_type != "title":
                 dict_widgets[config_parameter_key] = [widget_type, new_widget]
         print("BEFORE return len(dict_widgets) > 0: dict_widgets", dict_widgets)
         return len(dict_widgets) > 0
+
+    def _add_control_sector(self, obj):
+        control_sectors = self.__obsm.obj_project.add_control_sector(obj)
+        #
+        project_data = self.__obsm.obj_project.get_data()
+        self.ui.imagewidget.run(project_data)
+        self._reset_table_control_sectors(control_sectors)
+
+    def _move_control_sectors(self, obj):
+        control_sectors = obj.get("control_sectors", [])
+        dialog = changeorderdialog.ChangeOrderDialog(
+            control_sectors, "control_sectors", self
+        )
+        if dialog.exec():
+            new_order_control_sectors = dialog.get_data()
+            control_sectors = self.__obsm.obj_project.set_new_order_control_sectors(
+                obj, new_order_control_sectors
+            )
+            #
+            project_data = self.__obsm.obj_project.get_data()
+            self.ui.imagewidget.run(project_data)
+            self._reset_table_control_sectors(control_sectors)
+
+    def _delete_control_sector(self, obj):
+        old_control_sectors = obj.get("control_sectors", [])
+        # Создаем диалоговое окно для выбора контрольной точки
+        dialog = controlsectordeletedialog.ControlSectorDeleteDialog(
+            old_control_sectors, self
+        )
+        if dialog.exec():
+            selected_cs = dialog.get_selected_control_sector()
+            control_sectors = self.__obsm.obj_project.delete_control_sector(
+                obj, selected_cs
+            )
+            #
+            project_data = self.__obsm.obj_project.get_data()
+            self.ui.imagewidget.run(project_data)
+            self._reset_table_control_sectors(control_sectors)
+
+    def _create_editor_control_sectors_by_object(self, obj, is_node=False):
+        self.ui.label_control_sectors.setVisible(not is_node)
+        self.ui.tw_control_sectors.setVisible(not is_node)
+        self.ui.btn_add_control_sector.setVisible(not is_node)
+        self.ui.btn_delete_control_sector.setVisible(not is_node)
+        self.ui.btn_move_control_sectors.setVisible(not is_node)
+        #
+        self.ui.btn_add_control_sector.clicked.connect(
+            partial(self._add_control_sector, obj)
+        )
+        self.ui.btn_move_control_sectors.clicked.connect(
+            partial(self._move_control_sectors, obj)
+        )
+        self.ui.btn_delete_control_sector.clicked.connect(
+            partial(self._delete_control_sector, obj)
+        )
+        #
+        if not is_node:
+            control_sectors = obj.get("control_sectors", [])
+            self._reset_table_control_sectors(control_sectors)
 
     def _create_editor_parameters_widgets_by_object(self, obj, is_node=False):
         if is_node:
@@ -835,7 +1059,7 @@ class MainWindow(QMainWindow):
             config_object_data,
             object_data,
         )
-        self.ui.label_object_data.setVisible(flag) 
+        self.ui.label_object_data.setVisible(flag)
         #
         flag = self.create_data_widgets(
             self.__editor_type_object_data_widgets,
