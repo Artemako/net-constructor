@@ -130,17 +130,25 @@ class DiagramDrawer:
         delta_wrap_x = (
             node.get("parameters", {}).get("delta_wrap_x", {}).get("value", 0)
         )
-        print("_get_delta_wrap_x")
-        print(node.get("parameters", {}))
-        print(node.get("parameters", {}).get("delta_wrap_x", {}))
-        print(node.get("parameters", {}).get("delta_wrap_x", {}).get("value", 0))
+        # print("_get_delta_wrap_x")
+        # print(node.get("parameters", {}))
+        # print(node.get("parameters", {}).get("delta_wrap_x", {}))
+        # print(node.get("parameters", {}).get("delta_wrap_x", {}).get("value", 0))
         return delta_wrap_x
 
-    def _prepare_main_drawing_data(self):
+    def _prepare_main_drawing_data(self, start_x, start_y, delta_wrap_y):
         """Подготавливает данные для рисования"""
-        start_x = int(self.__data.get("diagram_parameters", {}).get("start_x", {}).get("value", 0))
-        start_y = int(self.__data.get("diagram_parameters", {}).get("start_y", {}).get("value", 0))
-        delta_wrap_y = int(self.__data.get("diagram_parameters", {}).get("delta_wrap_y", {}).get("value", 0))
+        # start_x = int(
+        #     self.__data.get("diagram_parameters", {}).get("start_x", {}).get("value", 0)
+        # )
+        # start_y = int(
+        #     self.__data.get("diagram_parameters", {}).get("start_y", {}).get("value", 0)
+        # )
+        # delta_wrap_y = int(
+        #     self.__data.get("diagram_parameters", {})
+        #     .get("delta_wrap_y", {})
+        #     .get("value", 0)
+        # )
         #
         x = start_x
         y = start_y
@@ -240,7 +248,9 @@ class DiagramDrawer:
                 connection_physical_length = data.get(
                     "физическая_длина", config_data.get("физическая_длина", {})
                 ).get("value", 0)
-                #
+                # сектора
+                control_sectors = connection.get("control_sectors", [])
+                # рисуем соединение
                 prepared_data.append(
                     {
                         "type": "connection",
@@ -249,13 +259,23 @@ class DiagramDrawer:
                         "y": y,
                         "connection_optical_length": connection_optical_length,
                         "connection_physical_length": connection_physical_length,
+                        "control_sectors": control_sectors,
                     }
                 )
                 # увеличиваем координаты по длине соединения
-                x += connection_length
-                # увеличиваем optical_length и physical_length
-                to_right_optical_length += connection_optical_length
-                to_right_physical_length += connection_physical_length
+                if connection_id == "100" and len(control_sectors) > 0:
+                    for cs in control_sectors:
+                        x += cs.get("data_pars", {}).get("cs_lenght", {}).get("value", 0)
+                        to_right_physical_length += cs.get("data_pars", {}).get("cs_physical_length", {}).get("value", 0)
+                        # Если есть перенос
+                        if cs.get("is_wrap", False):
+                            y += delta_wrap_y
+                            x = start_x + cs.get("data_pars", {}).get("cs_delta_wrap_x", {}).get("value", 0)
+                else:
+                    x += connection_length
+                    # увеличиваем optical_length и physical_length
+                    to_right_optical_length += connection_optical_length
+                    to_right_physical_length += connection_physical_length
 
         return prepared_data, to_right_optical_length, to_right_physical_length
 
@@ -276,13 +296,16 @@ class DiagramDrawer:
                 to_left_physical_length -= item.get("connection_physical_length", 0)
 
         return prepared_data
-    
 
-    def draw(self, painter):
+    def draw(self, painter, start_x, start_y, delta_wrap_y):
         """Рисует диаграмму на переданном объекте QPainter."""
         # подготавливаем данные
-        prepared_data, to_right_optical_length, to_right_physical_length = self._prepare_main_drawing_data()
-        self.prepared_data = self._set_to_left_lengths(prepared_data, to_right_optical_length, to_right_physical_length)
+        prepared_data, to_right_optical_length, to_right_physical_length = (
+            self._prepare_main_drawing_data(start_x, start_y, delta_wrap_y)
+        )
+        self.prepared_data = self._set_to_left_lengths(
+            prepared_data, to_right_optical_length, to_right_physical_length
+        )
         # сначала рисуем соединения
         for index, item in enumerate(self.prepared_data):
             if item.get("type") == "connection":
@@ -293,6 +316,7 @@ class DiagramDrawer:
                 object_connection = item.get("object")
                 x = item.get("x")
                 y = item.get("y")
+                control_sectors = item.get("control_sectors")
                 #
                 self._draw_connection(
                     painter,
@@ -301,6 +325,9 @@ class DiagramDrawer:
                     object_node_after,
                     x,
                     y,
+                    control_sectors,
+                    start_x,
+                    delta_wrap_y 
                 )
 
         # Затем рисуем узлы
@@ -369,7 +396,7 @@ class DiagramDrawer:
         node_obj.draw()
 
     def _draw_connection(
-        self, painter, object_connection, object_node_before, object_node_after, x, y
+        self, painter, object_connection, object_node_before, object_node_after, x, y, control_sectors, start_x, delta_wrap_y 
     ):
         connection_obj = drawconnection.DrawConnection(
             painter,
@@ -379,5 +406,8 @@ class DiagramDrawer:
             object_node_after,
             x,
             y,
+            control_sectors,
+            start_x,
+            delta_wrap_y 
         )
         connection_obj.draw()

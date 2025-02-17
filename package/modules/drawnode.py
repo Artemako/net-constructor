@@ -463,6 +463,9 @@ class DrawNode:
         )
 
     def _draw_node_ids_100_101_102(self, pars, data, node_id, nf):
+
+        # TODO control_sectors 102 убрать
+
         def get_painter_figure_border():
             return painterconfigurator.PainterConfigurator(
                 self.__painter

@@ -18,7 +18,7 @@ class ControlSectorDeleteDialog(QDialog):
         #
         self.list_widget = QListWidget(self)
         for cs in control_sectors:
-            item = QListWidgetItem(cs.get("cs_name", ""))
+            item = QListWidgetItem(cs.get("data_pars", {}).get("cs_name", {}).get("value", ""))
             item.setData(Qt.UserRole, cs)
             self.list_widget.addItem(item)
         layout.addWidget(self.list_widget)

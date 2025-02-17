@@ -12,13 +12,14 @@ class Project:
     def get_data(self):
         return self.__data
 
-    def create_new_project(self, diagram_data, image_parameters, file_path):
+    def create_new_project(self, diagram_data, image_parameters, control_sectors_config, file_path):
         self.__file_name = file_path
         self.__data = {
             "diagram_type_id": diagram_data.get("type_id", "0"),
             "diagram_name": diagram_data.get("name", ""),
             "diagram_parameters": diagram_data.get("parameters", {}),
             "image_parameters": image_parameters,
+            "control_sectors_config" : control_sectors_config,
             "nodes": [],
             "connections": [],
             "archived_parameters": {},
@@ -154,13 +155,12 @@ class Project:
             if connection["id"] == connection_id:
                 new_id = uuid.uuid4().hex
                 new_order = len(connection.get("control_sectors", []))
+                new_config = self.__data.get("control_sectors_config", {})
                 new_control_sector = {
                     "id": new_id,
                     "order": new_order,
                     "is_wrap": False,
-                    "cs_name": "Контрольный сектор",
-                    "cs_lenght": 0,
-                    "cs_physical_length": 0,
+                    "data_pars": new_config,
                 }
                 connection["control_sectors"].append(new_control_sector)
                 control_sectors_return = connection.get("control_sectors", [])

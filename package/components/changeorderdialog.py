@@ -60,7 +60,7 @@ class ChangeOrderDialog(QDialog):
                 obj_name = obj.get("data", {}).get("название", {}).get("value", "")
                 item_name = f"{index + 1}—{index + 2}) {obj_name}"
             elif self.__type_objects == "control_sectors":
-                obj_name = obj.get("cs_name", "")
+                obj_name = obj.get("data_pars", {}).get("cs_name", {}).get("value", "")
                 item_name = f"{index + 1}) {obj_name}"
             
             item = QListWidgetItem(item_name)

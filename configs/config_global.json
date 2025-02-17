@@ -11,6 +11,32 @@
             "order": 1
         }
     },
+    "control_sectors_config": {
+        "cs_name": {
+            "value": "Контрольная точка",
+            "name": "Название сектора",
+            "order": 1,
+            "type": "line_string"
+        },
+        "cs_physical_length": {
+            "value": 0,
+            "name": "Физическая длина сектора",
+            "order": 2,
+            "type": "number_float"
+        },
+        "cs_lenght": {
+            "value": 100,
+            "name": "Расстояние сектора",
+            "order": 3,
+            "type": "number_int"
+        },
+        "cs_delta_wrap_x": {
+            "value": 0,
+            "name": "Расстояние переноса по X после сектора",
+            "order": 4,
+            "type": "number_int_signed"
+        }
+    },
     "diagrams": {
         "0": {
             "order": 0,
@@ -230,8 +256,14 @@
             "order": 2,
             "type_id": "100",
             "name": "Скелетная схема размещения строительных длин кабеля и смонтированных муфт на участке регенерации",
-            "id_nodes": ["100", "101", "102"],
-            "id_connections": ["100"],
+            "id_nodes": [
+                "100",
+                "101",
+                "102"
+            ],
+            "id_connections": [
+                "100"
+            ],
             "parameters": {
                 "start_x": {
                     "value": 200,
@@ -316,8 +348,13 @@
             "order": 3,
             "type_id": "150",
             "name": "Монтажная схема участка регенерации",
-            "id_nodes": ["150", "151"],
-            "id_connections": ["150"],
+            "id_nodes": [
+                "150",
+                "151"
+            ],
+            "id_connections": [
+                "150"
+            ],
             "parameters": {
                 "start_x": {
                     "value": 200,

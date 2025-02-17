@@ -19,6 +19,9 @@ class DrawConnection:
         object_node_after,
         x,
         y,
+        control_sectors,
+        start_x,
+        delta_wrap_y 
     ):
         self.__painter = painter
         self.__object_diagram = object_diagram
@@ -27,6 +30,9 @@ class DrawConnection:
         self.__object_node_after = object_node_after
         self.__x = x
         self.__y = y
+        self.__control_sectors = control_sectors
+        self.__start_x = start_x
+        self.__delta_wrap_y = delta_wrap_y
 
     def draw(self):
         # Сначала выбор диграммы, а потом соединения
@@ -380,6 +386,8 @@ class DrawConnection:
         )
 
     def _draw_connection_type_100(self, pars, data, nf):
+        # TODO control_sectors  (ТУТА)
+
         def get_painter_connection_line():
             return painterconfigurator.PainterConfigurator(
                 self.__painter
@@ -398,44 +406,82 @@ class DrawConnection:
                 pixel_size=pars.get_sp("connection_caption_pixel_size"),
             )
 
-        # ОСНОВНАЯ ЛИНИЯ
-        self.__painter = get_painter_connection_line()
-        self.__painter.drawLine(
-            self.__x,
-            self.__y,
-            self.__x + pars.get_sp("connection_length"),
-            self.__y,
-        )
+        def draw_main_line(
+            cs_lenght, cs_name, cs_physical_length, is_first=False, is_last=False
+        ):
+            # ОСНОВНАЯ ЛИНИЯ
+            self.__painter = get_painter_connection_line()
+            self.__painter.drawLine(
+                self.__x,
+                self.__y,
+                self.__x + cs_lenght,
+                self.__y,
+            )
+            # Текст над/под с названием и физическая_длина
+            before_width = 0
+            after_width = 0
+            # Условия для первого и для последнего сектора
+            if is_first and self.__object_node_before.get_node_id() == "101":
+                before_width = pars.get_bp("node_width")
+            if is_last and self.__object_node_after.get_node_id() == "101":
+                after_width = pars.get_ap("node_width")
+            #
+            center_x = (
+                (self.__x + before_width // 2)
+                + (self.__x - after_width // 2 + cs_lenght)
+            ) // 2
+            #
+            drawtext.DrawText().draw_multiline_text_by_hc_vb(
+                get_painter_text_caption,
+                cs_name,
+                center_x,
+                self.__y - pars.get_sp("connection_main_caption_vertical_padding"),
+            )
+            #
+            drawtext.DrawText().draw_multiline_text_by_hc_vt(
+                get_painter_text_caption,
+                nf.get(cs_physical_length) + pars.get_sp("постфикс_расстояния"),
+                center_x,
+                self.__y + pars.get_sp("connection_main_caption_vertical_padding"),
+            )
 
-        # Текст над/под с названием и физическая_длина
-        before_width = 0
-        after_width = 0
-        #
-        if self.__object_node_before.get_node_id() == "101":
-            before_width = pars.get_bp("node_width")
-        if self.__object_node_after.get_node_id() == "101":
-            after_width = pars.get_ap("node_width")
-        #
-        center_x = (
-            (self.__x + before_width // 2)
-            + (self.__x - after_width // 2 + pars.get_sp("connection_length"))
-        ) // 2
-        #
-        drawtext.DrawText().draw_multiline_text_by_hc_vb(
-            get_painter_text_caption,
-            data.get_sd("название"),
-            center_x,
-            self.__y - pars.get_sp("connection_main_caption_vertical_padding"),
-        )
-        #
-        drawtext.DrawText().draw_multiline_text_by_hc_vt(
-            get_painter_text_caption,
-            nf.get(data.get_sd("физическая_длина"))
-            + pars.get_sp("постфикс_расстояния"),
-            center_x,
-            self.__y + pars.get_sp("connection_main_caption_vertical_padding"),
-        )
+        # TODO draw_control_point
+        # TODO cs_physical_length
+        def draw_control_point(): ...
 
+        len_control_sectors = len(self.__control_sectors)
+        if len_control_sectors > 0:
+            total_len = 1 + (len_control_sectors - 1) * 2
+            for index in range(total_len):
+                cs = self.__control_sectors[index // 2]
+                #
+                if index % 2 == 0:
+                    draw_main_line(
+                        cs.get("data_pars", {}).get("cs_lenght", {}).get("value", 0),
+                        cs.get("data_pars", {}).get("cs_name", {}).get("value", ""),
+                        cs.get("data_pars", {})
+                        .get("cs_physical_length", {})
+                        .get("value", 0),
+                        index == 0,
+                        index == total_len - 1,
+                    )
+                else:
+                    draw_control_point()
+                    if cs.get("is_wrap", False):
+                        self.__x = self.__start_x + cs.get("data_pars", {}).get("cs_delta_wrap_x", {}).get("value", 0)
+                        self.__y += self.__delta_wrap_y
+                        draw_control_point()
+                    else:
+                        self.__x += cs.get("data_pars", {}).get("cs_lenght", {}).get("value", 0)
+
+        else:
+            draw_main_line(
+                pars.get_sp("connection_length"),
+                data.get_sd("название"),
+                data.get_sd("физическая_длина"),
+                True,
+                True,
+            )
 
     def _draw_connection_type_150(self, pars, data, nf):
         def get_painter_connection_line():
@@ -465,7 +511,7 @@ class DrawConnection:
             self.__y,
         )
 
-        # Текст над/под 
+        # Текст над/под
         before_width = 0
         after_width = 0
         #

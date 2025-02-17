@@ -1,5 +1,6 @@
 import json
 
+
 class Configs:
     def __init__(self):
         self.__global = {}
@@ -38,6 +39,12 @@ class Configs:
             sorted(image_parameters.items(), key=lambda x: x[1].get("order", 0))
         )
 
+    def get_config_control_sectors(self) -> dict:
+        control_sectors_config = self.__global.get("control_sectors_config", {})
+        return dict(
+            sorted(control_sectors_config.items(), key=lambda x: x[1].get("order", 0))
+        )
+
     def get_config_diagram_parameters_by_type_id(self, diagram_type_id) -> dict:
         diagrams = self.__global.get("diagrams", {})
         parameters = diagrams.get(str(diagram_type_id), {}).get("parameters", {})
@@ -46,13 +53,20 @@ class Configs:
     def get_config_diagram_nodes_by_type_id(self, diagram_type_id) -> dict:
         diagrams = self.__global.get("diagrams", {})
         id_nodes = diagrams.get(str(diagram_type_id), {}).get("id_nodes", [])
-        config_diagram_nodes = {node_type_id: self.get_node(node_type_id) for node_type_id in id_nodes}
+        config_diagram_nodes = {
+            node_type_id: self.get_node(node_type_id) for node_type_id in id_nodes
+        }
         return config_diagram_nodes
 
     def get_config_diagram_connections_by_type_id(self, diagram_type_id) -> dict:
         diagrams = self.__global.get("diagrams", {})
-        id_connections = diagrams.get(str(diagram_type_id), {}).get("id_connections", [])
-        config_diagram_connections = {connection_type_id: self.get_connection(connection_type_id) for connection_type_id in id_connections}
+        id_connections = diagrams.get(str(diagram_type_id), {}).get(
+            "id_connections", []
+        )
+        config_diagram_connections = {
+            connection_type_id: self.get_connection(connection_type_id)
+            for connection_type_id in id_connections
+        }
         return config_diagram_connections
 
     def get_config_node_data_by_node(self, node) -> dict:

@@ -261,12 +261,6 @@
                 "name": "Префикс Оптическая длина",
                 "order": 110,
                 "type": "line_string"
-            },
-            "постфикс_расстояния": {
-                "value": " м",
-                "name": "Постфикс расстояния",
-                "order": 111,
-                "type": "line_string"
             }
         },
         "objects_parameters": {}
@@ -346,6 +340,50 @@
                 "name": "Постфикс расстояния",
                 "order": 109,
                 "type": "line_string"
+            },
+            "Контрольные точки": {
+                "value": "заголовок",
+                "name": "Контрольные точки",
+                "order": 200,
+                "type": "title"
+            },
+            "node_border_color": {
+                "value": "#000000",
+                "name": "Цвет линии вершин",
+                "order": 201,
+                "type": "color"
+            },
+            "node_border_weight": {
+                "value": 2,
+                "name": "Толщина линии вершин",
+                "order": 202
+            },
+            "node_height": {
+                "value": 30,
+                "name": "Высота линии вершин",
+                "order": 203
+            },
+            "Подписи контрольных точек": {
+                "value": "заголовок",
+                "name": "Подписи контрольных точек",
+                "order": 300,
+                "type": "title"
+            },
+            "node_caption_physics_color": {
+                "value": "#000000",
+                "name": "Цвет шрифта подписей физ. длин вершин",
+                "order": 301,
+                "type": "color"
+            },
+            "node_caption_physics_pixel_size": {
+                "value": 12,
+                "name": "Размер шрифта подписей физ. длин вершин",
+                "order": 302
+            },
+            "node_caption_physics_vertical_padding": {
+                "value": 40,
+                "name": "Высота подписей физ. длин под вершинами",
+                "order": 303
             }
         },
         "objects_parameters": {}

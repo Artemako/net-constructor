@@ -32,18 +32,26 @@ class ImageWidget(QWidget):
 
     def create_image(self, data):
         print("create_image")
+        #
         width = int(data.get("image_parameters", {}).get("width", {}).get("value", 0))
         height = int(data.get("image_parameters", {}).get("height", {}).get("value", 0))
-        # start_x = int(data.get("image_parameters", {}).get("start_x", {}).get("value", 0))
-        # start_y = int(data.get("image_parameters", {}).get("start_y", {}).get("value", 0))
-        # delta_wrap_y = int(data.get("image_parameters", {}).get("delta_wrap_y", {}).get("value", 0))
+        #
+        start_x = int(
+            data.get("diagram_parameters", {}).get("start_x", {}).get("value", 0)
+        )
+        start_y = int(
+            data.get("diagram_parameters", {}).get("start_y", {}).get("value", 0)
+        )
+        delta_wrap_y = int(
+            data.get("diagram_parameters", {}).get("delta_wrap_y", {}).get("value", 0)
+        )
 
         image = QImage(width, height, QImage.Format_ARGB32)
         image.fill(Qt.white)
 
         painter = QPainter(image)
         if self.__diagram_drawer:
-            self.__diagram_drawer.draw(painter)
+            self.__diagram_drawer.draw(painter, start_x, start_y, delta_wrap_y)
         painter.end()
 
         return image
