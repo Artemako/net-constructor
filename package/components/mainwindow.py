@@ -73,6 +73,8 @@ class MainWindow(QMainWindow):
     def _tab_right_changed(self, index):
         if index in [0, 1]:
             self.ui.tabw_right.tabBar().setTabVisible(2, False)
+        elif index == 2:
+            self.ui.tabw_right.tabBar().setTabVisible(3, False)
 
     def config(self):
         # СТИЛЬ
@@ -177,108 +179,23 @@ class MainWindow(QMainWindow):
                 #
                 self._update_status_bar_with_project_name(file_name)
 
-    # def _save_changes_to_file_nce(self):
-    #     if self.__obsm.obj_project.is_active():
-    #         #
-    #         diagram_type_id = str()
-    #         diagram_name = str()
-    #         new_diagram_parameters = {}
-    #         new_image_parameters = {}
-    #         #
-    #         new_data = {}
-    #         new_parameters = {}
-    #         #
-    #         is_general_tab = False
-    #         is_editor_tab = False
-    #         #
-    #         if self.ui.tabw_right.currentIndex() == 0:
-    #             is_general_tab = True
-    #             diagram_type_id = self.ui.combox_type_diagram.currentData().get(
-    #                 "type_id", ""
-    #             )
-    #             diagram_name = self.ui.combox_type_diagram.currentData().get("name", "")
-    #             new_image_parameters = self._get_new_data_or_parameters(
-    #                 self.__general_image_parameters_widgets, is_parameters=True
-    #             )
-    #             new_diagram_parameters = self._get_new_data_or_parameters(
-    #                 self.__general_diagram_parameters_widgets, is_parameters=True
-    #             )
-    #         elif self.ui.tabw_right.currentIndex() == 2:
-    #             is_editor_tab = True
-    #             # Объединить дата с 3x разных форм
-    #             object_data_widgets = self._get_new_data_or_parameters(
-    #                 self.__editor_object_data_widgets, is_parameters=False
-    #             )
-    #             type_object_data_widgets = self._get_new_data_or_parameters(
-    #                 self.__editor_type_object_data_widgets, is_parameters=False
-    #             )
-    #             objects_data_widgets = self._get_new_data_or_parameters(
-    #                 self.__editor_objects_data_widgets, is_parameters=False
-    #             )
-    #             new_data = {
-    #                 **object_data_widgets,
-    #                 **type_object_data_widgets,
-    #                 **objects_data_widgets,
-    #             }
-    #             #
-    #             # Объединить параметры с 3x  разных форм
-    #             object_parameters_widgets = self._get_new_data_or_parameters(
-    #                 self.__editor_object_parameters_widgets, is_parameters=True
-    #             )
-    #             type_object_parameters_widgets = self._get_new_data_or_parameters(
-    #                 self.__editor_type_object_parameters_widgets, is_parameters=True
-    #             )
-    #             objects_parameters_widgets = self._get_new_data_or_parameters(
-    #                 self.__editor_objects_parameters_widgets, is_parameters=True
-    #             )
-    #             new_parameters = {
-    #                 **object_parameters_widgets,
-    #                 **type_object_parameters_widgets,
-    #                 **objects_parameters_widgets,
-    #             }
-    #         #
-    #         if is_editor_tab or is_general_tab:
-    #             config_nodes = self.__obsm.obj_configs.get_nodes()
-    #             config_connections = self.__obsm.obj_configs.get_connections()
-    #             #
-    #             self.__obsm.obj_project.save_project(
-    #                 self.__current_object,
-    #                 self.__current_is_node,
-    #                 is_general_tab,
-    #                 is_editor_tab,
-    #                 config_nodes,
-    #                 config_connections,
-    #                 diagram_type_id,
-    #                 diagram_name,
-    #                 new_image_parameters,
-    #                 new_diagram_parameters,
-    #                 new_data,
-    #                 new_parameters,
-    #             )
-    #         #
-    #         project_data = self.__obsm.obj_project.get_data()
-    #         self.ui.imagewidget.run(project_data)
-    #         self._reset_widgets_by_data(project_data)
-
     def _save_changes_to_file_nce(self):
         if self.__obsm.obj_project.is_active():
             diagram_type_id = str()
             diagram_name = str()
             new_diagram_parameters = {}
             new_image_parameters = {}
-            #
+            
             new_data = {}
             new_parameters = {}
-            #
+            
             is_general_tab = False
             is_editor_tab = False
             is_control_sector_tab = False
-            #
+            
             if self.ui.tabw_right.currentIndex() == 0:
                 is_general_tab = True
-                diagram_type_id = self.ui.combox_type_diagram.currentData().get(
-                    "type_id", ""
-                )
+                diagram_type_id = self.ui.combox_type_diagram.currentData().get("type_id", "")
                 diagram_name = self.ui.combox_type_diagram.currentData().get("name", "")
                 new_image_parameters = self._get_new_data_or_parameters(
                     self.__general_image_parameters_widgets, is_parameters=True
@@ -286,7 +203,7 @@ class MainWindow(QMainWindow):
                 new_diagram_parameters = self._get_new_data_or_parameters(
                     self.__general_diagram_parameters_widgets, is_parameters=True
                 )
-            #
+            
             elif self.ui.tabw_right.currentIndex() == 2:
                 is_editor_tab = True
                 # Объединить дата с 3x разных форм
@@ -304,7 +221,8 @@ class MainWindow(QMainWindow):
                     **type_object_data_widgets,
                     **objects_data_widgets,
                 }
-                # Объединить параметры с 3x  разных форм
+                
+                # Объединить параметры с 3x форм
                 object_parameters_widgets = self._get_new_data_or_parameters(
                     self.__editor_object_parameters_widgets, is_parameters=True
                 )
@@ -319,19 +237,21 @@ class MainWindow(QMainWindow):
                     **type_object_parameters_widgets,
                     **objects_parameters_widgets,
                 }
-            #
+            
             elif self.ui.tabw_right.currentIndex() == 3:
                 is_control_sector_tab = True
+                # сохранение параметров контрольного сектора
                 new_cs_name = self.cs_name_edit.text()
                 new_cs_length = self.cs_length_edit.value()
+                new_cs_physical_length = self.cs_physical_length_edit.value()
                 self.__current_control_sector["cs_name"] = new_cs_name
                 self.__current_control_sector["cs_lenght"] = new_cs_length
-            #
-            #
+                self.__current_control_sector["cs_physical_length"] = new_cs_physical_length
+            
             if is_editor_tab or is_general_tab or is_control_sector_tab:
                 config_nodes = self.__obsm.obj_configs.get_nodes()
                 config_connections = self.__obsm.obj_configs.get_connections()
-                #
+                
                 self.__obsm.obj_project.save_project(
                     self.__current_object,
                     self.__current_is_node,
@@ -346,10 +266,18 @@ class MainWindow(QMainWindow):
                     new_data,
                     new_parameters,
                 )
-            #
+            
             project_data = self.__obsm.obj_project.get_data()
             self.ui.imagewidget.run(project_data)
             self._reset_widgets_by_data(project_data)
+            
+            # Обновляем таблицу контрольных секторов если мы на вкладке редактирования соединения
+            # или редактирования контрольного сектора
+            current_tab = self.ui.tabw_right.currentIndex()
+            if (current_tab == 2 and not self.__current_is_node) or current_tab == 3:
+                control_sectors = self.__current_object.get("control_sectors", [])
+                self._reset_table_control_sectors(control_sectors)
+
 
     def _export_to_image(self):
         file_name, _ = QFileDialog.getSaveFileName(self, " ", "", "PNG images (*.png)")
@@ -559,7 +487,7 @@ class MainWindow(QMainWindow):
         print("NODES", nodes)
         for index, node in enumerate(nodes):
             print("NODE", node)
-            # Добавляем номера строк в отдельный столбец
+            #
             item_number = QTableWidgetItem(str(index + 1))
             table_widget.setItem(index, 0, item_number)
             #
@@ -625,21 +553,63 @@ class MainWindow(QMainWindow):
         table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
         table_widget.blockSignals(False)
 
+    def _check_control_sectors_length(self, control_sectors):
+        """Проверка суммы физических длин секторов"""
+        total_physical_length = sum(
+            cs.get("cs_physical_length", 0) for cs in control_sectors
+        )
+        connection_physical_length = (
+            self.__current_object.get("data", {})
+            .get("физическая_длина", {})
+            .get("value", 0)
+        )
+
+        try:
+            connection_physical_length = float(connection_physical_length)
+        except (ValueError, TypeError):
+            connection_physical_length = 0
+
+        if abs(total_physical_length - connection_physical_length) <= 0.001:
+            return 0, total_physical_length, connection_physical_length
+        elif total_physical_length > connection_physical_length:
+            return 1, total_physical_length, connection_physical_length
+        else:
+            return -1, total_physical_length, connection_physical_length
+
+    def _update_physical_length_header(self, table_widget, comparison_result):
+        """Обновление заголовка столбца физической длины"""
+        header_item = QTableWidgetItem("Физ. длина")
+        if comparison_result == 2:
+            header_item.setText("Нет секторов")
+            header_item.setForeground(Qt.gray)
+        elif comparison_result == 1:
+            header_item.setText("sum > физ. длина")
+            header_item.setForeground(Qt.red)
+        elif comparison_result == -1:
+            header_item.setText("sum < физ. длина")
+            header_item.setForeground(Qt.red)
+        table_widget.setHorizontalHeaderItem(2, header_item)
+
     def _reset_table_control_sectors(self, control_sectors):
-        # TODO _reset_table_control_sectors
         print("reset_table_control_sectors")
         table_widget = self.ui.tw_control_sectors
         table_widget.blockSignals(True)
         table_widget.clearContents()
         table_widget.setRowCount(len(control_sectors))
         #
-        headers = ["№", "Название", "Редактировать"]
+        comparison_result, total_length, connection_length = (
+            self._check_control_sectors_length(control_sectors)
+        )
+        #
+        headers = ["№", "Название", "Физ. длина", "Перенос", "Редактировать"]
         table_widget.setColumnCount(len(headers))
         table_widget.setHorizontalHeaderLabels(headers)
+        # обновляем заголовок физической длины
+        self._update_physical_length_header(table_widget, comparison_result)
+        #
         table_widget.verticalHeader().setVisible(False)
         #
         for index, control_sector in enumerate(control_sectors):
-            # Добавляем номера строк в отдельный столбец
             item_number = QTableWidgetItem(str(index + 1))
             table_widget.setItem(index, 0, item_number)
             #
@@ -647,14 +617,25 @@ class MainWindow(QMainWindow):
             item = QTableWidgetItem(control_sector_name)
             table_widget.setItem(index, 1, item)
             #
+            physical_length = control_sector.get("cs_physical_length", 0)
+            item_length = QTableWidgetItem(str(physical_length))
+            table_widget.setItem(index, 2, item_length)
+            #
+            is_wrap = control_sector.get("is_wrap", False)
+            btn_wrap = QPushButton("Не переносить" if is_wrap else "Переносить")
+            table_widget.setCellWidget(index, 3, btn_wrap)
+            btn_wrap.clicked.connect(partial(self._wrap_control_sector, control_sector))
+            #
             btn_edit = QPushButton("Редактировать")
-            table_widget.setCellWidget(index, 2, btn_edit)
+            table_widget.setCellWidget(index, 4, btn_edit)
             btn_edit.clicked.connect(partial(self._edit_control_sector, control_sector))
-        #
+
         header = table_widget.horizontalHeader()
         header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
         header.setSectionResizeMode(1, QHeaderView.Stretch)
         header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
+        header.setSectionResizeMode(4, QHeaderView.ResizeToContents)
 
         table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
         table_widget.blockSignals(False)
@@ -688,30 +669,47 @@ class MainWindow(QMainWindow):
         #
         self._create_editor_data_widgets_by_object(obj, is_node)
         self._create_editor_parameters_widgets_by_object(obj, is_node)
-    
+
     def _edit_control_sector(self, cs):
-        self.__current_control_sector = cs  
+        self.__current_control_sector = cs
         self.ui.tabw_right.tabBar().setTabVisible(3, True)
-        self.ui.tabw_right.setCurrentIndex(3)        
-        self.ui.tabw_right.setTabText(3, f"Редактирование контрольного сектора {cs.get('order', 0) + 1}")       
-        # 
+        self.ui.tabw_right.setCurrentIndex(3)
+        self.ui.tabw_right.setTabText(
+            3, f"Редактирование контрольного сектора {cs.get('order', 0) + 1}"
+        )
+        #
         self._clear_form_layout(self.ui.fl_control)
         self._create_control_sector_widgets(cs)
 
-    def _create_control_sector_widgets(self, cp):
-        # TODO _create_control_sector_widgets (ТУТА)
+    def _create_control_sector_widgets(self, cs):
         self._clear_form_layout(self.ui.fl_control)
-        # 
+        # получаем precision_separator из параметров диаграммы
+        precision_separator = (
+            self.__obsm.obj_project.get_data()
+            .get("diagram_parameters", {})
+            .get("precision_separator", True)
+        )
+        # название
         label_name = QLabel("Название контрольного сектора")
-        self.cs_name_edit = QLineEdit(cp.get("cs_name", ""))
+        self.cs_name_edit = self._get_widget(
+            "line_string", cs.get("cs_name", ""), is_parameters=False
+        )
         self.ui.fl_control.addRow(label_name, self.cs_name_edit)
-        # 
-        label_length = QLabel("Длина контрольного сектора")
-        self.cs_length_edit = QSpinBox()
-        self.cs_length_edit.setRange(0, 2147483647)
-        self.cs_length_edit.setValue(int(cp.get("cs_lenght", 0))) 
+        # длина
+        label_length = QLabel("Длина сектора")
+        self.cs_length_edit = self._get_widget(
+            "number_int", int(cs.get("cs_lenght", 0)), is_parameters=True
+        )
         self.ui.fl_control.addRow(label_length, self.cs_length_edit)
-
+        # физическая длина сектора
+        label_physical_length = QLabel("Физическая длина сектора")
+        self.cs_physical_length_edit = self._get_widget(
+            "number_float",
+            float(cs.get("cs_physical_length", 0)),
+            is_parameters=True,
+            precision_separator=precision_separator,
+        )
+        self.ui.fl_control.addRow(label_physical_length, self.cs_physical_length_edit)
 
     def _wrap_node(self, node):
         self.__obsm.obj_project.wrap_node(node)
@@ -719,6 +717,13 @@ class MainWindow(QMainWindow):
         project_data = self.__obsm.obj_project.get_data()
         self.ui.imagewidget.run(project_data)
         self._reset_widgets_by_data(project_data)
+
+    def _wrap_control_sector(self, control_sector):
+        # TODO Проверить
+        control_sector["is_wrap"] = not control_sector.get("is_wrap", False)
+        self._reset_table_control_sectors(
+            self.__current_object.get("control_sectors", [])
+        )
 
     def _clear_form_layout(self, form_layout):
         while form_layout.count():
@@ -964,6 +969,13 @@ class MainWindow(QMainWindow):
         self.ui.btn_add_control_sector.setVisible(not is_node)
         self.ui.btn_delete_control_sector.setVisible(not is_node)
         self.ui.btn_move_control_sectors.setVisible(not is_node)
+        # отключаем старые обработчики
+        try:
+            self.ui.btn_add_control_sector.clicked.disconnect()
+            self.ui.btn_move_control_sectors.clicked.disconnect()
+            self.ui.btn_delete_control_sector.clicked.disconnect()
+        except:
+            pass
         #
         self.ui.btn_add_control_sector.clicked.connect(
             partial(self._add_control_sector, obj)

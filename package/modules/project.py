@@ -157,8 +157,10 @@ class Project:
                 new_control_sector = {
                     "id": new_id,
                     "order": new_order,
+                    "is_wrap": False,
                     "cs_name": "Контрольный сектор",
-                    "cs_lenght": "0",
+                    "cs_lenght": 0,
+                    "cs_physical_length": 0,
                 }
                 connection["control_sectors"].append(new_control_sector)
                 control_sectors_return = connection.get("control_sectors", [])

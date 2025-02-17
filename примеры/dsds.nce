@@ -126,7 +126,7 @@
     },
     "nodes": [
         {
-            "id": "aea5863c231e41d3bef0aa21e0ab12d0",
+            "id": "db53858d364241eba62f8290b83e3005",
             "order": 0,
             "node_id": "0",
             "data": {
@@ -203,7 +203,7 @@
             }
         },
         {
-            "id": "a5a3638bd654444cb00ea204525334b2",
+            "id": "74bbd073288e49ceb83698c1b1e86e29",
             "order": 1,
             "node_id": "0",
             "data": {
@@ -282,7 +282,7 @@
     ],
     "connections": [
         {
-            "id": "919acd5d0db546c887647fc0ea120839",
+            "id": "a743fdb6e74b41238eaac7a588902f3f",
             "order": 0,
             "connection_id": "0",
             "data": {
@@ -308,7 +308,7 @@
                     "value": 0.0
                 },
                 "физическая_длина": {
-                    "value": 0.0
+                    "value": 15.0
                 }
             },
             "parameters": {
@@ -384,9 +384,29 @@
             },
             "control_sectors": [
                 {
-                    "cs_name": "Контрольная точка",
-                    "id": "a9d4b507204444b8884216521576dfed",
+                    "cs_lenght": "0",
+                    "cs_name": "Контрольный сектор",
+                    "id": "08e4328059a148c8be94c93a5a34fc94",
                     "order": 0
+                },
+                {
+                    "cs_lenght": "0",
+                    "cs_name": "Контрольный сектор",
+                    "id": "77974dd3afe34ca8924e1a2be2ba7a81",
+                    "order": 1
+                },
+                {
+                    "cs_lenght": "0",
+                    "cs_name": "Контрольный сектор",
+                    "id": "6e66687dd8e349eebc77ef9d18869f60",
+                    "order": 2
+                },
+                {
+                    "cs_lenght": 0,
+                    "cs_name": "фывафыв",
+                    "cs_physical_length": 15.0,
+                    "id": "f9a2deb263014bffa7222f8f59e75e2a",
+                    "order": 3
                 }
             ]
         }
