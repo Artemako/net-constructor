@@ -31,10 +31,10 @@ class DrawNode:
         self.__object_after = object_after
         self.__x = x
         self.__y = y
-        self.__to_right_optical_length = str(to_right_optical_length)
-        self.__to_right_physical_length = str(to_right_physical_length)
-        self.__to_left_optical_length = str(to_left_optical_length)
-        self.__to_left_physical_length = str(to_left_physical_length)
+        self.__to_right_optical_length = to_right_optical_length
+        self.__to_right_physical_length = to_right_physical_length
+        self.__to_left_optical_length = to_left_optical_length
+        self.__to_left_physical_length = to_left_physical_length
 
     def draw(self):
         # Сначала выбор диграммы, а потом узла
@@ -63,9 +63,9 @@ class DrawNode:
                 self._draw_node_ids_50_51(pars, data, node_id, nf)
         # "Скелетная схема размещения строительных длин кабеля и смонтированных муфт на участке регенерации"
         elif diagram_type_id == "100":
-            if node_id == "100" or node_id == "101" or node_id == "102":
-                print("_draw_node_ids_100_101_102")
-                self._draw_node_ids_100_101_102(pars, data, node_id, nf)
+            if node_id == "100" or node_id == "101":
+                print("_draw_node_ids_100_101")
+                self._draw_node_ids_100_101(pars, data, node_id, nf)
         # "Монтажная схема участка регенерации"
         elif diagram_type_id == "150":
             if node_id == "150" or node_id == "151":
@@ -462,7 +462,7 @@ class DrawNode:
             self.__y - pars.get_sp("node_name_height"),
         )
 
-    def _draw_node_ids_100_101_102(self, pars, data, node_id, nf):
+    def _draw_node_ids_100_101(self, pars, data, node_id, nf):
 
         # TODO control_sectors 102 убрать
 
@@ -623,25 +623,11 @@ class DrawNode:
                 get_painter_text_name_add, text, self.__x, self.__y
             )
 
-        def draw_node_id_102():
-            # Рисование wrap стрелки
-            draw_wrap_arrow(0)
-            #
-            self.__painter = get_painter_figure_border()
-            self.__painter.drawLine(
-                self.__x,
-                self.__y - pars.get_sp("node_height"),
-                self.__x,
-                self.__y + pars.get_sp("node_height"),
-            )
-
         # рисование вершины
         if node_id == "100":
             draw_node_id_100()
         elif node_id == "101":
             draw_node_id_101()
-        elif node_id == "102":
-            draw_node_id_102()
 
         # рисование значения физической длины
         x = self.__x

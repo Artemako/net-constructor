@@ -251,11 +251,17 @@ class MainWindow(QMainWindow):
                 new_control_sector_parameters = self._get_new_data_or_parameters(
                     self.__control_data_parameters_widgets, is_parameters=True
                 )
+                print(
+                    f"new_control_sector_parameters = {new_control_sector_parameters}"
+                )
                 # Обновляем данные контрольного сектора
                 if self.__current_control_sector is not None:
+                    print(
+                        f"self.__current_control_sector = {self.__current_control_sector}"
+                    )
                     for key, value in new_control_sector_parameters.items():
-                        self.__current_control_sector["data_pars"][key]["value"] = value.get(
-                            "value"
+                        self.__current_control_sector["data_pars"][key]["value"] = (
+                            value.get("value")
                         )
                 # сохранение параметров контрольного сектора
                 # new_cs_name = self.cs_name_edit.text()
@@ -580,7 +586,8 @@ class MainWindow(QMainWindow):
     def _check_control_sectors_length(self, control_sectors):
         """Проверка суммы физических длин секторов"""
         total_physical_length = sum(
-            cs.get("cs_physical_length", 0) for cs in control_sectors
+            cs.get("data_pars", {}).get("cs_physical_length", {}).get("value", 0)
+            for cs in control_sectors
         )
         connection_physical_length = (
             self.__current_object.get("data", {})
@@ -641,7 +648,9 @@ class MainWindow(QMainWindow):
             item = QTableWidgetItem(cs_name)
             table_widget.setItem(index, 1, item)
             #
-            physical_length = cs.get("data_pars", {}).get("cs_physical_length", {}).get("value", 0)
+            physical_length = (
+                cs.get("data_pars", {}).get("cs_physical_length", {}).get("value", 0)
+            )
             item_length = QTableWidgetItem(str(physical_length))
             table_widget.setItem(index, 2, item_length)
             # в последней строке кнопки переноса нет
@@ -649,9 +658,7 @@ class MainWindow(QMainWindow):
                 is_wrap = cs.get("is_wrap", False)
                 btn_wrap = QPushButton("Не переносить" if is_wrap else "Переносить")
                 table_widget.setCellWidget(index, 3, btn_wrap)
-                btn_wrap.clicked.connect(
-                    partial(self._wrap_control_sector, cs)
-                )
+                btn_wrap.clicked.connect(partial(self._wrap_control_sector, cs))
             else:
                 empty_item = QTableWidgetItem("")
                 empty_item.setFlags(empty_item.flags() & ~Qt.ItemIsEditable)

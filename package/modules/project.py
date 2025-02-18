@@ -1,5 +1,6 @@
 import json
 import uuid
+import copy
 
 import package.constants as constants
 
@@ -155,7 +156,7 @@ class Project:
             if connection["id"] == connection_id:
                 new_id = uuid.uuid4().hex
                 new_order = len(connection.get("control_sectors", []))
-                new_config = self.__data.get("control_sectors_config", {})
+                new_config = copy.deepcopy(self.__data.get("control_sectors_config", {}))
                 new_control_sector = {
                     "id": new_id,
                     "order": new_order,

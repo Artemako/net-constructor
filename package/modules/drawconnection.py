@@ -20,8 +20,9 @@ class DrawConnection:
         x,
         y,
         control_sectors,
+        to_right_physical_length,
         start_x,
-        delta_wrap_y 
+        delta_wrap_y
     ):
         self.__painter = painter
         self.__object_diagram = object_diagram
@@ -31,8 +32,11 @@ class DrawConnection:
         self.__x = x
         self.__y = y
         self.__control_sectors = control_sectors
+        self.__to_right_physical_length = to_right_physical_length
         self.__start_x = start_x
         self.__delta_wrap_y = delta_wrap_y
+        print(f"LALALA self.__to_right_physical_length = {self.__to_right_physical_length}")
+
 
     def draw(self):
         # Сначала выбор диграммы, а потом соединения
@@ -447,7 +451,91 @@ class DrawConnection:
 
         # TODO draw_control_point
         # TODO cs_physical_length
-        def draw_control_point(): ...
+        def draw_control_point(is_before_wrap = False, is_after_wrap = False):
+            def get_painter_figure_border():
+                return painterconfigurator.PainterConfigurator(
+                    self.__painter
+                ).get_painter_figure_border(
+                    pen_color=pars.get_sp("node_border_color"),
+                    pen_weight=pars.get_sp("node_border_weight"),
+                )
+
+            def get_painter_text_caption():
+                return painterconfigurator.PainterConfigurator(
+                    self.__painter
+                ).get_painter_text(
+                    color=pars.get_sp("node_caption_physics_color"),
+                    font_name=pars.get_sp("font_name"),
+                    pixel_size=pars.get_sp("node_caption_physics_pixel_size"),
+                )
+
+            def get_painter_thin_line():
+                return painterconfigurator.PainterConfigurator(
+                    self.__painter
+                ).get_painter_line(
+                    color=pars.get_sp("thin_line_color"),
+                    weight=pars.get_sp("thin_line_weight"),
+                    style_name="SolidLine",
+                )
+
+            def get_painter_arrow():
+                return painterconfigurator.PainterConfigurator(
+                    self.__painter
+                ).get_painter_figure_fill(
+                    fill_color=pars.get_sp("thin_line_color"),
+                    fill_pattern_name="SolidPattern",
+                )
+
+            # рисование wrap стрелки
+            def draw_wrap_arrow(node_border_width):
+                if pars.get_sp("is_wrap_arrow"):
+                    if is_before_wrap:
+                        drawobject.DrawObject().wrap_arrow(
+                            get_painter_arrow,
+                            get_painter_thin_line,
+                            self.__x + node_border_width,
+                            self.__y,
+                            pars.get_sp("arrow_width"),
+                            pars.get_sp("arrow_height"),
+                            pars.get_sp("wrap_arrow_length"),
+                            "before_wrap",
+                        )
+                    elif is_after_wrap:
+                        drawobject.DrawObject().wrap_arrow(
+                            get_painter_arrow,
+                            get_painter_thin_line,
+                            self.__x - node_border_width,
+                            self.__y,
+                            pars.get_sp("arrow_width"),
+                            pars.get_sp("arrow_height"),
+                            pars.get_sp("wrap_arrow_length"),
+                            "after_wrap",
+                        )
+
+            # Рисование wrap стрелки
+            draw_wrap_arrow(0)
+            #
+            self.__painter = get_painter_figure_border()
+            self.__painter.drawLine(
+                self.__x,
+                self.__y - pars.get_sp("node_height"),
+                self.__x,
+                self.__y + pars.get_sp("node_height"),
+            )
+
+            # рисование значения физической длины
+            x = self.__x
+            # if node_id == "101" and (not self.__object_before or self.__object_node.get_after_wrap()):
+            #     x += pars.get_sp("node_width") // 2
+            # elif node_id == "101" and (not self.__object_after or self.__object_node.get_before_wrap()):
+            #     x -= pars.get_sp("node_width") // 2
+            drawtext.DrawText().draw_singleline_text_rotated_by_hc_vt(
+                get_painter_text_caption,
+                nf.get(self.__to_right_physical_length)
+                + pars.get_sp("постфикс_расстояния"),
+                x,
+                self.__y + pars.get_sp("node_caption_physics_vertical_padding"),
+            )
 
         len_control_sectors = len(self.__control_sectors)
         if len_control_sectors > 0:
@@ -456,6 +544,7 @@ class DrawConnection:
                 cs = self.__control_sectors[index // 2]
                 #
                 if index % 2 == 0:
+                    # Сектор
                     draw_main_line(
                         cs.get("data_pars", {}).get("cs_lenght", {}).get("value", 0),
                         cs.get("data_pars", {}).get("cs_name", {}).get("value", ""),
@@ -465,14 +554,22 @@ class DrawConnection:
                         index == 0,
                         index == total_len - 1,
                     )
+                    self.__x += (
+                        cs.get("data_pars", {}).get("cs_lenght", {}).get("value", 0)
+                    )
+                    self.__to_right_physical_length += cs.get("data_pars", {}).get("cs_physical_length", {}).get("value", 0)
                 else:
-                    draw_control_point()
+                    # Контрольная точка
                     if cs.get("is_wrap", False):
-                        self.__x = self.__start_x + cs.get("data_pars", {}).get("cs_delta_wrap_x", {}).get("value", 0)
+                        draw_control_point(is_before_wrap=True)
+                        self.__x = self.__start_x + cs.get("data_pars", {}).get(
+                            "cs_delta_wrap_x", {}
+                        ).get("value", 0)
                         self.__y += self.__delta_wrap_y
-                        draw_control_point()
+                        draw_control_point(is_after_wrap=True)
                     else:
-                        self.__x += cs.get("data_pars", {}).get("cs_lenght", {}).get("value", 0)
+                        draw_control_point()
+                        
 
         else:
             draw_main_line(

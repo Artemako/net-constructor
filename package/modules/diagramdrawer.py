@@ -260,6 +260,7 @@ class DiagramDrawer:
                         "connection_optical_length": connection_optical_length,
                         "connection_physical_length": connection_physical_length,
                         "control_sectors": control_sectors,
+                        "to_right_physical_length": to_right_physical_length,
                     }
                 )
                 # увеличиваем координаты по длине соединения
@@ -317,6 +318,7 @@ class DiagramDrawer:
                 x = item.get("x")
                 y = item.get("y")
                 control_sectors = item.get("control_sectors")
+                to_right_physical_length = item.get("to_right_physical_length")
                 #
                 self._draw_connection(
                     painter,
@@ -326,8 +328,9 @@ class DiagramDrawer:
                     x,
                     y,
                     control_sectors,
+                    to_right_physical_length,
                     start_x,
-                    delta_wrap_y 
+                    delta_wrap_y
                 )
 
         # Затем рисуем узлы
@@ -396,7 +399,7 @@ class DiagramDrawer:
         node_obj.draw()
 
     def _draw_connection(
-        self, painter, object_connection, object_node_before, object_node_after, x, y, control_sectors, start_x, delta_wrap_y 
+        self, painter, object_connection, object_node_before, object_node_after, x, y, control_sectors, to_right_physical_length, start_x, delta_wrap_y 
     ):
         connection_obj = drawconnection.DrawConnection(
             painter,
@@ -407,7 +410,8 @@ class DiagramDrawer:
             x,
             y,
             control_sectors,
+            to_right_physical_length,
             start_x,
-            delta_wrap_y 
+            delta_wrap_y
         )
         connection_obj.draw()
