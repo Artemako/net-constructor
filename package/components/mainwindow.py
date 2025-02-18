@@ -494,6 +494,11 @@ class MainWindow(QMainWindow):
             precision_separator,
         )
 
+    def _save_and_restore_scroll_position(self, table_widget, reset_function):
+        scroll_position = table_widget.verticalScrollBar().value()
+        reset_function()
+        table_widget.verticalScrollBar().setValue(scroll_position)
+
     def reset_tab_elements(self, nodes, connections):
         nodes = sorted(nodes, key=lambda node: node.get("order", 0))
         connections = sorted(
@@ -503,85 +508,92 @@ class MainWindow(QMainWindow):
         self._reset_table_connections(connections)
 
     def _reset_table_nodes(self, nodes):
-        print("reset_table_nodes")
-        table_widget = self.ui.tablew_nodes
-        table_widget.blockSignals(True)
-        table_widget.clearContents()
-        table_widget.setRowCount(len(nodes))
-        #
-        headers = ["№", "Название", "Перенос", "Редактировать"]
-        table_widget.setColumnCount(len(headers))
-        table_widget.setHorizontalHeaderLabels(headers)
-        table_widget.verticalHeader().setVisible(False)
-        #
-        print("NODES", nodes)
-        for index, node in enumerate(nodes):
-            print("NODE", node)
+        def reset_nodes():
+            table_widget = self.ui.tablew_nodes
+            table_widget.blockSignals(True)
+            table_widget.clearContents()
+            table_widget.setRowCount(len(nodes))
             #
-            item_number = QTableWidgetItem(str(index + 1))
-            table_widget.setItem(index, 0, item_number)
+            headers = ["№", "Название", "Перенос", "Редактировать"]
+            table_widget.setColumnCount(len(headers))
+            table_widget.setHorizontalHeaderLabels(headers)
+            table_widget.verticalHeader().setVisible(False)
             #
-            node_name = node.get("data", {}).get("название", {}).get("value", "")
-            item = QTableWidgetItem(node_name)
-            table_widget.setItem(index, 1, item)
+            print("NODES", nodes)
+            for index, node in enumerate(nodes):
+                print("NODE", node)
+                #
+                item_number = QTableWidgetItem(str(index + 1))
+                table_widget.setItem(index, 0, item_number)
+                #
+                node_name = node.get("data", {}).get("название", {}).get("value", "")
+                item = QTableWidgetItem(node_name)
+                table_widget.setItem(index, 1, item)
+                #
+                is_wrap = node.get("is_wrap", False)
+                btn_wrap = QPushButton("Не переносить" if is_wrap else "Переносить")
+                table_widget.setCellWidget(index, 2, btn_wrap)
+                btn_wrap.clicked.connect(partial(self._wrap_node, node))
+                #
+                btn_edit = QPushButton("Редактировать")
+                table_widget.setCellWidget(index, 3, btn_edit)
+                btn_edit.clicked.connect(
+                    partial(self._edit_object, node, index + 1, is_node=True)
+                )
             #
-            is_wrap = node.get("is_wrap", False)
-            btn_wrap = QPushButton("Не переносить" if is_wrap else "Переносить")
-            table_widget.setCellWidget(index, 2, btn_wrap)
-            btn_wrap.clicked.connect(partial(self._wrap_node, node))
+            header = table_widget.horizontalHeader()
+            header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
+            header.setSectionResizeMode(1, QHeaderView.Stretch)
+            header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
+            header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
             #
-            btn_edit = QPushButton("Редактировать")
-            table_widget.setCellWidget(index, 3, btn_edit)
-            btn_edit.clicked.connect(
-                partial(self._edit_object, node, index + 1, is_node=True)
-            )
-        #
-        header = table_widget.horizontalHeader()
-        header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
-        header.setSectionResizeMode(1, QHeaderView.Stretch)
-        header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
-        header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
-        #
-        table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
-        table_widget.blockSignals(False)
+            table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
+            table_widget.blockSignals(False)
+
+        self._save_and_restore_scroll_position(self.ui.tablew_nodes, reset_nodes)
 
     def _reset_table_connections(self, connections):
-        print("reset_table_connections")
-        table_widget = self.ui.tablew_connections
-        table_widget.blockSignals(True)
-        table_widget.clearContents()
-        table_widget.setRowCount(len(connections))
-        #
-        headers = ["№", "Название", "Редактировать"]
-        table_widget.setColumnCount(len(headers))
-        table_widget.setHorizontalHeaderLabels(headers)
-        table_widget.verticalHeader().setVisible(False)
-        #
-        for index, connection in enumerate(connections):
-            connection_name = (
-                connection.get("data", {}).get("название", {}).get("value", "")
-            )
-            print("CONNECTION_NAME:", connection_name)
+        def reset_connections():
+            print("reset_table_connections")
+            table_widget = self.ui.tablew_connections
+            table_widget.blockSignals(True)
+            table_widget.clearContents()
+            table_widget.setRowCount(len(connections))
             #
-            item_number = QTableWidgetItem(f"{index + 1}—{index + 2}")
-            table_widget.setItem(index, 0, item_number)
+            headers = ["№", "Название", "Редактировать"]
+            table_widget.setColumnCount(len(headers))
+            table_widget.setHorizontalHeaderLabels(headers)
+            table_widget.verticalHeader().setVisible(False)
             #
-            item = QTableWidgetItem(connection_name)
-            table_widget.setItem(index, 1, item)
+            for index, connection in enumerate(connections):
+                connection_name = (
+                    connection.get("data", {}).get("название", {}).get("value", "")
+                )
+                print("CONNECTION_NAME:", connection_name)
+                #
+                item_number = QTableWidgetItem(f"{index + 1}—{index + 2}")
+                table_widget.setItem(index, 0, item_number)
+                #
+                item = QTableWidgetItem(connection_name)
+                table_widget.setItem(index, 1, item)
+                #
+                btn_edit = QPushButton("Редактировать")
+                table_widget.setCellWidget(index, 2, btn_edit)
+                btn_edit.clicked.connect(
+                    partial(self._edit_object, connection, index + 1, is_node=False)
+                )
             #
-            btn_edit = QPushButton("Редактировать")
-            table_widget.setCellWidget(index, 2, btn_edit)
-            btn_edit.clicked.connect(
-                partial(self._edit_object, connection, index + 1, is_node=False)
-            )
-        #
-        header = table_widget.horizontalHeader()
-        header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
-        header.setSectionResizeMode(1, QHeaderView.Stretch)
-        header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
+            header = table_widget.horizontalHeader()
+            header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
+            header.setSectionResizeMode(1, QHeaderView.Stretch)
+            header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
 
-        table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
-        table_widget.blockSignals(False)
+            table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
+            table_widget.blockSignals(False)
+
+        self._save_and_restore_scroll_position(
+            self.ui.tablew_connections, reset_connections
+        )
 
     def _check_control_sectors_length(self, control_sectors):
         """Проверка суммы физических длин секторов"""
@@ -622,61 +634,68 @@ class MainWindow(QMainWindow):
         table_widget.setHorizontalHeaderItem(2, header_item)
 
     def _reset_table_control_sectors(self, control_sectors):
-        print("reset_table_control_sectors")
-        table_widget = self.ui.tw_control_sectors
-        table_widget.blockSignals(True)
-        table_widget.clearContents()
-        table_widget.setRowCount(len(control_sectors))
-        #
-        comparison_result, total_length, connection_length = (
-            self._check_control_sectors_length(control_sectors)
-        )
-        #
-        headers = ["№", "Название", "Физ. длина", "Перенос после", "Редактировать"]
-        table_widget.setColumnCount(len(headers))
-        table_widget.setHorizontalHeaderLabels(headers)
-        # обновляем заголовок физической длины
-        self._update_physical_length_header(table_widget, comparison_result)
-        #
-        table_widget.verticalHeader().setVisible(False)
-        #
-        for index, cs in enumerate(control_sectors):
-            item_number = QTableWidgetItem(str(index + 1))
-            table_widget.setItem(index, 0, item_number)
+        def reset_control_sectors():
+            print("reset_table_control_sectors")
+            table_widget = self.ui.tw_control_sectors
+            table_widget.blockSignals(True)
+            table_widget.clearContents()
+            table_widget.setRowCount(len(control_sectors))
             #
-            cs_name = cs.get("data_pars", {}).get("cs_name", {}).get("value", "")
-            item = QTableWidgetItem(cs_name)
-            table_widget.setItem(index, 1, item)
-            #
-            physical_length = (
-                cs.get("data_pars", {}).get("cs_physical_length", {}).get("value", 0)
+            comparison_result, total_length, connection_length = (
+                self._check_control_sectors_length(control_sectors)
             )
-            item_length = QTableWidgetItem(str(physical_length))
-            table_widget.setItem(index, 2, item_length)
-            # в последней строке кнопки переноса нет
-            if index < len(control_sectors) - 1:
-                is_wrap = cs.get("is_wrap", False)
-                btn_wrap = QPushButton("Не переносить" if is_wrap else "Переносить")
-                table_widget.setCellWidget(index, 3, btn_wrap)
-                btn_wrap.clicked.connect(partial(self._wrap_control_sector, cs))
-            else:
-                empty_item = QTableWidgetItem("")
-                empty_item.setFlags(empty_item.flags() & ~Qt.ItemIsEditable)
-                table_widget.setItem(index, 3, empty_item)
             #
-            btn_edit = QPushButton("Редактировать")
-            table_widget.setCellWidget(index, 4, btn_edit)
-            btn_edit.clicked.connect(partial(self._edit_control_sector, cs))
+            headers = ["№", "Название", "Физ. длина", "Перенос после", "Редактировать"]
+            table_widget.setColumnCount(len(headers))
+            table_widget.setHorizontalHeaderLabels(headers)
+            # обновляем заголовок физической длины
+            self._update_physical_length_header(table_widget, comparison_result)
+            #
+            table_widget.verticalHeader().setVisible(False)
+            #
+            for index, cs in enumerate(control_sectors):
+                item_number = QTableWidgetItem(str(index + 1))
+                table_widget.setItem(index, 0, item_number)
+                #
+                cs_name = cs.get("data_pars", {}).get("cs_name", {}).get("value", "")
+                item = QTableWidgetItem(cs_name)
+                table_widget.setItem(index, 1, item)
+                #
+                physical_length = (
+                    cs.get("data_pars", {})
+                    .get("cs_physical_length", {})
+                    .get("value", 0)
+                )
+                item_length = QTableWidgetItem(str(physical_length))
+                table_widget.setItem(index, 2, item_length)
+                # в последней строке кнопки переноса нет
+                if index < len(control_sectors) - 1:
+                    is_wrap = cs.get("is_wrap", False)
+                    btn_wrap = QPushButton("Не переносить" if is_wrap else "Переносить")
+                    table_widget.setCellWidget(index, 3, btn_wrap)
+                    btn_wrap.clicked.connect(partial(self._wrap_control_sector, cs))
+                else:
+                    empty_item = QTableWidgetItem("")
+                    empty_item.setFlags(empty_item.flags() & ~Qt.ItemIsEditable)
+                    table_widget.setItem(index, 3, empty_item)
+                #
+                btn_edit = QPushButton("Редактировать")
+                table_widget.setCellWidget(index, 4, btn_edit)
+                btn_edit.clicked.connect(partial(self._edit_control_sector, cs))
 
-        header = table_widget.horizontalHeader()
-        header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
-        header.setSectionResizeMode(1, QHeaderView.Stretch)
-        header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
-        header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
-        header.setSectionResizeMode(4, QHeaderView.ResizeToContents)
+            header = table_widget.horizontalHeader()
+            header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
+            header.setSectionResizeMode(1, QHeaderView.Stretch)
+            header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
+            header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
+            header.setSectionResizeMode(4, QHeaderView.ResizeToContents)
 
-        table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
-        table_widget.blockSignals(False)
+            table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
+            table_widget.blockSignals(False)
+
+        self._save_and_restore_scroll_position(
+            self.ui.tw_control_sectors, reset_control_sectors
+        )
 
     def _reset_widgets_by_data(self, data):
         #
@@ -790,6 +809,10 @@ class MainWindow(QMainWindow):
         self._reset_table_control_sectors(
             self.__current_object.get("control_sectors", [])
         )
+        #
+        project_data = self.__obsm.obj_project.get_data()
+        self.ui.imagewidget.run(project_data)
+        self._reset_widgets_by_data(project_data)
 
     def _clear_form_layout(self, form_layout):
         while form_layout.count():

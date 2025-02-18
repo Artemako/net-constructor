@@ -334,6 +334,7 @@ class DiagramDrawer:
                 )
 
         # Затем рисуем узлы
+        node_index = 0
         for index, item in enumerate(self.prepared_data):
             if item.get("type") == "node":
                 #
@@ -357,6 +358,7 @@ class DiagramDrawer:
                 to_right_physical_length = item.get("to_right_physical_length")
                 to_left_optical_length = item.get("to_left_optical_length")
                 to_left_physical_length = item.get("to_left_physical_length")
+                # рисуем
                 self._draw_node(
                     painter,
                     object_node,
@@ -368,7 +370,10 @@ class DiagramDrawer:
                     to_right_physical_length,
                     to_left_optical_length,
                     to_left_physical_length,
+                    node_index
                 )
+                # увеличиваем node_index 
+                node_index += 1
 
     def _draw_node(
         self,
@@ -382,6 +387,7 @@ class DiagramDrawer:
         to_right_physical_length,
         to_left_optical_length,
         to_left_physical_length,
+        node_index
     ):
         node_obj = drawnode.DrawNode(
             painter,
@@ -395,6 +401,7 @@ class DiagramDrawer:
             to_right_physical_length,
             to_left_optical_length,
             to_left_physical_length,
+            node_index
         )
         node_obj.draw()
 

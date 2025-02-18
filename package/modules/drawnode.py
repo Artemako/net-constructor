@@ -23,6 +23,7 @@ class DrawNode:
         to_right_physical_length,
         to_left_optical_length,
         to_left_physical_length,
+        node_index
     ):
         self.__painter = painter
         self.__object_diagram = object_diagram
@@ -35,6 +36,7 @@ class DrawNode:
         self.__to_right_physical_length = to_right_physical_length
         self.__to_left_optical_length = to_left_optical_length
         self.__to_left_physical_length = to_left_physical_length
+        self.__node_index = node_index
 
     def draw(self):
         # Сначала выбор диграммы, а потом узла
@@ -745,8 +747,8 @@ class DrawNode:
                 self.__x,
                 self.__y - pars.get_sp("node_name_height"),
             )
-            # Рисование номера (внутри круга)
-            text = data.get_sd("название_доп")
+            # TODO Рисование номера (внутри круга)
+            text = str(self.__node_index + 1)
             drawtext.DrawText().draw_multiline_text_by_hc_vc(
                 get_painter_text_name_add, text, self.__x, self.__y
             )

@@ -1,0 +1,1727 @@
+{
+    "diagram_type_id": "0",
+    "diagram_name": "Скелетная схема ВОЛП и основные данные цепей кабеля",
+    "diagram_parameters": {
+        "arrow_height": {
+            "value": 8
+        },
+        "arrow_width": {
+            "value": 20
+        },
+        "delta_node_and_thin_line": {
+            "value": 100
+        },
+        "delta_thins_lines": {
+            "value": 50
+        },
+        "delta_wrap_y": {
+            "value": 310
+        },
+        "distance_thin_line_after_connection_x": {
+            "value": 5
+        },
+        "distance_thin_line_after_connection_y": {
+            "value": 5
+        },
+        "font_name": {
+            "value": "Open Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
+        },
+        "is_location": {
+            "value": true
+        },
+        "is_wrap_arrow": {
+            "value": true
+        },
+        "precision_number": {
+            "value": 0
+        },
+        "precision_separator": {
+            "value": true
+        },
+        "start_x": {
+            "value": 140
+        },
+        "start_y": {
+            "value": 150
+        },
+        "thin_line_color": {
+            "value": "#000000"
+        },
+        "thin_line_weight": {
+            "value": 2
+        },
+        "wrap_arrow_length": {
+            "value": 50
+        },
+        "Расстояния": {
+            "name": "Расстояния",
+            "order": 100,
+            "type": "title",
+            "value": ""
+        },
+        "Стрелки": {
+            "name": "Стрелки",
+            "order": 200,
+            "type": "title",
+            "value": ""
+        },
+        "Тонкие линии": {
+            "name": "Тонкие линии",
+            "order": 50,
+            "type": "title",
+            "value": ""
+        }
+    },
+    "image_parameters": {
+        "width": {
+            "value": 1800
+        },
+        "height": {
+            "value": 700
+        }
+    },
+    "nodes": [
+        {
+            "id": "438d2bc3030e4d929cbb5dce32625f3b",
+            "order": 0,
+            "node_id": "1",
+            "data": {
+                "название": {
+                    "value": "БС 78-0670 ПАО \"МТС\""
+                },
+                "название_доп": {
+                    "value": "3"
+                }
+            },
+            "is_wrap": false,
+            "parameters": {
+                "delta_wrap_x": {
+                    "value": 0
+                },
+                "node_is_connected_with_thin_line_location": {
+                    "value": true
+                },
+                "Вершины": {
+                    "value": "заголовок",
+                    "name": "Вершины",
+                    "order": 50,
+                    "type": "title"
+                },
+                "node_border_color": {
+                    "value": "#000000"
+                },
+                "node_border_weight": {
+                    "value": 2
+                },
+                "node_fill_color": {
+                    "value": "#A0A0A4"
+                },
+                "node_fill_style": {
+                    "value": "DiagCrossPattern"
+                },
+                "node_radius": {
+                    "value": 20
+                },
+                "Названия вершин": {
+                    "value": "заголовок",
+                    "name": "Названия вершин",
+                    "order": 100,
+                    "type": "title"
+                },
+                "node_name_color": {
+                    "value": "#000000"
+                },
+                "node_name_pixel_size": {
+                    "value": 16
+                },
+                "node_name_height": {
+                    "value": 45
+                }
+            }
+        },
+        {
+            "id": "a924fe8af24248b5a84d21041e01d79f",
+            "order": 1,
+            "node_id": "0",
+            "data": {
+                "название": {
+                    "value": "Уст. ОМ-01а на\nоп. №71 ВЛ-10 кВ ф. Сап-01"
+                },
+                "название_доп": {
+                    "value": "1"
+                }
+            },
+            "is_wrap": false,
+            "parameters": {
+                "delta_wrap_x": {
+                    "value": 0,
+                    "name": "Расстояние переноса по X",
+                    "order": 2,
+                    "type": "number_int_signed"
+                },
+                "node_is_connected_with_thin_line_location": {
+                    "value": true,
+                    "name": "Cоединение с тонкой линией местоположения",
+                    "order": 10,
+                    "type": "bool"
+                },
+                "node_border_color": {
+                    "value": "#000000"
+                },
+                "node_border_weight": {
+                    "value": 2
+                },
+                "node_fill_color": {
+                    "value": "#A0A0A4"
+                },
+                "node_fill_style": {
+                    "value": "DiagCrossPattern"
+                },
+                "node_radius": {
+                    "value": 20
+                },
+                "Названия вершин": {
+                    "value": "заголовок",
+                    "name": "Названия вершин",
+                    "order": 100,
+                    "type": "title"
+                },
+                "node_name_color": {
+                    "value": "#000000"
+                },
+                "node_name_pixel_size": {
+                    "value": 16
+                },
+                "node_name_height": {
+                    "value": 45
+                }
+            }
+        },
+        {
+            "id": "204a30e2096b4f299a7bce49fdfc81c2",
+            "order": 2,
+            "node_id": "0",
+            "data": {
+                "название": {
+                    "value": "Уст. ОМ-01 на оп. 103 ВЛ 110 кВ\nРомашки - Сосновская с\nотпайкой на ПС Мичуринская\n(ВЛ 110 кВ Громовская-5)"
+                },
+                "название_доп": {
+                    "value": "2"
+                }
+            },
+            "is_wrap": false,
+            "parameters": {
+                "delta_wrap_x": {
+                    "value": 0,
+                    "name": "Расстояние переноса по X",
+                    "order": 2,
+                    "type": "number_int_signed"
+                },
+                "node_is_connected_with_thin_line_location": {
+                    "value": true,
+                    "name": "Cоединение с тонкой линией местоположения",
+                    "order": 10,
+                    "type": "bool"
+                },
+                "node_border_color": {
+                    "value": "#000000"
+                },
+                "node_border_weight": {
+                    "value": 2
+                },
+                "node_fill_color": {
+                    "value": "#A0A0A4"
+                },
+                "node_fill_style": {
+                    "value": "DiagCrossPattern"
+                },
+                "node_radius": {
+                    "value": 20
+                },
+                "Названия вершин": {
+                    "value": "заголовок",
+                    "name": "Названия вершин",
+                    "order": 100,
+                    "type": "title"
+                },
+                "node_name_color": {
+                    "value": "#000000"
+                },
+                "node_name_pixel_size": {
+                    "value": 16
+                },
+                "node_name_height": {
+                    "value": 45
+                }
+            }
+        },
+        {
+            "id": "3346e2d20b7146a2942eef3e9c65d092",
+            "order": 3,
+            "node_id": "0",
+            "data": {
+                "название": {
+                    "value": "Уст. ОМ-02 на оп. 89 ВЛ 110 кВ\nРомашки - Сосновская с\nотпайкой на ПС Мичуринская\n(ВЛ 110 кВ Громовская-5)"
+                }
+            },
+            "is_wrap": false,
+            "parameters": {
+                "delta_wrap_x": {
+                    "value": 0,
+                    "name": "Расстояние переноса по X",
+                    "order": 2,
+                    "type": "number_int_signed"
+                },
+                "node_is_connected_with_thin_line_location": {
+                    "value": true,
+                    "name": "Cоединение с тонкой линией местоположения",
+                    "order": 10,
+                    "type": "bool"
+                },
+                "node_border_color": {
+                    "value": "#000000"
+                },
+                "node_border_weight": {
+                    "value": 2
+                },
+                "node_fill_color": {
+                    "value": "#A0A0A4"
+                },
+                "node_fill_style": {
+                    "value": "DiagCrossPattern"
+                },
+                "node_radius": {
+                    "value": 20
+                },
+                "Названия вершин": {
+                    "value": "заголовок",
+                    "name": "Названия вершин",
+                    "order": 100,
+                    "type": "title"
+                },
+                "node_name_color": {
+                    "value": "#000000"
+                },
+                "node_name_pixel_size": {
+                    "value": 16
+                },
+                "node_name_height": {
+                    "value": 45
+                }
+            }
+        },
+        {
+            "id": "8a8c18391df14d259d3a80cc56031b26",
+            "order": 4,
+            "node_id": "0",
+            "data": {
+                "название": {
+                    "value": "Уст. ОМ-03 на оп. 77 ВЛ 110 кВ \nРомашки - Сосновская\n с отпайкой на ПС Мичуринская\n (ВЛ 110 кВ Громовская-5)"
+                }
+            },
+            "is_wrap": false,
+            "parameters": {
+                "delta_wrap_x": {
+                    "value": 0,
+                    "name": "Расстояние переноса по X",
+                    "order": 2,
+                    "type": "number_int_signed"
+                },
+                "node_is_connected_with_thin_line_location": {
+                    "value": true,
+                    "name": "Cоединение с тонкой линией местоположения",
+                    "order": 10,
+                    "type": "bool"
+                },
+                "node_border_color": {
+                    "value": "#000000"
+                },
+                "node_border_weight": {
+                    "value": 2
+                },
+                "node_fill_color": {
+                    "value": "#A0A0A4"
+                },
+                "node_fill_style": {
+                    "value": "DiagCrossPattern"
+                },
+                "node_radius": {
+                    "value": 20
+                },
+                "Названия вершин": {
+                    "value": "заголовок",
+                    "name": "Названия вершин",
+                    "order": 100,
+                    "type": "title"
+                },
+                "node_name_color": {
+                    "value": "#000000"
+                },
+                "node_name_pixel_size": {
+                    "value": 16
+                },
+                "node_name_height": {
+                    "value": 45
+                }
+            }
+        },
+        {
+            "id": "681c9c0793964573be1b22e0870f1743",
+            "order": 5,
+            "node_id": "0",
+            "data": {
+                "название": {
+                    "value": "Уст. ОМ-04 на оп. 62 ВЛ 110 кВ\nРомашки - Сосновская с\nотпайкой на ПС Мичуринская\n(ВЛ 110 кВ Громовская-5)"
+                }
+            },
+            "is_wrap": true,
+            "parameters": {
+                "delta_wrap_x": {
+                    "value": 0,
+                    "name": "Расстояние переноса по X",
+                    "order": 2,
+                    "type": "number_int_signed"
+                },
+                "node_is_connected_with_thin_line_location": {
+                    "value": true,
+                    "name": "Cоединение с тонкой линией местоположения",
+                    "order": 10,
+                    "type": "bool"
+                },
+                "node_border_color": {
+                    "value": "#000000"
+                },
+                "node_border_weight": {
+                    "value": 2
+                },
+                "node_fill_color": {
+                    "value": "#A0A0A4"
+                },
+                "node_fill_style": {
+                    "value": "DiagCrossPattern"
+                },
+                "node_radius": {
+                    "value": 20
+                },
+                "Названия вершин": {
+                    "value": "заголовок",
+                    "name": "Названия вершин",
+                    "order": 100,
+                    "type": "title"
+                },
+                "node_name_color": {
+                    "value": "#000000"
+                },
+                "node_name_pixel_size": {
+                    "value": 16
+                },
+                "node_name_height": {
+                    "value": 45
+                }
+            }
+        },
+        {
+            "id": "aa5aeb46defc41839c02fdd1ffd9228b",
+            "order": 6,
+            "node_id": "0",
+            "data": {
+                "название": {
+                    "value": "Уст. ОМ-05 на оп. 42 ВЛ 110 кВ\nРомашки - Сосновская с\nотпайкой на ПС Мичуринская\n(ВЛ 110 кВ Громовская-5)"
+                }
+            },
+            "is_wrap": false,
+            "parameters": {
+                "delta_wrap_x": {
+                    "value": 0,
+                    "name": "Расстояние переноса по X",
+                    "order": 2,
+                    "type": "number_int_signed"
+                },
+                "node_is_connected_with_thin_line_location": {
+                    "value": true,
+                    "name": "Cоединение с тонкой линией местоположения",
+                    "order": 10,
+                    "type": "bool"
+                },
+                "node_border_color": {
+                    "value": "#000000"
+                },
+                "node_border_weight": {
+                    "value": 2
+                },
+                "node_fill_color": {
+                    "value": "#A0A0A4"
+                },
+                "node_fill_style": {
+                    "value": "DiagCrossPattern"
+                },
+                "node_radius": {
+                    "value": 20
+                },
+                "Названия вершин": {
+                    "value": "заголовок",
+                    "name": "Названия вершин",
+                    "order": 100,
+                    "type": "title"
+                },
+                "node_name_color": {
+                    "value": "#000000"
+                },
+                "node_name_pixel_size": {
+                    "value": 16
+                },
+                "node_name_height": {
+                    "value": 45
+                }
+            }
+        },
+        {
+            "id": "83855324b6544b778a95d105e9d00102",
+            "order": 7,
+            "node_id": "0",
+            "data": {
+                "название": {
+                    "value": "Уст. ОМ-06 на оп. 22а ВЛ 110 кВ\nРомашки - Сосновская с\nотпайкой на ПС Мичуринская\n(ВЛ 110 кВ Громовская-5)"
+                }
+            },
+            "is_wrap": false,
+            "parameters": {
+                "delta_wrap_x": {
+                    "value": 0,
+                    "name": "Расстояние переноса по X",
+                    "order": 2,
+                    "type": "number_int_signed"
+                },
+                "node_is_connected_with_thin_line_location": {
+                    "value": true,
+                    "name": "Cоединение с тонкой линией местоположения",
+                    "order": 10,
+                    "type": "bool"
+                },
+                "node_border_color": {
+                    "value": "#000000"
+                },
+                "node_border_weight": {
+                    "value": 2
+                },
+                "node_fill_color": {
+                    "value": "#A0A0A4"
+                },
+                "node_fill_style": {
+                    "value": "DiagCrossPattern"
+                },
+                "node_radius": {
+                    "value": 20
+                },
+                "Названия вершин": {
+                    "value": "заголовок",
+                    "name": "Названия вершин",
+                    "order": 100,
+                    "type": "title"
+                },
+                "node_name_color": {
+                    "value": "#000000"
+                },
+                "node_name_pixel_size": {
+                    "value": 16
+                },
+                "node_name_height": {
+                    "value": 45
+                }
+            }
+        },
+        {
+            "id": "3f21c7e8d4974c95952c572834615f3b",
+            "order": 8,
+            "node_id": "0",
+            "data": {
+                "название": {
+                    "value": "Уст. ОМ-06а на оп. 21 ВЛ 110 кВ\nРомашки - Сосновская с\nотпайкой на ПС Мичуринская\n(ВЛ 110 кВ Громовская-5)"
+                }
+            },
+            "is_wrap": false,
+            "parameters": {
+                "delta_wrap_x": {
+                    "value": 0,
+                    "name": "Расстояние переноса по X",
+                    "order": 2,
+                    "type": "number_int_signed"
+                },
+                "node_is_connected_with_thin_line_location": {
+                    "value": true,
+                    "name": "Cоединение с тонкой линией местоположения",
+                    "order": 10,
+                    "type": "bool"
+                },
+                "node_border_color": {
+                    "value": "#000000"
+                },
+                "node_border_weight": {
+                    "value": 2
+                },
+                "node_fill_color": {
+                    "value": "#A0A0A4"
+                },
+                "node_fill_style": {
+                    "value": "DiagCrossPattern"
+                },
+                "node_radius": {
+                    "value": 20
+                },
+                "Названия вершин": {
+                    "value": "заголовок",
+                    "name": "Названия вершин",
+                    "order": 100,
+                    "type": "title"
+                },
+                "node_name_color": {
+                    "value": "#000000"
+                },
+                "node_name_pixel_size": {
+                    "value": 16
+                },
+                "node_name_height": {
+                    "value": 45
+                }
+            }
+        },
+        {
+            "id": "af9cd486156e456a8bfd54744c546623",
+            "order": 9,
+            "node_id": "0",
+            "data": {
+                "название": {
+                    "value": "Уст. ОМ-07 на оп. 10 ВЛ 110 кВ\nРомашки - Сосновская с\nотпайкой на ПС Мичуринская\n(ВЛ 110 кВ Громовская-5)"
+                }
+            },
+            "is_wrap": false,
+            "parameters": {
+                "delta_wrap_x": {
+                    "value": 0,
+                    "name": "Расстояние переноса по X",
+                    "order": 2,
+                    "type": "number_int_signed"
+                },
+                "node_is_connected_with_thin_line_location": {
+                    "value": true,
+                    "name": "Cоединение с тонкой линией местоположения",
+                    "order": 10,
+                    "type": "bool"
+                },
+                "node_border_color": {
+                    "value": "#000000"
+                },
+                "node_border_weight": {
+                    "value": 2
+                },
+                "node_fill_color": {
+                    "value": "#A0A0A4"
+                },
+                "node_fill_style": {
+                    "value": "DiagCrossPattern"
+                },
+                "node_radius": {
+                    "value": 20
+                },
+                "Названия вершин": {
+                    "value": "заголовок",
+                    "name": "Названия вершин",
+                    "order": 100,
+                    "type": "title"
+                },
+                "node_name_color": {
+                    "value": "#000000"
+                },
+                "node_name_pixel_size": {
+                    "value": 16
+                },
+                "node_name_height": {
+                    "value": 45
+                }
+            }
+        },
+        {
+            "id": "3c2c2af0b1db44a987f991e84a870c40",
+            "order": 10,
+            "node_id": "1",
+            "data": {
+                "название": {
+                    "value": "БС 78-0575 ПАО \"МТС\""
+                }
+            },
+            "is_wrap": false,
+            "parameters": {
+                "delta_wrap_x": {
+                    "value": 0,
+                    "name": "Расстояние переноса по X",
+                    "order": 2,
+                    "type": "number_int_signed"
+                },
+                "node_is_connected_with_thin_line_location": {
+                    "value": true,
+                    "name": "Cоединение с тонкой линией местоположения",
+                    "order": 10,
+                    "type": "bool"
+                },
+                "Вершины": {
+                    "value": "заголовок",
+                    "name": "Вершины",
+                    "order": 50,
+                    "type": "title"
+                },
+                "node_border_color": {
+                    "value": "#000000"
+                },
+                "node_border_weight": {
+                    "value": 2
+                },
+                "node_fill_color": {
+                    "value": "#A0A0A4"
+                },
+                "node_fill_style": {
+                    "value": "DiagCrossPattern"
+                },
+                "node_radius": {
+                    "value": 20
+                },
+                "Названия вершин": {
+                    "value": "заголовок",
+                    "name": "Названия вершин",
+                    "order": 100,
+                    "type": "title"
+                },
+                "node_name_color": {
+                    "value": "#000000"
+                },
+                "node_name_pixel_size": {
+                    "value": 16
+                },
+                "node_name_height": {
+                    "value": 45
+                }
+            }
+        }
+    ],
+    "connections": [
+        {
+            "id": "bdda5b9199a645ce84cbd6d2498a0c62",
+            "order": 0,
+            "connection_id": "0",
+            "data": {
+                "ВОК": {
+                    "value": "тип-3"
+                },
+                "количество_ОВ": {
+                    "value": 32
+                },
+                "местоположение": {
+                    "value": "нет"
+                },
+                "местоположение_доп": {
+                    "value": "-"
+                },
+                "название": {
+                    "value": "ДПТ-П-32У (4x8)-7кН"
+                },
+                "название_доп": {
+                    "value": "-"
+                },
+                "оптическая_длина": {
+                    "value": 502.0
+                },
+                "физическая_длина": {
+                    "value": 495.0
+                }
+            },
+            "parameters": {
+                "connection_length": {
+                    "value": 300
+                },
+                "Основная линия соединения": {
+                    "value": "заголовок",
+                    "name": "Основная линия соединения",
+                    "order": 0,
+                    "type": "title"
+                },
+                "connection_color": {
+                    "value": "#0000ff"
+                },
+                "connection_width": {
+                    "value": 4
+                },
+                "connection_style": {
+                    "value": "SolidLine"
+                },
+                "Подписи основной линии": {
+                    "value": "заголовок",
+                    "name": "Подписи основной линии",
+                    "order": 100,
+                    "type": "title"
+                },
+                "connection_caption_color": {
+                    "value": "#000000"
+                },
+                "connection_caption_pixel_size": {
+                    "value": 13
+                },
+                "connection_caption_margin_left_right": {
+                    "value": 7
+                },
+                "connection_main_caption_vertical_padding": {
+                    "value": 10
+                },
+                "префикс_ВОК": {
+                    "value": "ВОК "
+                },
+                "префикс_количество_ОВ": {
+                    "value": "кол-во ОВ - "
+                },
+                "префикс_физическая_длина": {
+                    "value": "физ. длина - "
+                },
+                "префикс_оптическая_длина": {
+                    "value": "опт. длина - "
+                },
+                "постфикс_расстояния": {
+                    "value": " м."
+                },
+                "Название и местоположение соединения": {
+                    "value": "заголовок",
+                    "name": "Название и местоположение соединения",
+                    "order": 200,
+                    "type": "title"
+                },
+                "connection_name_color": {
+                    "value": "#000000"
+                },
+                "connection_name_pixel_size": {
+                    "value": 13
+                },
+                "connection_thin_caption_vertical_padding": {
+                    "value": 6
+                },
+                "connection_location_delta_x": {
+                    "value": 0
+                }
+            }
+        },
+        {
+            "id": "204f98610bc240eaaf105f403ecdd925",
+            "order": 1,
+            "connection_id": "0",
+            "data": {
+                "ВОК": {
+                    "value": "тип-3"
+                },
+                "количество_ОВ": {
+                    "value": 32
+                },
+                "местоположение": {
+                    "value": "нет"
+                },
+                "местоположение_доп": {
+                    "value": "-"
+                },
+                "название": {
+                    "value": "ДПТ-П-32У (4x8)-7кН"
+                },
+                "название_доп": {
+                    "value": "1203-1200"
+                },
+                "оптическая_длина": {
+                    "value": 946.0
+                },
+                "физическая_длина": {
+                    "value": 932.0
+                }
+            },
+            "parameters": {
+                "connection_length": {
+                    "value": 300
+                },
+                "Основная линия соединения": {
+                    "value": "заголовок",
+                    "name": "Основная линия соединения",
+                    "order": 0,
+                    "type": "title"
+                },
+                "connection_color": {
+                    "value": "#0000ff"
+                },
+                "connection_width": {
+                    "value": 4
+                },
+                "connection_style": {
+                    "value": "SolidLine"
+                },
+                "Подписи основной линии": {
+                    "value": "заголовок",
+                    "name": "Подписи основной линии",
+                    "order": 100,
+                    "type": "title"
+                },
+                "connection_caption_color": {
+                    "value": "#000000"
+                },
+                "connection_caption_pixel_size": {
+                    "value": 13
+                },
+                "connection_caption_margin_left_right": {
+                    "value": 7
+                },
+                "connection_main_caption_vertical_padding": {
+                    "value": 10
+                },
+                "префикс_ВОК": {
+                    "value": "ВОК "
+                },
+                "префикс_количество_ОВ": {
+                    "value": "кол-во ОВ - "
+                },
+                "префикс_физическая_длина": {
+                    "value": "физ. длина - "
+                },
+                "префикс_оптическая_длина": {
+                    "value": "опт. длина - "
+                },
+                "постфикс_расстояния": {
+                    "value": " м."
+                },
+                "Название и местоположение соединения": {
+                    "value": "заголовок",
+                    "name": "Название и местоположение соединения",
+                    "order": 200,
+                    "type": "title"
+                },
+                "connection_name_color": {
+                    "value": "#000000"
+                },
+                "connection_name_pixel_size": {
+                    "value": 13
+                },
+                "connection_thin_caption_vertical_padding": {
+                    "value": 6
+                },
+                "connection_location_delta_x": {
+                    "value": 0
+                }
+            }
+        },
+        {
+            "id": "44ba4eca16f84471bc173aa9ec535a96",
+            "order": 2,
+            "connection_id": "0",
+            "data": {
+                "ВОК": {
+                    "value": "тип-3"
+                },
+                "количество_ОВ": {
+                    "value": 32
+                },
+                "местоположение": {
+                    "value": "нет"
+                },
+                "местоположение_доп": {
+                    "value": "-"
+                },
+                "название": {
+                    "value": "ДПТ-Э-32У (4x8)-25кН"
+                },
+                "название_доп": {
+                    "value": "-"
+                },
+                "оптическая_длина": {
+                    "value": 3589.0
+                },
+                "физическая_длина": {
+                    "value": 3536.0
+                }
+            },
+            "parameters": {
+                "connection_length": {
+                    "value": 300
+                },
+                "Основная линия соединения": {
+                    "value": "заголовок",
+                    "name": "Основная линия соединения",
+                    "order": 0,
+                    "type": "title"
+                },
+                "connection_color": {
+                    "value": "#0000ff"
+                },
+                "connection_width": {
+                    "value": 4
+                },
+                "connection_style": {
+                    "value": "SolidLine"
+                },
+                "Подписи основной линии": {
+                    "value": "заголовок",
+                    "name": "Подписи основной линии",
+                    "order": 100,
+                    "type": "title"
+                },
+                "connection_caption_color": {
+                    "value": "#000000"
+                },
+                "connection_caption_pixel_size": {
+                    "value": 13
+                },
+                "connection_caption_margin_left_right": {
+                    "value": 7
+                },
+                "connection_main_caption_vertical_padding": {
+                    "value": 10
+                },
+                "префикс_ВОК": {
+                    "value": "ВОК "
+                },
+                "префикс_количество_ОВ": {
+                    "value": "кол-во ОВ - "
+                },
+                "префикс_физическая_длина": {
+                    "value": "физ. длина - "
+                },
+                "префикс_оптическая_длина": {
+                    "value": "опт. длина - "
+                },
+                "постфикс_расстояния": {
+                    "value": " м."
+                },
+                "Название и местоположение соединения": {
+                    "value": "заголовок",
+                    "name": "Название и местоположение соединения",
+                    "order": 200,
+                    "type": "title"
+                },
+                "connection_name_color": {
+                    "value": "#000000"
+                },
+                "connection_name_pixel_size": {
+                    "value": 13
+                },
+                "connection_thin_caption_vertical_padding": {
+                    "value": 6
+                },
+                "connection_location_delta_x": {
+                    "value": 0
+                }
+            }
+        },
+        {
+            "id": "ee25fa1743d14c018dff7b658ac2641e",
+            "order": 3,
+            "connection_id": "0",
+            "data": {
+                "ВОК": {
+                    "value": "тип-3"
+                },
+                "количество_ОВ": {
+                    "value": 32
+                },
+                "местоположение": {
+                    "value": "нет"
+                },
+                "местоположение_доп": {
+                    "value": "-"
+                },
+                "название": {
+                    "value": "ДПТ-Э-32У (4x8)-25кН"
+                },
+                "название_доп": {
+                    "value": "-"
+                },
+                "оптическая_длина": {
+                    "value": 3138.0
+                },
+                "физическая_длина": {
+                    "value": 3092.0
+                }
+            },
+            "parameters": {
+                "connection_length": {
+                    "value": 300
+                },
+                "Основная линия соединения": {
+                    "value": "заголовок",
+                    "name": "Основная линия соединения",
+                    "order": 0,
+                    "type": "title"
+                },
+                "connection_color": {
+                    "value": "#0000ff"
+                },
+                "connection_width": {
+                    "value": 4
+                },
+                "connection_style": {
+                    "value": "SolidLine"
+                },
+                "Подписи основной линии": {
+                    "value": "заголовок",
+                    "name": "Подписи основной линии",
+                    "order": 100,
+                    "type": "title"
+                },
+                "connection_caption_color": {
+                    "value": "#000000"
+                },
+                "connection_caption_pixel_size": {
+                    "value": 13
+                },
+                "connection_caption_margin_left_right": {
+                    "value": 7
+                },
+                "connection_main_caption_vertical_padding": {
+                    "value": 10
+                },
+                "префикс_ВОК": {
+                    "value": "ВОК "
+                },
+                "префикс_количество_ОВ": {
+                    "value": "кол-во ОВ - "
+                },
+                "префикс_физическая_длина": {
+                    "value": "физ. длина - "
+                },
+                "префикс_оптическая_длина": {
+                    "value": "опт. длина - "
+                },
+                "постфикс_расстояния": {
+                    "value": " м."
+                },
+                "Название и местоположение соединения": {
+                    "value": "заголовок",
+                    "name": "Название и местоположение соединения",
+                    "order": 200,
+                    "type": "title"
+                },
+                "connection_name_color": {
+                    "value": "#000000"
+                },
+                "connection_name_pixel_size": {
+                    "value": 13
+                },
+                "connection_thin_caption_vertical_padding": {
+                    "value": 6
+                },
+                "connection_location_delta_x": {
+                    "value": 0
+                }
+            }
+        },
+        {
+            "id": "352c803e69204d929350f04ac9e12e3d",
+            "order": 4,
+            "connection_id": "0",
+            "data": {
+                "ВОК": {
+                    "value": "тип-3"
+                },
+                "количество_ОВ": {
+                    "value": 32
+                },
+                "местоположение": {
+                    "value": "нет"
+                },
+                "местоположение_доп": {
+                    "value": "-"
+                },
+                "название": {
+                    "value": "ДПТ-Э-32У (4x8)-25кН"
+                },
+                "название_доп": {
+                    "value": "-"
+                },
+                "оптическая_длина": {
+                    "value": 3938.0
+                },
+                "физическая_длина": {
+                    "value": 3880.0
+                }
+            },
+            "parameters": {
+                "connection_length": {
+                    "value": 300
+                },
+                "Основная линия соединения": {
+                    "value": "заголовок",
+                    "name": "Основная линия соединения",
+                    "order": 0,
+                    "type": "title"
+                },
+                "connection_color": {
+                    "value": "#0000ff"
+                },
+                "connection_width": {
+                    "value": 4
+                },
+                "connection_style": {
+                    "value": "SolidLine"
+                },
+                "Подписи основной линии": {
+                    "value": "заголовок",
+                    "name": "Подписи основной линии",
+                    "order": 100,
+                    "type": "title"
+                },
+                "connection_caption_color": {
+                    "value": "#000000"
+                },
+                "connection_caption_pixel_size": {
+                    "value": 13
+                },
+                "connection_caption_margin_left_right": {
+                    "value": 7
+                },
+                "connection_main_caption_vertical_padding": {
+                    "value": 10
+                },
+                "префикс_ВОК": {
+                    "value": "ВОК "
+                },
+                "префикс_количество_ОВ": {
+                    "value": "кол-во ОВ - "
+                },
+                "префикс_физическая_длина": {
+                    "value": "физ. длина - "
+                },
+                "префикс_оптическая_длина": {
+                    "value": "опт. длина - "
+                },
+                "постфикс_расстояния": {
+                    "value": " м."
+                },
+                "Название и местоположение соединения": {
+                    "value": "заголовок",
+                    "name": "Название и местоположение соединения",
+                    "order": 200,
+                    "type": "title"
+                },
+                "connection_name_color": {
+                    "value": "#000000"
+                },
+                "connection_name_pixel_size": {
+                    "value": 13
+                },
+                "connection_thin_caption_vertical_padding": {
+                    "value": 6
+                },
+                "connection_location_delta_x": {
+                    "value": 0
+                }
+            }
+        },
+        {
+            "id": "522f0fef876b47bc92bccd943b827b51",
+            "order": 5,
+            "connection_id": "0",
+            "data": {
+                "ВОК": {
+                    "value": "тип-3"
+                },
+                "количество_ОВ": {
+                    "value": 32
+                },
+                "местоположение": {
+                    "value": "нет"
+                },
+                "местоположение_доп": {
+                    "value": "-"
+                },
+                "название": {
+                    "value": "ДПТ-Э-32У (4x8)-25кН"
+                },
+                "название_доп": {
+                    "value": "-"
+                },
+                "оптическая_длина": {
+                    "value": 5520.0
+                },
+                "физическая_длина": {
+                    "value": 5438.0
+                }
+            },
+            "parameters": {
+                "connection_length": {
+                    "value": 300
+                },
+                "Основная линия соединения": {
+                    "value": "заголовок",
+                    "name": "Основная линия соединения",
+                    "order": 0,
+                    "type": "title"
+                },
+                "connection_color": {
+                    "value": "#0000ff"
+                },
+                "connection_width": {
+                    "value": 4
+                },
+                "connection_style": {
+                    "value": "SolidLine"
+                },
+                "Подписи основной линии": {
+                    "value": "заголовок",
+                    "name": "Подписи основной линии",
+                    "order": 100,
+                    "type": "title"
+                },
+                "connection_caption_color": {
+                    "value": "#000000"
+                },
+                "connection_caption_pixel_size": {
+                    "value": 13
+                },
+                "connection_caption_margin_left_right": {
+                    "value": 7
+                },
+                "connection_main_caption_vertical_padding": {
+                    "value": 10
+                },
+                "префикс_ВОК": {
+                    "value": "ВОК "
+                },
+                "префикс_количество_ОВ": {
+                    "value": "кол-во ОВ - "
+                },
+                "префикс_физическая_длина": {
+                    "value": "физ. длина - "
+                },
+                "префикс_оптическая_длина": {
+                    "value": "опт. длина - "
+                },
+                "постфикс_расстояния": {
+                    "value": " м."
+                },
+                "Название и местоположение соединения": {
+                    "value": "заголовок",
+                    "name": "Название и местоположение соединения",
+                    "order": 200,
+                    "type": "title"
+                },
+                "connection_name_color": {
+                    "value": "#000000"
+                },
+                "connection_name_pixel_size": {
+                    "value": 13
+                },
+                "connection_thin_caption_vertical_padding": {
+                    "value": 6
+                },
+                "connection_location_delta_x": {
+                    "value": 0
+                }
+            }
+        },
+        {
+            "id": "e532abae151e4d5e87ce4937e2880615",
+            "order": 6,
+            "connection_id": "0",
+            "data": {
+                "ВОК": {
+                    "value": "тип-3"
+                },
+                "количество_ОВ": {
+                    "value": 32
+                },
+                "местоположение": {
+                    "value": "нет"
+                },
+                "местоположение_доп": {
+                    "value": "-"
+                },
+                "название": {
+                    "value": "ДПТ-Э-32У (4x8)-25кН"
+                },
+                "название_доп": {
+                    "value": "-"
+                },
+                "оптическая_длина": {
+                    "value": 4824.0
+                },
+                "физическая_длина": {
+                    "value": 4753.0
+                }
+            },
+            "parameters": {
+                "connection_length": {
+                    "value": 300
+                },
+                "Основная линия соединения": {
+                    "value": "заголовок",
+                    "name": "Основная линия соединения",
+                    "order": 0,
+                    "type": "title"
+                },
+                "connection_color": {
+                    "value": "#0000ff"
+                },
+                "connection_width": {
+                    "value": 4
+                },
+                "connection_style": {
+                    "value": "SolidLine"
+                },
+                "Подписи основной линии": {
+                    "value": "заголовок",
+                    "name": "Подписи основной линии",
+                    "order": 100,
+                    "type": "title"
+                },
+                "connection_caption_color": {
+                    "value": "#000000"
+                },
+                "connection_caption_pixel_size": {
+                    "value": 13
+                },
+                "connection_caption_margin_left_right": {
+                    "value": 7
+                },
+                "connection_main_caption_vertical_padding": {
+                    "value": 10
+                },
+                "префикс_ВОК": {
+                    "value": "ВОК "
+                },
+                "префикс_количество_ОВ": {
+                    "value": "кол-во ОВ - "
+                },
+                "префикс_физическая_длина": {
+                    "value": "физ. длина - "
+                },
+                "префикс_оптическая_длина": {
+                    "value": "опт. длина - "
+                },
+                "постфикс_расстояния": {
+                    "value": " м."
+                },
+                "Название и местоположение соединения": {
+                    "value": "заголовок",
+                    "name": "Название и местоположение соединения",
+                    "order": 200,
+                    "type": "title"
+                },
+                "connection_name_color": {
+                    "value": "#000000"
+                },
+                "connection_name_pixel_size": {
+                    "value": 13
+                },
+                "connection_thin_caption_vertical_padding": {
+                    "value": 6
+                },
+                "connection_location_delta_x": {
+                    "value": 0
+                }
+            }
+        },
+        {
+            "id": "972aa8afae0a4651ad613c7b4a9869ee",
+            "order": 7,
+            "connection_id": "0",
+            "data": {
+                "ВОК": {
+                    "value": "тип-3"
+                },
+                "количество_ОВ": {
+                    "value": 32
+                },
+                "местоположение": {
+                    "value": "нет"
+                },
+                "местоположение_доп": {
+                    "value": "-"
+                },
+                "название": {
+                    "value": "ДПТ-Э-32У (4x8)-25кН"
+                },
+                "название_доп": {
+                    "value": "-"
+                },
+                "оптическая_длина": {
+                    "value": 164.0
+                },
+                "физическая_длина": {
+                    "value": 162.0
+                }
+            },
+            "parameters": {
+                "connection_length": {
+                    "value": 300
+                },
+                "Основная линия соединения": {
+                    "value": "заголовок",
+                    "name": "Основная линия соединения",
+                    "order": 0,
+                    "type": "title"
+                },
+                "connection_color": {
+                    "value": "#0000ff"
+                },
+                "connection_width": {
+                    "value": 4
+                },
+                "connection_style": {
+                    "value": "SolidLine"
+                },
+                "Подписи основной линии": {
+                    "value": "заголовок",
+                    "name": "Подписи основной линии",
+                    "order": 100,
+                    "type": "title"
+                },
+                "connection_caption_color": {
+                    "value": "#000000"
+                },
+                "connection_caption_pixel_size": {
+                    "value": 13
+                },
+                "connection_caption_margin_left_right": {
+                    "value": 7
+                },
+                "connection_main_caption_vertical_padding": {
+                    "value": 10
+                },
+                "префикс_ВОК": {
+                    "value": "ВОК "
+                },
+                "префикс_количество_ОВ": {
+                    "value": "кол-во ОВ - "
+                },
+                "префикс_физическая_длина": {
+                    "value": "физ. длина - "
+                },
+                "префикс_оптическая_длина": {
+                    "value": "опт. длина - "
+                },
+                "постфикс_расстояния": {
+                    "value": " м."
+                },
+                "Название и местоположение соединения": {
+                    "value": "заголовок",
+                    "name": "Название и местоположение соединения",
+                    "order": 200,
+                    "type": "title"
+                },
+                "connection_name_color": {
+                    "value": "#000000"
+                },
+                "connection_name_pixel_size": {
+                    "value": 13
+                },
+                "connection_thin_caption_vertical_padding": {
+                    "value": 6
+                },
+                "connection_location_delta_x": {
+                    "value": 0
+                }
+            }
+        },
+        {
+            "id": "ac6ea267dcd84558b4a016c18517a1f1",
+            "order": 8,
+            "connection_id": "0",
+            "data": {
+                "ВОК": {
+                    "value": "тип-3"
+                },
+                "количество_ОВ": {
+                    "value": 32
+                },
+                "местоположение": {
+                    "value": "нет "
+                },
+                "местоположение_доп": {
+                    "value": "-"
+                },
+                "название": {
+                    "value": "ДПТ-Э-32У (4x8)-25кН"
+                },
+                "название_доп": {
+                    "value": "-"
+                },
+                "оптическая_длина": {
+                    "value": 2739.0
+                },
+                "физическая_длина": {
+                    "value": 2699.0
+                }
+            },
+            "parameters": {
+                "connection_length": {
+                    "value": 300
+                },
+                "Основная линия соединения": {
+                    "value": "заголовок",
+                    "name": "Основная линия соединения",
+                    "order": 0,
+                    "type": "title"
+                },
+                "connection_color": {
+                    "value": "#0000ff"
+                },
+                "connection_width": {
+                    "value": 4
+                },
+                "connection_style": {
+                    "value": "SolidLine"
+                },
+                "Подписи основной линии": {
+                    "value": "заголовок",
+                    "name": "Подписи основной линии",
+                    "order": 100,
+                    "type": "title"
+                },
+                "connection_caption_color": {
+                    "value": "#000000"
+                },
+                "connection_caption_pixel_size": {
+                    "value": 13
+                },
+                "connection_caption_margin_left_right": {
+                    "value": 7
+                },
+                "connection_main_caption_vertical_padding": {
+                    "value": 10
+                },
+                "префикс_ВОК": {
+                    "value": "ВОК "
+                },
+                "префикс_количество_ОВ": {
+                    "value": "кол-во ОВ - "
+                },
+                "префикс_физическая_длина": {
+                    "value": "физ. длина - "
+                },
+                "префикс_оптическая_длина": {
+                    "value": "опт. длина - "
+                },
+                "постфикс_расстояния": {
+                    "value": " м."
+                },
+                "Название и местоположение соединения": {
+                    "value": "заголовок",
+                    "name": "Название и местоположение соединения",
+                    "order": 200,
+                    "type": "title"
+                },
+                "connection_name_color": {
+                    "value": "#000000"
+                },
+                "connection_name_pixel_size": {
+                    "value": 13
+                },
+                "connection_thin_caption_vertical_padding": {
+                    "value": 6
+                },
+                "connection_location_delta_x": {
+                    "value": 0
+                }
+            }
+        },
+        {
+            "id": "fea006f58a274ffcb3d378cb6e40e2d7",
+            "order": 9,
+            "connection_id": "0",
+            "data": {
+                "ВОК": {
+                    "value": "тип-3"
+                },
+                "количество_ОВ": {
+                    "value": 32
+                },
+                "местоположение": {
+                    "value": "нет"
+                },
+                "местоположение_доп": {
+                    "value": "-"
+                },
+                "название": {
+                    "value": "ДПТ-П-32У (4x8)-7кН"
+                },
+                "название_доп": {
+                    "value": "-"
+                },
+                "оптическая_длина": {
+                    "value": 1699.0
+                },
+                "физическая_длина": {
+                    "value": 1674.0
+                }
+            },
+            "parameters": {
+                "connection_length": {
+                    "value": 300
+                },
+                "Основная линия соединения": {
+                    "value": "заголовок",
+                    "name": "Основная линия соединения",
+                    "order": 0,
+                    "type": "title"
+                },
+                "connection_color": {
+                    "value": "#0000ff"
+                },
+                "connection_width": {
+                    "value": 4
+                },
+                "connection_style": {
+                    "value": "SolidLine"
+                },
+                "Подписи основной линии": {
+                    "value": "заголовок",
+                    "name": "Подписи основной линии",
+                    "order": 100,
+                    "type": "title"
+                },
+                "connection_caption_color": {
+                    "value": "#000000"
+                },
+                "connection_caption_pixel_size": {
+                    "value": 13
+                },
+                "connection_caption_margin_left_right": {
+                    "value": 7
+                },
+                "connection_main_caption_vertical_padding": {
+                    "value": 10
+                },
+                "префикс_ВОК": {
+                    "value": "ВОК "
+                },
+                "префикс_количество_ОВ": {
+                    "value": "кол-во ОВ - "
+                },
+                "префикс_физическая_длина": {
+                    "value": "физ. длина - "
+                },
+                "префикс_оптическая_длина": {
+                    "value": "опт. длина - "
+                },
+                "постфикс_расстояния": {
+                    "value": " м."
+                },
+                "Название и местоположение соединения": {
+                    "value": "заголовок",
+                    "name": "Название и местоположение соединения",
+                    "order": 200,
+                    "type": "title"
+                },
+                "connection_name_color": {
+                    "value": "#000000"
+                },
+                "connection_name_pixel_size": {
+                    "value": 13
+                },
+                "connection_thin_caption_vertical_padding": {
+                    "value": 6
+                },
+                "connection_location_delta_x": {
+                    "value": 0
+                }
+            }
+        }
+    ]
+}

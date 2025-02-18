@@ -1,0 +1,1720 @@
+{
+    "diagram_type_id": "150",
+    "diagram_name": "Монтажная схема участка регенерации",
+    "diagram_parameters": {
+        "arrow_height": {
+            "value": 8
+        },
+        "arrow_width": {
+            "value": 20
+        },
+        "delta_wrap_y": {
+            "value": 250
+        },
+        "font_name": {
+            "value": "Open Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
+        },
+        "is_wrap_arrow": {
+            "value": false
+        },
+        "precision_number": {
+            "value": 0
+        },
+        "precision_separator": {
+            "value": true
+        },
+        "start_x": {
+            "value": 140
+        },
+        "start_y": {
+            "value": 180
+        },
+        "thin_line_color": {
+            "value": "#000000"
+        },
+        "thin_line_weight": {
+            "value": 2
+        },
+        "wrap_arrow_length": {
+            "value": 50
+        },
+        "Стрелки": {
+            "name": "Стрелки",
+            "order": 200,
+            "type": "title",
+            "value": ""
+        },
+        "Тонкие линии": {
+            "name": "Тонкие линии",
+            "order": 150,
+            "type": "title",
+            "value": ""
+        }
+    },
+    "image_parameters": {
+        "width": {
+            "value": 1800
+        },
+        "height": {
+            "value": 550
+        }
+    },
+    "nodes": [
+        {
+            "id": "438d2bc3030e4d929cbb5dce32625f3b",
+            "order": 0,
+            "node_id": "151",
+            "data": {
+                "название": {
+                    "value": "БС 78-0670 ПАО \"МТС\""
+                },
+                "название_доп": {
+                    "value": "3"
+                }
+            },
+            "is_wrap": false,
+            "parameters": {
+                "delta_wrap_x": {
+                    "value": 0,
+                    "name": "Расстояние переноса по X",
+                    "order": 2,
+                    "type": "number_int_signed"
+                },
+                "node_name_align": {
+                    "value": "CenterAlign",
+                    "name": "Выравнивание названия вершины",
+                    "order": 53,
+                    "type": "text_align"
+                },
+                "node_border_color": {
+                    "value": "#000000",
+                    "name": "Цвет рамки вершин",
+                    "order": 1,
+                    "type": "color"
+                },
+                "node_border_weight": {
+                    "value": 2,
+                    "name": "Толщина рамки вершин",
+                    "order": 2
+                },
+                "node_fill_color": {
+                    "value": "#A0A0A4",
+                    "name": "Цвет заливки вершин",
+                    "order": 3,
+                    "type": "color"
+                },
+                "node_fill_style": {
+                    "value": "NoBrush",
+                    "name": "Стиль заливки вершин",
+                    "order": 4,
+                    "type": "fill_style"
+                },
+                "node_width": {
+                    "value": 120,
+                    "name": "Ширина вершин",
+                    "order": 5
+                },
+                "node_height": {
+                    "value": 40,
+                    "name": "Высота вершин",
+                    "order": 6
+                },
+                "Названия вершин": {
+                    "value": "заголовок",
+                    "name": "Названия вершин",
+                    "order": 50,
+                    "type": "title"
+                },
+                "node_name_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта названия вершины",
+                    "order": 51,
+                    "type": "color"
+                },
+                "node_name_pixel_size": {
+                    "value": 16,
+                    "name": "Размер шрифта названия вершины",
+                    "order": 52
+                },
+                "node_name_height": {
+                    "value": 60,
+                    "name": "Высота названия над вершиной",
+                    "order": 53
+                }
+            }
+        },
+        {
+            "id": "a924fe8af24248b5a84d21041e01d79f",
+            "order": 1,
+            "node_id": "150",
+            "data": {
+                "название": {
+                    "value": "Уст. ОМ-01а на\nоп. №71 ВЛ-10 кВ ф. Сап-01"
+                },
+                "название_доп": {
+                    "value": "1"
+                }
+            },
+            "is_wrap": false,
+            "parameters": {
+                "delta_wrap_x": {
+                    "value": 0,
+                    "name": "Расстояние переноса по X",
+                    "order": 2,
+                    "type": "number_int_signed"
+                },
+                "node_border_color": {
+                    "value": "#000000",
+                    "name": "Цвет рамки вершин",
+                    "order": 1,
+                    "type": "color"
+                },
+                "node_border_weight": {
+                    "value": 2,
+                    "name": "Толщина рамки вершин",
+                    "order": 2
+                },
+                "node_fill_color": {
+                    "value": "#000000",
+                    "name": "Цвет заливки вершин",
+                    "order": 3,
+                    "type": "color"
+                },
+                "node_fill_style": {
+                    "value": "NoBrush",
+                    "name": "Стиль заливки вершин",
+                    "order": 4,
+                    "type": "fill_style"
+                },
+                "node_radius": {
+                    "value": 20,
+                    "name": "Радиус маленького круга вершин",
+                    "order": 5
+                },
+                "Номер вершин": {
+                    "value": "заголовок",
+                    "name": "Номер вершин",
+                    "order": 100,
+                    "type": "title"
+                },
+                "node_name_add_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта номера вершины",
+                    "order": 101,
+                    "type": "color"
+                },
+                "node_name_add_pixel_size": {
+                    "value": 16,
+                    "name": "Размер шрифта номера вершины",
+                    "order": 102
+                },
+                "Названия вершин": {
+                    "value": "заголовок",
+                    "name": "Названия вершин",
+                    "order": 50,
+                    "type": "title"
+                },
+                "node_name_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта названия вершины",
+                    "order": 51,
+                    "type": "color"
+                },
+                "node_name_pixel_size": {
+                    "value": 16,
+                    "name": "Размер шрифта названия вершины",
+                    "order": 52
+                },
+                "node_name_height": {
+                    "value": 60,
+                    "name": "Высота названия над вершиной",
+                    "order": 53
+                }
+            }
+        },
+        {
+            "id": "204a30e2096b4f299a7bce49fdfc81c2",
+            "order": 2,
+            "node_id": "150",
+            "data": {
+                "название": {
+                    "value": "Уст. ОМ-01 на оп. 103 ВЛ 110 кВ\nРомашки - Сосновская с\nотпайкой на ПС Мичуринская\n(ВЛ 110 кВ Громовская-5)"
+                },
+                "название_доп": {
+                    "value": "2"
+                }
+            },
+            "is_wrap": false,
+            "parameters": {
+                "delta_wrap_x": {
+                    "value": 0,
+                    "name": "Расстояние переноса по X",
+                    "order": 2,
+                    "type": "number_int_signed"
+                },
+                "node_border_color": {
+                    "value": "#000000",
+                    "name": "Цвет рамки вершин",
+                    "order": 1,
+                    "type": "color"
+                },
+                "node_border_weight": {
+                    "value": 2,
+                    "name": "Толщина рамки вершин",
+                    "order": 2
+                },
+                "node_fill_color": {
+                    "value": "#000000",
+                    "name": "Цвет заливки вершин",
+                    "order": 3,
+                    "type": "color"
+                },
+                "node_fill_style": {
+                    "value": "NoBrush",
+                    "name": "Стиль заливки вершин",
+                    "order": 4,
+                    "type": "fill_style"
+                },
+                "node_radius": {
+                    "value": 20,
+                    "name": "Радиус маленького круга вершин",
+                    "order": 5
+                },
+                "Номер вершин": {
+                    "value": "заголовок",
+                    "name": "Номер вершин",
+                    "order": 100,
+                    "type": "title"
+                },
+                "node_name_add_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта номера вершины",
+                    "order": 101,
+                    "type": "color"
+                },
+                "node_name_add_pixel_size": {
+                    "value": 16,
+                    "name": "Размер шрифта номера вершины",
+                    "order": 102
+                },
+                "Названия вершин": {
+                    "value": "заголовок",
+                    "name": "Названия вершин",
+                    "order": 50,
+                    "type": "title"
+                },
+                "node_name_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта названия вершины",
+                    "order": 51,
+                    "type": "color"
+                },
+                "node_name_pixel_size": {
+                    "value": 16,
+                    "name": "Размер шрифта названия вершины",
+                    "order": 52
+                },
+                "node_name_height": {
+                    "value": 60,
+                    "name": "Высота названия над вершиной",
+                    "order": 53
+                }
+            }
+        },
+        {
+            "id": "3346e2d20b7146a2942eef3e9c65d092",
+            "order": 3,
+            "node_id": "150",
+            "data": {
+                "название": {
+                    "value": "Уст. ОМ-02 на оп. 89 ВЛ 110 кВ\nРомашки - Сосновская с\nотпайкой на ПС Мичуринская\n(ВЛ 110 кВ Громовская-5)"
+                },
+                "название_доп": {
+                    "value": "3"
+                }
+            },
+            "is_wrap": false,
+            "parameters": {
+                "delta_wrap_x": {
+                    "value": 0,
+                    "name": "Расстояние переноса по X",
+                    "order": 2,
+                    "type": "number_int_signed"
+                },
+                "node_border_color": {
+                    "value": "#000000",
+                    "name": "Цвет рамки вершин",
+                    "order": 1,
+                    "type": "color"
+                },
+                "node_border_weight": {
+                    "value": 2,
+                    "name": "Толщина рамки вершин",
+                    "order": 2
+                },
+                "node_fill_color": {
+                    "value": "#000000",
+                    "name": "Цвет заливки вершин",
+                    "order": 3,
+                    "type": "color"
+                },
+                "node_fill_style": {
+                    "value": "NoBrush",
+                    "name": "Стиль заливки вершин",
+                    "order": 4,
+                    "type": "fill_style"
+                },
+                "node_radius": {
+                    "value": 20,
+                    "name": "Радиус маленького круга вершин",
+                    "order": 5
+                },
+                "Номер вершин": {
+                    "value": "заголовок",
+                    "name": "Номер вершин",
+                    "order": 100,
+                    "type": "title"
+                },
+                "node_name_add_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта номера вершины",
+                    "order": 101,
+                    "type": "color"
+                },
+                "node_name_add_pixel_size": {
+                    "value": 16,
+                    "name": "Размер шрифта номера вершины",
+                    "order": 102
+                },
+                "Названия вершин": {
+                    "value": "заголовок",
+                    "name": "Названия вершин",
+                    "order": 50,
+                    "type": "title"
+                },
+                "node_name_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта названия вершины",
+                    "order": 51,
+                    "type": "color"
+                },
+                "node_name_pixel_size": {
+                    "value": 16,
+                    "name": "Размер шрифта названия вершины",
+                    "order": 52
+                },
+                "node_name_height": {
+                    "value": 60,
+                    "name": "Высота названия над вершиной",
+                    "order": 53
+                }
+            }
+        },
+        {
+            "id": "8a8c18391df14d259d3a80cc56031b26",
+            "order": 4,
+            "node_id": "150",
+            "data": {
+                "название": {
+                    "value": "Уст. ОМ-03 на оп. 77 ВЛ 110 кВ \nРомашки - Сосновская\n с отпайкой на ПС Мичуринская\n (ВЛ 110 кВ Громовская-5)"
+                },
+                "название_доп": {
+                    "value": "4"
+                }
+            },
+            "is_wrap": false,
+            "parameters": {
+                "delta_wrap_x": {
+                    "value": 0,
+                    "name": "Расстояние переноса по X",
+                    "order": 2,
+                    "type": "number_int_signed"
+                },
+                "node_border_color": {
+                    "value": "#000000",
+                    "name": "Цвет рамки вершин",
+                    "order": 1,
+                    "type": "color"
+                },
+                "node_border_weight": {
+                    "value": 2,
+                    "name": "Толщина рамки вершин",
+                    "order": 2
+                },
+                "node_fill_color": {
+                    "value": "#000000",
+                    "name": "Цвет заливки вершин",
+                    "order": 3,
+                    "type": "color"
+                },
+                "node_fill_style": {
+                    "value": "NoBrush",
+                    "name": "Стиль заливки вершин",
+                    "order": 4,
+                    "type": "fill_style"
+                },
+                "node_radius": {
+                    "value": 20,
+                    "name": "Радиус маленького круга вершин",
+                    "order": 5
+                },
+                "Номер вершин": {
+                    "value": "заголовок",
+                    "name": "Номер вершин",
+                    "order": 100,
+                    "type": "title"
+                },
+                "node_name_add_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта номера вершины",
+                    "order": 101,
+                    "type": "color"
+                },
+                "node_name_add_pixel_size": {
+                    "value": 16,
+                    "name": "Размер шрифта номера вершины",
+                    "order": 102
+                },
+                "Названия вершин": {
+                    "value": "заголовок",
+                    "name": "Названия вершин",
+                    "order": 50,
+                    "type": "title"
+                },
+                "node_name_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта названия вершины",
+                    "order": 51,
+                    "type": "color"
+                },
+                "node_name_pixel_size": {
+                    "value": 16,
+                    "name": "Размер шрифта названия вершины",
+                    "order": 52
+                },
+                "node_name_height": {
+                    "value": 60,
+                    "name": "Высота названия над вершиной",
+                    "order": 53
+                }
+            }
+        },
+        {
+            "id": "681c9c0793964573be1b22e0870f1743",
+            "order": 5,
+            "node_id": "150",
+            "data": {
+                "название": {
+                    "value": "Уст. ОМ-04 на оп. 62 ВЛ 110 кВ\nРомашки - Сосновская с\nотпайкой на ПС Мичуринская\n(ВЛ 110 кВ Громовская-5)"
+                },
+                "название_доп": {
+                    "value": "5"
+                }
+            },
+            "is_wrap": true,
+            "parameters": {
+                "delta_wrap_x": {
+                    "value": 0,
+                    "name": "Расстояние переноса по X",
+                    "order": 2,
+                    "type": "number_int_signed"
+                },
+                "node_border_color": {
+                    "value": "#000000",
+                    "name": "Цвет рамки вершин",
+                    "order": 1,
+                    "type": "color"
+                },
+                "node_border_weight": {
+                    "value": 2,
+                    "name": "Толщина рамки вершин",
+                    "order": 2
+                },
+                "node_fill_color": {
+                    "value": "#000000",
+                    "name": "Цвет заливки вершин",
+                    "order": 3,
+                    "type": "color"
+                },
+                "node_fill_style": {
+                    "value": "NoBrush",
+                    "name": "Стиль заливки вершин",
+                    "order": 4,
+                    "type": "fill_style"
+                },
+                "node_radius": {
+                    "value": 20,
+                    "name": "Радиус маленького круга вершин",
+                    "order": 5
+                },
+                "Номер вершин": {
+                    "value": "заголовок",
+                    "name": "Номер вершин",
+                    "order": 100,
+                    "type": "title"
+                },
+                "node_name_add_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта номера вершины",
+                    "order": 101,
+                    "type": "color"
+                },
+                "node_name_add_pixel_size": {
+                    "value": 16,
+                    "name": "Размер шрифта номера вершины",
+                    "order": 102
+                },
+                "Названия вершин": {
+                    "value": "заголовок",
+                    "name": "Названия вершин",
+                    "order": 50,
+                    "type": "title"
+                },
+                "node_name_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта названия вершины",
+                    "order": 51,
+                    "type": "color"
+                },
+                "node_name_pixel_size": {
+                    "value": 16,
+                    "name": "Размер шрифта названия вершины",
+                    "order": 52
+                },
+                "node_name_height": {
+                    "value": 60,
+                    "name": "Высота названия над вершиной",
+                    "order": 53
+                }
+            }
+        },
+        {
+            "id": "aa5aeb46defc41839c02fdd1ffd9228b",
+            "order": 6,
+            "node_id": "150",
+            "data": {
+                "название": {
+                    "value": "Уст. ОМ-05 на оп. 42 ВЛ 110 кВ\nРомашки - Сосновская с\nотпайкой на ПС Мичуринская\n(ВЛ 110 кВ Громовская-5)"
+                },
+                "название_доп": {
+                    "value": "6"
+                }
+            },
+            "is_wrap": false,
+            "parameters": {
+                "delta_wrap_x": {
+                    "value": 0,
+                    "name": "Расстояние переноса по X",
+                    "order": 2,
+                    "type": "number_int_signed"
+                },
+                "node_border_color": {
+                    "value": "#000000",
+                    "name": "Цвет рамки вершин",
+                    "order": 1,
+                    "type": "color"
+                },
+                "node_border_weight": {
+                    "value": 2,
+                    "name": "Толщина рамки вершин",
+                    "order": 2
+                },
+                "node_fill_color": {
+                    "value": "#000000",
+                    "name": "Цвет заливки вершин",
+                    "order": 3,
+                    "type": "color"
+                },
+                "node_fill_style": {
+                    "value": "NoBrush",
+                    "name": "Стиль заливки вершин",
+                    "order": 4,
+                    "type": "fill_style"
+                },
+                "node_radius": {
+                    "value": 20,
+                    "name": "Радиус маленького круга вершин",
+                    "order": 5
+                },
+                "Номер вершин": {
+                    "value": "заголовок",
+                    "name": "Номер вершин",
+                    "order": 100,
+                    "type": "title"
+                },
+                "node_name_add_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта номера вершины",
+                    "order": 101,
+                    "type": "color"
+                },
+                "node_name_add_pixel_size": {
+                    "value": 16,
+                    "name": "Размер шрифта номера вершины",
+                    "order": 102
+                },
+                "Названия вершин": {
+                    "value": "заголовок",
+                    "name": "Названия вершин",
+                    "order": 50,
+                    "type": "title"
+                },
+                "node_name_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта названия вершины",
+                    "order": 51,
+                    "type": "color"
+                },
+                "node_name_pixel_size": {
+                    "value": 16,
+                    "name": "Размер шрифта названия вершины",
+                    "order": 52
+                },
+                "node_name_height": {
+                    "value": 60,
+                    "name": "Высота названия над вершиной",
+                    "order": 53
+                }
+            }
+        },
+        {
+            "id": "83855324b6544b778a95d105e9d00102",
+            "order": 7,
+            "node_id": "150",
+            "data": {
+                "название": {
+                    "value": "Уст. ОМ-06 на оп. 22а ВЛ 110 кВ\nРомашки - Сосновская с\nотпайкой на ПС Мичуринская\n(ВЛ 110 кВ Громовская-5)"
+                },
+                "название_доп": {
+                    "value": "7"
+                }
+            },
+            "is_wrap": false,
+            "parameters": {
+                "delta_wrap_x": {
+                    "value": 0,
+                    "name": "Расстояние переноса по X",
+                    "order": 2,
+                    "type": "number_int_signed"
+                },
+                "node_border_color": {
+                    "value": "#000000",
+                    "name": "Цвет рамки вершин",
+                    "order": 1,
+                    "type": "color"
+                },
+                "node_border_weight": {
+                    "value": 2,
+                    "name": "Толщина рамки вершин",
+                    "order": 2
+                },
+                "node_fill_color": {
+                    "value": "#000000",
+                    "name": "Цвет заливки вершин",
+                    "order": 3,
+                    "type": "color"
+                },
+                "node_fill_style": {
+                    "value": "NoBrush",
+                    "name": "Стиль заливки вершин",
+                    "order": 4,
+                    "type": "fill_style"
+                },
+                "node_radius": {
+                    "value": 20,
+                    "name": "Радиус маленького круга вершин",
+                    "order": 5
+                },
+                "Номер вершин": {
+                    "value": "заголовок",
+                    "name": "Номер вершин",
+                    "order": 100,
+                    "type": "title"
+                },
+                "node_name_add_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта номера вершины",
+                    "order": 101,
+                    "type": "color"
+                },
+                "node_name_add_pixel_size": {
+                    "value": 16,
+                    "name": "Размер шрифта номера вершины",
+                    "order": 102
+                },
+                "Названия вершин": {
+                    "value": "заголовок",
+                    "name": "Названия вершин",
+                    "order": 50,
+                    "type": "title"
+                },
+                "node_name_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта названия вершины",
+                    "order": 51,
+                    "type": "color"
+                },
+                "node_name_pixel_size": {
+                    "value": 16,
+                    "name": "Размер шрифта названия вершины",
+                    "order": 52
+                },
+                "node_name_height": {
+                    "value": 60,
+                    "name": "Высота названия над вершиной",
+                    "order": 53
+                }
+            }
+        },
+        {
+            "id": "3f21c7e8d4974c95952c572834615f3b",
+            "order": 8,
+            "node_id": "150",
+            "data": {
+                "название": {
+                    "value": "Уст. ОМ-06а на оп. 21 ВЛ 110 кВ\nРомашки - Сосновская с\nотпайкой на ПС Мичуринская\n(ВЛ 110 кВ Громовская-5)"
+                },
+                "название_доп": {
+                    "value": "8"
+                }
+            },
+            "is_wrap": false,
+            "parameters": {
+                "delta_wrap_x": {
+                    "value": 0,
+                    "name": "Расстояние переноса по X",
+                    "order": 2,
+                    "type": "number_int_signed"
+                },
+                "node_border_color": {
+                    "value": "#000000",
+                    "name": "Цвет рамки вершин",
+                    "order": 1,
+                    "type": "color"
+                },
+                "node_border_weight": {
+                    "value": 2,
+                    "name": "Толщина рамки вершин",
+                    "order": 2
+                },
+                "node_fill_color": {
+                    "value": "#000000",
+                    "name": "Цвет заливки вершин",
+                    "order": 3,
+                    "type": "color"
+                },
+                "node_fill_style": {
+                    "value": "NoBrush",
+                    "name": "Стиль заливки вершин",
+                    "order": 4,
+                    "type": "fill_style"
+                },
+                "node_radius": {
+                    "value": 20,
+                    "name": "Радиус маленького круга вершин",
+                    "order": 5
+                },
+                "Номер вершин": {
+                    "value": "заголовок",
+                    "name": "Номер вершин",
+                    "order": 100,
+                    "type": "title"
+                },
+                "node_name_add_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта номера вершины",
+                    "order": 101,
+                    "type": "color"
+                },
+                "node_name_add_pixel_size": {
+                    "value": 16,
+                    "name": "Размер шрифта номера вершины",
+                    "order": 102
+                },
+                "Названия вершин": {
+                    "value": "заголовок",
+                    "name": "Названия вершин",
+                    "order": 50,
+                    "type": "title"
+                },
+                "node_name_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта названия вершины",
+                    "order": 51,
+                    "type": "color"
+                },
+                "node_name_pixel_size": {
+                    "value": 16,
+                    "name": "Размер шрифта названия вершины",
+                    "order": 52
+                },
+                "node_name_height": {
+                    "value": 60,
+                    "name": "Высота названия над вершиной",
+                    "order": 53
+                }
+            }
+        },
+        {
+            "id": "af9cd486156e456a8bfd54744c546623",
+            "order": 9,
+            "node_id": "150",
+            "data": {
+                "название": {
+                    "value": "Уст. ОМ-07 на оп. 10 ВЛ 110 кВ\nРомашки - Сосновская с\nотпайкой на ПС Мичуринская\n(ВЛ 110 кВ Громовская-5)"
+                },
+                "название_доп": {
+                    "value": "9"
+                }
+            },
+            "is_wrap": false,
+            "parameters": {
+                "delta_wrap_x": {
+                    "value": 0,
+                    "name": "Расстояние переноса по X",
+                    "order": 2,
+                    "type": "number_int_signed"
+                },
+                "node_border_color": {
+                    "value": "#000000",
+                    "name": "Цвет рамки вершин",
+                    "order": 1,
+                    "type": "color"
+                },
+                "node_border_weight": {
+                    "value": 2,
+                    "name": "Толщина рамки вершин",
+                    "order": 2
+                },
+                "node_fill_color": {
+                    "value": "#000000",
+                    "name": "Цвет заливки вершин",
+                    "order": 3,
+                    "type": "color"
+                },
+                "node_fill_style": {
+                    "value": "NoBrush",
+                    "name": "Стиль заливки вершин",
+                    "order": 4,
+                    "type": "fill_style"
+                },
+                "node_radius": {
+                    "value": 20,
+                    "name": "Радиус маленького круга вершин",
+                    "order": 5
+                },
+                "Номер вершин": {
+                    "value": "заголовок",
+                    "name": "Номер вершин",
+                    "order": 100,
+                    "type": "title"
+                },
+                "node_name_add_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта номера вершины",
+                    "order": 101,
+                    "type": "color"
+                },
+                "node_name_add_pixel_size": {
+                    "value": 16,
+                    "name": "Размер шрифта номера вершины",
+                    "order": 102
+                },
+                "Названия вершин": {
+                    "value": "заголовок",
+                    "name": "Названия вершин",
+                    "order": 50,
+                    "type": "title"
+                },
+                "node_name_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта названия вершины",
+                    "order": 51,
+                    "type": "color"
+                },
+                "node_name_pixel_size": {
+                    "value": 16,
+                    "name": "Размер шрифта названия вершины",
+                    "order": 52
+                },
+                "node_name_height": {
+                    "value": 60,
+                    "name": "Высота названия над вершиной",
+                    "order": 53
+                }
+            }
+        },
+        {
+            "id": "3c2c2af0b1db44a987f991e84a870c40",
+            "order": 10,
+            "node_id": "151",
+            "data": {
+                "название": {
+                    "value": "БС 78-0575 ПАО \"МТС\""
+                }
+            },
+            "is_wrap": false,
+            "parameters": {
+                "delta_wrap_x": {
+                    "value": 0,
+                    "name": "Расстояние переноса по X",
+                    "order": 2,
+                    "type": "number_int_signed"
+                },
+                "node_name_align": {
+                    "value": "CenterAlign",
+                    "name": "Выравнивание названия вершины",
+                    "order": 53,
+                    "type": "text_align"
+                },
+                "node_border_color": {
+                    "value": "#000000",
+                    "name": "Цвет рамки вершин",
+                    "order": 1,
+                    "type": "color"
+                },
+                "node_border_weight": {
+                    "value": 2,
+                    "name": "Толщина рамки вершин",
+                    "order": 2
+                },
+                "node_fill_color": {
+                    "value": "#A0A0A4",
+                    "name": "Цвет заливки вершин",
+                    "order": 3,
+                    "type": "color"
+                },
+                "node_fill_style": {
+                    "value": "NoBrush",
+                    "name": "Стиль заливки вершин",
+                    "order": 4,
+                    "type": "fill_style"
+                },
+                "node_width": {
+                    "value": 120,
+                    "name": "Ширина вершин",
+                    "order": 5
+                },
+                "node_height": {
+                    "value": 40,
+                    "name": "Высота вершин",
+                    "order": 6
+                },
+                "Названия вершин": {
+                    "value": "заголовок",
+                    "name": "Названия вершин",
+                    "order": 50,
+                    "type": "title"
+                },
+                "node_name_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта названия вершины",
+                    "order": 51,
+                    "type": "color"
+                },
+                "node_name_pixel_size": {
+                    "value": 16,
+                    "name": "Размер шрифта названия вершины",
+                    "order": 52
+                },
+                "node_name_height": {
+                    "value": 60,
+                    "name": "Высота названия над вершиной",
+                    "order": 53
+                }
+            }
+        }
+    ],
+    "connections": [
+        {
+            "id": "bdda5b9199a645ce84cbd6d2498a0c62",
+            "order": 0,
+            "connection_id": "150",
+            "data": {
+                "ВОК": {
+                    "value": "тип-3"
+                },
+                "количество_ОВ": {
+                    "value": 32
+                },
+                "местоположение": {
+                    "value": "нет"
+                },
+                "местоположение_доп": {
+                    "value": "-"
+                },
+                "название": {
+                    "value": "ДПТ-П-32У (4x8)-7кН"
+                },
+                "название_доп": {
+                    "value": "-"
+                },
+                "оптическая_длина": {
+                    "value": 502.0
+                },
+                "физическая_длина": {
+                    "value": 495.0
+                }
+            },
+            "parameters": {
+                "connection_length": {
+                    "value": 300
+                },
+                "Основная линия соединения": {
+                    "value": "заголовок",
+                    "name": "Основная линия соединения",
+                    "order": 0,
+                    "type": "title"
+                },
+                "connection_color": {
+                    "value": "#000000"
+                },
+                "connection_width": {
+                    "value": 2
+                },
+                "connection_style": {
+                    "value": "SolidLine"
+                },
+                "Подписи основной линии": {
+                    "value": "заголовок",
+                    "name": "Подписи основной линии",
+                    "order": 100,
+                    "type": "title"
+                },
+                "connection_caption_color": {
+                    "value": "#000000"
+                },
+                "connection_caption_pixel_size": {
+                    "value": 15
+                },
+                "connection_main_caption_vertical_padding": {
+                    "value": 12
+                },
+                "постфикс_расстояния": {
+                    "value": " м"
+                }
+            }
+        },
+        {
+            "id": "204f98610bc240eaaf105f403ecdd925",
+            "order": 1,
+            "connection_id": "150",
+            "data": {
+                "ВОК": {
+                    "value": "тип-3"
+                },
+                "количество_ОВ": {
+                    "value": 32
+                },
+                "местоположение": {
+                    "value": "нет"
+                },
+                "местоположение_доп": {
+                    "value": "-"
+                },
+                "название": {
+                    "value": "ДПТ-П-32У (4x8)-7кН"
+                },
+                "название_доп": {
+                    "value": "1203-1200"
+                },
+                "оптическая_длина": {
+                    "value": 946.0
+                },
+                "физическая_длина": {
+                    "value": 932.0
+                }
+            },
+            "parameters": {
+                "connection_length": {
+                    "value": 300
+                },
+                "Основная линия соединения": {
+                    "value": "заголовок",
+                    "name": "Основная линия соединения",
+                    "order": 0,
+                    "type": "title"
+                },
+                "connection_color": {
+                    "value": "#000000"
+                },
+                "connection_width": {
+                    "value": 2
+                },
+                "connection_style": {
+                    "value": "SolidLine"
+                },
+                "Подписи основной линии": {
+                    "value": "заголовок",
+                    "name": "Подписи основной линии",
+                    "order": 100,
+                    "type": "title"
+                },
+                "connection_caption_color": {
+                    "value": "#000000"
+                },
+                "connection_caption_pixel_size": {
+                    "value": 15
+                },
+                "connection_main_caption_vertical_padding": {
+                    "value": 12
+                },
+                "постфикс_расстояния": {
+                    "value": " м"
+                }
+            }
+        },
+        {
+            "id": "44ba4eca16f84471bc173aa9ec535a96",
+            "order": 2,
+            "connection_id": "150",
+            "data": {
+                "ВОК": {
+                    "value": "тип-3"
+                },
+                "количество_ОВ": {
+                    "value": 32
+                },
+                "местоположение": {
+                    "value": "нет"
+                },
+                "местоположение_доп": {
+                    "value": "-"
+                },
+                "название": {
+                    "value": "ДПТ-Э-32У (4x8)-25кН"
+                },
+                "название_доп": {
+                    "value": "-"
+                },
+                "оптическая_длина": {
+                    "value": 3589.0
+                },
+                "физическая_длина": {
+                    "value": 3536.0
+                }
+            },
+            "parameters": {
+                "connection_length": {
+                    "value": 300
+                },
+                "Основная линия соединения": {
+                    "value": "заголовок",
+                    "name": "Основная линия соединения",
+                    "order": 0,
+                    "type": "title"
+                },
+                "connection_color": {
+                    "value": "#000000"
+                },
+                "connection_width": {
+                    "value": 2
+                },
+                "connection_style": {
+                    "value": "SolidLine"
+                },
+                "Подписи основной линии": {
+                    "value": "заголовок",
+                    "name": "Подписи основной линии",
+                    "order": 100,
+                    "type": "title"
+                },
+                "connection_caption_color": {
+                    "value": "#000000"
+                },
+                "connection_caption_pixel_size": {
+                    "value": 15
+                },
+                "connection_main_caption_vertical_padding": {
+                    "value": 12
+                },
+                "постфикс_расстояния": {
+                    "value": " м"
+                }
+            }
+        },
+        {
+            "id": "ee25fa1743d14c018dff7b658ac2641e",
+            "order": 3,
+            "connection_id": "150",
+            "data": {
+                "ВОК": {
+                    "value": "тип-3"
+                },
+                "количество_ОВ": {
+                    "value": 32
+                },
+                "местоположение": {
+                    "value": "нет"
+                },
+                "местоположение_доп": {
+                    "value": "-"
+                },
+                "название": {
+                    "value": "ДПТ-Э-32У (4x8)-25кН"
+                },
+                "название_доп": {
+                    "value": "-"
+                },
+                "оптическая_длина": {
+                    "value": 3138.0
+                },
+                "физическая_длина": {
+                    "value": 3092.0
+                }
+            },
+            "parameters": {
+                "connection_length": {
+                    "value": 300
+                },
+                "Основная линия соединения": {
+                    "value": "заголовок",
+                    "name": "Основная линия соединения",
+                    "order": 0,
+                    "type": "title"
+                },
+                "connection_color": {
+                    "value": "#000000"
+                },
+                "connection_width": {
+                    "value": 2
+                },
+                "connection_style": {
+                    "value": "SolidLine"
+                },
+                "Подписи основной линии": {
+                    "value": "заголовок",
+                    "name": "Подписи основной линии",
+                    "order": 100,
+                    "type": "title"
+                },
+                "connection_caption_color": {
+                    "value": "#000000"
+                },
+                "connection_caption_pixel_size": {
+                    "value": 15
+                },
+                "connection_main_caption_vertical_padding": {
+                    "value": 12
+                },
+                "постфикс_расстояния": {
+                    "value": " м"
+                }
+            }
+        },
+        {
+            "id": "352c803e69204d929350f04ac9e12e3d",
+            "order": 4,
+            "connection_id": "150",
+            "data": {
+                "ВОК": {
+                    "value": "тип-3"
+                },
+                "количество_ОВ": {
+                    "value": 32
+                },
+                "местоположение": {
+                    "value": "нет"
+                },
+                "местоположение_доп": {
+                    "value": "-"
+                },
+                "название": {
+                    "value": "ДПТ-Э-32У (4x8)-25кН"
+                },
+                "название_доп": {
+                    "value": "-"
+                },
+                "оптическая_длина": {
+                    "value": 3938.0
+                },
+                "физическая_длина": {
+                    "value": 3880.0
+                }
+            },
+            "parameters": {
+                "connection_length": {
+                    "value": 300
+                },
+                "Основная линия соединения": {
+                    "value": "заголовок",
+                    "name": "Основная линия соединения",
+                    "order": 0,
+                    "type": "title"
+                },
+                "connection_color": {
+                    "value": "#000000"
+                },
+                "connection_width": {
+                    "value": 2
+                },
+                "connection_style": {
+                    "value": "SolidLine"
+                },
+                "Подписи основной линии": {
+                    "value": "заголовок",
+                    "name": "Подписи основной линии",
+                    "order": 100,
+                    "type": "title"
+                },
+                "connection_caption_color": {
+                    "value": "#000000"
+                },
+                "connection_caption_pixel_size": {
+                    "value": 15
+                },
+                "connection_main_caption_vertical_padding": {
+                    "value": 12
+                },
+                "постфикс_расстояния": {
+                    "value": " м"
+                }
+            }
+        },
+        {
+            "id": "522f0fef876b47bc92bccd943b827b51",
+            "order": 5,
+            "connection_id": "150",
+            "data": {
+                "ВОК": {
+                    "value": "тип-3"
+                },
+                "количество_ОВ": {
+                    "value": 32
+                },
+                "местоположение": {
+                    "value": "нет"
+                },
+                "местоположение_доп": {
+                    "value": "-"
+                },
+                "название": {
+                    "value": "ДПТ-Э-32У (4x8)-25кН"
+                },
+                "название_доп": {
+                    "value": "-"
+                },
+                "оптическая_длина": {
+                    "value": 5520.0
+                },
+                "физическая_длина": {
+                    "value": 5438.0
+                }
+            },
+            "parameters": {
+                "connection_length": {
+                    "value": 300
+                },
+                "Основная линия соединения": {
+                    "value": "заголовок",
+                    "name": "Основная линия соединения",
+                    "order": 0,
+                    "type": "title"
+                },
+                "connection_color": {
+                    "value": "#000000"
+                },
+                "connection_width": {
+                    "value": 2
+                },
+                "connection_style": {
+                    "value": "SolidLine"
+                },
+                "Подписи основной линии": {
+                    "value": "заголовок",
+                    "name": "Подписи основной линии",
+                    "order": 100,
+                    "type": "title"
+                },
+                "connection_caption_color": {
+                    "value": "#000000"
+                },
+                "connection_caption_pixel_size": {
+                    "value": 15
+                },
+                "connection_main_caption_vertical_padding": {
+                    "value": 12
+                },
+                "постфикс_расстояния": {
+                    "value": " м"
+                }
+            }
+        },
+        {
+            "id": "e532abae151e4d5e87ce4937e2880615",
+            "order": 6,
+            "connection_id": "150",
+            "data": {
+                "ВОК": {
+                    "value": "тип-3"
+                },
+                "количество_ОВ": {
+                    "value": 32
+                },
+                "местоположение": {
+                    "value": "нет"
+                },
+                "местоположение_доп": {
+                    "value": "-"
+                },
+                "название": {
+                    "value": "ДПТ-Э-32У (4x8)-25кН"
+                },
+                "название_доп": {
+                    "value": "-"
+                },
+                "оптическая_длина": {
+                    "value": 4824.0
+                },
+                "физическая_длина": {
+                    "value": 4753.0
+                }
+            },
+            "parameters": {
+                "connection_length": {
+                    "value": 300
+                },
+                "Основная линия соединения": {
+                    "value": "заголовок",
+                    "name": "Основная линия соединения",
+                    "order": 0,
+                    "type": "title"
+                },
+                "connection_color": {
+                    "value": "#000000"
+                },
+                "connection_width": {
+                    "value": 2
+                },
+                "connection_style": {
+                    "value": "SolidLine"
+                },
+                "Подписи основной линии": {
+                    "value": "заголовок",
+                    "name": "Подписи основной линии",
+                    "order": 100,
+                    "type": "title"
+                },
+                "connection_caption_color": {
+                    "value": "#000000"
+                },
+                "connection_caption_pixel_size": {
+                    "value": 15
+                },
+                "connection_main_caption_vertical_padding": {
+                    "value": 12
+                },
+                "постфикс_расстояния": {
+                    "value": " м"
+                }
+            }
+        },
+        {
+            "id": "972aa8afae0a4651ad613c7b4a9869ee",
+            "order": 7,
+            "connection_id": "150",
+            "data": {
+                "ВОК": {
+                    "value": "тип-3"
+                },
+                "количество_ОВ": {
+                    "value": 32
+                },
+                "местоположение": {
+                    "value": "нет"
+                },
+                "местоположение_доп": {
+                    "value": "-"
+                },
+                "название": {
+                    "value": "ДПТ-Э-32У (4x8)-25кН"
+                },
+                "название_доп": {
+                    "value": "-"
+                },
+                "оптическая_длина": {
+                    "value": 164.0
+                },
+                "физическая_длина": {
+                    "value": 162.0
+                }
+            },
+            "parameters": {
+                "connection_length": {
+                    "value": 300
+                },
+                "Основная линия соединения": {
+                    "value": "заголовок",
+                    "name": "Основная линия соединения",
+                    "order": 0,
+                    "type": "title"
+                },
+                "connection_color": {
+                    "value": "#000000"
+                },
+                "connection_width": {
+                    "value": 2
+                },
+                "connection_style": {
+                    "value": "SolidLine"
+                },
+                "Подписи основной линии": {
+                    "value": "заголовок",
+                    "name": "Подписи основной линии",
+                    "order": 100,
+                    "type": "title"
+                },
+                "connection_caption_color": {
+                    "value": "#000000"
+                },
+                "connection_caption_pixel_size": {
+                    "value": 15
+                },
+                "connection_main_caption_vertical_padding": {
+                    "value": 12
+                },
+                "постфикс_расстояния": {
+                    "value": " м"
+                }
+            }
+        },
+        {
+            "id": "ac6ea267dcd84558b4a016c18517a1f1",
+            "order": 8,
+            "connection_id": "150",
+            "data": {
+                "ВОК": {
+                    "value": "тип-3"
+                },
+                "количество_ОВ": {
+                    "value": 32
+                },
+                "местоположение": {
+                    "value": "нет "
+                },
+                "местоположение_доп": {
+                    "value": "-"
+                },
+                "название": {
+                    "value": "ДПТ-Э-32У (4x8)-25кН"
+                },
+                "название_доп": {
+                    "value": "-"
+                },
+                "оптическая_длина": {
+                    "value": 2739.0
+                },
+                "физическая_длина": {
+                    "value": 2699.0
+                }
+            },
+            "parameters": {
+                "connection_length": {
+                    "value": 300
+                },
+                "Основная линия соединения": {
+                    "value": "заголовок",
+                    "name": "Основная линия соединения",
+                    "order": 0,
+                    "type": "title"
+                },
+                "connection_color": {
+                    "value": "#000000"
+                },
+                "connection_width": {
+                    "value": 2
+                },
+                "connection_style": {
+                    "value": "SolidLine"
+                },
+                "Подписи основной линии": {
+                    "value": "заголовок",
+                    "name": "Подписи основной линии",
+                    "order": 100,
+                    "type": "title"
+                },
+                "connection_caption_color": {
+                    "value": "#000000"
+                },
+                "connection_caption_pixel_size": {
+                    "value": 15
+                },
+                "connection_main_caption_vertical_padding": {
+                    "value": 12
+                },
+                "постфикс_расстояния": {
+                    "value": " м"
+                }
+            }
+        },
+        {
+            "id": "fea006f58a274ffcb3d378cb6e40e2d7",
+            "order": 9,
+            "connection_id": "150",
+            "data": {
+                "ВОК": {
+                    "value": "тип-3"
+                },
+                "количество_ОВ": {
+                    "value": 32
+                },
+                "местоположение": {
+                    "value": "нет"
+                },
+                "местоположение_доп": {
+                    "value": "-"
+                },
+                "название": {
+                    "value": "ДПТ-П-32У (4x8)-7кН"
+                },
+                "название_доп": {
+                    "value": "-"
+                },
+                "оптическая_длина": {
+                    "value": 1699.0
+                },
+                "физическая_длина": {
+                    "value": 1674.0
+                }
+            },
+            "parameters": {
+                "connection_length": {
+                    "value": 300
+                },
+                "Основная линия соединения": {
+                    "value": "заголовок",
+                    "name": "Основная линия соединения",
+                    "order": 0,
+                    "type": "title"
+                },
+                "connection_color": {
+                    "value": "#000000"
+                },
+                "connection_width": {
+                    "value": 2
+                },
+                "connection_style": {
+                    "value": "SolidLine"
+                },
+                "Подписи основной линии": {
+                    "value": "заголовок",
+                    "name": "Подписи основной линии",
+                    "order": 100,
+                    "type": "title"
+                },
+                "connection_caption_color": {
+                    "value": "#000000"
+                },
+                "connection_caption_pixel_size": {
+                    "value": 15
+                },
+                "connection_main_caption_vertical_padding": {
+                    "value": 12
+                },
+                "постфикс_расстояния": {
+                    "value": " м"
+                }
+            }
+        }
+    ]
+}

@@ -390,7 +390,6 @@ class DrawConnection:
         )
 
     def _draw_connection_type_100(self, pars, data, nf):
-        # TODO control_sectors  (ТУТА)
 
         def get_painter_connection_line():
             return painterconfigurator.PainterConfigurator(
@@ -449,8 +448,7 @@ class DrawConnection:
                 self.__y + pars.get_sp("connection_main_caption_vertical_padding"),
             )
 
-        # TODO draw_control_point
-        # TODO cs_physical_length
+
         def draw_control_point(is_before_wrap = False, is_after_wrap = False):
             def get_painter_figure_border():
                 return painterconfigurator.PainterConfigurator(
@@ -525,6 +523,7 @@ class DrawConnection:
 
             # рисование значения физической длины
             x = self.__x
+            # TODO Для первых и послдених вершин
             # if node_id == "101" and (not self.__object_before or self.__object_node.get_after_wrap()):
             #     x += pars.get_sp("node_width") // 2
             # elif node_id == "101" and (not self.__object_after or self.__object_node.get_before_wrap()):
