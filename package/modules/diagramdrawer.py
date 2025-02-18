@@ -130,26 +130,10 @@ class DiagramDrawer:
         delta_wrap_x = (
             node.get("parameters", {}).get("delta_wrap_x", {}).get("value", 0)
         )
-        # print("_get_delta_wrap_x")
-        # print(node.get("parameters", {}))
-        # print(node.get("parameters", {}).get("delta_wrap_x", {}))
-        # print(node.get("parameters", {}).get("delta_wrap_x", {}).get("value", 0))
         return delta_wrap_x
 
     def _prepare_main_drawing_data(self, start_x, start_y, delta_wrap_y):
         """Подготавливает данные для рисования"""
-        # start_x = int(
-        #     self.__data.get("diagram_parameters", {}).get("start_x", {}).get("value", 0)
-        # )
-        # start_y = int(
-        #     self.__data.get("diagram_parameters", {}).get("start_y", {}).get("value", 0)
-        # )
-        # delta_wrap_y = int(
-        #     self.__data.get("diagram_parameters", {})
-        #     .get("delta_wrap_y", {})
-        #     .get("value", 0)
-        # )
-        #
         x = start_x
         y = start_y
         #

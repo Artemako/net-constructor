@@ -12,14 +12,7 @@ if __name__ == "__main__":
     main()
 
 
-# TODO Номер муфты, автоматически слева - направо от 1 до ...
-
-# не отображается виджет
-# TypeError: 'PySide6.QtWidgets.QSpinBox.setValue' called with wrong argument types:
-#   PySide6.QtWidgets.QSpinBox.setValue(str)
-# Supported signatures:
-#   PySide6.QtWidgets.QSpinBox.setValue(int)
-
 
 # TODO Контрольные сектора
+# TODO Параметр оцентровка по центру изображения
 # TODO EDIT Контрольная сектора

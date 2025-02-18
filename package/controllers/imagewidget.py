@@ -45,7 +45,9 @@ class ImageWidget(QWidget):
         delta_wrap_y = int(
             data.get("diagram_parameters", {}).get("delta_wrap_y", {}).get("value", 0)
         )
-
+        # TODO is_center = False
+        is_center = True
+        
         image = QImage(width, height, QImage.Format_ARGB32)
         image.fill(Qt.white)
 
