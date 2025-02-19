@@ -542,6 +542,8 @@ class DrawConnection:
             for index in range(total_len):
                 cs = self.__control_sectors[index // 2]
                 #
+                is_last = index == total_len - 1
+                #
                 if index % 2 == 0:
                     # Сектор
                     draw_main_line(
@@ -553,18 +555,22 @@ class DrawConnection:
                         index == 0,
                         index == total_len - 1,
                     )
-                    self.__x += (
-                        cs.get("data_pars", {}).get("cs_lenght", {}).get("value", 0)
-                    )
+                    # self.__x += (
+                    #     cs.get("data_pars", {}).get("cs_lenght", {}).get("value", 0)
+                    # )
+                    self.__x = cs["x"]
+                    self.__y = cs["y"]
                     self.__to_right_physical_length += cs.get("data_pars", {}).get("cs_physical_length", {}).get("value", 0)
                 else:
                     # Контрольная точка
-                    if cs.get("is_wrap", False):
+                    if cs.get("is_wrap", False) and not is_last:
                         draw_control_point(is_before_wrap=True)
-                        self.__x = self.__start_x + cs.get("data_pars", {}).get(
-                            "cs_delta_wrap_x", {}
-                        ).get("value", 0)
-                        self.__y += self.__delta_wrap_y
+                        # self.__x = self.__start_x + cs.get("data_pars", {}).get(
+                        #     "cs_delta_wrap_x", {}
+                        # ).get("value", 0)
+                        # self.__y += self.__delta_wrap_y
+                        self.__x = cs["wrap_x"]
+                        self.__y = cs["wrap_y"]
                         draw_control_point(is_after_wrap=True)
                     else:
                         draw_control_point()

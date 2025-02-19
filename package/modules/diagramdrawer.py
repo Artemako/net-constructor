@@ -189,6 +189,7 @@ class DiagramDrawer:
                             "to_right_physical_length": to_right_physical_length,
                         }
                     )
+                    # TODO Если is_center то пробежимся по prepared_data равным y меняем значения x 
                     x = start_x + self._get_delta_wrap_x(node)
                     y += delta_wrap_y
                     prepared_data.append(
@@ -235,6 +236,9 @@ class DiagramDrawer:
                 # сектора
                 control_sectors = connection.get("control_sectors", [])
                 # рисуем соединение
+                # сектора
+                control_sectors = connection.get("control_sectors", [])
+                # рисуем соединение
                 prepared_data.append(
                     {
                         "type": "connection",
@@ -243,19 +247,27 @@ class DiagramDrawer:
                         "y": y,
                         "connection_optical_length": connection_optical_length,
                         "connection_physical_length": connection_physical_length,
-                        "control_sectors": control_sectors,
+                        "control_sectors": [],  # пустой список
                         "to_right_physical_length": to_right_physical_length,
                     }
                 )
                 # увеличиваем координаты по длине соединения
                 if connection_id == "100" and len(control_sectors) > 0:
                     for cs in control_sectors:
+                        cs_copy = cs.copy() 
                         x += cs.get("data_pars", {}).get("cs_lenght", {}).get("value", 0)
+                        cs_copy["x"] = x
+                        cs_copy["y"] = y
                         to_right_physical_length += cs.get("data_pars", {}).get("cs_physical_length", {}).get("value", 0)
                         # Если есть перенос
                         if cs.get("is_wrap", False):
                             y += delta_wrap_y
                             x = start_x + cs.get("data_pars", {}).get("cs_delta_wrap_x", {}).get("value", 0)
+                            cs_copy["wrap_x"] = x
+                            cs_copy["wrap_y"] = y
+                        # добавляем изменённый сектор в prepared_data
+                        prepared_data[-1]["control_sectors"].append(cs_copy)
+
                 else:
                     x += connection_length
                     # увеличиваем optical_length и physical_length
