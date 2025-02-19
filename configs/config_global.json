@@ -65,28 +65,34 @@
                     "name": "Расстояние между рядами вершин по Y",
                     "order": 3
                 },
+                "is_center": {
+                    "value": false,
+                    "name": "Центрировать схему по центру изображения по X",
+                    "order": 4,
+                    "type": "bool"
+                },
                 "font_name": {
                     "value": "",
                     "name": "Название шрифта диграммы",
-                    "order": 4,
+                    "order": 5,
                     "type": "font_name"
                 },
                 "precision_number": {
                     "value": 0,
                     "name": "Кол-во знаков после разделителя",
-                    "order": 5,
+                    "order": 6,
                     "type": "number_int"
                 },
                 "precision_separator": {
                     "value": true,
                     "name": "Разделитель точка/запятая",
-                    "order": 6,
+                    "order": 7,
                     "type": "bool"
                 },
                 "is_location": {
                     "value": true,
                     "name": "Показывать местоположение",
-                    "order": 7,
+                    "order": 8,
                     "type": "bool"
                 },
                 "Тонкие линии": {
@@ -188,22 +194,28 @@
                     "name": "Расстояние между рядами вершин по Y",
                     "order": 3
                 },
+                "is_center": {
+                    "value": false,
+                    "name": "Центрировать схему по центру изображения по X",
+                    "order": 4,
+                    "type": "bool"
+                },
                 "font_name": {
                     "value": "",
                     "name": "Название шрифта диграммы",
-                    "order": 4,
+                    "order": 5,
                     "type": "font_name"
                 },
                 "precision_number": {
                     "value": 0,
                     "name": "Кол-во знаков после разделителя",
-                    "order": 5,
+                    "order": 6,
                     "type": "number_int"
                 },
                 "precision_separator": {
                     "value": true,
                     "name": "Разделитель точка/запятая",
-                    "order": 6,
+                    "order": 7,
                     "type": "bool"
                 },
                 "Тонкие линии": {
@@ -279,22 +291,28 @@
                     "name": "Расстояние между рядами вершин по Y",
                     "order": 3
                 },
+                "is_center": {
+                    "value": false,
+                    "name": "Центрировать схему по центру изображения по X",
+                    "order": 4,
+                    "type": "bool"
+                },
                 "font_name": {
                     "value": "",
                     "name": "Название шрифта диграммы",
-                    "order": 4,
+                    "order": 5,
                     "type": "font_name"
                 },
                 "precision_number": {
                     "value": 0,
                     "name": "Кол-во знаков после разделителя",
-                    "order": 5,
+                    "order": 6,
                     "type": "number_int"
                 },
                 "precision_separator": {
                     "value": true,
                     "name": "Разделитель точка/запятая",
-                    "order": 6,
+                    "order": 7,
                     "type": "bool"
                 },
                 "Тонкие линии": {
@@ -370,22 +388,28 @@
                     "name": "Расстояние между рядами вершин по Y",
                     "order": 3
                 },
+                "is_center": {
+                    "value": false,
+                    "name": "Центрировать схему по центру изображения по X",
+                    "order": 4,
+                    "type": "bool"
+                },
                 "font_name": {
                     "value": "",
                     "name": "Название шрифта диграммы",
-                    "order": 4,
+                    "order": 5,
                     "type": "font_name"
                 },
                 "precision_number": {
                     "value": 0,
                     "name": "Кол-во знаков после разделителя",
-                    "order": 5,
+                    "order": 6,
                     "type": "number_int"
                 },
                 "precision_separator": {
                     "value": true,
                     "name": "Разделитель точка/запятая",
-                    "order": 6,
+                    "order": 7,
                     "type": "bool"
                 },
                 "Тонкие линии": {

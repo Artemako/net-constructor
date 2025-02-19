@@ -769,34 +769,6 @@ class MainWindow(QMainWindow):
             precision_separator,
         )
 
-        # название
-        # label_name = QLabel("Название контрольного сектора")
-        # self.cs_name_edit = self._get_widget(
-        #     "line_string", cs.get("cs_name", ""), is_parameters=False
-        # )
-        # self.ui.fl_control.addRow(label_name, self.cs_name_edit)
-        # # физическая длина сектора
-        # label_physical_length = QLabel("Физическая длина сектора")
-        # self.cs_physical_length_edit = self._get_widget(
-        #     "number_float",
-        #     float(cs.get("cs_physical_length", 0)),
-        #     is_parameters=True,
-        #     precision_separator=precision_separator,
-        # )
-        # self.ui.fl_control.addRow(label_physical_length, self.cs_physical_length_edit)
-        # # длина
-        # label_length = QLabel("Длина сектора")
-        # self.cs_length_edit = self._get_widget(
-        #     "number_int", int(cs.get("cs_lenght", 0)), is_parameters=True
-        # )
-        # self.ui.fl_control.addRow(label_length, self.cs_length_edit)
-        # # перенос после
-        # label_wrap = QLabel("Расстояние переноса по X после сектора")
-        # self.cs_delta_wrap_x_edit = self._get_widget(
-        #     "number_int", int(cs.get("cs_delta_wrap_x", 0)), is_parameters=True
-        # )
-        # self.ui.fl_control.addRow(label_wrap, self.cs_delta_wrap_x_edit)
-
     def _wrap_node(self, node):
         self.__obsm.obj_project.wrap_node(node)
         #

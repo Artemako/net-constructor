@@ -45,15 +45,16 @@ class ImageWidget(QWidget):
         delta_wrap_y = int(
             data.get("diagram_parameters", {}).get("delta_wrap_y", {}).get("value", 0)
         )
-        # TODO is_center = False
-        is_center = True
+        is_center = int(
+            data.get("diagram_parameters", {}).get("is_center", {}).get("value", False)
+        )
         
         image = QImage(width, height, QImage.Format_ARGB32)
         image.fill(Qt.white)
 
         painter = QPainter(image)
         if self.__diagram_drawer:
-            self.__diagram_drawer.draw(painter, start_x, start_y, delta_wrap_y)
+            self.__diagram_drawer.draw(painter, start_x, start_y, delta_wrap_y, width, is_center)
         painter.end()
 
         return image
