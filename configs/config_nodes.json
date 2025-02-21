@@ -72,7 +72,7 @@
                 "order": 102
             },
             "node_name_height": {
-                "value": 50,
+                "value": 45,
                 "name": "Высота названия над вершиной",
                 "order": 103
             }
@@ -157,7 +157,7 @@
                 "order": 102
             },
             "node_name_height": {
-                "value": 50,
+                "value": 45,
                 "name": "Высота названия над вершиной",
                 "order": 103
             }
@@ -230,7 +230,7 @@
                 "order": 52
             },
             "node_name_height": {
-                "value": 140,
+                "value": 141,
                 "name": "Высота названия над вершиной",
                 "order": 53
             },
@@ -247,7 +247,7 @@
                 "type": "color"
             },
             "node_caption_pixel_size": {
-                "value": 12,
+                "value": 15,
                 "name": "Размер шрифта подписей вершин",
                 "order": 102
             },
@@ -257,7 +257,7 @@
                 "order": 103
             },
             "node_caption_horizontal_padding": {
-                "value": 25,
+                "value": 20,
                 "name": "Боковой отступ подписей от вертикальных тонких линий",
                 "order": 104
             },
@@ -291,7 +291,7 @@
                 "order": 151
             },
             "delta_node_and_to_right_arrow": {
-                "value": 100,
+                "value": 90,
                 "name": "Расстояние между вершиной и стрелками вправо подписей",
                 "order": 152
             },
@@ -374,7 +374,7 @@
                 "order": 52
             },
             "node_name_height": {
-                "value": 140,
+                "value": 141,
                 "name": "Высота названия над вершиной",
                 "order": 53
             },
@@ -391,7 +391,7 @@
                 "type": "color"
             },
             "node_caption_pixel_size": {
-                "value": 12,
+                "value": 15,
                 "name": "Размер шрифта подписей вершин",
                 "order": 102
             },
@@ -401,7 +401,7 @@
                 "order": 103
             },
             "node_caption_horizontal_padding": {
-                "value": 25,
+                "value": 20,
                 "name": "Боковой отступ подписей от вертикальных тонких линий",
                 "order": 104
             },
@@ -536,7 +536,7 @@
                 "type": "color"
             },
             "node_caption_physics_pixel_size": {
-                "value": 12,
+                "value": 15,
                 "name": "Размер шрифта подписей физ. длин вершин",
                 "order": 102
             },
@@ -670,7 +670,7 @@
                 "type": "color"
             },
             "node_caption_physics_pixel_size": {
-                "value": 12,
+                "value": 15,
                 "name": "Размер шрифта подписей физ. длин вершин",
                 "order": 102
             },

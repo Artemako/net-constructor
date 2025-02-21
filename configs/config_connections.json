@@ -51,7 +51,7 @@
         "objects_data": {},
         "object_parameters": {
             "connection_length": {
-                "value": 350,
+                "value": 300,
                 "name": "Длина соединения",
                 "order": 0
             }
@@ -93,12 +93,12 @@
                 "type": "color"
             },
             "connection_caption_pixel_size": {
-                "value": 12,
+                "value": 13,
                 "name": "Размер шрифта подписей соединения",
                 "order": 102
             },
             "connection_caption_margin_left_right": {
-                "value": 10,
+                "value": 7,
                 "name": "Боковые отступы подписей от вершин",
                 "order": 103
             },
@@ -120,19 +120,19 @@
                 "type": "line_string"
             },
             "префикс_физическая_длина": {
-                "value": "физическая длина - ",
+                "value": "физ. длина -",
                 "name": "Префикс Физическая длина",
                 "order": 108,
                 "type": "line_string"
             },
             "префикс_оптическая_длина": {
-                "value": "оптическая длина - ",
+                "value": "опт. длина - ",
                 "name": "Префикс Оптическая длина",
                 "order": 110,
                 "type": "line_string"
             },
             "постфикс_расстояния": {
-                "value": " м",
+                "value": " м.",
                 "name": "Постфикс расстояния",
                 "order": 111,
                 "type": "line_string"
@@ -150,7 +150,7 @@
                 "type": "color"
             },
             "connection_name_pixel_size": {
-                "value": 12,
+                "value": 13,
                 "name": "Размер шрифта названия и местоположения соединения",
                 "order": 202
             },
@@ -235,12 +235,12 @@
                 "type": "color"
             },
             "connection_caption_pixel_size": {
-                "value": 12,
+                "value": 15,
                 "name": "Размер шрифта подписей соединения",
                 "order": 102
             },
             "connection_main_caption_vertical_padding": {
-                "value": 10,
+                "value": 20,
                 "name": "Высота подписей над/под соединением",
                 "order": 104
             },
@@ -284,7 +284,7 @@
         "objects_data": {},
         "object_parameters": {
             "connection_length": {
-                "value": 350,
+                "value": 300,
                 "name": "Длина соединения",
                 "order": 0
             }
@@ -326,7 +326,7 @@
                 "type": "color"
             },
             "connection_caption_pixel_size": {
-                "value": 12,
+                "value": 15,
                 "name": "Размер шрифта подписей соединения",
                 "order": 102
             },
@@ -418,7 +418,7 @@
         "objects_data": {},
         "object_parameters": {
             "connection_length": {
-                "value": 350,
+                "value": 300,
                 "name": "Длина соединения",
                 "order": 0
             }
@@ -460,12 +460,12 @@
                 "type": "color"
             },
             "connection_caption_pixel_size": {
-                "value": 12,
+                "value": 15,
                 "name": "Размер шрифта подписей соединения",
                 "order": 102
             },
             "connection_main_caption_vertical_padding": {
-                "value": 10,
+                "value": 12,
                 "name": "Высота подписей над/под соединением",
                 "order": 104
             },

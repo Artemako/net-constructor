@@ -70,6 +70,9 @@
             "order": 50,
             "type": "title",
             "value": ""
+        },
+        "is_center": {
+            "value": false
         }
     },
     "image_parameters": {
