@@ -1,3 +1,5 @@
+import math
+
 from PySide6.QtWidgets import QWidget
 from PySide6.QtGui import QPainter, QImage
 from PySide6.QtCore import Qt, QPointF, QPoint
@@ -7,7 +9,6 @@ import package.modules.diagramdrawer as diagramdrawer
 
 class ImageWidget(QWidget):
     """Класс виджета для отображения диаграммы."""
-
     def __init__(self, parent=None):
         self.__obsm = None
         super().__init__(parent)
@@ -21,11 +22,38 @@ class ImageWidget(QWidget):
     def set_obsm(self, obsm):
         self.__obsm = obsm
 
-    def run(self, data):
-        """Инициализирует данные и создает изображение."""
+    def run(self, data, is_new=True):
         self.__diagram_drawer = diagramdrawer.DiagramDrawer(self.__obsm, data)
         self.__image = self.create_image(data)
+
+        if is_new:
+            self._fit_image_to_widget()
+
         self.update()
+
+    def _fit_image_to_widget(self):
+        widget_width = self.width()
+        widget_height = self.height()
+        image_width = self.__image.width()
+        image_height = self.__image.height()
+
+        if image_width > 0 and image_height > 0:
+            # Вычисляем коэффициенты масштабирования
+            zoom_x = widget_width / image_width
+            zoom_y = widget_height / image_height
+
+            # Минимальный коэффициент масштабирования, чтобы изображение полностью помещалось в виджете
+            initial_zoom_level = min(zoom_x, zoom_y)
+
+            # Находим ближайшую степень 1.1 к initial_zoom_level
+            log_zoom = math.log(initial_zoom_level, 1.1)
+            rounded_log_zoom = round(log_zoom)
+            self.__zoom_level = 1.1**rounded_log_zoom
+
+            # Центрируем изображение
+            offset_x = (widget_width - image_width * self.__zoom_level) / 2
+            offset_y = (widget_height - image_height * self.__zoom_level) / 2
+            self.__pan_offset = QPointF(offset_x, offset_y)
 
     def save_image(self, file_name):
         self.__image.save(file_name, "PNG")
@@ -48,13 +76,15 @@ class ImageWidget(QWidget):
         is_center = int(
             data.get("diagram_parameters", {}).get("is_center", {}).get("value", False)
         )
-        
+
         image = QImage(width, height, QImage.Format_ARGB32)
         image.fill(Qt.white)
 
         painter = QPainter(image)
         if self.__diagram_drawer:
-            self.__diagram_drawer.draw(painter, start_x, start_y, delta_wrap_y, width, is_center)
+            self.__diagram_drawer.draw(
+                painter, start_x, start_y, delta_wrap_y, width, is_center
+            )
         painter.end()
 
         return image
