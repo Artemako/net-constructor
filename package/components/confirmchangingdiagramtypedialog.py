@@ -9,7 +9,7 @@ class ConfirmChangingDiagramType(QDialog):
         self.setWindowTitle("Подтверждение")
         #
         diagram_name = self.__new_diagram.get("name", "")
-        self.label = QLabel(f'Вы уверены, что хотите изменить тип диаграммы на "{diagram_name}"?')
+        self.label = QLabel(f'Вы уверены, что хотите изменить тип схемы на "{diagram_name}"?')
         
         self.ok_button = QPushButton("ОК")
         self.cancel_button = QPushButton("Отмена")

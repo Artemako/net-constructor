@@ -1,0 +1,162 @@
+{
+    "diagram_type_id": "0",
+    "diagram_name": "ПТ-3. Скелетная схема ВОЛП и основные данные цепей кабеля",
+    "diagram_parameters": {
+        "arrow_height": {
+            "name": "Высота стрелки",
+            "order": 202,
+            "value": 8
+        },
+        "arrow_width": {
+            "name": "Ширина стрелки",
+            "order": 201,
+            "value": 20
+        },
+        "delta_node_and_thin_line": {
+            "name": "Расстояние между вершиной и тонкой линией",
+            "order": 101,
+            "value": 100
+        },
+        "delta_thins_lines": {
+            "name": "Расстояние между тонкими линиями",
+            "order": 102,
+            "value": 50
+        },
+        "delta_wrap_y": {
+            "name": "Расстояние между рядами вершин по Y",
+            "order": 3,
+            "value": 310
+        },
+        "distance_thin_line_after_connection_x": {
+            "name": "Расстояние тонкой линии после соединения по X",
+            "order": 103,
+            "value": 5
+        },
+        "distance_thin_line_after_connection_y": {
+            "name": "Расстояние тонкой линии после соединения по Y",
+            "order": 104,
+            "value": 5
+        },
+        "font_name": {
+            "name": "Название шрифта диграммы",
+            "order": 5,
+            "type": "font_name",
+            "value": "Open Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
+        },
+        "is_center": {
+            "name": "Центрировать схему по центру изображения по X",
+            "order": 4,
+            "type": "bool",
+            "value": false
+        },
+        "is_location": {
+            "name": "Показывать местоположение",
+            "order": 8,
+            "type": "bool",
+            "value": true
+        },
+        "is_wrap_arrow": {
+            "name": "Показывать стрелку переноса",
+            "order": 204,
+            "type": "bool",
+            "value": true
+        },
+        "precision_number": {
+            "name": "Кол-во знаков после разделителя",
+            "order": 6,
+            "type": "number_int",
+            "value": 1
+        },
+        "precision_separator": {
+            "name": "Разделитель точка/запятая",
+            "order": 7,
+            "type": "bool",
+            "value": true
+        },
+        "start_x": {
+            "name": "Стартовая координата X",
+            "order": 1,
+            "value": 140
+        },
+        "start_y": {
+            "name": "Стартовая координата Y",
+            "order": 2,
+            "value": 150
+        },
+        "thin_line_color": {
+            "name": "Цвет тонкой линии",
+            "order": 51,
+            "type": "color",
+            "value": "#000000"
+        },
+        "thin_line_weight": {
+            "name": "Толщина тонкой линии",
+            "order": 52,
+            "value": 2
+        },
+        "wrap_arrow_length": {
+            "name": "Длина линии стрелки переноса",
+            "order": 203,
+            "value": 50
+        },
+        "Расстояния": {
+            "name": "Расстояния",
+            "order": 100,
+            "type": "title",
+            "value": ""
+        },
+        "Стрелки": {
+            "name": "Стрелки",
+            "order": 200,
+            "type": "title",
+            "value": ""
+        },
+        "Тонкие линии": {
+            "name": "Тонкие линии",
+            "order": 50,
+            "type": "title",
+            "value": ""
+        }
+    },
+    "image_parameters": {
+        "width": {
+            "value": 1800,
+            "name": "Ширина изображения",
+            "order": 0
+        },
+        "height": {
+            "value": 700,
+            "name": "Высота изображения",
+            "order": 1
+        }
+    },
+    "control_sectors_config": {
+        "cs_name": {
+            "value": "Контрольная точка",
+            "name": "Название сектора",
+            "order": 1,
+            "type": "line_string"
+        },
+        "cs_physical_length": {
+            "value": 0,
+            "name": "Физическая длина сектора",
+            "order": 2,
+            "type": "number_float"
+        },
+        "cs_lenght": {
+            "value": 250,
+            "name": "Расстояние сектора",
+            "order": 3,
+            "type": "number_int"
+        },
+        "cs_delta_wrap_x": {
+            "value": 0,
+            "name": "Расстояние переноса по X после сектора",
+            "order": 4,
+            "type": "number_int_signed"
+        }
+    },
+    "nodes": [],
+    "connections": [],
+    "archived_parameters": {}
+}

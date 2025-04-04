@@ -70,7 +70,7 @@ class Project:
                 connection_id
             ] = {"parameters": connection["parameters"]}
 
-        # Обновляем тип диаграммы и параметры
+        # Обновляем тип схемы и параметры
         new_diagram_type_id = new_diagram.get("type_id", "0")
         self._update_diagram_nodes(new_diagram_type_id, config_nodes)
         self._update_diagram_connections(new_diagram_type_id, config_connections)
@@ -139,6 +139,9 @@ class Project:
 
     def add_pair(self, key_dict_node_and_key_dict_connection):
         key_dict_node = key_dict_node_and_key_dict_connection.get("node")
+        node_name = key_dict_node_and_key_dict_connection.get("node_name", "") 
+        node_place = key_dict_node_and_key_dict_connection.get("node_place", "")
+        #
         key_dict_connection = key_dict_node_and_key_dict_connection.get("connection")
         #
         if len(self.__data.get("nodes", [])) == 0:

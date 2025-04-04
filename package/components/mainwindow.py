@@ -1,3 +1,5 @@
+# mainwindow.py
+
 from PySide6.QtWidgets import (
     QMainWindow,
     QMenu,
@@ -93,7 +95,7 @@ class MainWindow(QMainWindow):
         #
         self.ui.btn_addnode.clicked.connect(self._add_node)
         self.ui.btn_movenodes.clicked.connect(self._move_nodes)
-        self.ui.btn_deletenode.clicked.connect(self._delete_node)
+        # self.ui.btn_deletenode.clicked.connect(self._delete_node)
         #
         self.ui.btn_moveconnections.clicked.connect(self._move_connections)
         #
@@ -406,22 +408,62 @@ class MainWindow(QMainWindow):
                 self.ui.imagewidget.run(project_data)
                 self._reset_widgets_by_data(project_data)
 
-    def _delete_node(self, node):
-        if self.__obsm.obj_project.is_active():
-            nodes = self.__obsm.obj_project.get_data().get("nodes", [])
-            connections = self.__obsm.obj_project.get_data().get("connections", [])
-            dialog = nodeconnectiondeletedialog.NodeConnectionDeleteDialog(
-                nodes, connections, self
-            )
-            if dialog.exec():
-                selected_data = dialog.get_selected_node_and_connection()
-                node = selected_data.get("node")
-                connection = selected_data.get("connection")
-                self.__obsm.obj_project.delete_pair(node, connection)
-                #
-                project_data = self.__obsm.obj_project.get_data()
-                self.ui.imagewidget.run(project_data)
-                self._reset_widgets_by_data(project_data)
+    # def _delete_node(self, node):
+    #     if self.__obsm.obj_project.is_active():
+    #         nodes = self.__obsm.obj_project.get_data().get("nodes", [])
+    #         connections = self.__obsm.obj_project.get_data().get("connections", [])
+    #         dialog = nodeconnectiondeletedialog.NodeConnectionDeleteDialog(
+    #             nodes, connections, self
+    #         )
+    #         if dialog.exec():
+    #             selected_data = dialog.get_selected_node_and_connection()
+    #             node = selected_data.get("node")
+    #             connection = selected_data.get("connection")
+    #             self.__obsm.obj_project.delete_pair(node, connection)
+    #             #
+    #             project_data = self.__obsm.obj_project.get_data()
+    #             self.ui.imagewidget.run(project_data)
+    #             self._reset_widgets_by_data(project_data)
+
+    def _delete_node_with_connection(self, node, side="left"):
+        """Удаление узла с указанным соединением"""
+        connections = self.__obsm.obj_project.get_data().get("connections", [])
+        nodes = self.__obsm.obj_project.get_data().get("nodes", [])
+
+        # Получаем порядок выбранного узла
+        selected_node_order = node.get("order", 0)
+
+        # Определяем соединение для удаления
+        connection_to_delete = None
+        if len(nodes) > 1:  # Если узлов больше одного
+            if side == "left" and selected_node_order > 0:
+                connection_to_delete = next(
+                    (
+                        con
+                        for con in connections
+                        if con.get("order", 0) == selected_node_order - 1
+                    ),
+                    None,
+                )
+            elif side == "right" and selected_node_order < len(connections):
+                connection_to_delete = next(
+                    (
+                        con
+                        for con in connections
+                        if con.get("order", 0) == selected_node_order
+                    ),
+                    None,
+                )
+        else:
+            # Если это последний оставшийся узел, то просто удаляем его без соединения
+            connection_to_delete = None
+
+        # Удаляем пару (узел и соединение)
+        self.__obsm.obj_project.delete_pair(node, connection_to_delete)
+
+        project_data = self.__obsm.obj_project.get_data()
+        self.ui.imagewidget.run(project_data)
+        self._reset_widgets_by_data(project_data)
 
     def _reset_combobox_type_diagram(self, diagram_type_id):
         print("reset_combobox_type_diagram():\n")
@@ -549,6 +591,11 @@ class MainWindow(QMainWindow):
             #
             table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
             table_widget.blockSignals(False)
+            # контекстноеменю
+            table_widget.setContextMenuPolicy(Qt.CustomContextMenu)
+            table_widget.customContextMenuRequested.connect(
+                self.node_table_context_menu
+            )
 
         self._save_and_restore_scroll_position(self.ui.tablew_nodes, reset_nodes)
 
@@ -1150,3 +1197,46 @@ class MainWindow(QMainWindow):
             object_data,
         )
         self.ui.label_objects_data.setVisible(flag)
+
+    def node_table_context_menu(self, position):
+        """Отображение контекстного меню для таблицы узлов"""
+        menu = QMenu()
+        menu.setStyleSheet(self.styleSheet())
+
+        # Получаем текущий выбранный узел
+        selected_row = self.ui.tablew_nodes.currentRow()
+        if selected_row < 0:
+            return
+
+        nodes = self.__obsm.obj_project.get_data().get("nodes", [])
+        selected_node = nodes[selected_row]
+        node_count = len(nodes)
+
+        # Создаем действия
+        delete_with_left_action = menu.addAction("Удалить с левым соединением")
+        delete_with_right_action = menu.addAction("Удалить с правым соединением")
+
+        # Логика активации/деактивации действий
+        if node_count == 1:  # Если это единственный узел
+            delete_with_left_action.setEnabled(True)
+            delete_with_right_action.setEnabled(True)
+        else:
+            if selected_row == 0:  # Первый узел
+                delete_with_left_action.setEnabled(False)
+                delete_with_right_action.setEnabled(True)
+            elif selected_row == node_count - 1:  # Последний узел
+                delete_with_left_action.setEnabled(True)
+                delete_with_right_action.setEnabled(False)
+            else:  # Промежуточные узлы
+                delete_with_left_action.setEnabled(True)
+                delete_with_right_action.setEnabled(True)
+
+        # Отображаем меню
+        action = menu.exec_(self.ui.tablew_nodes.viewport().mapToGlobal(position))
+
+        # Обработка выбора действия
+        if selected_row >= 0 and selected_node:
+            if action == delete_with_left_action:
+                self._delete_node_with_connection(selected_node, "left")
+            elif action == delete_with_right_action:
+                self._delete_node_with_connection(selected_node, "right")

@@ -201,7 +201,9 @@ class DrawNode:
         )
 
         # Рисование названия
-        text = data.get_sd("название")
+        text = data.get_sd("название") 
+        if data.get_sd("местоположение"):
+            text += '\n' + data.get_sd("местоположение")
         drawtext.DrawText().draw_multiline_text_by_hc_vb(
             get_painter_text_name,
             text,
@@ -457,6 +459,8 @@ class DrawNode:
 
         # Рисование названия
         text = data.get_sd("название")
+        if data.get_sd("местоположение"):
+            text += '\n' + data.get_sd("местоположение")
         drawtext.DrawText().draw_multiline_text_by_hc_vb(
             get_painter_text_name,
             text,
@@ -571,6 +575,8 @@ class DrawNode:
 
             # Рисование названия
             text = data.get_sd("название")
+            if data.get_sd("местоположение"):
+                text += '\n' + data.get_sd("местоположение")
             drawtext.DrawText().draw_multiline_text_by_hc_vb(
                 get_painter_text_name,
                 text,
@@ -741,6 +747,8 @@ class DrawNode:
             )
             # Рисование названия
             text = data.get_sd("название")
+            if data.get_sd("местоположение"):
+                text += '\n' + data.get_sd("местоположение")
             drawtext.DrawText().draw_multiline_text_by_hc_vb(
                 get_painter_text_name,
                 text,

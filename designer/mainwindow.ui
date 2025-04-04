@@ -123,7 +123,7 @@
         <item>
          <widget class="QTabWidget" name="tabw_right">
           <property name="currentIndex">
-           <number>3</number>
+           <number>1</number>
           </property>
           <property name="documentMode">
            <bool>false</bool>
@@ -187,7 +187,7 @@
                 <item>
                  <widget class="QLabel" name="label_type">
                   <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Тип диаграммы&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Тип схемы&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -283,7 +283,7 @@
                 <item>
                  <widget class="QLabel" name="label_nodes">
                   <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Вершины&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Точки&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -295,21 +295,14 @@
                   <item>
                    <widget class="QPushButton" name="btn_addnode">
                     <property name="text">
-                     <string>Добавить вершину</string>
+                     <string>Добавить точку</string>
                     </property>
                    </widget>
                   </item>
                   <item>
                    <widget class="QPushButton" name="btn_movenodes">
                     <property name="text">
-                     <string>Изменить порядок вершин</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="btn_deletenode">
-                    <property name="text">
-                     <string>Удалить вершину</string>
+                     <string>Изменить порядок точек</string>
                     </property>
                    </widget>
                   </item>
@@ -332,7 +325,7 @@
                 <item>
                  <widget class="QLabel" name="label_connections">
                   <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Соединения&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Строительные длины&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
@@ -342,7 +335,7 @@
                 <item>
                  <widget class="QPushButton" name="btn_moveconnections">
                   <property name="text">
-                   <string>Изменить порядок соединений</string>
+                   <string>Изменить порядок строительных длин</string>
                   </property>
                  </widget>
                 </item>
