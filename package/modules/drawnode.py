@@ -433,6 +433,21 @@ class DrawNode:
                 is_to_right=False,
             )
 
+        def draw_tech_lengths():
+            drawtext.DrawText().draw_singleline_text_by_hr_vc(
+                get_painter_text_caption,
+                pars.get_sp("text_cable_length"),
+                self.__x - pars.get_sp("delta_x_text_lengths") * 2,
+                self.__y - pars.get_sp("delta_y_text_lengths") * 2
+            )
+            drawtext.DrawText().draw_singleline_text_by_hr_vc(
+                get_painter_text_caption,
+                pars.get_sp("text_fiber_length"),
+                self.__x - pars.get_sp("delta_x_text_lengths") * 2,
+                self.__y + pars.get_sp("delta_y_text_lengths") * 2
+            )
+            
+
         #
         if not (self.__object_node.get_after_wrap() or not self.__object_before):
             draw_to_right()
@@ -447,6 +462,11 @@ class DrawNode:
                 self.__y,
                 node_border_radius,
             )
+
+        # Рисование технических обозначений длин для первой вершины
+        if self.__object_before is None:
+            draw_tech_lengths()
+        
 
         # Рисование вершины
         drawobject.DrawObject().node_circle(
@@ -468,9 +488,13 @@ class DrawNode:
             self.__y - pars.get_sp("node_name_height"),
         )
 
+
+
+
+
+
     def _draw_node_ids_100_101(self, pars, data, node_id, nf):
 
-        # TODO control_sectors 102 убрать
 
         def get_painter_figure_border():
             return painterconfigurator.PainterConfigurator(

@@ -180,7 +180,7 @@
             ],
             "parameters": {
                 "start_x": {
-                    "value": 140,
+                    "value": 200,
                     "name": "Стартовая координата X",
                     "order": 1
                 },
@@ -261,6 +261,34 @@
                     "name": "Показывать стрелку переноса",
                     "order": 204,
                     "type": "bool"
+                },
+                "Технические обозначения": {
+                    "value": "",
+                    "name": "Технические обозначения",
+                    "order": 300,
+                    "type": "title"
+                },
+                "text_cable_length": {
+                    "value": "L по кабелю (м)",
+                    "name": "Обозначение длины по кабелю",
+                    "order": 301,
+                    "type": "line_string"
+                },
+                "text_fiber_length": {
+                    "value": "L по волокну (м)",
+                    "name": "Обозначение длины по волокну",
+                    "order": 302,
+                    "type": "line_string"
+                },
+                "delta_x_text_lengths": {
+                    "value": 20,
+                    "name": "Расстояние обозначений длин от первой вершины по X",
+                    "order": 303
+                },
+                "delta_y_text_lengths": {
+                    "value": 20,
+                    "name": "Расстояние обозначений длин от первой вершины по Y",
+                    "order": 304
                 }
             }
         },
