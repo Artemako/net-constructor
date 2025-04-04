@@ -156,7 +156,341 @@
             "type": "number_int_signed"
         }
     },
-    "nodes": [],
-    "connections": [],
+    "nodes": [
+        {
+            "id": "b8bde5ed20bf43d09a4fdc8352e15174",
+            "order": 0,
+            "node_id": "0",
+            "data": {
+                "местоположение": {
+                    "name": "Местоположение",
+                    "order": 1,
+                    "value": ""
+                },
+                "название": {
+                    "name": "Название",
+                    "order": 0,
+                    "value": "Оптическая муфта"
+                }
+            },
+            "is_wrap": false,
+            "parameters": {
+                "delta_wrap_x": {
+                    "name": "Расстояние переноса по X",
+                    "order": 2,
+                    "type": "number_int_signed",
+                    "value": 0
+                },
+                "node_is_connected_with_thin_line_location": {
+                    "name": "Cоединение с тонкой линией местоположения",
+                    "order": 10,
+                    "type": "bool",
+                    "value": true
+                },
+                "node_radius": {
+                    "name": "Радиус маленького круга вершин",
+                    "order": 55,
+                    "value": 20
+                },
+                "node_border_color": {
+                    "name": "Цвет рамки вершин",
+                    "order": 51,
+                    "type": "color",
+                    "value": "#000000"
+                },
+                "node_border_weight": {
+                    "name": "Толщина рамки вершин",
+                    "order": 52,
+                    "value": 2
+                },
+                "node_fill_color": {
+                    "name": "Цвет заливки вершин",
+                    "order": 53,
+                    "type": "color",
+                    "value": "#A0A0A4"
+                },
+                "node_fill_style": {
+                    "name": "Стиль заливки вершин",
+                    "order": 54,
+                    "type": "fill_style",
+                    "value": "DiagCrossPattern"
+                },
+                "node_name_color": {
+                    "name": "Цвет шрифта названия вершины",
+                    "order": 101,
+                    "type": "color",
+                    "value": "#000000"
+                },
+                "node_name_height": {
+                    "name": "Высота названия над вершиной",
+                    "order": 103,
+                    "value": 45
+                },
+                "node_name_pixel_size": {
+                    "name": "Размер шрифта названия вершины",
+                    "order": 102,
+                    "value": 16
+                },
+                "Названия вершин": {
+                    "name": "Названия вершин",
+                    "order": 100,
+                    "type": "title",
+                    "value": "заголовок"
+                }
+            }
+        },
+        {
+            "id": "2b4b7cac4fd74a19bcebfbaac46ad956",
+            "order": 1,
+            "node_id": "0",
+            "data": {
+                "местоположение": {
+                    "name": "Местоположение",
+                    "order": 1,
+                    "value": ""
+                },
+                "название": {
+                    "name": "Название",
+                    "order": 0,
+                    "value": "Оптическая муфта"
+                }
+            },
+            "is_wrap": false,
+            "parameters": {
+                "delta_wrap_x": {
+                    "name": "Расстояние переноса по X",
+                    "order": 2,
+                    "type": "number_int_signed",
+                    "value": 0
+                },
+                "node_is_connected_with_thin_line_location": {
+                    "name": "Cоединение с тонкой линией местоположения",
+                    "order": 10,
+                    "type": "bool",
+                    "value": true
+                },
+                "node_radius": {
+                    "name": "Радиус маленького круга вершин",
+                    "order": 55,
+                    "value": 20
+                },
+                "node_border_color": {
+                    "name": "Цвет рамки вершин",
+                    "order": 51,
+                    "type": "color",
+                    "value": "#000000"
+                },
+                "node_border_weight": {
+                    "name": "Толщина рамки вершин",
+                    "order": 52,
+                    "value": 2
+                },
+                "node_fill_color": {
+                    "name": "Цвет заливки вершин",
+                    "order": 53,
+                    "type": "color",
+                    "value": "#A0A0A4"
+                },
+                "node_fill_style": {
+                    "name": "Стиль заливки вершин",
+                    "order": 54,
+                    "type": "fill_style",
+                    "value": "DiagCrossPattern"
+                },
+                "node_name_color": {
+                    "name": "Цвет шрифта названия вершины",
+                    "order": 101,
+                    "type": "color",
+                    "value": "#000000"
+                },
+                "node_name_height": {
+                    "name": "Высота названия над вершиной",
+                    "order": 103,
+                    "value": 45
+                },
+                "node_name_pixel_size": {
+                    "name": "Размер шрифта названия вершины",
+                    "order": 102,
+                    "value": 16
+                },
+                "Названия вершин": {
+                    "name": "Названия вершин",
+                    "order": 100,
+                    "type": "title",
+                    "value": "заголовок"
+                }
+            }
+        }
+    ],
+    "connections": [
+        {
+            "id": "7631d315283c40f595bc67a9a5d1a847",
+            "order": 0,
+            "connection_id": "0",
+            "data": {
+                "ВОК": {
+                    "info": "В зависимости от условий прокладки ВОК связи подразделяются по базовому критерию - допустимому растягивающему усилию [Рр] на 6 типов",
+                    "name": "Тип ВОК",
+                    "order": 2,
+                    "type": "line_string",
+                    "value": ""
+                },
+                "количество_ОВ": {
+                    "name": "Количество ОВ",
+                    "order": 3,
+                    "type": "number_int",
+                    "value": 0
+                },
+                "местоположение": {
+                    "name": "Местоположение (над линией)",
+                    "order": 6,
+                    "value": ""
+                },
+                "местоположение_доп": {
+                    "name": "Местоположение (под линией)",
+                    "order": 7,
+                    "value": ""
+                },
+                "название": {
+                    "name": "Марка ВОК",
+                    "order": 0,
+                    "value": "Участок размещения проложенного кабеля"
+                },
+                "название_доп": {
+                    "name": "Дополнительное название (под линией)",
+                    "order": 1,
+                    "value": ""
+                },
+                "оптическая_длина": {
+                    "name": "Оптическая длина",
+                    "order": 5,
+                    "type": "number_float",
+                    "value": 0
+                },
+                "физическая_длина": {
+                    "name": "Физическая длина",
+                    "order": 4,
+                    "type": "number_float",
+                    "value": 0
+                }
+            },
+            "parameters": {
+                "connection_length": {
+                    "name": "Длина соединения",
+                    "order": 0,
+                    "value": 320
+                },
+                "connection_caption_color": {
+                    "name": "Цвет шрифта подписей соединения",
+                    "order": 101,
+                    "type": "color",
+                    "value": "#000000"
+                },
+                "connection_caption_margin_left_right": {
+                    "name": "Боковые отступы подписей от вершин",
+                    "order": 103,
+                    "value": 7
+                },
+                "connection_caption_pixel_size": {
+                    "name": "Размер шрифта подписей соединения",
+                    "order": 102,
+                    "value": 13
+                },
+                "connection_color": {
+                    "name": "Цвет основной линии соединения",
+                    "order": 1,
+                    "type": "color",
+                    "value": "#0000ff"
+                },
+                "connection_location_delta_x": {
+                    "name": "Смещение местоположения соединения по X",
+                    "order": 204,
+                    "type": "number_int_signed",
+                    "value": 0
+                },
+                "connection_main_caption_vertical_padding": {
+                    "name": "Высота подписей над/под соединением",
+                    "order": 104,
+                    "value": 10
+                },
+                "connection_name_color": {
+                    "name": "Цвет шрифта названия и местоположения соединения",
+                    "order": 201,
+                    "type": "color",
+                    "value": "#000000"
+                },
+                "connection_name_pixel_size": {
+                    "name": "Размер шрифта названия и местоположения соединения",
+                    "order": 202,
+                    "value": 13
+                },
+                "connection_style": {
+                    "name": "Стиль основной линии соединения",
+                    "order": 3,
+                    "type": "line_style",
+                    "value": "SolidLine"
+                },
+                "connection_thin_caption_vertical_padding": {
+                    "name": "Высота подписей над/под тонкой линией",
+                    "order": 203,
+                    "value": 6
+                },
+                "connection_width": {
+                    "name": "Толщина основной линии соединения",
+                    "order": 2,
+                    "value": 4
+                },
+                "Название и местоположение соединения": {
+                    "name": "Название и местоположение соединения",
+                    "order": 200,
+                    "type": "title",
+                    "value": "заголовок"
+                },
+                "Основная линия соединения": {
+                    "name": "Основная линия соединения",
+                    "order": 0,
+                    "type": "title",
+                    "value": "заголовок"
+                },
+                "Подписи основной линии": {
+                    "name": "Подписи основной линии",
+                    "order": 100,
+                    "type": "title",
+                    "value": "заголовок"
+                },
+                "постфикс_расстояния": {
+                    "name": "Постфикс расстояния",
+                    "order": 111,
+                    "type": "line_string",
+                    "value": " м."
+                },
+                "префикс_ВОК": {
+                    "name": "Префикс ВОК",
+                    "order": 106,
+                    "type": "line_string",
+                    "value": "ВОК "
+                },
+                "префикс_количество_ОВ": {
+                    "name": "Префикс Количество ОВ",
+                    "order": 107,
+                    "type": "line_string",
+                    "value": "кол-во ОВ - "
+                },
+                "префикс_оптическая_длина": {
+                    "name": "Префикс Оптическая длина",
+                    "order": 110,
+                    "type": "line_string",
+                    "value": "опт. длина - "
+                },
+                "префикс_физическая_длина": {
+                    "name": "Префикс Физическая длина",
+                    "order": 108,
+                    "type": "line_string",
+                    "value": "физ. длина -"
+                }
+            },
+            "control_sectors": []
+        }
+    ],
     "archived_parameters": {}
 }

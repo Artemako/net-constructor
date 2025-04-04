@@ -58,7 +58,7 @@ class ChangeOrderDialog(QDialog):
                 item_name = f"{index + 1}) {obj_name}"
             elif self.__type_objects == "connections":
                 obj_name = obj.get("data", {}).get("название", {}).get("value", "")
-                item_name = f"{index + 1}—{index + 2}) {obj_name}"
+                item_name = f"{index + 1}) {obj_name}"
             elif self.__type_objects == "control_sectors":
                 obj_name = obj.get("data_pars", {}).get("cs_name", {}).get("value", "")
                 item_name = f"{index + 1}) {obj_name}"

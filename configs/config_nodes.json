@@ -29,7 +29,13 @@
                 "type": "bool"
             }
         },
-        "type_object_parameters": {},
+        "type_object_parameters": {
+            "node_radius": {
+                "value": 20,
+                "name": "Радиус маленького круга вершин",
+                "order": 55
+            }
+        },
         "objects_parameters": {
             "node_border_color": {
                 "value": "#000000",
@@ -53,11 +59,6 @@
                 "name": "Стиль заливки вершин",
                 "order": 54,
                 "type": "fill_style"
-            },
-            "node_radius": {
-                "value": 20,
-                "name": "Радиус маленького круга вершин",
-                "order": 55
             },
             "Названия вершин": {
                 "value": "заголовок",
@@ -108,7 +109,13 @@
                 "type": "bool"
             }
         },
-        "type_object_parameters": {},
+        "type_object_parameters": {
+            "node_radius": {
+                "value": 20,
+                "name": "Радиус маленького круга вершин",
+                "order": 55
+            }
+        },
         "objects_parameters": {
             "Вершины": {
                 "value": "заголовок",
@@ -138,11 +145,6 @@
                 "name": "Стиль заливки вершин",
                 "order": 54,
                 "type": "fill_style"
-            },
-            "node_radius": {
-                "value": 20,
-                "name": "Радиус маленького круга вершин",
-                "order": 55
             },
             "Названия вершин": {
                 "value": "заголовок",
@@ -192,7 +194,13 @@
                 "type": "number_int_signed"
             }
         },
-        "type_object_parameters": {},
+        "type_object_parameters": {
+            "node_radius": {
+                "value": 20,
+                "name": "Радиус маленького круга вершин",
+                "order": 5
+            }
+        },
         "objects_parameters": {
             "node_border_color": {
                 "value": "#000000",
@@ -216,11 +224,6 @@
                 "name": "Стиль заливки вершин",
                 "order": 4,
                 "type": "fill_style"
-            },
-            "node_radius": {
-                "value": 20,
-                "name": "Радиус маленького круга вершин",
-                "order": 5
             },
             "Названия вершин": {
                 "value": "заголовок",
@@ -336,7 +339,13 @@
                 "type": "number_int_signed"
             }
         },
-        "type_object_parameters": {},
+        "type_object_parameters": {
+            "node_radius": {
+                "value": 20,
+                "name": "Радиус маленького круга вершин",
+                "order": 5
+            }
+        },
         "objects_parameters": {
             "node_border_color": {
                 "value": "#000000",
@@ -360,11 +369,6 @@
                 "name": "Стиль заливки вершин",
                 "order": 4,
                 "type": "fill_style"
-            },
-            "node_radius": {
-                "value": 20,
-                "name": "Радиус маленького круга вершин",
-                "order": 5
             },
             "Названия вершин": {
                 "value": "заголовок",

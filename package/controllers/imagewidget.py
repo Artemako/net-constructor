@@ -22,7 +22,7 @@ class ImageWidget(QWidget):
     def set_obsm(self, obsm):
         self.__obsm = obsm
 
-    def run(self, data, is_new=True):
+    def run(self, data, is_new=False):
         self.__diagram_drawer = diagramdrawer.DiagramDrawer(self.__obsm, data)
         self.__image = self.create_image(data)
 

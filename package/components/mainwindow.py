@@ -1,5 +1,4 @@
 # mainwindow.py
-
 from PySide6.QtWidgets import (
     QMainWindow,
     QMenu,
@@ -22,7 +21,14 @@ from PySide6.QtWidgets import (
     QColorDialog,
     QComboBox,
     QFontComboBox,
+    QMessageBox,
+    QApplication,
+    QToolButton,
+    QStyle,
+    QHBoxLayout,
 )
+
+
 from PySide6.QtGui import QIntValidator, QFont
 from PySide6.QtCore import Qt, QModelIndex, QLocale
 
@@ -33,7 +39,6 @@ import package.components.nodeconnectionselectdialog as nodeconnectionselectdial
 import package.components.nodeconnectiondeletedialog as nodeconnectiondeletedialog
 import package.components.diagramtypeselectdialog as diagramtypeselectdialog
 import package.components.changeorderdialog as changeorderdialog
-import package.components.confirmchangingdiagramtypedialog as confirmchangingdiagramtypedialog
 import package.components.controlsectordeletedialog as controlsectordeletedialog
 
 import package.ui.mainwindow_ui as mainwindow_ui
@@ -152,7 +157,7 @@ class MainWindow(QMainWindow):
                 #
                 project_data = self.__obsm.obj_project.get_data()
                 #
-                self.ui.imagewidget.run(project_data)
+                self.ui.imagewidget.run(project_data, is_new=True)
                 self._reset_widgets_by_data(project_data)
                 self._start_qt_actions()
                 #
@@ -168,7 +173,7 @@ class MainWindow(QMainWindow):
             #
             project_data = self.__obsm.obj_project.get_data()
             #
-            self.ui.imagewidget.run(project_data)
+            self.ui.imagewidget.run(project_data, is_new=True)
             self._reset_widgets_by_data(project_data)
             self._start_qt_actions()
             #
@@ -265,21 +270,6 @@ class MainWindow(QMainWindow):
                         self.__current_control_sector["data_pars"][key]["value"] = (
                             value.get("value")
                         )
-                # сохранение параметров контрольного сектора
-                # new_cs_name = self.cs_name_edit.text()
-                # new_cs_physical_length = self.cs_physical_length_edit.value()
-                # new_cs_length = self.cs_length_edit.value()
-                # new_cs_delta_wrap_x_edit = self.cs_delta_wrap_x_edit.value()
-                # self.__current_control_sector["cs_name"] = new_cs_name
-                # self.__current_control_sector["cs_lenght"] = new_cs_length
-                # self.__current_control_sector["cs_physical_length"] = (
-                #     new_cs_physical_length
-                # )
-                # self.__current_control_sector["cs_delta_wrap_x"] = (
-                #     new_cs_delta_wrap_x_edit
-                # )
-
-                # self.__current_control_sector["data_pars"][...]["value"] = ...
 
             if is_editor_tab or is_general_tab or is_control_sector_tab:
                 config_nodes = self.__obsm.obj_configs.get_nodes()
@@ -303,6 +293,11 @@ class MainWindow(QMainWindow):
             project_data = self.__obsm.obj_project.get_data()
             self.ui.imagewidget.run(project_data)
             self._reset_widgets_by_data(project_data)
+
+            # Проверка оптической и физической длины соединения
+            self._clear_error_messages()
+            if is_editor_tab:
+                self._validate_lengths_on_editor_tab()
 
             # Обновляем таблицу контрольных секторов если мы на вкладке редактирования соединения
             # или редактирования контрольного сектора
@@ -493,23 +488,17 @@ class MainWindow(QMainWindow):
         )
         # диалоговое окно с выбором диаграммы
         if self.__obsm.obj_project.is_active() and new_type_id != current_type_id:
-            dialog = confirmchangingdiagramtypedialog.ConfirmChangingDiagramType(
-                new_diagram, self
+            config_nodes = self.__obsm.obj_configs.get_nodes()
+            config_connections = self.__obsm.obj_configs.get_connections()
+            self.__obsm.obj_project.change_type_diagram(
+                new_diagram, config_nodes, config_connections
             )
-            if dialog.exec():
-                config_nodes = self.__obsm.obj_configs.get_nodes()
-                config_connections = self.__obsm.obj_configs.get_connections()
-                self.__obsm.obj_project.change_type_diagram(
-                    new_diagram, config_nodes, config_connections
-                )
-                #
-                project_data = self.__obsm.obj_project.get_data()
-                self.ui.imagewidget.run(project_data)
-                self._reset_widgets_by_data(project_data)
+            #
+            project_data = self.__obsm.obj_project.get_data()
+            self.ui.imagewidget.run(project_data)
+            self._reset_widgets_by_data(project_data)
 
-    def reset_tab_general(
-        self, diagram_type_id, diagram_parameters, image_parameters, precision_separator
-    ):
+    def reset_tab_general(self, diagram_type_id, diagram_parameters, image_parameters):
         print("reset_tab_general")
         # очистка типа диаграммы
         self._reset_combobox_type_diagram(diagram_type_id)
@@ -520,7 +509,6 @@ class MainWindow(QMainWindow):
             self.ui.fl_image_parameters,
             config_image_parameters,
             image_parameters,
-            precision_separator,
         )
         # Параметры диаграммы
         config_diagram_parameters = (
@@ -533,7 +521,6 @@ class MainWindow(QMainWindow):
             self.ui.fl_diagram_parameters,
             config_diagram_parameters,
             diagram_parameters,
-            precision_separator,
         )
 
     def _save_and_restore_scroll_position(self, table_widget, reset_function):
@@ -606,21 +593,37 @@ class MainWindow(QMainWindow):
             table_widget.blockSignals(True)
             table_widget.clearContents()
             table_widget.setRowCount(len(connections))
-            #
-            headers = ["№", "Название", "Редактировать"]
+
+            # Заголовки теперь будут просто "№" и "Название"
+            headers = ["№", "Начало – Конец", "Редактировать"]
             table_widget.setColumnCount(len(headers))
             table_widget.setHorizontalHeaderLabels(headers)
             table_widget.verticalHeader().setVisible(False)
-            #
+
+            nodes = self.__obsm.obj_project.get_data().get("nodes", [])
+
             for index, connection in enumerate(connections):
-                connection_name = (
-                    connection.get("data", {}).get("название", {}).get("value", "")
-                )
-                print("CONNECTION_NAME:", connection_name)
                 #
-                item_number = QTableWidgetItem(f"{index + 1}—{index + 2}")
+                item_number = QTableWidgetItem(str(index + 1))
                 table_widget.setItem(index, 0, item_number)
                 #
+                node1_name = ""
+                node2_name = ""
+                if index < len(nodes):
+                    node1_name = (
+                        nodes[index]
+                        .get("data", {})
+                        .get("название", {})
+                        .get("value", "")
+                    )
+                if index + 1 < len(nodes):
+                    node2_name = (
+                        nodes[index + 1]
+                        .get("data", {})
+                        .get("название", {})
+                        .get("value", "")
+                    )
+                connection_name = f"{node1_name} – {node2_name}"
                 item = QTableWidgetItem(connection_name)
                 table_widget.setItem(index, 1, item)
                 #
@@ -629,42 +632,17 @@ class MainWindow(QMainWindow):
                 btn_edit.clicked.connect(
                     partial(self._edit_object, connection, index + 1, is_node=False)
                 )
-            #
+
             header = table_widget.horizontalHeader()
             header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
             header.setSectionResizeMode(1, QHeaderView.Stretch)
             header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
-
             table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
             table_widget.blockSignals(False)
 
         self._save_and_restore_scroll_position(
             self.ui.tablew_connections, reset_connections
         )
-
-    def _check_control_sectors_length(self, control_sectors):
-        """Проверка суммы физических длин секторов"""
-        total_physical_length = sum(
-            cs.get("data_pars", {}).get("cs_physical_length", {}).get("value", 0)
-            for cs in control_sectors
-        )
-        connection_physical_length = (
-            self.__current_object.get("data", {})
-            .get("физическая_длина", {})
-            .get("value", 0)
-        )
-
-        try:
-            connection_physical_length = float(connection_physical_length)
-        except (ValueError, TypeError):
-            connection_physical_length = 0
-
-        if abs(total_physical_length - connection_physical_length) <= 0.001:
-            return 0, total_physical_length, connection_physical_length
-        elif total_physical_length > connection_physical_length:
-            return 1, total_physical_length, connection_physical_length
-        else:
-            return -1, total_physical_length, connection_physical_length
 
     def _update_physical_length_header(self, table_widget, comparison_result):
         """Обновление заголовка столбца физической длины"""
@@ -687,27 +665,27 @@ class MainWindow(QMainWindow):
             table_widget.blockSignals(True)
             table_widget.clearContents()
             table_widget.setRowCount(len(control_sectors))
-            #
-            comparison_result, total_length, connection_length = (
-                self._check_control_sectors_length(control_sectors)
-            )
-            #
+
+            # Проверка суммы физических длин
+            self._check_sum_control_sectors(control_sectors)
+
             headers = ["№", "Название", "Физ. длина", "Перенос после", "Редактировать"]
             table_widget.setColumnCount(len(headers))
             table_widget.setHorizontalHeaderLabels(headers)
-            # обновляем заголовок физической длины
-            self._update_physical_length_header(table_widget, comparison_result)
-            #
+
+            # Устанавливаем стандартный заголовок для столбца физической длины
+            table_widget.setHorizontalHeaderItem(2, QTableWidgetItem("Физ. длина"))
+
             table_widget.verticalHeader().setVisible(False)
-            #
+
             for index, cs in enumerate(control_sectors):
                 item_number = QTableWidgetItem(str(index + 1))
                 table_widget.setItem(index, 0, item_number)
-                #
+
                 cs_name = cs.get("data_pars", {}).get("cs_name", {}).get("value", "")
                 item = QTableWidgetItem(cs_name)
                 table_widget.setItem(index, 1, item)
-                #
+
                 physical_length = (
                     cs.get("data_pars", {})
                     .get("cs_physical_length", {})
@@ -715,7 +693,7 @@ class MainWindow(QMainWindow):
                 )
                 item_length = QTableWidgetItem(str(physical_length))
                 table_widget.setItem(index, 2, item_length)
-                # в последней строке кнопки переноса нет
+
                 if index < len(control_sectors) - 1:
                     is_wrap = cs.get("is_wrap", False)
                     btn_wrap = QPushButton("Не переносить" if is_wrap else "Переносить")
@@ -725,7 +703,7 @@ class MainWindow(QMainWindow):
                     empty_item = QTableWidgetItem("")
                     empty_item.setFlags(empty_item.flags() & ~Qt.ItemIsEditable)
                     table_widget.setItem(index, 3, empty_item)
-                #
+
                 btn_edit = QPushButton("Редактировать")
                 table_widget.setCellWidget(index, 4, btn_edit)
                 btn_edit.clicked.connect(partial(self._edit_control_sector, cs))
@@ -736,7 +714,6 @@ class MainWindow(QMainWindow):
             header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
             header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
             header.setSectionResizeMode(4, QHeaderView.ResizeToContents)
-
             table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
             table_widget.blockSignals(False)
 
@@ -750,10 +727,14 @@ class MainWindow(QMainWindow):
         diagram_parameters = data.get("diagram_parameters", {})
         image_parameters = data.get("image_parameters", {})
         # Сепаратор для виджета
-        precision_separator = diagram_parameters.get("precision_separator", True)
+        precision_separator, precision_number = (
+            self._get_precision_separator_and_number()
+        )
         #
         self.reset_tab_general(
-            diagram_type_id, diagram_parameters, image_parameters, precision_separator
+            diagram_type_id,
+            diagram_parameters,
+            image_parameters,
         )
         #
         nodes = data.get("nodes", [])
@@ -773,6 +754,17 @@ class MainWindow(QMainWindow):
         #
         self._create_editor_data_widgets_by_object(obj, is_node)
         self._create_editor_parameters_widgets_by_object(obj, is_node)
+        #
+        self._clear_error_messages()
+        self._validate_lengths_on_editor_tab()
+
+    def _validate_lengths_on_editor_tab(self):
+        obj = self.__current_object
+        optical_length = obj.get("data", {}).get("оптическая_длина", {}).get("value")
+        physical_length = obj.get("data", {}).get("физическая_длина", {}).get("value")
+        self._check_lengths(
+            optical_length=optical_length, physical_length=physical_length
+        )
 
     def _edit_control_sector(self, cs):
         self.__current_control_sector = cs
@@ -787,11 +779,9 @@ class MainWindow(QMainWindow):
 
     def _create_control_sector_widgets(self, cs):
         self._clear_form_layout(self.ui.fl_control)
-        # получаем precision_separator из параметров диаграммы
-        precision_separator = (
-            self.__obsm.obj_project.get_data()
-            .get("diagram_parameters", {})
-            .get("precision_separator", True)
+        # получаем precision_separator и precision_number из параметров диаграммы
+        precision_separator, precision_number = (
+            self._get_precision_separator_and_number()
         )
         #
         self.__control_data_parameters_widgets = {}
@@ -814,6 +804,7 @@ class MainWindow(QMainWindow):
             control_sectors_config,
             cs_data_pars,
             precision_separator,
+            precision_number,
         )
 
     def _wrap_node(self, node):
@@ -845,11 +836,25 @@ class MainWindow(QMainWindow):
         if is_node:
             text_name = f"Редактирование вершины {index}"
         elif not is_node:
-            text_name = f"Редактирование соединения {index}—{index + 1}"
+            text_name = f"Редактирование соединения {index}"
         self.ui.tabw_right.setTabText(2, text_name)
 
+    def _get_precision_separator_and_number(self):
+        diagram_parameters = self.__obsm.obj_project.get_data().get(
+            "diagram_parameters", {}
+        )
+        precision_separator = diagram_parameters.get("precision_separator", True)
+        precision_number = diagram_parameters.get("precision_number", {}).get(
+            "value", 2
+        )
+        return precision_separator, precision_number
+
     def create_data_widgets(
-        self, dict_widgets, form_layout, config_object_data, object_data
+        self,
+        dict_widgets,
+        form_layout,
+        config_object_data,
+        object_data,
     ) -> bool:
         print(
             "create_data_widgets():\n"
@@ -860,32 +865,52 @@ class MainWindow(QMainWindow):
         )
         dict_widgets.clear()
         self._clear_form_layout(form_layout)
+
+        precision_separator, precision_number = (
+            self._get_precision_separator_and_number()
+        )
+
         for config_parameter_key, config_parameter_data in config_object_data.items():
             print(
                 f"config_parameter_key: {config_parameter_key}, config_parameter_data: {config_parameter_data}"
             )
             widget_type = config_parameter_data.get("type", "")
+            info = config_parameter_data.get(
+                "info", ""
+            )  # Получаем информацию для подсказки
             label_text = config_parameter_data.get("name", "")
-            # названия параметра data
-            label = self._get_label_name(label_text, widget_type)
-            # значение параметра data
             value = object_data.get(config_parameter_key, {}).get("value", None)
             value = (
                 value if value is not None else config_parameter_data.get("value", "")
             )
-            #
-            # тип виджета
-            new_widget = self._get_widget(widget_type, value, is_parameters=False)
-            #
-            form_layout.addRow(label, new_widget)
-            # в словарь виджетов
+
+            # Создаем метку для параметра
+            label = self._get_label_name(label_text, widget_type)
+
+            # Создаем основной виджет
+            new_widget = self._get_widget(
+                widget_type,
+                value,
+                is_parameters=False,
+                precision_separator=precision_separator,
+                precision_number=precision_number,
+            )
+
+            widget_to_add = self._create_widget_with_info(new_widget, info)
+            form_layout.addRow(label, widget_to_add)
+
             dict_widgets[config_parameter_key] = [widget_type, new_widget]
 
         print("BEFORE return len(dict_widgets) > 0: dict_widgets", dict_widgets)
         return len(dict_widgets) > 0
 
     def _get_widget(
-        self, widget_type, value, is_parameters=True, precision_separator=None
+        self,
+        widget_type,
+        value,
+        is_parameters=True,
+        precision_separator=None,
+        precision_number=None,
     ):
         if widget_type == "title":
             new_widget = QLabel()
@@ -956,6 +981,8 @@ class MainWindow(QMainWindow):
             new_widget = QDoubleSpinBox()
             new_widget.setRange(0, 2147483647)
             new_widget.setValue(value)
+            if precision_separator is not None:
+                new_widget.setDecimals(precision_number)
             if precision_separator == 0:
                 locale = QLocale(QLocale.Russian)
             else:
@@ -972,7 +999,15 @@ class MainWindow(QMainWindow):
                 new_widget = QTextEdit()
                 new_widget.setText(str(value))
                 new_widget.setFixedHeight(40)
-        #
+
+        # Отключение колесика мыши для всех виджетов, которые могут его использовать
+        if isinstance(new_widget, (QSpinBox, QDoubleSpinBox, QComboBox)):
+
+            def ignore_wheel_event(event):
+                event.ignore()
+
+            new_widget.wheelEvent = ignore_wheel_event
+
         return new_widget
 
     def _get_label_name(self, label_text, widget_type):
@@ -988,6 +1023,7 @@ class MainWindow(QMainWindow):
         config_object_parameters,
         object_parameters,
         precision_separator=None,
+        precision_number=None,
     ) -> bool:
         print(
             "create_parameters_widgets():\n"
@@ -998,6 +1034,11 @@ class MainWindow(QMainWindow):
         )
         dict_widgets.clear()
         self._clear_form_layout(form_layout)
+
+        precision_separator, precision_number = (
+            self._get_precision_separator_and_number()
+        )
+
         for (
             config_parameter_key,
             config_parameter_data,
@@ -1005,32 +1046,34 @@ class MainWindow(QMainWindow):
             print(
                 f"config_parameter_key: {config_parameter_key}, config_parameter_data: {config_parameter_data}"
             )
-            #
             widget_type = config_parameter_data.get("type", "")
             label_text = config_parameter_data.get("name", "")
-            # название параметра parameters
-            label = self._get_label_name(label_text, widget_type)
-            # значение параметра parameters
-            if widget_type == "font_name":
-                print("font_name BEFORE")
+            info = config_parameter_data.get(
+                "info", ""
+            )  # Получаем информацию для подсказки
             value = object_parameters.get(config_parameter_key, {}).get("value", None)
-            print("value", value)
             value = (
                 value if value is not None else config_parameter_data.get("value", "")
             )
-            print("new_value", value)
-            #
-            # тип виджета
+
+            # Создаем метку для параметра
+            label = self._get_label_name(label_text, widget_type)
+
+            # Создаем основной виджет
             new_widget = self._get_widget(
                 widget_type,
                 value,
                 is_parameters=True,
                 precision_separator=precision_separator,
+                precision_number=precision_number,
             )
-            #
-            form_layout.addRow(label, new_widget)
+
+            widget_to_add = self._create_widget_with_info(new_widget, info)
+            form_layout.addRow(label, widget_to_add)
+
             if widget_type != "title":
                 dict_widgets[config_parameter_key] = [widget_type, new_widget]
+
         print("BEFORE return len(dict_widgets) > 0: dict_widgets", dict_widgets)
         return len(dict_widgets) > 0
 
@@ -1240,3 +1283,107 @@ class MainWindow(QMainWindow):
                 self._delete_node_with_connection(selected_node, "left")
             elif action == delete_with_right_action:
                 self._delete_node_with_connection(selected_node, "right")
+
+    def _clear_error_messages(self):
+        """
+        Очищает все сообщения об ошибках из контейнера vl_edit_errors.
+        """
+        while self.ui.vl_edit_errors.count():
+            item = self.ui.vl_edit_errors.takeAt(0)
+            if item.widget():
+                item.widget().deleteLater()
+        self.ui.label_edit_errors.setVisible(False)
+
+    def _check_lengths(self, optical_length=None, physical_length=None):
+        """
+        Проверяет и добавляет сообщения об ошибках, связанных с оптической и физической длиной.
+        """
+        print(
+            f"_update_length_errors(): optical_length={optical_length}, physical_length={physical_length}"
+        )
+        if (
+            optical_length is not None
+            and physical_length is not None
+            and optical_length < physical_length
+        ):
+            self._add_error_message("Оптическая длина не может быть меньше физической.")
+
+    def _check_sum_control_sectors(self, control_sectors):
+        total_physical_length = sum(
+            cs.get("data_pars", {}).get("cs_physical_length", {}).get("value", 0)
+            for cs in control_sectors
+        )
+        connection_physical_length = (
+            self.__current_object.get("data", {})
+            .get("физическая_длина", {})
+            .get("value", 0)
+        )
+        #
+        try:
+            connection_physical_length = float(connection_physical_length)
+        except (ValueError, TypeError):
+            connection_physical_length = 0
+        #
+        comparison_result, total_length, connection_length = None, None, None
+        if abs(total_physical_length - connection_physical_length) <= 0.001:
+            comparison_result, total_length, connection_length = (
+                0,
+                total_physical_length,
+                connection_physical_length,
+            )
+        elif total_physical_length > connection_physical_length:
+            comparison_result, total_length, connection_length = (
+                1,
+                total_physical_length,
+                connection_physical_length,
+            )
+        else:
+            comparison_result, total_length, connection_length = (
+                -1,
+                total_physical_length,
+                connection_physical_length,
+            )
+        #
+        error_message = ""
+        if comparison_result == 2:
+            error_message = "Нет контрольных секторов."
+        elif comparison_result == 1:
+            error_message = f"Сумма физических длин секторов ({total_length}) больше физической длины соединения ({connection_length})."
+        elif comparison_result == -1:
+            error_message = f"Сумма физических длин секторов ({total_length}) меньше физической длины соединения ({connection_length})."
+        #
+        if error_message:
+            self._add_error_message(error_message)
+
+    def _add_error_message(self, message):
+        self.ui.label_edit_errors.setVisible(True)
+        error_label = QLabel(message)
+        error_label.setStyleSheet("color: red;")
+        self.ui.vl_edit_errors.addWidget(error_label)
+
+    def _show_info_dialog(self, info):
+        """Отображает диалоговое окно с информацией."""
+        msg_box = QMessageBox(self)
+        msg_box.setWindowTitle("Информация")
+        msg_box.setText(info)
+        msg_box.setIcon(QMessageBox.Information)
+        msg_box.exec()
+
+
+    def _create_widget_with_info(self, widget, info, button_first=True):
+        if info:
+            tool_button = QToolButton()
+            tool_button.setIcon(self.style().standardIcon(QStyle.SP_MessageBoxQuestion))
+            tool_button.setToolTip("Нажмите для получения информации")
+            tool_button.clicked.connect(lambda: self._show_info_dialog(info))
+            
+            h_layout = QHBoxLayout()
+            if button_first:
+                h_layout.addWidget(tool_button)
+                h_layout.addWidget(widget)
+            else:
+                h_layout.addWidget(widget)
+                h_layout.addWidget(tool_button)
+            return h_layout
+        
+        return widget
