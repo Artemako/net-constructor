@@ -1,16 +1,4 @@
 {
-    "image_parameters": {
-        "width": {
-            "value": 1800,
-            "name": "Ширина изображения",
-            "order": 0
-        },
-        "height": {
-            "value": 700,
-            "name": "Начальная высота изображения",
-            "order": 1
-        }
-    },
     "control_sectors_config": {
         "cs_name": {
             "value": "Контрольная точка",
@@ -50,6 +38,16 @@
                 "0"
             ],
             "parameters": {
+                "width": {
+                    "value": 1650,
+                    "name": "Ширина изображения",
+                    "order": -2
+                },
+                "start_height": {
+                    "value": 350,
+                    "name": "Начальная высота изображения",
+                    "order": -1
+                },
                 "start_x": {
                     "value": 140,
                     "name": "Стартовая координата X",
@@ -179,6 +177,16 @@
                 "50"
             ],
             "parameters": {
+                "width": {
+                    "value": 1650,
+                    "name": "Ширина изображения",
+                    "order": -2
+                },
+                "start_height": {
+                    "value": 350,
+                    "name": "Начальная высота изображения",
+                    "order": -1
+                },
                 "start_x": {
                     "value": 200,
                     "name": "Стартовая координата X",
@@ -304,6 +312,16 @@
                 "100"
             ],
             "parameters": {
+                "width": {
+                    "value": 1650,
+                    "name": "Ширина изображения",
+                    "order": -2
+                },
+                "start_height": {
+                    "value": 350,
+                    "name": "Начальная высота изображения",
+                    "order": -1
+                },
                 "start_x": {
                     "value": 140,
                     "name": "Стартовая координата X",
@@ -401,6 +419,16 @@
                 "150"
             ],
             "parameters": {
+                "width": {
+                    "value": 1650,
+                    "name": "Ширина изображения",
+                    "order": -2
+                },
+                "start_height": {
+                    "value": 350,
+                    "name": "Начальная высота изображения",
+                    "order": -1
+                },
                 "start_x": {
                     "value": 140,
                     "name": "Стартовая координата X",

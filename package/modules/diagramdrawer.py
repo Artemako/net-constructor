@@ -357,23 +357,21 @@ class DiagramDrawer:
                     # меняем у вершин
                     if row.get("y") == item.get("y"):
                         # print(f"""ДО item['x']={item['x']} item['y']={item['y']}""")
-                        item['x'] -= delta_x
+                        item["x"] -= delta_x
                         # print(f"""ПОСЛЕ item['x']={item['x']} item['y']={item['y']}""")
                     # меняем у секторов
-                    if item.get('type') == 'connection':
-                        for sector in item.get('control_sectors', []):
+                    if item.get("type") == "connection":
+                        for sector in item.get("control_sectors", []):
                             if row.get("y") == sector.get("y"):
                                 # print(f"""ДО sector['x']={sector['x']} sector['y']={sector['y']}""")
-                                sector['x'] -= delta_x
+                                sector["x"] -= delta_x
                             if row.get("y") == sector.get("wrap_y"):
-                                sector['wrap_x'] -= delta_x
+                                sector["wrap_x"] -= delta_x
                                 # print(f"""ПОСЛЕ sector['x']={sector['x']} sector['y']={sector['y']}""")
 
         return prepared_data
 
-
-    def draw(self, painter, start_x, start_y, delta_wrap_y, width, is_center):
-        """Рисует диаграмму на переданном объекте QPainter."""
+    def _preparation_draw(self, start_x, start_y, delta_wrap_y, width, is_center):
         # подготавливаем данные
         prepared_data, to_right_optical_length, to_right_physical_length, rows = (
             self._prepare_main_drawing_data(start_x, start_y, delta_wrap_y)
@@ -384,8 +382,9 @@ class DiagramDrawer:
         self.prepared_data = self._set_to_left_lengths(
             center_prepared_data, to_right_optical_length, to_right_physical_length
         )
-        #
+        return rows
 
+    def draw(self, painter, start_x, delta_wrap_y):
         # сначала рисуем соединения
         for index, item in enumerate(self.prepared_data):
             if item.get("type") == "connection":

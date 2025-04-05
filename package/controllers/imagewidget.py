@@ -1,4 +1,4 @@
-#imagewidget.py
+# imagewidget.py
 
 import math
 
@@ -11,6 +11,7 @@ import package.modules.diagramdrawer as diagramdrawer
 
 class ImageWidget(QWidget):
     """Класс виджета для отображения диаграммы."""
+
     def __init__(self, parent=None):
         self.__obsm = None
         super().__init__(parent)
@@ -63,9 +64,9 @@ class ImageWidget(QWidget):
     def create_image(self, data):
         print("create_image")
         #
-        width = int(data.get("image_parameters", {}).get("width", {}).get("value", 0))
-        height = int(data.get("image_parameters", {}).get("height", {}).get("value", 0))
-        #
+        width = int(data.get("diagram_parameters", {}).get("width", {}).get("value", 0))
+        start_height = int(data.get("diagram_parameters", {}).get("start_height", {}).get("value", 0))
+
         start_x = int(
             data.get("diagram_parameters", {}).get("start_x", {}).get("value", 0)
         )
@@ -75,18 +76,33 @@ class ImageWidget(QWidget):
         delta_wrap_y = int(
             data.get("diagram_parameters", {}).get("delta_wrap_y", {}).get("value", 0)
         )
-        is_center = int(
+        is_center = bool(
             data.get("diagram_parameters", {}).get("is_center", {}).get("value", False)
         )
 
-        image = QImage(width, height, QImage.Format_ARGB32)
-        image.fill(Qt.white)
+        # временное изображение для расчета высоты
+        temp_image = QImage(width, start_height, QImage.Format_ARGB32)
+        temp_image.fill(Qt.white)
+        #
+        painter = QPainter(temp_image)
+        # подготовка данных перед рисованием
+        rows = self.__diagram_drawer._preparation_draw(
+            start_x, start_y, delta_wrap_y, width, is_center
+        )
+        # Вычисляем итоговую высоту
+        if rows.get_rows():
+            amount_rows = len(rows.get_rows())
+            calc_height = start_height + delta_wrap_y * (amount_rows - 1)
+        else:
+            calc_height = start_height
+        painter.end()
 
+        # Итоговое изображение с рассчитанной высотой
+        image = QImage(width, calc_height, QImage.Format_ARGB32)
+        image.fill(Qt.white)
+        # Рисуем диаграмму на итоговом изображении
         painter = QPainter(image)
-        if self.__diagram_drawer:
-            self.__diagram_drawer.draw(
-                painter, start_x, start_y, delta_wrap_y, width, is_center
-            )
+        self.__diagram_drawer.draw(painter, start_x, delta_wrap_y)
         painter.end()
 
         return image

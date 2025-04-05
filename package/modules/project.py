@@ -13,14 +13,15 @@ class Project:
     def get_data(self):
         return self.__data
 
-    def create_new_project(self, diagram_data, image_parameters, control_sectors_config, file_path):
+    def create_new_project(
+        self, diagram_data, control_sectors_config, file_path
+    ):
         self.__file_name = file_path
         self.__data = {
             "diagram_type_id": diagram_data.get("type_id", "0"),
             "diagram_name": diagram_data.get("name", ""),
             "diagram_parameters": diagram_data.get("parameters", {}),
-            "image_parameters": image_parameters,
-            "control_sectors_config" : control_sectors_config,
+            "control_sectors_config": control_sectors_config,
             "nodes": [],
             "connections": [],
             "archived_parameters": {},
@@ -54,6 +55,7 @@ class Project:
             self.__data["archived_parameters"][current_type_id] = {
                 "nodes": {},
                 "connections": {},
+                "diagram_parameters": {},  # Добавляем архив для diagram_parameters
             }
 
         # Сохраняем параметры узлов
@@ -70,26 +72,39 @@ class Project:
                 connection_id
             ] = {"parameters": connection["parameters"]}
 
+        # Сохраняем текущие diagram_parameters в архив
+        self.__data["archived_parameters"][current_type_id]["diagram_parameters"] = (
+            copy.deepcopy(self.__data["diagram_parameters"])
+        )
+
         # Обновляем тип схемы и параметры
         new_diagram_type_id = new_diagram.get("type_id", "0")
         self._update_diagram_nodes(new_diagram_type_id, config_nodes)
         self._update_diagram_connections(new_diagram_type_id, config_connections)
+
         # Восстанавливаем параметры из архива, если они есть, иначе выбираем параметры из новой диаграммы
         if new_diagram_type_id in self.__data["archived_parameters"]:
             archived_params = self.__data["archived_parameters"][new_diagram_type_id]
+
             # Восстанавливаем параметры узлов / соединений
             for node in self.__data["nodes"]:
                 node_id = node["id"]
                 if node_id in archived_params["nodes"]:
                     node["parameters"] = archived_params["nodes"][node_id]["parameters"]
-            #
+
             for connection in self.__data["connections"]:
                 connection_id = connection["id"]
                 if connection_id in archived_params["connections"]:
                     connection["parameters"] = archived_params["connections"][
                         connection_id
                     ]["parameters"]
+
+            # Восстанавливаем diagram_parameters из архива
+            self.__data["diagram_parameters"] = archived_params.get(
+                "diagram_parameters", {}
+            )
         else:
+            # Если нет архива для нового типа диаграммы, используем параметры из новой диаграммы
             self.__data["diagram_parameters"] = new_diagram.get("parameters", {})
 
         # Обновляем данные диаграммы
@@ -139,7 +154,7 @@ class Project:
 
     def add_pair(self, key_dict_node_and_key_dict_connection):
         key_dict_node = key_dict_node_and_key_dict_connection.get("node")
-        node_name = key_dict_node_and_key_dict_connection.get("node_name", "") 
+        node_name = key_dict_node_and_key_dict_connection.get("node_name", "")
         node_place = key_dict_node_and_key_dict_connection.get("node_place", "")
         #
         key_dict_connection = key_dict_node_and_key_dict_connection.get("connection")
@@ -159,7 +174,9 @@ class Project:
             if connection["id"] == connection_id:
                 new_id = uuid.uuid4().hex
                 new_order = len(connection.get("control_sectors", []))
-                new_config = copy.deepcopy(self.__data.get("control_sectors_config", {}))
+                new_config = copy.deepcopy(
+                    self.__data.get("control_sectors_config", {})
+                )
                 new_control_sector = {
                     "id": new_id,
                     "order": new_order,
@@ -329,7 +346,6 @@ class Project:
         config_connections,
         diagram_type_id,
         diagram_name,
-        new_image_parameters,
         new_diagram_parameters,
         new_data,
         new_parameters,
@@ -341,8 +357,6 @@ class Project:
             #
             for key, value in new_diagram_parameters.items():
                 self.__data["diagram_parameters"][key] = value
-            for key, value in new_image_parameters.items():
-                self.__data["image_parameters"][key] = value
         elif is_editor_tab:
             if is_node:
                 _id = obj.get("id", "")

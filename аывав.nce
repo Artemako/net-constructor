@@ -1,57 +1,119 @@
 {
-    "diagram_type_id": "50",
-    "diagram_name": "ПТ-4. Схема размещения строительных длин и смонтированных муфт на участке между оконечными пунктами ВОЛП",
+    "diagram_type_id": "0",
+    "diagram_name": "ПТ-3. Скелетная схема ВОЛП и основные данные цепей кабеля",
     "diagram_parameters": {
         "arrow_height": {
+            "name": "Высота стрелки",
+            "order": 202,
             "value": 8
         },
         "arrow_width": {
+            "name": "Ширина стрелки",
+            "order": 201,
             "value": 20
+        },
+        "delta_node_and_thin_line": {
+            "name": "Расстояние между вершиной и тонкой линией",
+            "order": 101,
+            "value": 100
+        },
+        "delta_thins_lines": {
+            "name": "Расстояние между тонкими линиями",
+            "order": 102,
+            "value": 50
         },
         "delta_wrap_y": {
-            "value": 300
+            "name": "Расстояние между рядами вершин по Y",
+            "order": 3,
+            "value": 310
         },
-        "delta_x_text_lengths": {
-            "value": 20
+        "distance_thin_line_after_connection_x": {
+            "name": "Расстояние тонкой линии после соединения по X",
+            "order": 103,
+            "value": 5
         },
-        "delta_y_text_lengths": {
-            "value": 20
+        "distance_thin_line_after_connection_y": {
+            "name": "Расстояние тонкой линии после соединения по Y",
+            "order": 104,
+            "value": 5
         },
         "font_name": {
+            "name": "Название шрифта диграммы",
+            "order": 5,
+            "type": "font_name",
             "value": "Open Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
         },
         "is_center": {
+            "name": "Центрировать схему по центру изображения по X",
+            "order": 4,
+            "type": "bool",
             "value": false
         },
+        "is_location": {
+            "name": "Показывать местоположение",
+            "order": 8,
+            "type": "bool",
+            "value": true
+        },
         "is_wrap_arrow": {
+            "name": "Показывать стрелку переноса",
+            "order": 204,
+            "type": "bool",
             "value": true
         },
         "precision_number": {
+            "name": "Кол-во знаков после разделителя",
+            "order": 6,
+            "type": "number_int",
             "value": 1
         },
         "precision_separator": {
+            "name": "Разделитель точка/запятая",
+            "order": 7,
+            "type": "bool",
             "value": true
         },
+        "start_height": {
+            "name": "Начальная высота изображения",
+            "order": -1,
+            "value": 350
+        },
         "start_x": {
-            "value": 200
+            "name": "Стартовая координата X",
+            "order": 1,
+            "value": 140
         },
         "start_y": {
-            "value": 200
-        },
-        "text_cable_length": {
-            "value": "L по кабелю (м)"
-        },
-        "text_fiber_length": {
-            "value": "L по волокну (м)"
+            "name": "Стартовая координата Y",
+            "order": 2,
+            "value": 150
         },
         "thin_line_color": {
+            "name": "Цвет тонкой линии",
+            "order": 51,
+            "type": "color",
             "value": "#000000"
         },
         "thin_line_weight": {
+            "name": "Толщина тонкой линии",
+            "order": 52,
             "value": 2
         },
+        "width": {
+            "name": "Ширина изображения",
+            "order": -2,
+            "value": 1650
+        },
         "wrap_arrow_length": {
+            "name": "Длина линии стрелки переноса",
+            "order": 203,
             "value": 50
+        },
+        "Расстояния": {
+            "name": "Расстояния",
+            "order": 100,
+            "type": "title",
+            "value": ""
         },
         "Стрелки": {
             "name": "Стрелки",
@@ -59,25 +121,11 @@
             "type": "title",
             "value": ""
         },
-        "Технические обозначения": {
-            "name": "Технические обозначения",
-            "order": 300,
-            "type": "title",
-            "value": ""
-        },
         "Тонкие линии": {
             "name": "Тонкие линии",
-            "order": 150,
+            "order": 50,
             "type": "title",
             "value": ""
-        }
-    },
-    "image_parameters": {
-        "width": {
-            "value": 1800
-        },
-        "height": {
-            "value": 350
         }
     },
     "control_sectors_config": {
@@ -106,265 +154,7 @@
             "type": "number_int_signed"
         }
     },
-    "nodes": [
-        {
-            "id": "57860e10e9b04ef3a4dfa2a166b8efcc",
-            "order": 0,
-            "node_id": "50",
-            "data": {
-                "местоположение": {
-                    "value": ""
-                },
-                "название": {
-                    "value": "Оптическая муфта"
-                }
-            },
-            "is_wrap": false,
-            "parameters": {
-                "delta_wrap_x": {
-                    "value": 0
-                },
-                "node_radius": {
-                    "value": 20
-                },
-                "delta_node_and_to_left_arrow": {
-                    "value": 65
-                },
-                "delta_node_and_to_right_arrow": {
-                    "value": 55
-                },
-                "distance_thin_line_after_connection_y": {
-                    "value": 10
-                },
-                "is_top_node_bottom_caption": {
-                    "value": true
-                },
-                "is_top_node_top_caption": {
-                    "value": true
-                },
-                "node_border_color": {
-                    "value": "#000000"
-                },
-                "node_border_weight": {
-                    "value": 2
-                },
-                "node_caption_color": {
-                    "value": "#000000"
-                },
-                "node_caption_horizontal_padding": {
-                    "value": 20
-                },
-                "node_caption_pixel_size": {
-                    "value": 15
-                },
-                "node_caption_vertical_padding": {
-                    "value": 5
-                },
-                "node_fill_color": {
-                    "value": "#A0A0A4"
-                },
-                "node_fill_style": {
-                    "value": "DiagCrossPattern"
-                },
-                "node_name_color": {
-                    "value": "#000000"
-                },
-                "node_name_height": {
-                    "value": 90
-                },
-                "node_name_pixel_size": {
-                    "value": 16
-                },
-                "to_left_and_to_right_arrow_length": {
-                    "value": 65
-                },
-                "Названия вершин": {
-                    "name": "Названия вершин",
-                    "order": 50,
-                    "type": "title",
-                    "value": "заголовок"
-                },
-                "Подписи вершин": {
-                    "name": "Подписи вершин",
-                    "order": 100,
-                    "type": "title",
-                    "value": "заголовок"
-                },
-                "Стрелки подписей вершин": {
-                    "name": "Стрелки подписей вершин",
-                    "order": 150,
-                    "type": "title",
-                    "value": "заголовок"
-                },
-                "постфикс_расстояния": {
-                    "value": " м"
-                }
-            }
-        },
-        {
-            "id": "6e8d7be78ac241f4aa52f9de2aa56c5a",
-            "order": 1,
-            "node_id": "50",
-            "data": {
-                "местоположение": {
-                    "name": "Местоположение",
-                    "order": 1,
-                    "value": ""
-                },
-                "название": {
-                    "name": "Название",
-                    "order": 0,
-                    "value": "Оптическая муфта"
-                }
-            },
-            "is_wrap": false,
-            "parameters": {
-                "delta_wrap_x": {
-                    "name": "Расстояние переноса по X",
-                    "order": 2,
-                    "type": "number_int_signed",
-                    "value": 0
-                },
-                "node_radius": {
-                    "value": 20
-                },
-                "delta_node_and_to_left_arrow": {
-                    "value": 65
-                },
-                "delta_node_and_to_right_arrow": {
-                    "value": 55
-                },
-                "distance_thin_line_after_connection_y": {
-                    "value": 10
-                },
-                "is_top_node_bottom_caption": {
-                    "value": true
-                },
-                "is_top_node_top_caption": {
-                    "value": true
-                },
-                "node_border_color": {
-                    "value": "#000000"
-                },
-                "node_border_weight": {
-                    "value": 2
-                },
-                "node_caption_color": {
-                    "value": "#000000"
-                },
-                "node_caption_horizontal_padding": {
-                    "value": 20
-                },
-                "node_caption_pixel_size": {
-                    "value": 15
-                },
-                "node_caption_vertical_padding": {
-                    "value": 5
-                },
-                "node_fill_color": {
-                    "value": "#A0A0A4"
-                },
-                "node_fill_style": {
-                    "value": "DiagCrossPattern"
-                },
-                "node_name_color": {
-                    "value": "#000000"
-                },
-                "node_name_height": {
-                    "value": 90
-                },
-                "node_name_pixel_size": {
-                    "value": 16
-                },
-                "to_left_and_to_right_arrow_length": {
-                    "value": 65
-                },
-                "Названия вершин": {
-                    "name": "Названия вершин",
-                    "order": 50,
-                    "type": "title",
-                    "value": "заголовок"
-                },
-                "Подписи вершин": {
-                    "name": "Подписи вершин",
-                    "order": 100,
-                    "type": "title",
-                    "value": "заголовок"
-                },
-                "Стрелки подписей вершин": {
-                    "name": "Стрелки подписей вершин",
-                    "order": 150,
-                    "type": "title",
-                    "value": "заголовок"
-                },
-                "постфикс_расстояния": {
-                    "value": " м"
-                }
-            }
-        }
-    ],
-    "connections": [
-        {
-            "id": "f25748a8b7ab46dca89970d02175ff18",
-            "order": 0,
-            "connection_id": "50",
-            "data": {
-                "название": {
-                    "value": "Участок размещения проложенного кабеля"
-                },
-                "оптическая_длина": {
-                    "value": 0.0
-                },
-                "физическая_длина": {
-                    "value": 0.0
-                }
-            },
-            "parameters": {
-                "connection_length": {
-                    "value": 320
-                },
-                "connection_caption_color": {
-                    "value": "#000000"
-                },
-                "connection_caption_pixel_size": {
-                    "value": 15
-                },
-                "connection_color": {
-                    "value": "#000000"
-                },
-                "connection_main_caption_vertical_padding": {
-                    "value": 20
-                },
-                "connection_style": {
-                    "value": "SolidLine"
-                },
-                "connection_width": {
-                    "value": 2
-                },
-                "Основная линия соединения": {
-                    "name": "Основная линия соединения",
-                    "order": 0,
-                    "type": "title",
-                    "value": "заголовок"
-                },
-                "Подписи основной линии": {
-                    "name": "Подписи основной линии",
-                    "order": 100,
-                    "type": "title",
-                    "value": "заголовок"
-                },
-                "постфикс_расстояния": {
-                    "value": " м"
-                },
-                "префикс_оптическая_длина": {
-                    "value": ""
-                },
-                "префикс_физическая_длина": {
-                    "value": ""
-                }
-            },
-            "control_sectors": []
-        }
-    ],
+    "nodes": [],
+    "connections": [],
     "archived_parameters": {}
 }

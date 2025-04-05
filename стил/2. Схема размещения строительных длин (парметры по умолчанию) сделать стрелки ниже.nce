@@ -55,7 +55,7 @@
         "width": {
             "value": 1800
         },
-        "height": {
+        "start_height": {
             "value": 700
         }
     },

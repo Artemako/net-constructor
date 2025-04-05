@@ -33,11 +33,6 @@ class Configs:
         diagrams = self.__global.get("diagrams", {})
         return dict(sorted(diagrams.items(), key=lambda x: x[1].get("order", 0)))
 
-    def get_config_image_parameters(self) -> dict:
-        image_parameters = self.__global.get("image_parameters", {})
-        return dict(
-            sorted(image_parameters.items(), key=lambda x: x[1].get("order", 0))
-        )
 
     def get_config_control_sectors(self) -> dict:
         control_sectors_config = self.__global.get("control_sectors_config", {})

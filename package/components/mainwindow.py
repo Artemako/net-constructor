@@ -56,7 +56,6 @@ class MainWindow(QMainWindow):
         self.__current_object = None
         self.__current_is_node = None
         #
-        self.__general_image_parameters_widgets = {}
         self.__general_diagram_parameters_widgets = {}
         #
         self.__editor_object_data_widgets = {}
@@ -66,12 +65,6 @@ class MainWindow(QMainWindow):
         self.__editor_type_object_parameters_widgets = {}
         self.__editor_objects_parameters_widgets = {}
         self.__control_data_parameters_widgets = {}
-        # наличие данных в блоках
-        self.__has_image_data = False
-        self.__has_diagram_data = False
-        self.__has_object_data = False
-        self.__has_type_object_data = False
-        self.__has_objects_data = False
         #
         # self.__text_format = "NCE (пока json) files (*.json)"]
         self.__text_format = "NCE files (*.nce)"
@@ -164,13 +157,12 @@ class MainWindow(QMainWindow):
                 #
                 self.ui.tabw_right.setCurrentIndex(0)
                 #
-                image_parameters = self.__obsm.obj_configs.get_config_image_parameters()
                 control_sectors_config = (
                     self.__obsm.obj_configs.get_config_control_sectors()
                 )
                 #
                 self.__obsm.obj_project.create_new_project(
-                    diagram_data, image_parameters, control_sectors_config, file_name
+                    diagram_data, control_sectors_config, file_name
                 )
                 #
                 project_data = self.__obsm.obj_project.get_data()
@@ -213,7 +205,6 @@ class MainWindow(QMainWindow):
             diagram_type_id = str()
             diagram_name = str()
             new_diagram_parameters = {}
-            new_image_parameters = {}
 
             new_data = {}
             new_parameters = {}
@@ -228,9 +219,6 @@ class MainWindow(QMainWindow):
                     "type_id", ""
                 )
                 diagram_name = self.ui.combox_type_diagram.currentData().get("name", "")
-                new_image_parameters = self._get_new_data_or_parameters(
-                    self.__general_image_parameters_widgets, is_parameters=True
-                )
                 new_diagram_parameters = self._get_new_data_or_parameters(
                     self.__general_diagram_parameters_widgets, is_parameters=True
                 )
@@ -302,7 +290,6 @@ class MainWindow(QMainWindow):
                     config_connections,
                     diagram_type_id,
                     diagram_name,
-                    new_image_parameters,
                     new_diagram_parameters,
                     new_data,
                     new_parameters,
@@ -513,7 +500,7 @@ class MainWindow(QMainWindow):
         current_type_id = self.__obsm.obj_project.get_data().get(
             "diagram_type_id", None
         )
-        # диалоговое окно с выбором диаграммы
+        #
         if self.__obsm.obj_project.is_active() and new_type_id != current_type_id:
             config_nodes = self.__obsm.obj_configs.get_nodes()
             config_connections = self.__obsm.obj_configs.get_connections()
@@ -525,20 +512,10 @@ class MainWindow(QMainWindow):
             self.ui.imagewidget.run(project_data)
             self._reset_widgets_by_data(project_data)
 
-    def reset_tab_general(self, diagram_type_id, diagram_parameters, image_parameters):
+    def reset_tab_general(self, diagram_type_id, diagram_parameters):
         print("reset_tab_general")
         # очистка типа диаграммы
         self._reset_combobox_type_diagram(diagram_type_id)
-        # Параметры изображения
-        config_image_parameters = self.__obsm.obj_configs.get_config_image_parameters()
-        flag = self._create_parameters_widgets(
-            self.__general_image_parameters_widgets,
-            self.ui.fl_image_parameters,
-            config_image_parameters,
-            image_parameters,
-        )
-        self.ui.label_image_parameters.setVisible(flag)
-        self.ui.line_p_img.setVisible(flag)
         # Параметры диаграммы
         config_diagram_parameters = (
             self.__obsm.obj_configs.get_config_diagram_parameters_by_type_id(
@@ -756,7 +733,6 @@ class MainWindow(QMainWindow):
         #
         diagram_type_id = data.get("diagram_type_id", "")
         diagram_parameters = data.get("diagram_parameters", {})
-        image_parameters = data.get("image_parameters", {})
         # Сепаратор для виджета
         precision_separator, precision_number = (
             self._get_precision_separator_and_number()
@@ -764,8 +740,7 @@ class MainWindow(QMainWindow):
         #
         self.reset_tab_general(
             diagram_type_id,
-            diagram_parameters,
-            image_parameters,
+            diagram_parameters
         )
         #
         nodes = data.get("nodes", [])
