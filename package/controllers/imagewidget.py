@@ -1,3 +1,5 @@
+#imagewidget.py
+
 import math
 
 from PySide6.QtWidgets import QWidget

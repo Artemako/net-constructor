@@ -22,7 +22,7 @@ class Ui_MainWindow(object):
             MainWindow.setObjectName(u"MainWindow")
         MainWindow.setWindowModality(Qt.NonModal)
         MainWindow.setEnabled(True)
-        MainWindow.resize(1144, 628)
+        MainWindow.resize(1144, 653)
         sizePolicy = QSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -108,6 +108,12 @@ class Ui_MainWindow(object):
         icon10 = QIcon()
         icon10.addFile(u":/white-icons/resources/white-icons/trash.svg", QSize(), QIcon.Normal, QIcon.Off)
         self.action_clear_trash.setIcon(icon10)
+        self.action_parameters = QAction(MainWindow)
+        self.action_parameters.setObjectName(u"action_parameters")
+        self.action_parameters.setCheckable(True)
+        icon11 = QIcon()
+        icon11.addFile(u":/white-icons/resources/white-icons/show-properties.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.action_parameters.setIcon(icon11)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.horizontalLayout = QHBoxLayout(self.centralwidget)
@@ -161,7 +167,7 @@ class Ui_MainWindow(object):
         self.sa_general.setWidgetResizable(True)
         self.sa_general_contents = QWidget()
         self.sa_general_contents.setObjectName(u"sa_general_contents")
-        self.sa_general_contents.setGeometry(QRect(0, 0, 747, 494))
+        self.sa_general_contents.setGeometry(QRect(0, 0, 747, 519))
         self.verticalLayout_8 = QVBoxLayout(self.sa_general_contents)
         self.verticalLayout_8.setSpacing(4)
         self.verticalLayout_8.setObjectName(u"verticalLayout_8")
@@ -176,12 +182,12 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_8.addWidget(self.combox_type_diagram)
 
-        self.line_2 = QFrame(self.sa_general_contents)
-        self.line_2.setObjectName(u"line_2")
-        self.line_2.setFrameShape(QFrame.HLine)
-        self.line_2.setFrameShadow(QFrame.Sunken)
+        self.line_type_dia = QFrame(self.sa_general_contents)
+        self.line_type_dia.setObjectName(u"line_type_dia")
+        self.line_type_dia.setFrameShape(QFrame.HLine)
+        self.line_type_dia.setFrameShadow(QFrame.Sunken)
 
-        self.verticalLayout_8.addWidget(self.line_2)
+        self.verticalLayout_8.addWidget(self.line_type_dia)
 
         self.label_image_parameters = QLabel(self.sa_general_contents)
         self.label_image_parameters.setObjectName(u"label_image_parameters")
@@ -194,12 +200,12 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_8.addLayout(self.fl_image_parameters)
 
-        self.line_6 = QFrame(self.sa_general_contents)
-        self.line_6.setObjectName(u"line_6")
-        self.line_6.setFrameShape(QFrame.HLine)
-        self.line_6.setFrameShadow(QFrame.Sunken)
+        self.line_p_img = QFrame(self.sa_general_contents)
+        self.line_p_img.setObjectName(u"line_p_img")
+        self.line_p_img.setFrameShape(QFrame.HLine)
+        self.line_p_img.setFrameShadow(QFrame.Sunken)
 
-        self.verticalLayout_8.addWidget(self.line_6)
+        self.verticalLayout_8.addWidget(self.line_p_img)
 
         self.label_diagram_parameters = QLabel(self.sa_general_contents)
         self.label_diagram_parameters.setObjectName(u"label_diagram_parameters")
@@ -212,16 +218,16 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_8.addLayout(self.fl_diagram_parameters)
 
+        self.line_p_dia = QFrame(self.sa_general_contents)
+        self.line_p_dia.setObjectName(u"line_p_dia")
+        self.line_p_dia.setFrameShape(QFrame.HLine)
+        self.line_p_dia.setFrameShadow(QFrame.Sunken)
+
+        self.verticalLayout_8.addWidget(self.line_p_dia)
+
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout_8.addItem(self.verticalSpacer)
-
-        self.line = QFrame(self.sa_general_contents)
-        self.line.setObjectName(u"line")
-        self.line.setFrameShape(QFrame.HLine)
-        self.line.setFrameShadow(QFrame.Sunken)
-
-        self.verticalLayout_8.addWidget(self.line)
 
         self.sa_general.setWidget(self.sa_general_contents)
 
@@ -314,7 +320,7 @@ class Ui_MainWindow(object):
         self.editor_scrollarea.setWidgetResizable(True)
         self.editor_scrollarea_contents = QWidget()
         self.editor_scrollarea_contents.setObjectName(u"editor_scrollarea_contents")
-        self.editor_scrollarea_contents.setGeometry(QRect(0, 0, 730, 556))
+        self.editor_scrollarea_contents.setGeometry(QRect(0, 0, 730, 572))
         self.verticalLayout_4 = QVBoxLayout(self.editor_scrollarea_contents)
         self.verticalLayout_4.setSpacing(6)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
@@ -328,6 +334,13 @@ class Ui_MainWindow(object):
         self.vl_edit_errors.setObjectName(u"vl_edit_errors")
 
         self.verticalLayout_4.addLayout(self.vl_edit_errors)
+
+        self.line_errors = QFrame(self.editor_scrollarea_contents)
+        self.line_errors.setObjectName(u"line_errors")
+        self.line_errors.setFrameShape(QFrame.HLine)
+        self.line_errors.setFrameShadow(QFrame.Sunken)
+
+        self.verticalLayout_4.addWidget(self.line_errors)
 
         self.label_control_sectors = QLabel(self.editor_scrollarea_contents)
         self.label_control_sectors.setObjectName(u"label_control_sectors")
@@ -362,15 +375,15 @@ class Ui_MainWindow(object):
 
         self.vl_control_sectors.addLayout(self.hl_control_sectors_buttons)
 
+        self.line_cont_sect = QFrame(self.editor_scrollarea_contents)
+        self.line_cont_sect.setObjectName(u"line_cont_sect")
+        self.line_cont_sect.setFrameShape(QFrame.HLine)
+        self.line_cont_sect.setFrameShadow(QFrame.Sunken)
+
+        self.vl_control_sectors.addWidget(self.line_cont_sect)
+
 
         self.verticalLayout_4.addLayout(self.vl_control_sectors)
-
-        self.line_10 = QFrame(self.editor_scrollarea_contents)
-        self.line_10.setObjectName(u"line_10")
-        self.line_10.setFrameShape(QFrame.HLine)
-        self.line_10.setFrameShadow(QFrame.Sunken)
-
-        self.verticalLayout_4.addWidget(self.line_10)
 
         self.label_object_data = QLabel(self.editor_scrollarea_contents)
         self.label_object_data.setObjectName(u"label_object_data")
@@ -383,12 +396,12 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addLayout(self.fl_object_data)
 
-        self.line_7 = QFrame(self.editor_scrollarea_contents)
-        self.line_7.setObjectName(u"line_7")
-        self.line_7.setFrameShape(QFrame.HLine)
-        self.line_7.setFrameShadow(QFrame.Sunken)
+        self.line_data = QFrame(self.editor_scrollarea_contents)
+        self.line_data.setObjectName(u"line_data")
+        self.line_data.setFrameShape(QFrame.HLine)
+        self.line_data.setFrameShadow(QFrame.Sunken)
 
-        self.verticalLayout_4.addWidget(self.line_7)
+        self.verticalLayout_4.addWidget(self.line_data)
 
         self.label_type_object_data = QLabel(self.editor_scrollarea_contents)
         self.label_type_object_data.setObjectName(u"label_type_object_data")
@@ -401,12 +414,12 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addLayout(self.fl_type_object_data)
 
-        self.line_4 = QFrame(self.editor_scrollarea_contents)
-        self.line_4.setObjectName(u"line_4")
-        self.line_4.setFrameShape(QFrame.HLine)
-        self.line_4.setFrameShadow(QFrame.Sunken)
+        self.line_type_data = QFrame(self.editor_scrollarea_contents)
+        self.line_type_data.setObjectName(u"line_type_data")
+        self.line_type_data.setFrameShape(QFrame.HLine)
+        self.line_type_data.setFrameShadow(QFrame.Sunken)
 
-        self.verticalLayout_4.addWidget(self.line_4)
+        self.verticalLayout_4.addWidget(self.line_type_data)
 
         self.label_objects_data = QLabel(self.editor_scrollarea_contents)
         self.label_objects_data.setObjectName(u"label_objects_data")
@@ -419,12 +432,12 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addLayout(self.fl_objects_data)
 
-        self.line_8 = QFrame(self.editor_scrollarea_contents)
-        self.line_8.setObjectName(u"line_8")
-        self.line_8.setFrameShape(QFrame.HLine)
-        self.line_8.setFrameShadow(QFrame.Sunken)
+        self.line_global_data = QFrame(self.editor_scrollarea_contents)
+        self.line_global_data.setObjectName(u"line_global_data")
+        self.line_global_data.setFrameShape(QFrame.HLine)
+        self.line_global_data.setFrameShadow(QFrame.Sunken)
 
-        self.verticalLayout_4.addWidget(self.line_8)
+        self.verticalLayout_4.addWidget(self.line_global_data)
 
         self.label_object_parameters = QLabel(self.editor_scrollarea_contents)
         self.label_object_parameters.setObjectName(u"label_object_parameters")
@@ -437,12 +450,12 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addLayout(self.fl_object_parameters)
 
-        self.line_5 = QFrame(self.editor_scrollarea_contents)
-        self.line_5.setObjectName(u"line_5")
-        self.line_5.setFrameShape(QFrame.HLine)
-        self.line_5.setFrameShadow(QFrame.Sunken)
+        self.line_pars = QFrame(self.editor_scrollarea_contents)
+        self.line_pars.setObjectName(u"line_pars")
+        self.line_pars.setFrameShape(QFrame.HLine)
+        self.line_pars.setFrameShadow(QFrame.Sunken)
 
-        self.verticalLayout_4.addWidget(self.line_5)
+        self.verticalLayout_4.addWidget(self.line_pars)
 
         self.label_type_object_parameters = QLabel(self.editor_scrollarea_contents)
         self.label_type_object_parameters.setObjectName(u"label_type_object_parameters")
@@ -455,12 +468,12 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addLayout(self.fl_type_object_parameters)
 
-        self.line_9 = QFrame(self.editor_scrollarea_contents)
-        self.line_9.setObjectName(u"line_9")
-        self.line_9.setFrameShape(QFrame.HLine)
-        self.line_9.setFrameShadow(QFrame.Sunken)
+        self.line_type_pars = QFrame(self.editor_scrollarea_contents)
+        self.line_type_pars.setObjectName(u"line_type_pars")
+        self.line_type_pars.setFrameShape(QFrame.HLine)
+        self.line_type_pars.setFrameShadow(QFrame.Sunken)
 
-        self.verticalLayout_4.addWidget(self.line_9)
+        self.verticalLayout_4.addWidget(self.line_type_pars)
 
         self.label_objects_parameters = QLabel(self.editor_scrollarea_contents)
         self.label_objects_parameters.setObjectName(u"label_objects_parameters")
@@ -473,11 +486,18 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addLayout(self.fl_objects_parameters)
 
+        self.line_global_pars = QFrame(self.editor_scrollarea_contents)
+        self.line_global_pars.setObjectName(u"line_global_pars")
+        self.line_global_pars.setFrameShape(QFrame.HLine)
+        self.line_global_pars.setFrameShadow(QFrame.Sunken)
+
+        self.verticalLayout_4.addWidget(self.line_global_pars)
+
         self.vertical_spacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
 
         self.verticalLayout_4.addItem(self.vertical_spacer)
 
-        self.verticalLayout_4.setStretch(22, 1)
+        self.verticalLayout_4.setStretch(23, 1)
         self.editor_scrollarea.setWidget(self.editor_scrollarea_contents)
 
         self.verticalLayout_7.addWidget(self.editor_scrollarea)
@@ -506,6 +526,8 @@ class Ui_MainWindow(object):
         self.menu_bar.setGeometry(QRect(0, 0, 1144, 22))
         self.menu_file = QMenu(self.menu_bar)
         self.menu_file.setObjectName(u"menu_file")
+        self.menu = QMenu(self.menu_bar)
+        self.menu.setObjectName(u"menu")
         MainWindow.setMenuBar(self.menu_bar)
         self.tb_main = QToolBar(MainWindow)
         self.tb_main.setObjectName(u"tb_main")
@@ -523,6 +545,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.status_bar)
 
         self.menu_bar.addAction(self.menu_file.menuAction())
+        self.menu_bar.addAction(self.menu.menuAction())
         self.menu_file.addAction(self.action_new)
         self.menu_file.addAction(self.action_open)
         self.menu_file.addSeparator()
@@ -530,14 +553,17 @@ class Ui_MainWindow(object):
         self.menu_file.addAction(self.action_saveas)
         self.menu_file.addSeparator()
         self.menu_file.addAction(self.action_export_to_image)
+        self.menu.addAction(self.action_parameters)
         self.tb_main.addAction(self.action_new)
         self.tb_main.addAction(self.action_open)
         self.tb_main.addAction(self.action_save)
         self.tb_main.addAction(self.action_export_to_image)
+        self.tb_main.addSeparator()
+        self.tb_main.addAction(self.action_parameters)
 
         self.retranslateUi(MainWindow)
 
-        self.tabw_right.setCurrentIndex(0)
+        self.tabw_right.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -582,6 +608,7 @@ class Ui_MainWindow(object):
         self.action_edit_templates.setText(QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0434\u0430\u043a\u0442\u043e\u0440 \u0448\u0430\u0431\u043b\u043e\u043d\u043e\u0432", None))
         self.action_edit_composition.setText(QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0434\u0430\u043a\u0442\u043e\u0440 \u0441\u043e\u0441\u0442\u0430\u0432\u0430 \u0418\u0414", None))
         self.action_clear_trash.setText(QCoreApplication.translate("MainWindow", u"\u041e\u0447\u0438\u0441\u0442\u043a\u0430 \u043e\u0442 \u043c\u0443\u0441\u043e\u0440\u0430", None))
+        self.action_parameters.setText(QCoreApplication.translate("MainWindow", u"\u0411\u043b\u043e\u043a\u0438 \u043f\u0430\u0440\u0430\u043c\u0435\u0442\u0440\u043e\u0432", None))
         self.label_type.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0422\u0438\u043f \u0441\u0445\u0435\u043c\u044b</span></p></body></html>", None))
         self.label_image_parameters.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u041f\u0430\u0440\u0430\u043c\u0435\u0442\u0440\u044b \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u044f</span></p></body></html>", None))
         self.label_diagram_parameters.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u041f\u0430\u0440\u0430\u043c\u0435\u0442\u0440\u044b \u0434\u0438\u0430\u0433\u0440\u0430\u043c\u043c\u044b</span></p></body></html>", None))
@@ -606,6 +633,7 @@ class Ui_MainWindow(object):
         self.tabw_right.setTabText(self.tabw_right.indexOf(self.tab_editor), QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0434\u0430\u043a\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435", None))
         self.tabw_right.setTabText(self.tabw_right.indexOf(self.tab_control), QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0434\u0430\u043a\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435 \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u044c\u043d\u043e\u0433\u043e \u0441\u0435\u043a\u0442\u043e\u0440\u0430", None))
         self.menu_file.setTitle(QCoreApplication.translate("MainWindow", u"\u0424\u0430\u0439\u043b", None))
+        self.menu.setTitle(QCoreApplication.translate("MainWindow", u"\u041f\u0440\u043e\u0447\u0435\u0435", None))
         self.tb_main.setWindowTitle(QCoreApplication.translate("MainWindow", u"\u041f\u0430\u043d\u0435\u043b\u044c \u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u043e\u0432", None))
     # retranslateUi
 

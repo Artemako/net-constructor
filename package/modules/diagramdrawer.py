@@ -1,3 +1,5 @@
+# diagramdrawer.py
+
 import package.modules.drawnode as drawnode
 import package.modules.drawconnection as drawconnection
 

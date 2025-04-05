@@ -3,11 +3,6 @@
     <file>resources/fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf</file>
     <file>resources/fonts/OpenSans-VariableFont_wdth,wght.ttf</file>
   </qresource>
-  <qresource prefix="diagram_previews">
-    <file>resources/diagram_previews/0.png</file>
-    <file>resources/diagram_previews/1.png</file>
-    <file>resources/diagram_previews/2.png</file>
-  </qresource>
   <qresource prefix="png">
     <file>resources/png/branch-closed.png</file>
     <file>resources/png/branch-open.png</file>
@@ -57,6 +52,7 @@
     <file>resources/white-icons/table-columns.svg</file>
     <file>resources/white-icons/table-rows.svg</file>
     <file>resources/white-icons/text.svg</file>
+    <file>resources/white-icons/show-properties.svg</file>
     <file>resources/white-icons/text-editor.svg</file>
     <file>resources/white-icons/trash.svg</file>
     <file>resources/white-icons/zoom-fit-width.svg</file>

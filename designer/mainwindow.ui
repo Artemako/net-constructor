@@ -13,7 +13,7 @@
     <x>0</x>
     <y>0</y>
     <width>1144</width>
-    <height>628</height>
+    <height>653</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -123,7 +123,7 @@
         <item>
          <widget class="QTabWidget" name="tabw_right">
           <property name="currentIndex">
-           <number>0</number>
+           <number>2</number>
           </property>
           <property name="documentMode">
            <bool>false</bool>
@@ -165,7 +165,7 @@
                  <x>0</x>
                  <y>0</y>
                  <width>747</width>
-                 <height>494</height>
+                 <height>519</height>
                 </rect>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_8" stretch="0,0,0,0,0,0,0,0,0,0">
@@ -195,7 +195,7 @@
                  <widget class="QComboBox" name="combox_type_diagram"/>
                 </item>
                 <item>
-                 <widget class="Line" name="line_2">
+                 <widget class="Line" name="line_type_dia">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
@@ -216,7 +216,7 @@
                  </layout>
                 </item>
                 <item>
-                 <widget class="Line" name="line_6">
+                 <widget class="Line" name="line_p_img">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
@@ -237,6 +237,13 @@
                  </layout>
                 </item>
                 <item>
+                 <widget class="Line" name="line_p_dia">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
                  <spacer name="verticalSpacer">
                   <property name="orientation">
                    <enum>Qt::Vertical</enum>
@@ -248,13 +255,6 @@
                    </size>
                   </property>
                  </spacer>
-                </item>
-                <item>
-                 <widget class="Line" name="line">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                 </widget>
                 </item>
                </layout>
               </widget>
@@ -382,10 +382,10 @@
                  <x>0</x>
                  <y>0</y>
                  <width>730</width>
-                 <height>556</height>
+                 <height>572</height>
                 </rect>
                </property>
-               <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1">
+               <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1">
                 <property name="spacing">
                  <number>6</number>
                 </property>
@@ -410,6 +410,13 @@
                 </item>
                 <item>
                  <layout class="QVBoxLayout" name="vl_edit_errors"/>
+                </item>
+                <item>
+                 <widget class="Line" name="line_errors">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
                 </item>
                 <item>
                  <widget class="QLabel" name="label_control_sectors">
@@ -451,14 +458,14 @@
                     </item>
                    </layout>
                   </item>
+                  <item>
+                   <widget class="Line" name="line_cont_sect">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                   </widget>
+                  </item>
                  </layout>
-                </item>
-                <item>
-                 <widget class="Line" name="line_10">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                 </widget>
                 </item>
                 <item>
                  <widget class="QLabel" name="label_object_data">
@@ -475,7 +482,7 @@
                  </layout>
                 </item>
                 <item>
-                 <widget class="Line" name="line_7">
+                 <widget class="Line" name="line_data">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
@@ -496,7 +503,7 @@
                  </layout>
                 </item>
                 <item>
-                 <widget class="Line" name="line_4">
+                 <widget class="Line" name="line_type_data">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
@@ -517,7 +524,7 @@
                  </layout>
                 </item>
                 <item>
-                 <widget class="Line" name="line_8">
+                 <widget class="Line" name="line_global_data">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
@@ -538,7 +545,7 @@
                  </layout>
                 </item>
                 <item>
-                 <widget class="Line" name="line_5">
+                 <widget class="Line" name="line_pars">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
@@ -559,7 +566,7 @@
                  </layout>
                 </item>
                 <item>
-                 <widget class="Line" name="line_9">
+                 <widget class="Line" name="line_type_pars">
                   <property name="orientation">
                    <enum>Qt::Horizontal</enum>
                   </property>
@@ -578,6 +585,13 @@
                    <enum>QFormLayout::WrapLongRows</enum>
                   </property>
                  </layout>
+                </item>
+                <item>
+                 <widget class="Line" name="line_global_pars">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                 </widget>
                 </item>
                 <item>
                  <spacer name="vertical_spacer">
@@ -637,7 +651,14 @@
     <addaction name="separator"/>
     <addaction name="action_export_to_image"/>
    </widget>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>Прочее</string>
+    </property>
+    <addaction name="action_parameters"/>
+   </widget>
    <addaction name="menu_file"/>
+   <addaction name="menu"/>
   </widget>
   <widget class="QToolBar" name="tb_main">
    <property name="enabled">
@@ -677,6 +698,8 @@
    <addaction name="action_open"/>
    <addaction name="action_save"/>
    <addaction name="action_export_to_image"/>
+   <addaction name="separator"/>
+   <addaction name="action_parameters"/>
   </widget>
   <widget class="QStatusBar" name="status_bar">
    <property name="sizeGripEnabled">
@@ -861,6 +884,18 @@
    </property>
    <property name="text">
     <string>Очистка от мусора</string>
+   </property>
+  </action>
+  <action name="action_parameters">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../resources.qrc">
+     <normaloff>:/white-icons/resources/white-icons/show-properties.svg</normaloff>:/white-icons/resources/white-icons/show-properties.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Блоки параметров</string>
    </property>
   </action>
  </widget>

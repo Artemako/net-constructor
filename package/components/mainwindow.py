@@ -66,6 +66,12 @@ class MainWindow(QMainWindow):
         self.__editor_type_object_parameters_widgets = {}
         self.__editor_objects_parameters_widgets = {}
         self.__control_data_parameters_widgets = {}
+        # наличие данных в блоках
+        self.__has_image_data = False
+        self.__has_diagram_data = False
+        self.__has_object_data = False
+        self.__has_type_object_data = False
+        self.__has_objects_data = False
         #
         # self.__text_format = "NCE (пока json) files (*.json)"]
         self.__text_format = "NCE files (*.nce)"
@@ -118,7 +124,8 @@ class MainWindow(QMainWindow):
         self.ui.action_saveas.triggered.connect(self._save_as_file_nce)
         # экспорт в картинку
         self.ui.action_export_to_image.triggered.connect(self._export_to_image)
-        #
+        # видимость параметров
+        self.ui.action_parameters.triggered.connect(self._toggle_parameters_visibility)
 
     def _start_qt_actions(self):
         self.ui.action_new.setEnabled(True)
@@ -132,6 +139,17 @@ class MainWindow(QMainWindow):
             self.statusBar().showMessage(f"Текущий проект: {file_name}")
         else:
             self.statusBar().showMessage("Проект не открыт")
+
+    def _toggle_parameters_visibility(self):
+        if self.ui.tabw_right.currentIndex() == 2:  # Если находимся во вкладке редактирования
+            obj = self.__current_object
+            is_node = self.__current_is_node
+            # Обновляем виджеты параметров
+            self._create_editor_parameters_widgets_by_object(obj, is_node)
+        else:
+            project_data = self.__obsm.obj_project.get_data()
+            self._reset_widgets_by_data(project_data)
+
 
     def create_file_nce(self):
         file_name, _ = QFileDialog.getSaveFileName(self, " ", "", self.__text_format)
@@ -311,6 +329,15 @@ class MainWindow(QMainWindow):
         if file_name:
             print(f"save_image to {file_name}")
             self.ui.imagewidget.save_image(file_name)
+
+    def _set_layout_widgets_visibility(self, layout, visible):
+        """Helper function to set visibility for all widgets in a layout"""
+        for i in range(layout.count()):
+            item = layout.itemAt(i)
+            if item.widget():
+                item.widget().setVisible(visible)
+            elif item.layout():
+                self._set_layout_widgets_visibility(item.layout(), visible)
 
     def _get_new_data_or_parameters(self, dict_widgets, is_parameters=True):
         new_data_or_parameters = {}
@@ -504,24 +531,28 @@ class MainWindow(QMainWindow):
         self._reset_combobox_type_diagram(diagram_type_id)
         # Параметры изображения
         config_image_parameters = self.__obsm.obj_configs.get_config_image_parameters()
-        self._create_parameters_widgets(
+        flag = self._create_parameters_widgets(
             self.__general_image_parameters_widgets,
             self.ui.fl_image_parameters,
             config_image_parameters,
             image_parameters,
         )
+        self.ui.label_image_parameters.setVisible(flag)
+        self.ui.line_p_img.setVisible(flag)
         # Параметры диаграммы
         config_diagram_parameters = (
             self.__obsm.obj_configs.get_config_diagram_parameters_by_type_id(
                 diagram_type_id
             )
         )
-        self._create_parameters_widgets(
+        flag = self._create_parameters_widgets(
             self.__general_diagram_parameters_widgets,
             self.ui.fl_diagram_parameters,
             config_diagram_parameters,
             diagram_parameters,
         )
+        self.ui.label_diagram_parameters.setVisible(flag)
+        self.ui.line_p_dia.setVisible(flag)
 
     def _save_and_restore_scroll_position(self, table_widget, reset_function):
         scroll_position = table_widget.verticalScrollBar().value()
@@ -1034,47 +1065,51 @@ class MainWindow(QMainWindow):
         )
         dict_widgets.clear()
         self._clear_form_layout(form_layout)
-
-        precision_separator, precision_number = (
-            self._get_precision_separator_and_number()
-        )
-
-        for (
-            config_parameter_key,
-            config_parameter_data,
-        ) in config_object_parameters.items():
-            print(
-                f"config_parameter_key: {config_parameter_key}, config_parameter_data: {config_parameter_data}"
+        # Проверка на наличие параметров (стоит ли галочка)
+        if self.ui.action_parameters.isChecked():
+            precision_separator, precision_number = (
+                self._get_precision_separator_and_number()
             )
-            widget_type = config_parameter_data.get("type", "")
-            label_text = config_parameter_data.get("name", "")
-            info = config_parameter_data.get(
-                "info", ""
-            )  # Получаем информацию для подсказки
-            value = object_parameters.get(config_parameter_key, {}).get("value", None)
-            value = (
-                value if value is not None else config_parameter_data.get("value", "")
-            )
+            for (
+                config_parameter_key,
+                config_parameter_data,
+            ) in config_object_parameters.items():
+                print(
+                    f"config_parameter_key: {config_parameter_key}, config_parameter_data: {config_parameter_data}"
+                )
+                widget_type = config_parameter_data.get("type", "")
+                label_text = config_parameter_data.get("name", "")
+                info = config_parameter_data.get(
+                    "info", ""
+                )  # Получаем информацию для подсказки
+                value = object_parameters.get(config_parameter_key, {}).get(
+                    "value", None
+                )
+                value = (
+                    value
+                    if value is not None
+                    else config_parameter_data.get("value", "")
+                )
 
-            # Создаем метку для параметра
-            label = self._get_label_name(label_text, widget_type)
+                # Создаем метку для параметра
+                label = self._get_label_name(label_text, widget_type)
 
-            # Создаем основной виджет
-            new_widget = self._get_widget(
-                widget_type,
-                value,
-                is_parameters=True,
-                precision_separator=precision_separator,
-                precision_number=precision_number,
-            )
+                # Создаем основной виджет
+                new_widget = self._get_widget(
+                    widget_type,
+                    value,
+                    is_parameters=True,
+                    precision_separator=precision_separator,
+                    precision_number=precision_number,
+                )
 
-            widget_to_add = self._create_widget_with_info(new_widget, info)
-            form_layout.addRow(label, widget_to_add)
+                widget_to_add = self._create_widget_with_info(new_widget, info)
+                form_layout.addRow(label, widget_to_add)
 
-            if widget_type != "title":
-                dict_widgets[config_parameter_key] = [widget_type, new_widget]
+                if widget_type != "title":
+                    dict_widgets[config_parameter_key] = [widget_type, new_widget]
 
-        print("BEFORE return len(dict_widgets) > 0: dict_widgets", dict_widgets)
+        # print("BEFORE return len(dict_widgets) > 0: dict_widgets", dict_widgets)
         return len(dict_widgets) > 0
 
     def _add_control_sector(self, obj):
@@ -1117,6 +1152,8 @@ class MainWindow(QMainWindow):
 
     def _create_editor_control_sectors_by_object(self, obj, is_node=False):
         self.ui.label_control_sectors.setVisible(not is_node)
+        self.ui.line_cont_sect.setVisible(not is_node)
+        #
         self.ui.tw_control_sectors.setVisible(not is_node)
         self.ui.btn_add_control_sector.setVisible(not is_node)
         self.ui.btn_delete_control_sector.setVisible(not is_node)
@@ -1166,7 +1203,7 @@ class MainWindow(QMainWindow):
             config_objects_parameters = (
                 self.__obsm.obj_configs.get_config_objects_parameters_by_connection(obj)
             )
-        # именно только parameters
+        # TODO
         object_parameters = obj.get("parameters", {})
         flag = self._create_parameters_widgets(
             self.__editor_object_parameters_widgets,
@@ -1175,6 +1212,7 @@ class MainWindow(QMainWindow):
             object_parameters,
         )
         self.ui.label_object_parameters.setVisible(flag)
+        self.ui.line_pars.setVisible(flag)
         #
         flag = self._create_parameters_widgets(
             self.__editor_type_object_parameters_widgets,
@@ -1183,6 +1221,7 @@ class MainWindow(QMainWindow):
             object_parameters,
         )
         self.ui.label_type_object_parameters.setVisible(flag)
+        self.ui.line_type_pars.setVisible(flag)
         #
         flag = self._create_parameters_widgets(
             self.__editor_objects_parameters_widgets,
@@ -1191,6 +1230,7 @@ class MainWindow(QMainWindow):
             object_parameters,
         )
         self.ui.label_objects_parameters.setVisible(flag)
+        self.ui.line_global_pars.setVisible(flag)
 
     def _create_editor_data_widgets_by_object(self, obj, is_node=False):
         if is_node:
@@ -1224,6 +1264,7 @@ class MainWindow(QMainWindow):
             object_data,
         )
         self.ui.label_object_data.setVisible(flag)
+        self.ui.line_data.setVisible(flag)
         #
         flag = self.create_data_widgets(
             self.__editor_type_object_data_widgets,
@@ -1232,6 +1273,7 @@ class MainWindow(QMainWindow):
             object_data,
         )
         self.ui.label_type_object_data.setVisible(flag)
+        self.ui.line_type_data.setVisible(flag)
         #
         flag = self.create_data_widgets(
             self.__editor_objects_data_widgets,
@@ -1240,6 +1282,7 @@ class MainWindow(QMainWindow):
             object_data,
         )
         self.ui.label_objects_data.setVisible(flag)
+        self.ui.line_global_data.setVisible(flag)
 
     def node_table_context_menu(self, position):
         """Отображение контекстного меню для таблицы узлов"""
@@ -1293,6 +1336,7 @@ class MainWindow(QMainWindow):
             if item.widget():
                 item.widget().deleteLater()
         self.ui.label_edit_errors.setVisible(False)
+        self.ui.line_errors.setVisible(False)
 
     def _check_lengths(self, optical_length=None, physical_length=None):
         """
@@ -1357,6 +1401,7 @@ class MainWindow(QMainWindow):
 
     def _add_error_message(self, message):
         self.ui.label_edit_errors.setVisible(True)
+        self.ui.line_errors.setVisible(True)
         error_label = QLabel(message)
         error_label.setStyleSheet("color: red;")
         self.ui.vl_edit_errors.addWidget(error_label)
@@ -1369,14 +1414,13 @@ class MainWindow(QMainWindow):
         msg_box.setIcon(QMessageBox.Information)
         msg_box.exec()
 
-
     def _create_widget_with_info(self, widget, info, button_first=True):
         if info:
             tool_button = QToolButton()
             tool_button.setIcon(self.style().standardIcon(QStyle.SP_MessageBoxQuestion))
             tool_button.setToolTip("Нажмите для получения информации")
             tool_button.clicked.connect(lambda: self._show_info_dialog(info))
-            
+
             h_layout = QHBoxLayout()
             if button_first:
                 h_layout.addWidget(tool_button)
@@ -1385,5 +1429,5 @@ class MainWindow(QMainWindow):
                 h_layout.addWidget(widget)
                 h_layout.addWidget(tool_button)
             return h_layout
-        
+
         return widget
