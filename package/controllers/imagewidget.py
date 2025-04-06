@@ -64,14 +64,19 @@ class ImageWidget(QWidget):
     def create_image(self, data):
         print("create_image")
         #
-        width = int(data.get("diagram_parameters", {}).get("width", {}).get("value", 0))
-        start_height = int(data.get("diagram_parameters", {}).get("start_height", {}).get("value", 0))
-
+        # width = int(data.get("diagram_parameters", {}).get("width", {}).get("value", 0))
+        # start_height = int(data.get("diagram_parameters", {}).get("start_height", {}).get("value", 0))
         start_x = int(
-            data.get("diagram_parameters", {}).get("start_x", {}).get("value", 0)
+            data.get("diagram_parameters", {}).get("indent_left", {}).get("value", 0)
         )
         start_y = int(
-            data.get("diagram_parameters", {}).get("start_y", {}).get("value", 0)
+            data.get("diagram_parameters", {}).get("indent_top", {}).get("value", 0)
+        )
+        indent_right = int(
+            data.get("diagram_parameters", {}).get("indent_right", {}).get("value", 0)
+        )
+        indent_bottom = int(
+            data.get("diagram_parameters", {}).get("indent_bottom", {}).get("value", 0)
         )
         delta_wrap_y = int(
             data.get("diagram_parameters", {}).get("delta_wrap_y", {}).get("value", 0)
@@ -80,14 +85,18 @@ class ImageWidget(QWidget):
             data.get("diagram_parameters", {}).get("is_center", {}).get("value", False)
         )
 
+        # начальная ширина и высота
+        width = start_x + indent_right
+        start_height = start_y + indent_bottom
+
         # временное изображение для расчета высоты
         temp_image = QImage(width, start_height, QImage.Format_ARGB32)
         temp_image.fill(Qt.white)
         #
         painter = QPainter(temp_image)
         # подготовка данных перед рисованием
-        rows = self.__diagram_drawer._preparation_draw(
-            start_x, start_y, delta_wrap_y, width, is_center
+        rows, calc_width = self.__diagram_drawer._preparation_draw(
+            start_x, start_y, delta_wrap_y, indent_right, is_center
         )
         # Вычисляем итоговую высоту
         if rows.get_rows():
@@ -98,7 +107,7 @@ class ImageWidget(QWidget):
         painter.end()
 
         # Итоговое изображение с рассчитанной высотой
-        image = QImage(width, calc_height, QImage.Format_ARGB32)
+        image = QImage(calc_width, calc_height, QImage.Format_ARGB32)
         image.fill(Qt.white)
         # Рисуем диаграмму на итоговом изображении
         painter = QPainter(image)

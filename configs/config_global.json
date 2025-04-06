@@ -38,24 +38,24 @@
                 "0"
             ],
             "parameters": {
-                "width": {
-                    "value": 1650,
-                    "name": "Ширина изображения",
+                "indent_left": {
+                    "value": 150,
+                    "name": "Отступ схемы слева",
                     "order": -2
                 },
-                "start_height": {
-                    "value": 350,
-                    "name": "Начальная высота изображения",
+                "indent_right": {
+                    "value": 150,
+                    "name": "Отступ схемы справа",
                     "order": -1
                 },
-                "start_x": {
-                    "value": 140,
-                    "name": "Стартовая координата X",
+                "indent_top": {
+                    "value": 150,
+                    "name": "Отступ схемы сверху",
                     "order": 1
                 },
-                "start_y": {
-                    "value": 150,
-                    "name": "Стартовая координата Y",
+                "indent_bottom": {
+                    "value": 200,
+                    "name": "Отступ схемы снизу",
                     "order": 2
                 },
                 "delta_wrap_y": {
@@ -78,19 +78,19 @@
                 "precision_number": {
                     "value": 1,
                     "name": "Кол-во знаков после разделителя",
-                    "order": 6,
+                    "order": 10,
                     "type": "number_int"
                 },
                 "precision_separator": {
                     "value": true,
                     "name": "Разделитель точка/запятая",
-                    "order": 7,
+                    "order": 11,
                     "type": "bool"
                 },
                 "is_location": {
                     "value": true,
                     "name": "Показывать местоположение",
-                    "order": 8,
+                    "order": 12,
                     "type": "bool"
                 },
                 "Тонкие линии": {
@@ -177,24 +177,24 @@
                 "50"
             ],
             "parameters": {
-                "width": {
-                    "value": 1650,
-                    "name": "Ширина изображения",
+                "indent_left": {
+                    "value": 150,
+                    "name": "Отступ схемы слева",
                     "order": -2
                 },
-                "start_height": {
-                    "value": 350,
-                    "name": "Начальная высота изображения",
+                "indent_right": {
+                    "value": 150,
+                    "name": "Отступ схемы справа",
                     "order": -1
                 },
-                "start_x": {
-                    "value": 200,
-                    "name": "Стартовая координата X",
+                "indent_top": {
+                    "value": 150,
+                    "name": "Отступ схемы сверху",
                     "order": 1
                 },
-                "start_y": {
+                "indent_bottom": {
                     "value": 200,
-                    "name": "Стартовая координата Y",
+                    "name": "Отступ схемы снизу",
                     "order": 2
                 },
                 "delta_wrap_y": {
@@ -217,13 +217,13 @@
                 "precision_number": {
                     "value": 1,
                     "name": "Кол-во знаков после разделителя",
-                    "order": 6,
+                    "order": 10,
                     "type": "number_int"
                 },
                 "precision_separator": {
                     "value": true,
                     "name": "Разделитель точка/запятая",
-                    "order": 7,
+                    "order": 11,
                     "type": "bool"
                 },
                 "Тонкие линии": {
@@ -312,24 +312,24 @@
                 "100"
             ],
             "parameters": {
-                "width": {
-                    "value": 1650,
-                    "name": "Ширина изображения",
+                "indent_left": {
+                    "value": 150,
+                    "name": "Отступ схемы слева",
                     "order": -2
                 },
-                "start_height": {
-                    "value": 350,
-                    "name": "Начальная высота изображения",
+                "indent_right": {
+                    "value": 150,
+                    "name": "Отступ схемы справа",
                     "order": -1
                 },
-                "start_x": {
-                    "value": 140,
-                    "name": "Стартовая координата X",
+                "indent_top": {
+                    "value": 150,
+                    "name": "Отступ схемы сверху",
                     "order": 1
                 },
-                "start_y": {
-                    "value": 160,
-                    "name": "Стартовая координата Y",
+                "indent_bottom": {
+                    "value": 200,
+                    "name": "Отступ схемы снизу",
                     "order": 2
                 },
                 "delta_wrap_y": {
@@ -352,13 +352,13 @@
                 "precision_number": {
                     "value": 1,
                     "name": "Кол-во знаков после разделителя",
-                    "order": 6,
+                    "order": 10,
                     "type": "number_int"
                 },
                 "precision_separator": {
                     "value": true,
                     "name": "Разделитель точка/запятая",
-                    "order": 7,
+                    "order": 11,
                     "type": "bool"
                 },
                 "Тонкие линии": {
@@ -419,24 +419,24 @@
                 "150"
             ],
             "parameters": {
-                "width": {
-                    "value": 1650,
-                    "name": "Ширина изображения",
+                "indent_left": {
+                    "value": 150,
+                    "name": "Отступ схемы слева",
                     "order": -2
                 },
-                "start_height": {
-                    "value": 350,
-                    "name": "Начальная высота изображения",
+                "indent_right": {
+                    "value": 150,
+                    "name": "Отступ схемы справа",
                     "order": -1
                 },
-                "start_x": {
-                    "value": 140,
-                    "name": "Стартовая координата X",
+                "indent_top": {
+                    "value": 150,
+                    "name": "Отступ схемы сверху",
                     "order": 1
                 },
-                "start_y": {
-                    "value": 180,
-                    "name": "Стартовая координата Y",
+                "indent_bottom": {
+                    "value": 200,
+                    "name": "Отступ схемы снизу",
                     "order": 2
                 },
                 "delta_wrap_y": {
@@ -459,13 +459,13 @@
                 "precision_number": {
                     "value": 1,
                     "name": "Кол-во знаков после разделителя",
-                    "order": 6,
+                    "order": 10,
                     "type": "number_int"
                 },
                 "precision_separator": {
                     "value": true,
                     "name": "Разделитель точка/запятая",
-                    "order": 7,
+                    "order": 11,
                     "type": "bool"
                 },
                 "Тонкие линии": {

@@ -371,18 +371,24 @@ class DiagramDrawer:
 
         return prepared_data
 
-    def _preparation_draw(self, start_x, start_y, delta_wrap_y, width, is_center):
+    def _preparation_draw(self, start_x, start_y, delta_wrap_y, indent_right, is_center):
         # подготавливаем данные
         prepared_data, to_right_optical_length, to_right_physical_length, rows = (
             self._prepare_main_drawing_data(start_x, start_y, delta_wrap_y)
+        ) 
+        #  
+        rows_list = rows.get_rows()
+        max_x = max(
+            (row.get("x", 0) + row.get("length", 0) for row in rows_list),
+            default=start_x
         )
-        #
+        width = max_x + indent_right
         center_prepared_data = self._center_rows(prepared_data, rows, width, is_center)
         #
         self.prepared_data = self._set_to_left_lengths(
             center_prepared_data, to_right_optical_length, to_right_physical_length
         )
-        return rows
+        return rows, width
 
     def draw(self, painter, start_x, delta_wrap_y):
         # сначала рисуем соединения
