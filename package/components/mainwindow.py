@@ -259,7 +259,6 @@ class MainWindow(QMainWindow):
 
             elif self.ui.tabw_right.currentIndex() == 3:
                 is_control_sector_tab = True
-                # TODO проверка
                 # Получаем новые значения из виджетов
                 new_control_sector_parameters = self._get_new_data_or_parameters(
                     self.__control_data_parameters_widgets, is_parameters=True
@@ -570,7 +569,7 @@ class MainWindow(QMainWindow):
                 is_wrap = node.get("is_wrap", False)
                 btn_wrap = QPushButton("Не переносить" if is_wrap else "Переносить")
                 table_widget.setCellWidget(index, 2, btn_wrap)
-                btn_wrap.clicked.connect(partial(self._wrap_node, node))
+                btn_wrap.clicked.connect(partial(self._wrap_node, node))                
                 #
                 btn_edit = QPushButton("Редактировать")
                 table_widget.setCellWidget(index, 3, btn_edit)
@@ -586,7 +585,7 @@ class MainWindow(QMainWindow):
             #
             table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
             table_widget.blockSignals(False)
-            # контекстноеменю
+            # контекстное меню
             table_widget.setContextMenuPolicy(Qt.CustomContextMenu)
             table_widget.customContextMenuRequested.connect(
                 self.node_table_context_menu
@@ -791,7 +790,7 @@ class MainWindow(QMainWindow):
         )
         #
         self.__control_data_parameters_widgets = {}
-        # TODO Получить именно через config
+        # Получить именно через config
         control_sectors_config = self.__obsm.obj_configs.get_config_control_sectors()
         # Создаем словарь параметров для текущего контрольного сектора
         cs_data_pars = cs.get("data_pars", {})
@@ -884,11 +883,13 @@ class MainWindow(QMainWindow):
             info = config_parameter_data.get(
                 "info", ""
             )  # Получаем информацию для подсказки
+            #
             label_text = config_parameter_data.get("name", "")
             value = object_data.get(config_parameter_key, {}).get("value", None)
             value = (
                 value if value is not None else config_parameter_data.get("value", "")
             )
+            arguments = config_parameter_data.get("arguments", {})
 
             # Создаем метку для параметра
             label = self._get_label_name(label_text, widget_type)
@@ -897,6 +898,7 @@ class MainWindow(QMainWindow):
             new_widget = self._get_widget(
                 widget_type,
                 value,
+                arguments,
                 is_parameters=False,
                 precision_separator=precision_separator,
                 precision_number=precision_number,
@@ -914,6 +916,7 @@ class MainWindow(QMainWindow):
         self,
         widget_type,
         value,
+        arguments,
         is_parameters=True,
         precision_separator=None,
         precision_number=None,
@@ -975,12 +978,16 @@ class MainWindow(QMainWindow):
         #
         elif widget_type == "number_int_signed":
             new_widget = QSpinBox()
-            new_widget.setRange(-2147483647, 2147483647)
+            min_value = arguments.get("min", -2147483647)
+            max_value = arguments.get("max", 2147483647)
+            new_widget.setRange(min_value, max_value)
             new_widget.setValue(value)
         #
         elif widget_type == "number_int":
             new_widget = QSpinBox()
-            new_widget.setRange(0, 2147483647)
+            min_value = arguments.get("min", 0)
+            max_value = arguments.get("max", 2147483647)
+            new_widget.setRange(min_value, max_value)
             new_widget.setValue(value)
         #
         elif widget_type == "number_float":
@@ -1065,6 +1072,7 @@ class MainWindow(QMainWindow):
                     if value is not None
                     else config_parameter_data.get("value", "")
                 )
+                arguments = config_parameter_data.get("arguments", {})
 
                 # Создаем метку для параметра
                 label = self._get_label_name(label_text, widget_type)
@@ -1073,6 +1081,7 @@ class MainWindow(QMainWindow):
                 new_widget = self._get_widget(
                     widget_type,
                     value,
+                    arguments,
                     is_parameters=True,
                     precision_separator=precision_separator,
                     precision_number=precision_number,
@@ -1178,7 +1187,7 @@ class MainWindow(QMainWindow):
             config_objects_parameters = (
                 self.__obsm.obj_configs.get_config_objects_parameters_by_connection(obj)
             )
-        # TODO
+        #
         object_parameters = obj.get("parameters", {})
         flag = self._create_parameters_widgets(
             self.__editor_object_parameters_widgets,

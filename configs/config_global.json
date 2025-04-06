@@ -69,10 +69,17 @@
                     "order": 4,
                     "type": "bool"
                 },
+                "max_nodes_in_row": {
+                    "value": 5,
+                    "name": "Максимальное кол-во вершин в ряду",
+                    "order": 5,
+                    "type": "number_int",
+                    "arguments": {"min" : 2}
+                },
                 "font_name": {
                     "value": "Open Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
                     "name": "Название шрифта диграммы",
-                    "order": 5,
+                    "order": 6,
                     "type": "font_name"
                 },
                 "precision_number": {
@@ -208,10 +215,17 @@
                     "order": 4,
                     "type": "bool"
                 },
+                "max_nodes_in_row": {
+                    "value": 5,
+                    "name": "Максимальное кол-во вершин в ряду",
+                    "order": 5,
+                    "type": "number_int",
+                    "arguments": {"min" : 2}
+                },
                 "font_name": {
                     "value": "Open Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
                     "name": "Название шрифта диграммы",
-                    "order": 5,
+                    "order": 6,
                     "type": "font_name"
                 },
                 "precision_number": {
@@ -343,10 +357,17 @@
                     "order": 4,
                     "type": "bool"
                 },
+                "max_nodes_in_row": {
+                    "value": 5,
+                    "name": "Максимальное кол-во вершин в ряду",
+                    "order": 5,
+                    "type": "number_int",
+                    "arguments": {"min" : 2}
+                },
                 "font_name": {
                     "value": "Open Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
                     "name": "Название шрифта диграммы",
-                    "order": 5,
+                    "order": 6,
                     "type": "font_name"
                 },
                 "precision_number": {
@@ -450,10 +471,17 @@
                     "order": 4,
                     "type": "bool"
                 },
+                "max_nodes_in_row": {
+                    "value": 5,
+                    "name": "Максимальное кол-во вершин в ряду",
+                    "order": 5,
+                    "type": "number_int",
+                    "arguments": {"min" : 2}
+                },
                 "font_name": {
                     "value": "Open Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
                     "name": "Название шрифта диграммы",
-                    "order": 5,
+                    "order": 6,
                     "type": "font_name"
                 },
                 "precision_number": {

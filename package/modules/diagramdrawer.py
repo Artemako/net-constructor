@@ -161,7 +161,7 @@ class DiagramDrawer:
         )
         return delta_wrap_x
 
-    def _prepare_main_drawing_data(self, start_x, start_y, delta_wrap_y):
+    def _prepare_main_drawing_data(self, start_x, start_y, delta_wrap_y, max_nodes_in_row):
         """Подготавливает данные для рисования"""
         x = start_x
         y = start_y
@@ -172,14 +172,19 @@ class DiagramDrawer:
         rows = Rows()
         #
         prepared_data = []
+        current_row_node_count = 0
         #
         max_length = max(len(self.__nodes), len(self.__connections))
         # проход по всем узлам и соединениям по очереди
         for index in range(max_length):
             if index < len(self.__nodes):
+                #
+                current_row_node_count += 1
+                #
                 node = self.__nodes[index]
                 # config
                 node_id = node.get("node_id")
+
                 if node_id is not None:
                     node_id_str = str(node_id)
                     config_node = self.__config_nodes.get(node_id_str, {})
@@ -200,7 +205,7 @@ class DiagramDrawer:
                             "to_right_physical_length": to_right_physical_length,
                         }
                     )
-                elif not node.get("is_wrap"):
+                elif not node.get("is_wrap") and current_row_node_count < max_nodes_in_row:
                     prepared_data.append(
                         {
                             "type": "node",
@@ -224,10 +229,10 @@ class DiagramDrawer:
                     )
                     #
                     rows.end_row(x)
+                    #
                     x = start_x + self._get_delta_wrap_x(node)
                     y += delta_wrap_y
                     rows.new_row(x, y)
-                    #
                     prepared_data.append(
                         {
                             "type": "node",
@@ -238,6 +243,9 @@ class DiagramDrawer:
                             "to_right_physical_length": to_right_physical_length,
                         }
                     )
+                    #
+                    current_row_node_count = 1
+                    
 
             if index < len(self.__connections):
                 connection = self.__connections[index]
@@ -289,7 +297,13 @@ class DiagramDrawer:
                 )
                 # увеличиваем координаты по длине соединения
                 if connection_id == "100" and len(control_sectors) > 0:
-                    for cs in control_sectors:
+                    # current_row_node_count += 100
+                    for index_cs, cs in enumerate(control_sectors):
+                        # Проверяем последнее ли сектор (ибо в нем кт нет) 
+                        is_last = index_cs == len(control_sectors) - 1
+                        if not is_last:
+                            current_row_node_count += 1
+                        #
                         cs_copy = cs.copy()
                         x += (
                             cs.get("data_pars", {}).get("cs_lenght", {}).get("value", 0)
@@ -301,8 +315,9 @@ class DiagramDrawer:
                             .get("cs_physical_length", {})
                             .get("value", 0)
                         )
-                        # Если есть перенос
-                        if cs.get("is_wrap", False):
+                        #
+                        # Если есть перенос и не последнее соединение
+                        if cs.get("is_wrap", False) or (current_row_node_count >= max_nodes_in_row and not is_last):
                             rows.end_row(x)
                             y += delta_wrap_y
                             x = start_x + cs.get("data_pars", {}).get(
@@ -312,8 +327,15 @@ class DiagramDrawer:
                             #
                             cs_copy["wrap_x"] = x
                             cs_copy["wrap_y"] = y
+                            cs_copy["is_wrap"] = True
+                            #
+                            current_row_node_count = 1
+                            
                         # добавляем изменённый сектор в prepared_data
                         prepared_data[-1]["control_sectors"].append(cs_copy)
+                   
+                    
+                    
 
                 else:
                     x += connection_length
@@ -371,10 +393,10 @@ class DiagramDrawer:
 
         return prepared_data
 
-    def _preparation_draw(self, start_x, start_y, delta_wrap_y, indent_right, is_center):
+    def _preparation_draw(self, start_x, start_y, delta_wrap_y, indent_right, is_center, max_nodes_in_row):
         # подготавливаем данные
         prepared_data, to_right_optical_length, to_right_physical_length, rows = (
-            self._prepare_main_drawing_data(start_x, start_y, delta_wrap_y)
+            self._prepare_main_drawing_data(start_x, start_y, delta_wrap_y, max_nodes_in_row)
         ) 
         #  
         rows_list = rows.get_rows()

@@ -84,6 +84,9 @@ class ImageWidget(QWidget):
         is_center = bool(
             data.get("diagram_parameters", {}).get("is_center", {}).get("value", False)
         )
+        max_nodes_in_row = int(
+            data.get("diagram_parameters", {}).get("max_nodes_in_row", {}).get("value", 0)
+        )
 
         # начальная ширина и высота
         width = start_x + indent_right
@@ -96,7 +99,7 @@ class ImageWidget(QWidget):
         painter = QPainter(temp_image)
         # подготовка данных перед рисованием
         rows, calc_width = self.__diagram_drawer._preparation_draw(
-            start_x, start_y, delta_wrap_y, indent_right, is_center
+            start_x, start_y, delta_wrap_y, indent_right, is_center, max_nodes_in_row
         )
         # Вычисляем итоговую высоту
         if rows.get_rows():
