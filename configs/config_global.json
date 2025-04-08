@@ -1,28 +1,48 @@
 {
     "control_sectors_config": {
+        "Данные": {
+            "value": "",
+            "name": "Данные",
+            "order": 0,
+            "type": "title",
+            "arguments": {
+                "is_data" : true
+            }
+        },
         "cs_name": {
             "value": "Контрольная точка",
             "name": "Название сектора",
             "order": 1,
-            "type": "line_string"
+            "type": "string_line",
+            "is_data" : true
         },
         "cs_physical_length": {
             "value": 0,
             "name": "Физическая длина сектора",
             "order": 2,
-            "type": "number_float"
+            "type": "number_float",
+            "is_data" : true
+        },
+        "Параметры": {
+            "value": "",
+            "name": "Параметры",
+            "order": 10,
+            "type": "title",
+            "is_parameter" : true
         },
         "cs_lenght": {
             "value": 250,
             "name": "Расстояние сектора",
-            "order": 3,
-            "type": "number_int"
+            "order": 11,
+            "type": "number_int",
+            "is_parameter" : true
         },
         "cs_delta_wrap_x": {
             "value": 0,
             "name": "Расстояние переноса по X после сектора",
-            "order": 4,
-            "type": "number_int_signed"
+            "order": 12,
+            "type": "number_int_signed",
+            "is_parameter" : true
         }
     },
     "diagrams": {
@@ -39,20 +59,20 @@
             ],
             "parameters": {
                 "indent_left": {
-                    "value": 150,
+                    "value": 200,
                     "name": "Отступ схемы слева",
                     "order": -2
                 },
-                "indent_right": {
-                    "value": 150,
-                    "name": "Отступ схемы справа",
+                "indent_top": {
+                    "value": 200,
+                    "name": "Отступ схемы сверху",
                     "order": -1
                 },
-                "indent_top": {
-                    "value": 150,
-                    "name": "Отступ схемы сверху",
+                "indent_right": {
+                    "value": 200,
+                    "name": "Отступ схемы справа",
                     "order": 1
-                },
+                },                
                 "indent_bottom": {
                     "value": 200,
                     "name": "Отступ схемы снизу",
@@ -185,20 +205,20 @@
             ],
             "parameters": {
                 "indent_left": {
-                    "value": 150,
+                    "value": 200,
                     "name": "Отступ схемы слева",
                     "order": -2
                 },
-                "indent_right": {
-                    "value": 150,
-                    "name": "Отступ схемы справа",
+                "indent_top": {
+                    "value": 200,
+                    "name": "Отступ схемы сверху",
                     "order": -1
                 },
-                "indent_top": {
-                    "value": 150,
-                    "name": "Отступ схемы сверху",
+                "indent_right": {
+                    "value": 200,
+                    "name": "Отступ схемы справа",
                     "order": 1
-                },
+                },                
                 "indent_bottom": {
                     "value": 200,
                     "name": "Отступ схемы снизу",
@@ -294,13 +314,13 @@
                     "value": "L по кабелю (м)",
                     "name": "Обозначение длины по кабелю",
                     "order": 301,
-                    "type": "line_string"
+                    "type": "string_line"
                 },
                 "text_fiber_length": {
                     "value": "L по волокну (м)",
                     "name": "Обозначение длины по волокну",
                     "order": 302,
-                    "type": "line_string"
+                    "type": "string_line"
                 },
                 "delta_x_text_lengths": {
                     "value": 20,
@@ -327,20 +347,20 @@
             ],
             "parameters": {
                 "indent_left": {
-                    "value": 150,
+                    "value": 200,
                     "name": "Отступ схемы слева",
                     "order": -2
                 },
-                "indent_right": {
-                    "value": 150,
-                    "name": "Отступ схемы справа",
+                "indent_top": {
+                    "value": 200,
+                    "name": "Отступ схемы сверху",
                     "order": -1
                 },
-                "indent_top": {
-                    "value": 150,
-                    "name": "Отступ схемы сверху",
+                "indent_right": {
+                    "value": 200,
+                    "name": "Отступ схемы справа",
                     "order": 1
-                },
+                },                
                 "indent_bottom": {
                     "value": 200,
                     "name": "Отступ схемы снизу",
@@ -441,20 +461,20 @@
             ],
             "parameters": {
                 "indent_left": {
-                    "value": 150,
+                    "value": 200,
                     "name": "Отступ схемы слева",
                     "order": -2
                 },
-                "indent_right": {
-                    "value": 150,
-                    "name": "Отступ схемы справа",
+                "indent_top": {
+                    "value": 200,
+                    "name": "Отступ схемы сверху",
                     "order": -1
                 },
-                "indent_top": {
-                    "value": 150,
-                    "name": "Отступ схемы сверху",
+                "indent_right": {
+                    "value": 200,
+                    "name": "Отступ схемы справа",
                     "order": 1
-                },
+                },                
                 "indent_bottom": {
                     "value": 200,
                     "name": "Отступ схемы снизу",

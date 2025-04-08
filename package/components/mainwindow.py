@@ -134,15 +134,16 @@ class MainWindow(QMainWindow):
             self.statusBar().showMessage("Проект не открыт")
 
     def _toggle_parameters_visibility(self):
-        if self.ui.tabw_right.currentIndex() == 2:  # Если находимся во вкладке редактирования
+        if self.ui.tabw_right.currentIndex() == 2:
             obj = self.__current_object
             is_node = self.__current_is_node
             # Обновляем виджеты параметров
             self._create_editor_parameters_widgets_by_object(obj, is_node)
+        elif self.ui.tabw_right.currentIndex() == 3:
+            self._create_control_sector_widgets(self.__current_control_sector)
         else:
             project_data = self.__obsm.obj_project.get_data()
             self._reset_widgets_by_data(project_data)
-
 
     def create_file_nce(self):
         file_name, _ = QFileDialog.getSaveFileName(self, " ", "", self.__text_format)
@@ -336,7 +337,7 @@ class MainWindow(QMainWindow):
                 new_data_or_parameters[key] = {"value": widget.currentFont().toString()}
             elif widget_type == "color":
                 new_data_or_parameters[key] = {"value": widget.text()}
-            elif widget_type == "line_string":
+            elif widget_type == "string_line":
                 new_data_or_parameters[key] = {"value": widget.text()}
             elif (
                 widget_type == "fill_style"
@@ -569,7 +570,7 @@ class MainWindow(QMainWindow):
                 is_wrap = node.get("is_wrap", False)
                 btn_wrap = QPushButton("Не переносить" if is_wrap else "Переносить")
                 table_widget.setCellWidget(index, 2, btn_wrap)
-                btn_wrap.clicked.connect(partial(self._wrap_node, node))                
+                btn_wrap.clicked.connect(partial(self._wrap_node, node))
                 #
                 btn_edit = QPushButton("Редактировать")
                 table_widget.setCellWidget(index, 3, btn_edit)
@@ -584,12 +585,13 @@ class MainWindow(QMainWindow):
             header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
             #
             table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
-            table_widget.blockSignals(False)
             # контекстное меню
             table_widget.setContextMenuPolicy(Qt.CustomContextMenu)
             table_widget.customContextMenuRequested.connect(
                 self.node_table_context_menu
             )
+            #
+            table_widget.blockSignals(False)
 
         self._save_and_restore_scroll_position(self.ui.tablew_nodes, reset_nodes)
 
@@ -722,6 +724,12 @@ class MainWindow(QMainWindow):
             header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
             header.setSectionResizeMode(4, QHeaderView.ResizeToContents)
             table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
+            # Контекстное меню
+            table_widget.setContextMenuPolicy(Qt.CustomContextMenu)
+            table_widget.customContextMenuRequested.connect(
+                self.control_sector_table_context_menu
+            )
+            #
             table_widget.blockSignals(False)
 
         self._save_and_restore_scroll_position(
@@ -737,10 +745,7 @@ class MainWindow(QMainWindow):
             self._get_precision_separator_and_number()
         )
         #
-        self.reset_tab_general(
-            diagram_type_id,
-            diagram_parameters
-        )
+        self.reset_tab_general(diagram_type_id, diagram_parameters)
         #
         nodes = data.get("nodes", [])
         connections = data.get("connections", [])
@@ -810,6 +815,7 @@ class MainWindow(QMainWindow):
             cs_data_pars,
             precision_separator,
             precision_number,
+            combined_data_parameters = True
         )
 
     def _wrap_node(self, node):
@@ -948,7 +954,7 @@ class MainWindow(QMainWindow):
             new_widget.setText(value)
             new_widget.clicked.connect(open_color_dialog)
         #
-        elif widget_type == "line_string":
+        elif widget_type == "string_line":
             new_widget = QLineEdit()
             new_widget.setText(value)
         #
@@ -1037,6 +1043,7 @@ class MainWindow(QMainWindow):
         object_parameters,
         precision_separator=None,
         precision_number=None,
+        combined_data_parameters = False
     ) -> bool:
         print(
             "create_parameters_widgets():\n"
@@ -1048,7 +1055,8 @@ class MainWindow(QMainWindow):
         dict_widgets.clear()
         self._clear_form_layout(form_layout)
         # Проверка на наличие параметров (стоит ли галочка)
-        if self.ui.action_parameters.isChecked():
+        is_action_parameters = self.ui.action_parameters.isChecked()
+        if combined_data_parameters or is_action_parameters:
             precision_separator, precision_number = (
                 self._get_precision_separator_and_number()
             )
@@ -1087,6 +1095,11 @@ class MainWindow(QMainWindow):
                     precision_number=precision_number,
                 )
 
+                # Для секторов
+                is_parameter = config_parameter_data.get("is_parameter", False)
+                if combined_data_parameters and not is_action_parameters and is_parameter:
+                    continue
+
                 widget_to_add = self._create_widget_with_info(new_widget, info)
                 form_layout.addRow(label, widget_to_add)
 
@@ -1118,21 +1131,14 @@ class MainWindow(QMainWindow):
             self.ui.imagewidget.run(project_data)
             self._reset_table_control_sectors(control_sectors)
 
-    def _delete_control_sector(self, obj):
-        old_control_sectors = obj.get("control_sectors", [])
-        # Создаем диалоговое окно для выбора контрольной точки
-        dialog = controlsectordeletedialog.ControlSectorDeleteDialog(
-            old_control_sectors, self
+    def _delete_control_sector(self, obj, selected_cs):
+        control_sectors = self.__obsm.obj_project.delete_control_sector(
+            obj, selected_cs
         )
-        if dialog.exec():
-            selected_cs = dialog.get_selected_control_sector()
-            control_sectors = self.__obsm.obj_project.delete_control_sector(
-                obj, selected_cs
-            )
-            #
-            project_data = self.__obsm.obj_project.get_data()
-            self.ui.imagewidget.run(project_data)
-            self._reset_table_control_sectors(control_sectors)
+        #
+        project_data = self.__obsm.obj_project.get_data()
+        self.ui.imagewidget.run(project_data)
+        self._reset_table_control_sectors(control_sectors)
 
     def _create_editor_control_sectors_by_object(self, obj, is_node=False):
         self.ui.label_control_sectors.setVisible(not is_node)
@@ -1140,13 +1146,11 @@ class MainWindow(QMainWindow):
         #
         self.ui.tw_control_sectors.setVisible(not is_node)
         self.ui.btn_add_control_sector.setVisible(not is_node)
-        self.ui.btn_delete_control_sector.setVisible(not is_node)
         self.ui.btn_move_control_sectors.setVisible(not is_node)
         # отключаем старые обработчики
         try:
             self.ui.btn_add_control_sector.clicked.disconnect()
             self.ui.btn_move_control_sectors.clicked.disconnect()
-            self.ui.btn_delete_control_sector.clicked.disconnect()
         except:
             pass
         #
@@ -1155,9 +1159,6 @@ class MainWindow(QMainWindow):
         )
         self.ui.btn_move_control_sectors.clicked.connect(
             partial(self._move_control_sectors, obj)
-        )
-        self.ui.btn_delete_control_sector.clicked.connect(
-            partial(self._delete_control_sector, obj)
         )
         #
         if not is_node:
@@ -1310,6 +1311,92 @@ class MainWindow(QMainWindow):
                 self._delete_node_with_connection(selected_node, "left")
             elif action == delete_with_right_action:
                 self._delete_node_with_connection(selected_node, "right")
+
+    def _reset_table_control_sectors(self, control_sectors):
+        def reset_control_sectors():
+            print("reset_table_control_sectors")
+            table_widget = self.ui.tw_control_sectors
+            table_widget.blockSignals(True)
+            table_widget.clearContents()
+            table_widget.setRowCount(len(control_sectors))
+
+            # Проверка суммы физических длин
+            self._check_sum_control_sectors(control_sectors)
+
+            headers = ["№", "Название", "Физ. длина", "Перенос после", "Редактировать"]
+            table_widget.setColumnCount(len(headers))
+            table_widget.setHorizontalHeaderLabels(headers)
+            table_widget.setHorizontalHeaderItem(2, QTableWidgetItem("Физ. длина"))
+            table_widget.verticalHeader().setVisible(False)
+
+            for index, cs in enumerate(control_sectors):
+                item_number = QTableWidgetItem(str(index + 1))
+                table_widget.setItem(index, 0, item_number)
+
+                cs_name = cs.get("data_pars", {}).get("cs_name", {}).get("value", "")
+                item = QTableWidgetItem(cs_name)
+                table_widget.setItem(index, 1, item)
+
+                physical_length = (
+                    cs.get("data_pars", {})
+                    .get("cs_physical_length", {})
+                    .get("value", 0)
+                )
+                item_length = QTableWidgetItem(str(physical_length))
+                table_widget.setItem(index, 2, item_length)
+
+                if index < len(control_sectors) - 1:
+                    is_wrap = cs.get("is_wrap", False)
+                    btn_wrap = QPushButton("Не переносить" if is_wrap else "Переносить")
+                    table_widget.setCellWidget(index, 3, btn_wrap)
+                    btn_wrap.clicked.connect(partial(self._wrap_control_sector, cs))
+                else:
+                    empty_item = QTableWidgetItem("")
+                    empty_item.setFlags(empty_item.flags() & ~Qt.ItemIsEditable)
+                    table_widget.setItem(index, 3, empty_item)
+
+                btn_edit = QPushButton("Редактировать")
+                table_widget.setCellWidget(index, 4, btn_edit)
+                btn_edit.clicked.connect(partial(self._edit_control_sector, cs))
+
+            header = table_widget.horizontalHeader()
+            header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
+            header.setSectionResizeMode(1, QHeaderView.Stretch)
+            header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
+            header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
+            header.setSectionResizeMode(4, QHeaderView.ResizeToContents)
+            table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
+
+            # Установка контекстного меню
+            table_widget.setContextMenuPolicy(Qt.CustomContextMenu)
+            table_widget.customContextMenuRequested.connect(
+                self.control_sector_table_context_menu
+            )
+
+            table_widget.blockSignals(False)
+
+        self._save_and_restore_scroll_position(
+            self.ui.tw_control_sectors, reset_control_sectors
+        )
+
+    def control_sector_table_context_menu(self, position):
+        """Отображение контекстного меню для таблицы контрольных секторов"""
+        menu = QMenu()
+        menu.setStyleSheet(self.styleSheet())
+
+        selected_row = self.ui.tw_control_sectors.currentRow()
+        if selected_row < 0:
+            return
+
+        obj = self.__current_object
+        control_sectors = obj.get("control_sectors", [])
+        selected_cs = control_sectors[selected_row]
+
+        delete_action = menu.addAction("Удалить контрольный сектор")
+        action = menu.exec_(self.ui.tw_control_sectors.viewport().mapToGlobal(position))
+
+        if action == delete_action and selected_cs:
+            self._delete_control_sector(obj, selected_cs)
 
     def _clear_error_messages(self):
         """

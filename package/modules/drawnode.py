@@ -209,6 +209,7 @@ class DrawNode:
             text,
             self.__x,
             self.__y - pars.get_sp("node_name_height"),
+            pars.get_sp("node_name_max_width")
         )
 
     def _draw_node_ids_50_51(self, pars, data, node_id, nf):
@@ -486,6 +487,7 @@ class DrawNode:
             text,
             self.__x,
             self.__y - pars.get_sp("node_name_height"),
+            pars.get_sp("node_name_max_width")
         )
 
 
@@ -606,6 +608,7 @@ class DrawNode:
                 text,
                 self.__x,
                 self.__y - pars.get_sp("node_name_height"),
+                pars.get_sp("node_name_max_width")
             )
 
         def draw_node_id_101():
@@ -633,6 +636,7 @@ class DrawNode:
                     text,
                     self.__x - node_width // 2,
                     self.__y - pars.get_sp("node_name_height"),
+                    pars.get_sp("node_name_max_width")
                 )
             elif text_align_name == "RightAlign":
                 drawtext.DrawText().draw_multiline_text_by_hr_vb(
@@ -640,6 +644,7 @@ class DrawNode:
                     text,
                     self.__x + node_width // 2,
                     self.__y - pars.get_sp("node_name_height"),
+                    pars.get_sp("node_name_max_width")
                 )
             else:
                 drawtext.DrawText().draw_multiline_text_by_hc_vb(
@@ -647,6 +652,7 @@ class DrawNode:
                     text,
                     self.__x,
                     self.__y - pars.get_sp("node_name_height"),
+                    pars.get_sp("node_name_max_width")
                 )
 
             # Рисование диапазона c 24 по 48 (внутри прямоугольника)
@@ -778,6 +784,7 @@ class DrawNode:
                 text,
                 self.__x,
                 self.__y - pars.get_sp("node_name_height"),
+                pars.get_sp("node_name_max_width")
             )
             # TODO Рисование номера (внутри круга)
             text = str(self.__node_index + 1)
@@ -810,6 +817,7 @@ class DrawNode:
                     text,
                     self.__x - node_width // 2,
                     self.__y - pars.get_sp("node_name_height"),
+                    pars.get_sp("node_name_max_width")
                 )
             elif text_align_name == "RightAlign":
                 drawtext.DrawText().draw_multiline_text_by_hr_vb(
@@ -817,6 +825,7 @@ class DrawNode:
                     text,
                     self.__x + node_width // 2,
                     self.__y - pars.get_sp("node_name_height"),
+                    pars.get_sp("node_name_max_width")
                 )
             else:
                 drawtext.DrawText().draw_multiline_text_by_hc_vb(
@@ -824,6 +833,7 @@ class DrawNode:
                     text,
                     self.__x,
                     self.__y - pars.get_sp("node_name_height"),
+                    pars.get_sp("node_name_max_width")
                 )
 
 

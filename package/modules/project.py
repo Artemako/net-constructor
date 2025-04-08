@@ -13,9 +13,7 @@ class Project:
     def get_data(self):
         return self.__data
 
-    def create_new_project(
-        self, diagram_data, control_sectors_config, file_path
-    ):
+    def create_new_project(self, diagram_data, control_sectors_config, file_path):
         self.__file_name = file_path
         self.__data = {
             "diagram_type_id": diagram_data.get("type_id", "0"),
@@ -154,8 +152,6 @@ class Project:
 
     def add_pair(self, key_dict_node_and_key_dict_connection):
         key_dict_node = key_dict_node_and_key_dict_connection.get("node")
-        node_name = key_dict_node_and_key_dict_connection.get("node_name", "")
-        node_place = key_dict_node_and_key_dict_connection.get("node_place", "")
         #
         key_dict_connection = key_dict_node_and_key_dict_connection.get("connection")
         #
@@ -233,47 +229,112 @@ class Project:
             **object_dict.get("objects_parameters", {}),
         }
 
+
     def _add_node(self, key_dict_node):
         node_key = key_dict_node.get("node_key")
         node_dict = key_dict_node.get("node_dict")
-        #
+
         new_id = uuid.uuid4().hex
         new_order = len(self.__data.get("nodes", []))
-        #
-        new_data = self._get_combined_data(node_dict)
-        new_parameters = self._get_combined_parameters(node_dict)
-        #
+
+        # Получаем данные и параметры по умолчанию из конфигурации
+        default_data = self._get_combined_data(node_dict)
+        default_parameters = self._get_combined_parameters(node_dict)
+
+        # Для objects_data/objects_parameters берем значения из любого существующего объекта
+        if self.__data.get("nodes"):
+            first_existing_node = self.__data["nodes"][0]
+            self._update_objects_values(
+                first_existing_node, node_dict, default_data, default_parameters
+            )
+
+        # Для type_object_data/type_object_parameters берем значения из объектов с тем же node_id
+        existing_nodes = [
+            n for n in self.__data.get("nodes", []) if n["node_id"] == node_key
+        ]
+        if existing_nodes:
+            self._update_type_values(
+                existing_nodes[0], node_dict, default_data, default_parameters
+            )
+
         new_is_wrap = node_dict.get("is_wrap", False)
-        #
+
         new_dict = {
             "id": new_id,
             "order": new_order,
             "node_id": node_key,
-            "data": new_data,
+            "data": default_data,
             "is_wrap": new_is_wrap,
-            "parameters": new_parameters,
+            "parameters": default_parameters,
         }
         self.__data["nodes"].append(new_dict)
 
     def _add_connection(self, key_dict_connection):
         connection_key = key_dict_connection.get("connection_key")
         connection_dict = key_dict_connection.get("connection_dict")
-        #
+
         new_id = uuid.uuid4().hex
         new_order = len(self.__data.get("connections", []))
-        #
-        new_data = self._get_combined_data(connection_dict)
-        new_parameters = self._get_combined_parameters(connection_dict)
-        #
+
+        # Получаем данные и параметры по умолчанию из конфигурации
+        default_data = self._get_combined_data(connection_dict)
+        default_parameters = self._get_combined_parameters(connection_dict)
+
+        # Для objects_data/objects_parameters берем значения из любого существующего объекта
+        if self.__data.get("connections"):
+            first_existing_connection = self.__data["connections"][0]
+            self._update_objects_values(
+                first_existing_connection, connection_dict, default_data, default_parameters
+            )
+
+        # Для type_object_data/type_object_parameters берем значения из объектов с тем же connection_id
+        existing_connections = [
+            c for c in self.__data.get("connections", []) 
+            if c["connection_id"] == connection_key
+        ]
+        if existing_connections:
+            self._update_type_values(
+                existing_connections[0], connection_dict, default_data, default_parameters
+            )
+
         new_dict = {
             "id": new_id,
             "order": new_order,
             "connection_id": connection_key,
-            "data": new_data,
-            "parameters": new_parameters,
+            "data": default_data,
+            "parameters": default_parameters,
             "control_sectors": [],
         }
         self.__data["connections"].append(new_dict)
+
+    def _update_objects_values(self, existing_obj, config_dict, default_data, default_parameters):
+        """Обновляет objects_data и objects_parameters из любого существующего объекта"""
+        # Обновляем objects_data
+        objects_data = config_dict.get("objects_data", {})
+        for key in objects_data:
+            if key in existing_obj["data"]:
+                default_data[key] = existing_obj["data"][key]
+        
+        # Обновляем objects_parameters
+        objects_parameters = config_dict.get("objects_parameters", {})
+        for key in objects_parameters:
+            if key in existing_obj["parameters"]:
+                default_parameters[key] = existing_obj["parameters"][key]
+
+    def _update_type_values(self, existing_obj, config_dict, default_data, default_parameters):
+        """Обновляет type_object_data и type_object_parameters из объектов с тем же типом"""
+        # Обновляем type_object_data
+        type_object_data = config_dict.get("type_object_data", {})
+        for key in type_object_data:
+            if key in existing_obj["data"]:
+                default_data[key] = existing_obj["data"][key]
+        
+        # Обновляем type_object_parameters
+        type_object_parameters = config_dict.get("type_object_parameters", {})
+        for key in type_object_parameters:
+            if key in existing_obj["parameters"]:
+                default_parameters[key] = existing_obj["parameters"][key]
+
 
     def delete_pair(self, node, connection):
         if node:

@@ -2,10 +2,40 @@ class DrawText:
     def __init__(self):
         self.__painter = None
 
-    def draw_multiline_text_by_hl_vb(self, painter_text, text, left_x, bottom_y):
+    def _wrap_text_to_width(self, text, max_width=None):
+        """Переносит текст по словам с учетом max_width и сохранения пользовательских переносов."""
+        if max_width is None or max_width <= 0:
+            return text.split("\n")
+
+        wrapped_lines = []
+        for original_line in text.split("\n"):
+            if not original_line.strip():
+                wrapped_lines.append(original_line)
+                continue
+
+            words = original_line.split()
+            current_line = []
+            current_line_width = 0
+
+            for word in words:
+                word_width = self.__painter.fontMetrics().horizontalAdvance(word + " ")
+                if current_line and (current_line_width + word_width) > max_width:
+                    wrapped_lines.append(" ".join(current_line))
+                    current_line = [word]
+                    current_line_width = word_width
+                else:
+                    current_line.append(word)
+                    current_line_width += word_width
+
+            if current_line:
+                wrapped_lines.append(" ".join(current_line))
+
+        return wrapped_lines
+
+    def draw_multiline_text_by_hl_vb(self, painter_text, text, left_x, bottom_y, max_width=None):
         """По левому краю по горизонтали и по низу по вертикали"""
         self.__painter = painter_text()
-        lines = text.split("\n")
+        lines = self._wrap_text_to_width(text, max_width)
         # Вычисляем начальную y-координату для рисования так, чтобы нижний край совпадал с bottom_y
         text_y = bottom_y
         # Рисуем каждую строку текста
@@ -13,10 +43,10 @@ class DrawText:
             self.__painter.drawText(left_x, text_y, line)
             text_y -= self.__painter.fontMetrics().height()
 
-    def draw_multiline_text_by_hr_vb(self, painter_text, text, right_x, bottom_y):
+    def draw_multiline_text_by_hr_vb(self, painter_text, text, right_x, bottom_y, max_width=None):
         """По правому краю по горизонтали и по низу по вертикали"""
         self.__painter = painter_text()
-        lines = text.split("\n")
+        lines = self._wrap_text_to_width(text, max_width)
         # Вычисляем начальную y-координату для рисования так, чтобы нижний край совпадал с bottom_y
         text_y = bottom_y
         # Рисуем каждую строку текста
@@ -26,10 +56,10 @@ class DrawText:
             self.__painter.drawText(text_x, text_y, line)
             text_y -= self.__painter.fontMetrics().height()
 
-    def draw_multiline_text_by_hc_vb(self, painter_text, text, center_x, bottom_y):
+    def draw_multiline_text_by_hc_vb(self, painter_text, text, center_x, bottom_y, max_width=None):
         self.__painter = painter_text()
         """По центру по горизонтали и по низу по вертикали"""
-        lines = text.split("\n")
+        lines = self._wrap_text_to_width(text, max_width)
         # Вычисляем начальную y-координату для рисования так, чтобы нижний край совпадал с bottom_y
         start_y = bottom_y
         # Рисуем каждую строку текста
@@ -41,10 +71,10 @@ class DrawText:
             self.__painter.drawText(text_x, text_y, line)
             text_y -= self.__painter.fontMetrics().height()
 
-    def draw_multiline_text_by_hc_vt(self, painter_text, text, center_x, top_y):
+    def draw_multiline_text_by_hc_vt(self, painter_text, text, center_x, top_y, max_width=None):
         """По центру по горизонтали и по верху по вертикали"""
         self.__painter = painter_text()
-        lines = text.split("\n")
+        lines = self._wrap_text_to_width(text, max_width)
         # Вычисляем начальную y-координату для рисования так, чтобы верхний край совпадал с top_y
         start_y = top_y + self.__painter.fontMetrics().height() * 0.618
         # Рисуем каждую строку текста
@@ -56,10 +86,10 @@ class DrawText:
             self.__painter.drawText(text_x, text_y, line)
             text_y += self.__painter.fontMetrics().height()
 
-    def draw_multiline_text_by_hc_vc(self, painter_text, text, center_x, center_y):
+    def draw_multiline_text_by_hc_vc(self, painter_text, text, center_x, center_y, max_width=None):
         """По центру по горизонтали и по центру по вертикали"""
         self.__painter = painter_text()
-        lines = text.split("\n")
+        lines = self._wrap_text_to_width(text, max_width)
         total_text_height = len(lines) * self.__painter.fontMetrics().height()
         # * 0.618
         start_y = (

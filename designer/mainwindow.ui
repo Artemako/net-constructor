@@ -123,7 +123,7 @@
         <item>
          <widget class="QTabWidget" name="tabw_right">
           <property name="currentIndex">
-           <number>0</number>
+           <number>2</number>
           </property>
           <property name="documentMode">
            <bool>false</bool>
@@ -424,14 +424,7 @@
                     <item>
                      <widget class="QPushButton" name="btn_move_control_sectors">
                       <property name="text">
-                       <string>Изменить порядок</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="btn_delete_control_sector">
-                      <property name="text">
-                       <string>Удалить сектор</string>
+                       <string>Изменить порядок секторов</string>
                       </property>
                      </widget>
                     </item>
