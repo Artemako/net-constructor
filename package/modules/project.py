@@ -9,6 +9,8 @@ class Project:
     def __init__(self) -> None:
         self.__file_name = None
         self.__data = None
+        self.__copied_node_data = None
+        self.__copied_connection_data = None
 
     def get_data(self):
         return self.__data
@@ -229,7 +231,6 @@ class Project:
             **object_dict.get("objects_parameters", {}),
         }
 
-
     def _add_node(self, key_dict_node):
         node_key = key_dict_node.get("node_key")
         node_dict = key_dict_node.get("node_dict")
@@ -284,17 +285,24 @@ class Project:
         if self.__data.get("connections"):
             first_existing_connection = self.__data["connections"][0]
             self._update_objects_values(
-                first_existing_connection, connection_dict, default_data, default_parameters
+                first_existing_connection,
+                connection_dict,
+                default_data,
+                default_parameters,
             )
 
         # Для type_object_data/type_object_parameters берем значения из объектов с тем же connection_id
         existing_connections = [
-            c for c in self.__data.get("connections", []) 
+            c
+            for c in self.__data.get("connections", [])
             if c["connection_id"] == connection_key
         ]
         if existing_connections:
             self._update_type_values(
-                existing_connections[0], connection_dict, default_data, default_parameters
+                existing_connections[0],
+                connection_dict,
+                default_data,
+                default_parameters,
             )
 
         new_dict = {
@@ -307,34 +315,37 @@ class Project:
         }
         self.__data["connections"].append(new_dict)
 
-    def _update_objects_values(self, existing_obj, config_dict, default_data, default_parameters):
+    def _update_objects_values(
+        self, existing_obj, config_dict, default_data, default_parameters
+    ):
         """Обновляет objects_data и objects_parameters из любого существующего объекта"""
         # Обновляем objects_data
         objects_data = config_dict.get("objects_data", {})
         for key in objects_data:
             if key in existing_obj["data"]:
                 default_data[key] = existing_obj["data"][key]
-        
+
         # Обновляем objects_parameters
         objects_parameters = config_dict.get("objects_parameters", {})
         for key in objects_parameters:
             if key in existing_obj["parameters"]:
                 default_parameters[key] = existing_obj["parameters"][key]
 
-    def _update_type_values(self, existing_obj, config_dict, default_data, default_parameters):
+    def _update_type_values(
+        self, existing_obj, config_dict, default_data, default_parameters
+    ):
         """Обновляет type_object_data и type_object_parameters из объектов с тем же типом"""
         # Обновляем type_object_data
         type_object_data = config_dict.get("type_object_data", {})
         for key in type_object_data:
             if key in existing_obj["data"]:
                 default_data[key] = existing_obj["data"][key]
-        
+
         # Обновляем type_object_parameters
         type_object_parameters = config_dict.get("type_object_parameters", {})
         for key in type_object_parameters:
             if key in existing_obj["parameters"]:
                 default_parameters[key] = existing_obj["parameters"][key]
-
 
     def delete_pair(self, node, connection):
         if node:
@@ -571,3 +582,31 @@ class Project:
                 print("key", key, "value", value)
                 for other_obj in self.__data.get(data_section, []):
                     other_obj[target_section][key] = {"value": value}
+
+    def copy_node_data(self, node):
+        """Копирует данные вершины (только data)"""
+        self.__copied_node_data = copy.deepcopy(node.get("data", {}))
+
+    def paste_node_data(self, node):
+        """Вставляет данные в вершину (только data)"""
+        if self.__copied_node_data:
+            node["data"] = copy.deepcopy(self.__copied_node_data)
+            self._write_project()
+
+    def has_copied_node_data(self):
+        """Проверяет, есть ли скопированные данные вершины"""
+        return self.__copied_node_data is not None
+
+    def copy_connection_data(self, connection):
+        """Копирует данные соединения (только data)"""
+        self.__copied_connection_data = copy.deepcopy(connection.get("data", {}))
+
+    def paste_connection_data(self, connection):
+        """Вставляет данные в соединение (только data)"""
+        if self.__copied_connection_data:
+            connection["data"] = copy.deepcopy(self.__copied_connection_data)
+            self._write_project()
+
+    def has_copied_connection_data(self):
+        """Проверяет, есть ли скопированные данные соединения"""
+        return self.__copied_connection_data is not None

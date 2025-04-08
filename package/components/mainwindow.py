@@ -647,6 +647,11 @@ class MainWindow(QMainWindow):
             header.setSectionResizeMode(1, QHeaderView.Stretch)
             header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
             table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
+            # контекстное меню
+            self.ui.tablew_connections.setContextMenuPolicy(Qt.CustomContextMenu)
+            self.ui.tablew_connections.customContextMenuRequested.connect(
+                self.connection_table_context_menu
+            )
             table_widget.blockSignals(False)
 
         self._save_and_restore_scroll_position(
@@ -815,7 +820,7 @@ class MainWindow(QMainWindow):
             cs_data_pars,
             precision_separator,
             precision_number,
-            combined_data_parameters = True
+            combined_data_parameters=True,
         )
 
     def _wrap_node(self, node):
@@ -1043,7 +1048,7 @@ class MainWindow(QMainWindow):
         object_parameters,
         precision_separator=None,
         precision_number=None,
-        combined_data_parameters = False
+        combined_data_parameters=False,
     ) -> bool:
         print(
             "create_parameters_widgets():\n"
@@ -1097,7 +1102,11 @@ class MainWindow(QMainWindow):
 
                 # Для секторов
                 is_parameter = config_parameter_data.get("is_parameter", False)
-                if combined_data_parameters and not is_action_parameters and is_parameter:
+                if (
+                    combined_data_parameters
+                    and not is_action_parameters
+                    and is_parameter
+                ):
                     continue
 
                 widget_to_add = self._create_widget_with_info(new_widget, info)
@@ -1274,7 +1283,6 @@ class MainWindow(QMainWindow):
         menu = QMenu()
         menu.setStyleSheet(self.styleSheet())
 
-        # Получаем текущий выбранный узел
         selected_row = self.ui.tablew_nodes.currentRow()
         if selected_row < 0:
             return
@@ -1283,7 +1291,11 @@ class MainWindow(QMainWindow):
         selected_node = nodes[selected_row]
         node_count = len(nodes)
 
-        # Создаем действия
+        # Добавляем новые действия
+        copy_data_action = menu.addAction("Копировать данные вершины")
+        paste_data_action = menu.addAction("Вставить данные вершины")
+        menu.addSeparator()
+
         delete_with_left_action = menu.addAction("Удалить с левым соединением")
         delete_with_right_action = menu.addAction("Удалить с правым соединением")
 
@@ -1302,82 +1314,62 @@ class MainWindow(QMainWindow):
                 delete_with_left_action.setEnabled(True)
                 delete_with_right_action.setEnabled(True)
 
+        # Проверяем, есть ли что в буфере обмена для вставки
+        paste_data_action.setEnabled(self.__obsm.obj_project.has_copied_node_data())
+
         # Отображаем меню
         action = menu.exec_(self.ui.tablew_nodes.viewport().mapToGlobal(position))
 
         # Обработка выбора действия
         if selected_row >= 0 and selected_node:
-            if action == delete_with_left_action:
+            if action == copy_data_action:
+                self.__obsm.obj_project.copy_node_data(selected_node)
+            elif action == paste_data_action:
+                self.__obsm.obj_project.paste_node_data(selected_node)
+                # Обновляем интерфейс
+                project_data = self.__obsm.obj_project.get_data()
+                self.ui.imagewidget.run(project_data)
+                self._reset_widgets_by_data(project_data)
+            elif action == delete_with_left_action:
                 self._delete_node_with_connection(selected_node, "left")
             elif action == delete_with_right_action:
                 self._delete_node_with_connection(selected_node, "right")
 
-    def _reset_table_control_sectors(self, control_sectors):
-        def reset_control_sectors():
-            print("reset_table_control_sectors")
-            table_widget = self.ui.tw_control_sectors
-            table_widget.blockSignals(True)
-            table_widget.clearContents()
-            table_widget.setRowCount(len(control_sectors))
+    def connection_table_context_menu(self, position):
+        """Отображение контекстного меню для таблицы соединений"""
+        menu = QMenu()
+        menu.setStyleSheet(self.styleSheet())
 
-            # Проверка суммы физических длин
-            self._check_sum_control_sectors(control_sectors)
+        selected_row = self.ui.tablew_connections.currentRow()
+        if selected_row < 0:
+            return
 
-            headers = ["№", "Название", "Физ. длина", "Перенос после", "Редактировать"]
-            table_widget.setColumnCount(len(headers))
-            table_widget.setHorizontalHeaderLabels(headers)
-            table_widget.setHorizontalHeaderItem(2, QTableWidgetItem("Физ. длина"))
-            table_widget.verticalHeader().setVisible(False)
+        connections = self.__obsm.obj_project.get_data().get("connections", [])
+        selected_connection = connections[selected_row]
 
-            for index, cs in enumerate(control_sectors):
-                item_number = QTableWidgetItem(str(index + 1))
-                table_widget.setItem(index, 0, item_number)
+        # Добавляем новые действия
+        copy_data_action = menu.addAction("Копировать данные соединения")
+        paste_data_action = menu.addAction("Вставить данные соединения")
 
-                cs_name = cs.get("data_pars", {}).get("cs_name", {}).get("value", "")
-                item = QTableWidgetItem(cs_name)
-                table_widget.setItem(index, 1, item)
-
-                physical_length = (
-                    cs.get("data_pars", {})
-                    .get("cs_physical_length", {})
-                    .get("value", 0)
-                )
-                item_length = QTableWidgetItem(str(physical_length))
-                table_widget.setItem(index, 2, item_length)
-
-                if index < len(control_sectors) - 1:
-                    is_wrap = cs.get("is_wrap", False)
-                    btn_wrap = QPushButton("Не переносить" if is_wrap else "Переносить")
-                    table_widget.setCellWidget(index, 3, btn_wrap)
-                    btn_wrap.clicked.connect(partial(self._wrap_control_sector, cs))
-                else:
-                    empty_item = QTableWidgetItem("")
-                    empty_item.setFlags(empty_item.flags() & ~Qt.ItemIsEditable)
-                    table_widget.setItem(index, 3, empty_item)
-
-                btn_edit = QPushButton("Редактировать")
-                table_widget.setCellWidget(index, 4, btn_edit)
-                btn_edit.clicked.connect(partial(self._edit_control_sector, cs))
-
-            header = table_widget.horizontalHeader()
-            header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
-            header.setSectionResizeMode(1, QHeaderView.Stretch)
-            header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
-            header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
-            header.setSectionResizeMode(4, QHeaderView.ResizeToContents)
-            table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
-
-            # Установка контекстного меню
-            table_widget.setContextMenuPolicy(Qt.CustomContextMenu)
-            table_widget.customContextMenuRequested.connect(
-                self.control_sector_table_context_menu
-            )
-
-            table_widget.blockSignals(False)
-
-        self._save_and_restore_scroll_position(
-            self.ui.tw_control_sectors, reset_control_sectors
+        # Проверяем, есть ли что в буфере обмена для вставки
+        paste_data_action.setEnabled(
+            self.__obsm.obj_project.has_copied_connection_data()
         )
+
+        # Отображаем меню
+        action = menu.exec_(self.ui.tablew_connections.viewport().mapToGlobal(position))
+
+        # Обработка выбора действия
+        if selected_row >= 0 and selected_connection:
+            if action == copy_data_action:
+                self.__obsm.obj_project.copy_connection_data(selected_connection)
+            elif action == paste_data_action:
+                self.__obsm.obj_project.paste_connection_data(selected_connection)
+                # Обновляем интерфейс
+                project_data = self.__obsm.obj_project.get_data()
+                self.ui.imagewidget.run(project_data)
+                self._reset_widgets_by_data(project_data)
+
 
     def control_sector_table_context_menu(self, position):
         """Отображение контекстного меню для таблицы контрольных секторов"""
