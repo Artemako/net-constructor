@@ -658,10 +658,25 @@ class DrawConnection:
             self.__y - pars.get_sp("connection_main_caption_vertical_padding"),
             pars.get_sp("connection_length") - before_padding - after_padding - 10,
         )
+
+        # МЕТКИ
+        start_metka_value = int(float(data.get_sd("нач_метка")))
+        start_metka = str(start_metka_value).zfill(4)
+        # Вычисляем конечную метку (начальная + длина) и преобразуем в целое число
+        end_metka_value = start_metka_value + int(
+            float(data.get_sd("физическая_длина"))
+        )
+        end_metka = str(end_metka_value).zfill(4)
+        # Формируем текст метки с учетом направления
+        text_metki = (
+            f"{end_metka}-{start_metka}"
+            if pars.get_sp("direction_metka")
+            else f"{start_metka}-{end_metka}"
+        )
         #
         drawtext.DrawText().draw_multiline_text_by_hc_vt(
             get_painter_text_caption,
-            data.get_sd("метки")
+            text_metki
             + "\n"
             + nf.get(data.get_sd("физическая_длина"))
             + pars.get_sp("постфикс_расстояния"),

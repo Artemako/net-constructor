@@ -1,58 +1,128 @@
 {
-    "diagram_type_id": "100",
-    "diagram_name": "ПТ-5. Скелетная схема размещения строительных длин кабеля и смонтированных муфт на участке регенерации",
+    "diagram_type_id": "50",
+    "diagram_name": "ПТ-4. Схема размещения строительных длин и смонтированных муфт на участке между оконечными пунктами ВОЛП",
     "diagram_parameters": {
         "arrow_height": {
+            "name": "Высота стрелки",
+            "order": 202,
             "value": 8
         },
         "arrow_width": {
+            "name": "Ширина стрелки",
+            "order": 201,
             "value": 20
         },
         "delta_wrap_y": {
+            "name": "Расстояние между рядами вершин по Y",
+            "order": 3,
             "value": 300
         },
+        "delta_x_text_lengths": {
+            "name": "Расстояние обозначений длин от первой вершины по X",
+            "order": 303,
+            "value": 20
+        },
+        "delta_y_text_lengths": {
+            "name": "Расстояние обозначений длин от первой вершины по Y",
+            "order": 304,
+            "value": 20
+        },
         "font_name": {
+            "name": "Название шрифта диграммы",
+            "order": 6,
+            "type": "font_name",
             "value": "Open Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
         },
         "indent_bottom": {
+            "name": "Отступ схемы снизу",
+            "order": 2,
             "value": 200
         },
         "indent_left": {
+            "name": "Отступ схемы слева",
+            "order": -2,
             "value": 200
         },
         "indent_right": {
+            "name": "Отступ схемы справа",
+            "order": 1,
             "value": 200
         },
         "indent_top": {
+            "name": "Отступ схемы сверху",
+            "order": -1,
             "value": 200
         },
         "is_center": {
+            "name": "Центрировать схему по центру изображения по X",
+            "order": 4,
+            "type": "bool",
             "value": false
         },
         "is_wrap_arrow": {
+            "name": "Показывать стрелку переноса",
+            "order": 204,
+            "type": "bool",
             "value": true
         },
         "max_nodes_in_row": {
+            "arguments": {
+                "min": 2
+            },
+            "name": "Максимальное кол-во вершин в ряду",
+            "order": 5,
+            "type": "number_int",
             "value": 5
         },
         "precision_number": {
+            "name": "Кол-во знаков после разделителя",
+            "order": 10,
+            "type": "number_int",
             "value": 1
         },
         "precision_separator": {
+            "name": "Разделитель точка/запятая",
+            "order": 11,
+            "type": "bool",
             "value": true
         },
+        "text_cable_length": {
+            "name": "Обозначение длины по кабелю",
+            "order": 301,
+            "type": "string_line",
+            "value": "L по кабелю (м)"
+        },
+        "text_fiber_length": {
+            "name": "Обозначение длины по волокну",
+            "order": 302,
+            "type": "string_line",
+            "value": "L по волокну (м)"
+        },
         "thin_line_color": {
+            "name": "Цвет тонкой линии",
+            "order": 151,
+            "type": "color",
             "value": "#000000"
         },
         "thin_line_weight": {
+            "name": "Толщина тонкой линии",
+            "order": 152,
             "value": 2
         },
         "wrap_arrow_length": {
+            "name": "Длина линии стрелки переноса",
+            "order": 203,
             "value": 50
         },
         "Стрелки": {
             "name": "Стрелки",
             "order": 200,
+            "type": "title",
+            "value": ""
+        },
+        "Технические обозначения": {
+            "name": "Технические обозначения",
+            "order": 300,
             "type": "title",
             "value": ""
         },
@@ -151,14 +221,9 @@
     },
     "nodes": [
         {
-            "id": "80bb2c21d1c84a2d8aafd166e33f4782",
-            "order": 0,
-            "node_id": "101",
             "data": {
                 "название": {
-                    "name": "Название",
-                    "order": 0,
-                    "value": "Оптический кросс"
+                    "value": "FGDGD"
                 },
                 "название_доп": {
                     "name": "Диапазон (внутри вершины)",
@@ -166,240 +231,298 @@
                     "value": ""
                 }
             },
+            "id": "fd1e6ea665964057ad7abb5cd973ebc6",
             "is_wrap": false,
+            "node_id": "51",
+            "order": 0,
             "parameters": {
                 "delta_wrap_x": {
+                    "value": 0,
                     "name": "Расстояние переноса по X",
                     "order": 2,
-                    "type": "number_int_signed",
-                    "value": 0
+                    "type": "number_int_signed"
                 },
-                "node_name_align": {
-                    "name": "Выравнивание названия вершины",
-                    "order": 53,
-                    "type": "text_align",
-                    "value": "CenterAlign"
+                "node_radius": {
+                    "value": 20,
+                    "name": "Радиус маленького круга вершин",
+                    "order": 5
                 },
                 "node_border_color": {
+                    "value": "#000000",
                     "name": "Цвет рамки вершин",
                     "order": 1,
-                    "type": "color",
-                    "value": "#000000"
+                    "type": "color"
                 },
                 "node_border_weight": {
+                    "value": 2,
                     "name": "Толщина рамки вершин",
-                    "order": 2,
-                    "value": 2
+                    "order": 2
                 },
                 "node_fill_color": {
+                    "value": "#A0A0A4",
                     "name": "Цвет заливки вершин",
                     "order": 3,
-                    "type": "color",
-                    "value": "#A0A0A4"
+                    "type": "color"
                 },
                 "node_fill_style": {
+                    "value": "DiagCrossPattern",
                     "name": "Стиль заливки вершин",
                     "order": 4,
-                    "type": "fill_style",
-                    "value": "NoBrush"
-                },
-                "node_height": {
-                    "name": "Высота вершин",
-                    "order": 6,
-                    "value": 40
-                },
-                "node_name_add_color": {
-                    "name": "Цвет шрифта диапазона вершины",
-                    "order": 101,
-                    "type": "color",
-                    "value": "#000000"
-                },
-                "node_name_add_pixel_size": {
-                    "name": "Размер шрифта диапазона вершины",
-                    "order": 102,
-                    "value": 16
-                },
-                "node_name_color": {
-                    "name": "Цвет шрифта названия вершины",
-                    "order": 51,
-                    "type": "color",
-                    "value": "#000000"
-                },
-                "node_name_height": {
-                    "name": "Высота названия над вершиной",
-                    "order": 53,
-                    "value": 60
-                },
-                "node_name_max_width": {
-                    "name": "Максимальная ширина названия вершины",
-                    "order": 54,
-                    "value": 200
-                },
-                "node_name_pixel_size": {
-                    "name": "Размер шрифта названия вершины",
-                    "order": 52,
-                    "value": 16
-                },
-                "node_width": {
-                    "name": "Ширина вершин",
-                    "order": 5,
-                    "value": 120
-                },
-                "Диапазон вершин": {
-                    "name": "Диапазон вершин",
-                    "order": 100,
-                    "type": "title",
-                    "value": "заголовок"
+                    "type": "fill_style"
                 },
                 "Названия вершин": {
+                    "value": "заголовок",
                     "name": "Названия вершин",
                     "order": 50,
-                    "type": "title",
-                    "value": "заголовок"
+                    "type": "title"
                 },
-                "node_caption_physics_color": {
-                    "name": "Цвет шрифта подписей физ. длин вершин",
-                    "order": 101,
-                    "type": "color",
-                    "value": "#000000"
+                "node_name_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта названия вершины",
+                    "order": 51,
+                    "type": "color"
                 },
-                "node_caption_physics_pixel_size": {
-                    "name": "Размер шрифта подписей физ. длин вершин",
-                    "order": 102,
-                    "value": 15
+                "node_name_pixel_size": {
+                    "value": 16,
+                    "name": "Размер шрифта названия вершины",
+                    "order": 52
                 },
-                "node_caption_physics_vertical_padding": {
-                    "name": "Высота подписей физ. длин под вершинами",
-                    "order": 103,
-                    "value": 40
+                "node_name_height": {
+                    "value": 90,
+                    "name": "Высота названия над вершиной",
+                    "order": 53
                 },
-                "Подписи физ. длин вершин": {
+                "node_name_max_width": {
+                    "value": 200,
+                    "name": "Максимальная ширина названия вершины",
+                    "order": 54
+                },
+                "Подписи вершин": {
+                    "value": "заголовок",
                     "name": "Подписи вершин",
                     "order": 100,
-                    "type": "title",
-                    "value": "заголовок"
+                    "type": "title"
+                },
+                "node_caption_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта подписей вершин",
+                    "order": 101,
+                    "type": "color"
+                },
+                "node_caption_pixel_size": {
+                    "value": 15,
+                    "name": "Размер шрифта подписей вершин",
+                    "order": 102
+                },
+                "node_caption_vertical_padding": {
+                    "value": 5,
+                    "name": "Высота подписей над/под стрелками",
+                    "order": 103
+                },
+                "node_caption_horizontal_padding": {
+                    "value": 20,
+                    "name": "Боковой отступ подписей от вертикальных тонких линий",
+                    "order": 104
+                },
+                "is_top_node_top_caption": {
+                    "value": true,
+                    "name": "Расположение верхних подписей вершин над/под стрелками",
+                    "order": 105,
+                    "type": "bool"
+                },
+                "is_top_node_bottom_caption": {
+                    "value": true,
+                    "name": "Расположение нижних подписей вершин над/под стрелками",
+                    "order": 106,
+                    "type": "bool"
                 },
                 "постфикс_расстояния": {
+                    "value": " м",
                     "name": "Постфикс расстояния",
-                    "order": 104,
-                    "type": "string_line",
-                    "value": " м"
+                    "order": 107,
+                    "type": "string_line"
+                },
+                "Стрелки подписей вершин": {
+                    "value": "заголовок",
+                    "name": "Стрелки подписей вершин",
+                    "order": 150,
+                    "type": "title"
+                },
+                "to_left_and_to_right_arrow_length": {
+                    "value": 65,
+                    "name": "Длина линии стрелок подписей вершин",
+                    "order": 151
+                },
+                "delta_node_and_to_right_arrow": {
+                    "value": 55,
+                    "name": "Расстояние между вершиной и стрелками вправо подписей",
+                    "order": 152
+                },
+                "delta_node_and_to_left_arrow": {
+                    "value": 65,
+                    "name": "Расстояние между вершиной и стрелками влево подписей",
+                    "order": 153
+                },
+                "distance_thin_line_after_connection_y": {
+                    "value": 10,
+                    "name": "Расстояние тонкой линии после соединения со стрелками подписей по Y",
+                    "order": 154
                 }
             }
         },
         {
-            "id": "68d95b4cba9649eb82dd90cefaf7ce40",
+            "data": {
+                "местоположение": {
+                    "name": "Местоположение",
+                    "order": 1,
+                    "value": ""
+                },
+                "название": {
+                    "name": "Название",
+                    "order": 0,
+                    "value": "Оптическая муфта"
+                }
+            },
+            "id": "04f51676a2694b1b8f5bfb8b3b86e734",
+            "is_wrap": false,
+            "node_id": "50",
             "order": 1,
-            "node_id": "100",
-            "data": {
-                "местоположение": {
-                    "name": "Местоположение",
-                    "order": 1,
-                    "value": ""
-                },
-                "название": {
-                    "name": "Название",
-                    "order": 0,
-                    "value": "Оптическая муфта"
-                }
-            },
-            "is_wrap": false,
             "parameters": {
                 "delta_wrap_x": {
+                    "value": 0,
                     "name": "Расстояние переноса по X",
                     "order": 2,
-                    "type": "number_int_signed",
-                    "value": 0
-                },
-                "node_border_color": {
-                    "name": "Цвет рамки вершин",
-                    "order": 1,
-                    "type": "color",
-                    "value": "#000000"
-                },
-                "node_border_weight": {
-                    "name": "Толщина рамки вершин",
-                    "order": 2,
-                    "value": 2
-                },
-                "node_fill_color": {
-                    "name": "Цвет заливки вершин",
-                    "order": 3,
-                    "type": "color",
-                    "value": "#A0A0A4"
-                },
-                "node_fill_style": {
-                    "name": "Стиль заливки вершин",
-                    "order": 4,
-                    "type": "fill_style",
-                    "value": "DiagCrossPattern"
-                },
-                "node_name_color": {
-                    "name": "Цвет шрифта названия вершины",
-                    "order": 51,
-                    "type": "color",
-                    "value": "#000000"
-                },
-                "node_name_height": {
-                    "name": "Высота названия над вершиной",
-                    "order": 53,
-                    "value": 60
-                },
-                "node_name_max_width": {
-                    "name": "Максимальная ширина названия вершины",
-                    "order": 54,
-                    "value": 200
-                },
-                "node_name_pixel_size": {
-                    "name": "Размер шрифта названия вершины",
-                    "order": 52,
-                    "value": 16
+                    "type": "number_int_signed"
                 },
                 "node_radius": {
+                    "value": 20,
                     "name": "Радиус маленького круга вершин",
-                    "order": 5,
-                    "value": 20
+                    "order": 5
+                },
+                "node_border_color": {
+                    "value": "#000000",
+                    "name": "Цвет рамки вершин",
+                    "order": 1,
+                    "type": "color"
+                },
+                "node_border_weight": {
+                    "value": 2,
+                    "name": "Толщина рамки вершин",
+                    "order": 2
+                },
+                "node_fill_color": {
+                    "value": "#A0A0A4",
+                    "name": "Цвет заливки вершин",
+                    "order": 3,
+                    "type": "color"
+                },
+                "node_fill_style": {
+                    "value": "DiagCrossPattern",
+                    "name": "Стиль заливки вершин",
+                    "order": 4,
+                    "type": "fill_style"
                 },
                 "Названия вершин": {
+                    "value": "заголовок",
                     "name": "Названия вершин",
                     "order": 50,
-                    "type": "title",
-                    "value": "заголовок"
+                    "type": "title"
                 },
-                "node_caption_physics_color": {
-                    "name": "Цвет шрифта подписей физ. длин вершин",
-                    "order": 101,
-                    "type": "color",
-                    "value": "#000000"
+                "node_name_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта названия вершины",
+                    "order": 51,
+                    "type": "color"
                 },
-                "node_caption_physics_pixel_size": {
-                    "name": "Размер шрифта подписей физ. длин вершин",
-                    "order": 102,
-                    "value": 15
+                "node_name_pixel_size": {
+                    "value": 16,
+                    "name": "Размер шрифта названия вершины",
+                    "order": 52
                 },
-                "node_caption_physics_vertical_padding": {
-                    "name": "Высота подписей физ. длин под вершинами",
-                    "order": 103,
-                    "value": 40
+                "node_name_height": {
+                    "value": 90,
+                    "name": "Высота названия над вершиной",
+                    "order": 53
                 },
-                "Подписи физ. длин вершин": {
+                "node_name_max_width": {
+                    "value": 200,
+                    "name": "Максимальная ширина названия вершины",
+                    "order": 54
+                },
+                "Подписи вершин": {
+                    "value": "заголовок",
                     "name": "Подписи вершин",
                     "order": 100,
-                    "type": "title",
-                    "value": "заголовок"
+                    "type": "title"
+                },
+                "node_caption_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта подписей вершин",
+                    "order": 101,
+                    "type": "color"
+                },
+                "node_caption_pixel_size": {
+                    "value": 15,
+                    "name": "Размер шрифта подписей вершин",
+                    "order": 102
+                },
+                "node_caption_vertical_padding": {
+                    "value": 5,
+                    "name": "Высота подписей над/под стрелками",
+                    "order": 103
+                },
+                "node_caption_horizontal_padding": {
+                    "value": 20,
+                    "name": "Боковой отступ подписей от вертикальных тонких линий",
+                    "order": 104
+                },
+                "is_top_node_top_caption": {
+                    "value": true,
+                    "name": "Расположение верхних подписей вершин над/под стрелками",
+                    "order": 105,
+                    "type": "bool"
+                },
+                "is_top_node_bottom_caption": {
+                    "value": true,
+                    "name": "Расположение нижних подписей вершин над/под стрелками",
+                    "order": 106,
+                    "type": "bool"
                 },
                 "постфикс_расстояния": {
+                    "value": " м",
                     "name": "Постфикс расстояния",
-                    "order": 104,
-                    "type": "string_line",
-                    "value": " м"
+                    "order": 107,
+                    "type": "string_line"
+                },
+                "Стрелки подписей вершин": {
+                    "value": "заголовок",
+                    "name": "Стрелки подписей вершин",
+                    "order": 150,
+                    "type": "title"
+                },
+                "to_left_and_to_right_arrow_length": {
+                    "value": 65,
+                    "name": "Длина линии стрелок подписей вершин",
+                    "order": 151
+                },
+                "delta_node_and_to_right_arrow": {
+                    "value": 55,
+                    "name": "Расстояние между вершиной и стрелками вправо подписей",
+                    "order": 152
+                },
+                "delta_node_and_to_left_arrow": {
+                    "value": 65,
+                    "name": "Расстояние между вершиной и стрелками влево подписей",
+                    "order": 153
+                },
+                "distance_thin_line_after_connection_y": {
+                    "value": 10,
+                    "name": "Расстояние тонкой линии после соединения со стрелками подписей по Y",
+                    "order": 154
                 }
             }
         },
         {
-            "id": "11570e464c4d4292acf07534c8fa5ec2",
-            "order": 2,
-            "node_id": "100",
             "data": {
                 "местоположение": {
                     "name": "Местоположение",
@@ -412,400 +535,968 @@
                     "value": "Оптическая муфта"
                 }
             },
+            "id": "d221d64461094d2e9141a202c79529ca",
             "is_wrap": false,
+            "node_id": "50",
+            "order": 2,
             "parameters": {
                 "delta_wrap_x": {
+                    "value": 0,
                     "name": "Расстояние переноса по X",
                     "order": 2,
-                    "type": "number_int_signed",
-                    "value": 0
-                },
-                "node_border_color": {
-                    "name": "Цвет рамки вершин",
-                    "order": 1,
-                    "type": "color",
-                    "value": "#000000"
-                },
-                "node_border_weight": {
-                    "name": "Толщина рамки вершин",
-                    "order": 2,
-                    "value": 2
-                },
-                "node_fill_color": {
-                    "name": "Цвет заливки вершин",
-                    "order": 3,
-                    "type": "color",
-                    "value": "#A0A0A4"
-                },
-                "node_fill_style": {
-                    "name": "Стиль заливки вершин",
-                    "order": 4,
-                    "type": "fill_style",
-                    "value": "DiagCrossPattern"
-                },
-                "node_name_color": {
-                    "name": "Цвет шрифта названия вершины",
-                    "order": 51,
-                    "type": "color",
-                    "value": "#000000"
-                },
-                "node_name_height": {
-                    "name": "Высота названия над вершиной",
-                    "order": 53,
-                    "value": 60
-                },
-                "node_name_max_width": {
-                    "name": "Максимальная ширина названия вершины",
-                    "order": 54,
-                    "value": 200
-                },
-                "node_name_pixel_size": {
-                    "name": "Размер шрифта названия вершины",
-                    "order": 52,
-                    "value": 16
+                    "type": "number_int_signed"
                 },
                 "node_radius": {
+                    "value": 20,
                     "name": "Радиус маленького круга вершин",
-                    "order": 5,
-                    "value": 20
+                    "order": 5
+                },
+                "node_border_color": {
+                    "value": "#000000",
+                    "name": "Цвет рамки вершин",
+                    "order": 1,
+                    "type": "color"
+                },
+                "node_border_weight": {
+                    "value": 2,
+                    "name": "Толщина рамки вершин",
+                    "order": 2
+                },
+                "node_fill_color": {
+                    "value": "#A0A0A4",
+                    "name": "Цвет заливки вершин",
+                    "order": 3,
+                    "type": "color"
+                },
+                "node_fill_style": {
+                    "value": "DiagCrossPattern",
+                    "name": "Стиль заливки вершин",
+                    "order": 4,
+                    "type": "fill_style"
                 },
                 "Названия вершин": {
+                    "value": "заголовок",
                     "name": "Названия вершин",
                     "order": 50,
-                    "type": "title",
-                    "value": "заголовок"
+                    "type": "title"
                 },
-                "node_caption_physics_color": {
-                    "name": "Цвет шрифта подписей физ. длин вершин",
-                    "order": 101,
-                    "type": "color",
-                    "value": "#000000"
+                "node_name_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта названия вершины",
+                    "order": 51,
+                    "type": "color"
                 },
-                "node_caption_physics_pixel_size": {
-                    "name": "Размер шрифта подписей физ. длин вершин",
-                    "order": 102,
-                    "value": 15
+                "node_name_pixel_size": {
+                    "value": 16,
+                    "name": "Размер шрифта названия вершины",
+                    "order": 52
                 },
-                "node_caption_physics_vertical_padding": {
-                    "name": "Высота подписей физ. длин под вершинами",
-                    "order": 103,
-                    "value": 40
+                "node_name_height": {
+                    "value": 90,
+                    "name": "Высота названия над вершиной",
+                    "order": 53
                 },
-                "Подписи физ. длин вершин": {
+                "node_name_max_width": {
+                    "value": 200,
+                    "name": "Максимальная ширина названия вершины",
+                    "order": 54
+                },
+                "Подписи вершин": {
+                    "value": "заголовок",
                     "name": "Подписи вершин",
                     "order": 100,
-                    "type": "title",
-                    "value": "заголовок"
+                    "type": "title"
+                },
+                "node_caption_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта подписей вершин",
+                    "order": 101,
+                    "type": "color"
+                },
+                "node_caption_pixel_size": {
+                    "value": 15,
+                    "name": "Размер шрифта подписей вершин",
+                    "order": 102
+                },
+                "node_caption_vertical_padding": {
+                    "value": 5,
+                    "name": "Высота подписей над/под стрелками",
+                    "order": 103
+                },
+                "node_caption_horizontal_padding": {
+                    "value": 20,
+                    "name": "Боковой отступ подписей от вертикальных тонких линий",
+                    "order": 104
+                },
+                "is_top_node_top_caption": {
+                    "value": true,
+                    "name": "Расположение верхних подписей вершин над/под стрелками",
+                    "order": 105,
+                    "type": "bool"
+                },
+                "is_top_node_bottom_caption": {
+                    "value": true,
+                    "name": "Расположение нижних подписей вершин над/под стрелками",
+                    "order": 106,
+                    "type": "bool"
                 },
                 "постфикс_расстояния": {
+                    "value": " м",
                     "name": "Постфикс расстояния",
-                    "order": 104,
-                    "type": "string_line",
-                    "value": " м"
+                    "order": 107,
+                    "type": "string_line"
+                },
+                "Стрелки подписей вершин": {
+                    "value": "заголовок",
+                    "name": "Стрелки подписей вершин",
+                    "order": 150,
+                    "type": "title"
+                },
+                "to_left_and_to_right_arrow_length": {
+                    "value": 65,
+                    "name": "Длина линии стрелок подписей вершин",
+                    "order": 151
+                },
+                "delta_node_and_to_right_arrow": {
+                    "value": 55,
+                    "name": "Расстояние между вершиной и стрелками вправо подписей",
+                    "order": 152
+                },
+                "delta_node_and_to_left_arrow": {
+                    "value": 65,
+                    "name": "Расстояние между вершиной и стрелками влево подписей",
+                    "order": 153
+                },
+                "distance_thin_line_after_connection_y": {
+                    "value": 10,
+                    "name": "Расстояние тонкой линии после соединения со стрелками подписей по Y",
+                    "order": 154
                 }
             }
         }
     ],
     "connections": [
         {
-            "id": "8ad59da847064dfa87e8dca60cd06d9f",
-            "order": 0,
-            "connection_id": "100",
+            "connection_id": "50",
+            "control_sectors": [
+                {
+                    "data_pars": {
+                        "cs_delta_wrap_x": {
+                            "is_parameter": true,
+                            "name": "Расстояние переноса по X после сектора",
+                            "order": 12,
+                            "type": "number_int_signed",
+                            "value": 0
+                        },
+                        "cs_lenght": {
+                            "is_parameter": true,
+                            "name": "Расстояние сектора",
+                            "order": 11,
+                            "type": "number_int",
+                            "value": 130
+                        },
+                        "cs_name": {
+                            "is_data": true,
+                            "name": "Название сектора",
+                            "order": 1,
+                            "type": "string_line",
+                            "value": "Тех. запас"
+                        },
+                        "cs_physical_length": {
+                            "is_data": true,
+                            "name": "Физическая длина сектора",
+                            "order": 2,
+                            "type": "number_float",
+                            "value": 15.0
+                        },
+                        "cs_tech_cross_lenght_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Расстояние тех. запаса, прилагающий к кроссу",
+                            "order": 103,
+                            "type": "number_float",
+                            "value": 10
+                        },
+                        "cs_tech_lenght_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Расстояние тех. запаса",
+                            "order": 104,
+                            "type": "number_int",
+                            "value": 140
+                        },
+                        "cs_tech_mufta_physical_length_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Физическая длина тех. запаса, прилагающий к муфте",
+                            "order": 102,
+                            "type": "number_float",
+                            "value": 15
+                        },
+                        "cs_tech_name_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Название тех. запаса",
+                            "order": 101,
+                            "type": "string_line",
+                            "value": "Тех. запас"
+                        },
+                        "Данные": {
+                            "arguments": {
+                                "is_data": true
+                            },
+                            "name": "Данные",
+                            "order": 0,
+                            "type": "title",
+                            "value": ""
+                        },
+                        "Параметры": {
+                            "is_parameter": true,
+                            "name": "Параметры",
+                            "order": 10,
+                            "type": "title",
+                            "value": ""
+                        },
+                        "Параметры по умолчанию (глобальные)": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Параметры по умолчанию",
+                            "order": 100,
+                            "type": "title",
+                            "value": ""
+                        }
+                    },
+                    "id": "43dd45384e71411e8b62002a27f08397",
+                    "is_wrap": false,
+                    "order": 0
+                },
+                {
+                    "data_pars": {
+                        "cs_delta_wrap_x": {
+                            "is_parameter": true,
+                            "name": "Расстояние переноса по X после сектора",
+                            "order": 12,
+                            "type": "number_int_signed",
+                            "value": 0
+                        },
+                        "cs_lenght": {
+                            "is_parameter": true,
+                            "name": "Расстояние сектора",
+                            "order": 11,
+                            "type": "number_int",
+                            "value": 250
+                        },
+                        "cs_name": {
+                            "is_data": true,
+                            "name": "Название сектора",
+                            "order": 1,
+                            "type": "string_line",
+                            "value": "ываыва"
+                        },
+                        "cs_physical_length": {
+                            "is_data": true,
+                            "name": "Физическая длина сектора",
+                            "order": 2,
+                            "type": "number_float",
+                            "value": 15.0
+                        },
+                        "cs_tech_cross_lenght_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Расстояние тех. запаса, прилагающий к кроссу",
+                            "order": 103,
+                            "type": "number_float",
+                            "value": 10
+                        },
+                        "cs_tech_lenght_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Расстояние тех. запаса",
+                            "order": 104,
+                            "type": "number_int",
+                            "value": 140
+                        },
+                        "cs_tech_mufta_physical_length_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Физическая длина тех. запаса, прилагающий к муфте",
+                            "order": 102,
+                            "type": "number_float",
+                            "value": 15
+                        },
+                        "cs_tech_name_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Название тех. запаса",
+                            "order": 101,
+                            "type": "string_line",
+                            "value": "Тех. запас"
+                        },
+                        "Данные": {
+                            "arguments": {
+                                "is_data": true
+                            },
+                            "name": "Данные",
+                            "order": 0,
+                            "type": "title",
+                            "value": ""
+                        },
+                        "Параметры": {
+                            "is_parameter": true,
+                            "name": "Параметры",
+                            "order": 10,
+                            "type": "title",
+                            "value": ""
+                        },
+                        "Параметры по умолчанию (глобальные)": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Параметры по умолчанию",
+                            "order": 100,
+                            "type": "title",
+                            "value": ""
+                        }
+                    },
+                    "id": "d479347f9d9e4175a5403368aca06e02",
+                    "is_wrap": false,
+                    "order": 1
+                },
+                {
+                    "data_pars": {
+                        "cs_delta_wrap_x": {
+                            "is_parameter": true,
+                            "name": "Расстояние переноса по X после сектора",
+                            "order": 12,
+                            "type": "number_int_signed",
+                            "value": 0
+                        },
+                        "cs_lenght": {
+                            "is_parameter": true,
+                            "name": "Расстояние сектора",
+                            "order": 11,
+                            "type": "number_int",
+                            "value": 250
+                        },
+                        "cs_name": {
+                            "is_data": true,
+                            "name": "Название сектора",
+                            "order": 1,
+                            "type": "string_line",
+                            "value": "ываыва"
+                        },
+                        "cs_physical_length": {
+                            "is_data": true,
+                            "name": "Физическая длина сектора",
+                            "order": 2,
+                            "type": "number_float",
+                            "value": 0.0
+                        },
+                        "cs_tech_cross_lenght_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Расстояние тех. запаса, прилагающий к кроссу",
+                            "order": 103,
+                            "type": "number_float",
+                            "value": 10
+                        },
+                        "cs_tech_lenght_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Расстояние тех. запаса",
+                            "order": 104,
+                            "type": "number_int",
+                            "value": 140
+                        },
+                        "cs_tech_mufta_physical_length_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Физическая длина тех. запаса, прилагающий к муфте",
+                            "order": 102,
+                            "type": "number_float",
+                            "value": 15
+                        },
+                        "cs_tech_name_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Название тех. запаса",
+                            "order": 101,
+                            "type": "string_line",
+                            "value": "Тех. запас"
+                        },
+                        "Данные": {
+                            "arguments": {
+                                "is_data": true
+                            },
+                            "name": "Данные",
+                            "order": 0,
+                            "type": "title",
+                            "value": ""
+                        },
+                        "Параметры": {
+                            "is_parameter": true,
+                            "name": "Параметры",
+                            "order": 10,
+                            "type": "title",
+                            "value": ""
+                        },
+                        "Параметры по умолчанию (глобальные)": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Параметры по умолчанию",
+                            "order": 100,
+                            "type": "title",
+                            "value": ""
+                        }
+                    },
+                    "id": "afa9e69307934b88939d4c6d4b17f548",
+                    "is_wrap": false,
+                    "order": 2
+                },
+                {
+                    "data_pars": {
+                        "cs_delta_wrap_x": {
+                            "is_parameter": true,
+                            "name": "Расстояние переноса по X после сектора",
+                            "order": 12,
+                            "type": "number_int_signed",
+                            "value": 0
+                        },
+                        "cs_lenght": {
+                            "is_parameter": true,
+                            "name": "Расстояние сектора",
+                            "order": 11,
+                            "type": "number_int",
+                            "value": 250
+                        },
+                        "cs_name": {
+                            "is_data": true,
+                            "name": "Название сектора",
+                            "order": 1,
+                            "type": "string_line",
+                            "value": "Сектор"
+                        },
+                        "cs_physical_length": {
+                            "is_data": true,
+                            "name": "Физическая длина сектора",
+                            "order": 2,
+                            "type": "number_float",
+                            "value": 0.0
+                        },
+                        "cs_tech_cross_lenght_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Расстояние тех. запаса, прилагающий к кроссу",
+                            "order": 103,
+                            "type": "number_float",
+                            "value": 10
+                        },
+                        "cs_tech_lenght_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Расстояние тех. запаса",
+                            "order": 104,
+                            "type": "number_int",
+                            "value": 140
+                        },
+                        "cs_tech_mufta_physical_length_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Физическая длина тех. запаса, прилагающий к муфте",
+                            "order": 102,
+                            "type": "number_float",
+                            "value": 15
+                        },
+                        "cs_tech_name_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Название тех. запаса",
+                            "order": 101,
+                            "type": "string_line",
+                            "value": "Тех. запас"
+                        },
+                        "Данные": {
+                            "arguments": {
+                                "is_data": true
+                            },
+                            "name": "Данные",
+                            "order": 0,
+                            "type": "title",
+                            "value": ""
+                        },
+                        "Параметры": {
+                            "is_parameter": true,
+                            "name": "Параметры",
+                            "order": 10,
+                            "type": "title",
+                            "value": ""
+                        },
+                        "Параметры по умолчанию (глобальные)": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Параметры по умолчанию",
+                            "order": 100,
+                            "type": "title",
+                            "value": ""
+                        }
+                    },
+                    "id": "3aed9dc69747498c965994bfd545d6e5",
+                    "is_wrap": true,
+                    "order": 3
+                },
+                {
+                    "data_pars": {
+                        "cs_delta_wrap_x": {
+                            "is_parameter": true,
+                            "name": "Расстояние переноса по X после сектора",
+                            "order": 12,
+                            "type": "number_int_signed",
+                            "value": 0
+                        },
+                        "cs_lenght": {
+                            "is_parameter": true,
+                            "name": "Расстояние сектора",
+                            "order": 11,
+                            "type": "number_int",
+                            "value": 250
+                        },
+                        "cs_name": {
+                            "is_data": true,
+                            "name": "Название сектора",
+                            "order": 1,
+                            "type": "string_line",
+                            "value": "Сектор"
+                        },
+                        "cs_physical_length": {
+                            "is_data": true,
+                            "name": "Физическая длина сектора",
+                            "order": 2,
+                            "type": "number_float",
+                            "value": 0.0
+                        },
+                        "cs_tech_cross_lenght_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Расстояние тех. запаса, прилагающий к кроссу",
+                            "order": 103,
+                            "type": "number_float",
+                            "value": 10
+                        },
+                        "cs_tech_lenght_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Расстояние тех. запаса",
+                            "order": 104,
+                            "type": "number_int",
+                            "value": 140
+                        },
+                        "cs_tech_mufta_physical_length_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Физическая длина тех. запаса, прилагающий к муфте",
+                            "order": 102,
+                            "type": "number_float",
+                            "value": 15
+                        },
+                        "cs_tech_name_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Название тех. запаса",
+                            "order": 101,
+                            "type": "string_line",
+                            "value": "Тех. запас"
+                        },
+                        "Данные": {
+                            "arguments": {
+                                "is_data": true
+                            },
+                            "name": "Данные",
+                            "order": 0,
+                            "type": "title",
+                            "value": ""
+                        },
+                        "Параметры": {
+                            "is_parameter": true,
+                            "name": "Параметры",
+                            "order": 10,
+                            "type": "title",
+                            "value": ""
+                        },
+                        "Параметры по умолчанию (глобальные)": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Параметры по умолчанию",
+                            "order": 100,
+                            "type": "title",
+                            "value": ""
+                        }
+                    },
+                    "id": "61e8fcffb7454272a71c8ec9ae765886",
+                    "is_wrap": false,
+                    "order": 4
+                },
+                {
+                    "data_pars": {
+                        "cs_delta_wrap_x": {
+                            "is_parameter": true,
+                            "name": "Расстояние переноса по X после сектора",
+                            "order": 12,
+                            "type": "number_int_signed",
+                            "value": 0
+                        },
+                        "cs_lenght": {
+                            "is_parameter": true,
+                            "name": "Расстояние сектора",
+                            "order": 11,
+                            "type": "number_int",
+                            "value": 140
+                        },
+                        "cs_name": {
+                            "is_data": true,
+                            "name": "Название сектора",
+                            "order": 1,
+                            "type": "string_line",
+                            "value": "Тех. запас"
+                        },
+                        "cs_physical_length": {
+                            "is_data": true,
+                            "name": "Физическая длина сектора",
+                            "order": 2,
+                            "type": "number_float",
+                            "value": 10
+                        },
+                        "cs_tech_cross_lenght_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Расстояние тех. запаса, прилагающий к кроссу",
+                            "order": 103,
+                            "type": "number_float",
+                            "value": 10
+                        },
+                        "cs_tech_lenght_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Расстояние тех. запаса",
+                            "order": 104,
+                            "type": "number_int",
+                            "value": 140
+                        },
+                        "cs_tech_mufta_physical_length_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Физическая длина тех. запаса, прилагающий к муфте",
+                            "order": 102,
+                            "type": "number_float",
+                            "value": 15
+                        },
+                        "cs_tech_name_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Название тех. запаса",
+                            "order": 101,
+                            "type": "string_line",
+                            "value": "Тех. запас"
+                        },
+                        "Данные": {
+                            "arguments": {
+                                "is_data": true
+                            },
+                            "name": "Данные",
+                            "order": 0,
+                            "type": "title",
+                            "value": ""
+                        },
+                        "Параметры": {
+                            "is_parameter": true,
+                            "name": "Параметры",
+                            "order": 10,
+                            "type": "title",
+                            "value": ""
+                        },
+                        "Параметры по умолчанию (глобальные)": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Параметры по умолчанию",
+                            "order": 100,
+                            "type": "title",
+                            "value": ""
+                        }
+                    },
+                    "id": "a1737f29527d479d8f147dd2fc4ce0f0",
+                    "is_wrap": false,
+                    "order": 5
+                }
+            ],
             "data": {
                 "название": {
                     "value": "Секция"
                 },
                 "физическая_длина": {
                     "value": 0.0
+                },
+                "оптическая_длина": {
+                    "value": 0.0
                 }
             },
+            "id": "882ead29fc384d20a6e965dd9ecb2268",
+            "order": 0,
             "parameters": {
                 "connection_length": {
+                    "value": 320,
                     "name": "Длина соединения",
-                    "order": 0,
-                    "value": 320
-                },
-                "connection_caption_color": {
-                    "name": "Цвет шрифта подписей соединения",
-                    "order": 101,
-                    "type": "color",
-                    "value": "#000000"
-                },
-                "connection_caption_pixel_size": {
-                    "name": "Размер шрифта подписей соединения",
-                    "order": 102,
-                    "value": 15
-                },
-                "connection_color": {
-                    "name": "Цвет основной линии соединения",
-                    "order": 1,
-                    "type": "color",
-                    "value": "#000000"
-                },
-                "connection_main_caption_vertical_padding": {
-                    "name": "Высота подписей над/под соединением",
-                    "order": 104,
-                    "value": 10
-                },
-                "connection_style": {
-                    "name": "Стиль основной линии соединения",
-                    "order": 3,
-                    "type": "line_style",
-                    "value": "SolidLine"
-                },
-                "connection_width": {
-                    "name": "Толщина основной линии соединения",
-                    "order": 2,
-                    "value": 2
-                },
-                "node_border_color": {
-                    "name": "Цвет линии вершин",
-                    "order": 201,
-                    "type": "color",
-                    "value": "#000000"
-                },
-                "node_border_weight": {
-                    "name": "Толщина линии вершин",
-                    "order": 202,
-                    "value": 2
-                },
-                "node_caption_physics_color": {
-                    "name": "Цвет шрифта подписей физ. длин вершин",
-                    "order": 301,
-                    "type": "color",
-                    "value": "#000000"
-                },
-                "node_caption_physics_pixel_size": {
-                    "name": "Размер шрифта подписей физ. длин вершин",
-                    "order": 302,
-                    "value": 12
-                },
-                "node_caption_physics_vertical_padding": {
-                    "name": "Высота подписей физ. длин под вершинами",
-                    "order": 303,
-                    "value": 40
-                },
-                "node_height": {
-                    "name": "Высота линии вершин",
-                    "order": 203,
-                    "value": 30
-                },
-                "Контрольные точки": {
-                    "name": "Контрольные точки",
-                    "order": 200,
-                    "type": "title",
-                    "value": "заголовок"
+                    "order": 0
                 },
                 "Основная линия соединения": {
+                    "value": "заголовок",
                     "name": "Основная линия соединения",
                     "order": 0,
-                    "type": "title",
-                    "value": "заголовок"
+                    "type": "title"
                 },
-                "Подписи контрольных точек": {
-                    "name": "Подписи контрольных точек",
-                    "order": 300,
-                    "type": "title",
-                    "value": "заголовок"
+                "connection_color": {
+                    "value": "#000000",
+                    "name": "Цвет основной линии соединения",
+                    "order": 1,
+                    "type": "color"
+                },
+                "connection_width": {
+                    "value": 2,
+                    "name": "Толщина основной линии соединения",
+                    "order": 2
+                },
+                "connection_style": {
+                    "value": "SolidLine",
+                    "name": "Стиль основной линии соединения",
+                    "order": 3,
+                    "type": "line_style"
                 },
                 "Подписи основной линии": {
+                    "value": "заголовок",
                     "name": "Подписи основной линии",
                     "order": 100,
-                    "type": "title",
-                    "value": "заголовок"
+                    "type": "title"
+                },
+                "connection_caption_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта подписей соединения",
+                    "order": 101,
+                    "type": "color"
+                },
+                "connection_caption_pixel_size": {
+                    "value": 15,
+                    "name": "Размер шрифта подписей соединения",
+                    "order": 102
+                },
+                "connection_main_caption_vertical_padding": {
+                    "value": 20,
+                    "name": "Высота подписей над/под соединением",
+                    "order": 104
+                },
+                "префикс_физическая_длина": {
+                    "value": "",
+                    "name": "Префикс Физическая длина",
+                    "order": 108,
+                    "type": "string_line"
                 },
                 "постфикс_расстояния": {
+                    "value": " м",
                     "name": "Постфикс расстояния",
                     "order": 109,
-                    "type": "string_line",
-                    "value": " м"
+                    "type": "string_line"
+                },
+                "префикс_оптическая_длина": {
+                    "value": "",
+                    "name": "Префикс Оптическая длина",
+                    "order": 110,
+                    "type": "string_line"
                 }
-            },
+            }
+        },
+        {
+            "connection_id": "50",
             "control_sectors": [
                 {
-                    "id": "b892e998067440eb8cb65a4760173c35",
-                    "order": 0,
-                    "is_wrap": false,
                     "data_pars": {
-                        "Данные": {
-                            "value": "",
-                            "name": "Данные",
-                            "order": 0,
-                            "type": "title",
-                            "arguments": {
-                                "is_data": true
-                            }
-                        },
-                        "cs_name": {
-                            "value": "Тех. запас",
-                            "name": "Название сектора",
-                            "order": 1,
-                            "type": "string_line",
-                            "is_data": true
-                        },
-                        "cs_physical_length": {
-                            "value": 10,
-                            "name": "Физическая длина сектора",
-                            "order": 2,
-                            "type": "number_float",
-                            "is_data": true
-                        },
-                        "Параметры": {
-                            "value": "",
-                            "name": "Параметры",
-                            "order": 10,
-                            "type": "title",
-                            "is_parameter": true
-                        },
-                        "cs_lenght": {
-                            "value": 140,
-                            "name": "Расстояние сектора",
-                            "order": 11,
-                            "type": "number_int",
-                            "is_parameter": true
-                        },
                         "cs_delta_wrap_x": {
-                            "value": 0,
+                            "is_parameter": true,
                             "name": "Расстояние переноса по X после сектора",
                             "order": 12,
                             "type": "number_int_signed",
-                            "is_parameter": true
-                        },
-                        "Параметры по умолчанию (глобальные)": {
-                            "value": "",
-                            "name": "Параметры по умолчанию",
-                            "order": 100,
-                            "type": "title",
-                            "is_parameter": true,
-                            "is_hide": true
-                        },
-                        "cs_tech_name_default": {
-                            "value": "Тех. запас",
-                            "name": "Название тех. запаса",
-                            "order": 101,
-                            "type": "string_line",
-                            "is_parameter": true,
-                            "is_hide": true
-                        },
-                        "cs_tech_mufta_physical_length_default": {
-                            "value": 15,
-                            "name": "Физическая длина тех. запаса, прилагающий к муфте",
-                            "order": 102,
-                            "type": "number_float",
-                            "is_parameter": true,
-                            "is_hide": true
-                        },
-                        "cs_tech_cross_lenght_default": {
-                            "value": 10,
-                            "name": "Расстояние тех. запаса, прилагающий к кроссу",
-                            "order": 103,
-                            "type": "number_float",
-                            "is_parameter": true,
-                            "is_hide": true
-                        },
-                        "cs_tech_lenght_default": {
-                            "value": 140,
-                            "name": "Расстояние тех. запаса",
-                            "order": 104,
-                            "type": "number_int",
-                            "is_parameter": true,
-                            "is_hide": true
-                        }
-                    }
-                },
-                {
-                    "id": "8b1651744e514dd5a3ff4afff65d3b2a",
-                    "order": 1,
-                    "is_wrap": false,
-                    "data_pars": {
-                        "Данные": {
-                            "value": "",
-                            "name": "Данные",
-                            "order": 0,
-                            "type": "title",
-                            "arguments": {
-                                "is_data": true
-                            }
-                        },
-                        "cs_name": {
-                            "value": "Сектор",
-                            "name": "Название сектора",
-                            "order": 1,
-                            "type": "string_line",
-                            "is_data": true
-                        },
-                        "cs_physical_length": {
-                            "value": 0,
-                            "name": "Физическая длина сектора",
-                            "order": 2,
-                            "type": "number_float",
-                            "is_data": true
-                        },
-                        "Параметры": {
-                            "value": "",
-                            "name": "Параметры",
-                            "order": 10,
-                            "type": "title",
-                            "is_parameter": true
+                            "value": 0
                         },
                         "cs_lenght": {
-                            "value": 250,
+                            "is_parameter": true,
                             "name": "Расстояние сектора",
                             "order": 11,
                             "type": "number_int",
-                            "is_parameter": true
+                            "value": 140
                         },
-                        "cs_delta_wrap_x": {
-                            "value": 0,
-                            "name": "Расстояние переноса по X после сектора",
-                            "order": 12,
-                            "type": "number_int_signed",
-                            "is_parameter": true
-                        },
-                        "Параметры по умолчанию (глобальные)": {
-                            "value": "",
-                            "name": "Параметры по умолчанию",
-                            "order": 100,
-                            "type": "title",
-                            "is_parameter": true,
-                            "is_hide": true
-                        },
-                        "cs_tech_name_default": {
-                            "value": "Тех. запас",
-                            "name": "Название тех. запаса",
-                            "order": 101,
+                        "cs_name": {
+                            "is_data": true,
+                            "name": "Название сектора",
+                            "order": 1,
                             "type": "string_line",
-                            "is_parameter": true,
-                            "is_hide": true
+                            "value": "Тех. запас"
                         },
-                        "cs_tech_mufta_physical_length_default": {
-                            "value": 15,
-                            "name": "Физическая длина тех. запаса, прилагающий к муфте",
-                            "order": 102,
+                        "cs_physical_length": {
+                            "is_data": true,
+                            "name": "Физическая длина сектора",
+                            "order": 2,
                             "type": "number_float",
-                            "is_parameter": true,
-                            "is_hide": true
+                            "value": 10
                         },
                         "cs_tech_cross_lenght_default": {
-                            "value": 10,
+                            "is_hide": true,
+                            "is_parameter": true,
                             "name": "Расстояние тех. запаса, прилагающий к кроссу",
                             "order": 103,
                             "type": "number_float",
-                            "is_parameter": true,
-                            "is_hide": true
+                            "value": 10
                         },
                         "cs_tech_lenght_default": {
-                            "value": 140,
+                            "is_hide": true,
+                            "is_parameter": true,
                             "name": "Расстояние тех. запаса",
                             "order": 104,
                             "type": "number_int",
+                            "value": 140
+                        },
+                        "cs_tech_mufta_physical_length_default": {
+                            "is_hide": true,
                             "is_parameter": true,
-                            "is_hide": true
+                            "name": "Физическая длина тех. запаса, прилагающий к муфте",
+                            "order": 102,
+                            "type": "number_float",
+                            "value": 15
+                        },
+                        "cs_tech_name_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Название тех. запаса",
+                            "order": 101,
+                            "type": "string_line",
+                            "value": "Тех. запас"
+                        },
+                        "Данные": {
+                            "arguments": {
+                                "is_data": true
+                            },
+                            "name": "Данные",
+                            "order": 0,
+                            "type": "title",
+                            "value": ""
+                        },
+                        "Параметры": {
+                            "is_parameter": true,
+                            "name": "Параметры",
+                            "order": 10,
+                            "type": "title",
+                            "value": ""
+                        },
+                        "Параметры по умолчанию (глобальные)": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Параметры по умолчанию",
+                            "order": 100,
+                            "type": "title",
+                            "value": ""
                         }
-                    }
+                    },
+                    "id": "2deb49c996444262b1ff21d7b71c0316",
+                    "is_wrap": false,
+                    "order": 0
                 },
                 {
-                    "id": "47b1db63846748df911741bd98cb295d",
+                    "data_pars": {
+                        "cs_delta_wrap_x": {
+                            "is_parameter": true,
+                            "name": "Расстояние переноса по X после сектора",
+                            "order": 12,
+                            "type": "number_int_signed",
+                            "value": 0
+                        },
+                        "cs_lenght": {
+                            "is_parameter": true,
+                            "name": "Расстояние сектора",
+                            "order": 11,
+                            "type": "number_int",
+                            "value": 250
+                        },
+                        "cs_name": {
+                            "is_data": true,
+                            "name": "Название сектора",
+                            "order": 1,
+                            "type": "string_line",
+                            "value": "Лялялялял"
+                        },
+                        "cs_physical_length": {
+                            "is_data": true,
+                            "name": "Физическая длина сектора",
+                            "order": 2,
+                            "type": "number_float",
+                            "value": 0.0
+                        },
+                        "cs_tech_cross_lenght_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Расстояние тех. запаса, прилагающий к кроссу",
+                            "order": 103,
+                            "type": "number_float",
+                            "value": 10
+                        },
+                        "cs_tech_lenght_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Расстояние тех. запаса",
+                            "order": 104,
+                            "type": "number_int",
+                            "value": 140
+                        },
+                        "cs_tech_mufta_physical_length_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Физическая длина тех. запаса, прилагающий к муфте",
+                            "order": 102,
+                            "type": "number_float",
+                            "value": 15
+                        },
+                        "cs_tech_name_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Название тех. запаса",
+                            "order": 101,
+                            "type": "string_line",
+                            "value": "Тех. запас"
+                        },
+                        "Данные": {
+                            "arguments": {
+                                "is_data": true
+                            },
+                            "name": "Данные",
+                            "order": 0,
+                            "type": "title",
+                            "value": ""
+                        },
+                        "Параметры": {
+                            "is_parameter": true,
+                            "name": "Параметры",
+                            "order": 10,
+                            "type": "title",
+                            "value": ""
+                        },
+                        "Параметры по умолчанию (глобальные)": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Параметры по умолчанию",
+                            "order": 100,
+                            "type": "title",
+                            "value": ""
+                        }
+                    },
+                    "id": "0cb586cb27b14c6a9d92df3eddc50ddf",
+                    "is_wrap": false,
+                    "order": 1
+                },
+                {
+                    "id": "f71f013e452e4b0e8a23ecdd0bf60715",
                     "order": 2,
                     "is_wrap": false,
                     "data_pars": {
@@ -896,7 +1587,7 @@
                     }
                 },
                 {
-                    "id": "aa1408cf2baf4d1fa685beaac2c0db5e",
+                    "id": "74a57cb49d7540a5a2a2677eb97d81b9",
                     "order": 3,
                     "is_wrap": false,
                     "data_pars": {
@@ -910,14 +1601,14 @@
                             }
                         },
                         "cs_name": {
-                            "value": "Тех. запас",
+                            "value": "Сектор",
                             "name": "Название сектора",
                             "order": 1,
                             "type": "string_line",
                             "is_data": true
                         },
                         "cs_physical_length": {
-                            "value": 15,
+                            "value": 0,
                             "name": "Физическая длина сектора",
                             "order": 2,
                             "type": "number_float",
@@ -931,7 +1622,7 @@
                             "is_parameter": true
                         },
                         "cs_lenght": {
-                            "value": 140,
+                            "value": 250,
                             "name": "Расстояние сектора",
                             "order": 11,
                             "type": "number_int",
@@ -985,404 +1676,834 @@
                             "is_hide": true
                         }
                     }
+                },
+                {
+                    "id": "3d2021027b234395a689beaf80a7fcd3",
+                    "order": 4,
+                    "is_wrap": false,
+                    "data_pars": {
+                        "Данные": {
+                            "value": "",
+                            "name": "Данные",
+                            "order": 0,
+                            "type": "title",
+                            "arguments": {
+                                "is_data": true
+                            }
+                        },
+                        "cs_name": {
+                            "value": "Сектор",
+                            "name": "Название сектора",
+                            "order": 1,
+                            "type": "string_line",
+                            "is_data": true
+                        },
+                        "cs_physical_length": {
+                            "value": 0,
+                            "name": "Физическая длина сектора",
+                            "order": 2,
+                            "type": "number_float",
+                            "is_data": true
+                        },
+                        "Параметры": {
+                            "value": "",
+                            "name": "Параметры",
+                            "order": 10,
+                            "type": "title",
+                            "is_parameter": true
+                        },
+                        "cs_lenght": {
+                            "value": 250,
+                            "name": "Расстояние сектора",
+                            "order": 11,
+                            "type": "number_int",
+                            "is_parameter": true
+                        },
+                        "cs_delta_wrap_x": {
+                            "value": 0,
+                            "name": "Расстояние переноса по X после сектора",
+                            "order": 12,
+                            "type": "number_int_signed",
+                            "is_parameter": true
+                        },
+                        "Параметры по умолчанию (глобальные)": {
+                            "value": "",
+                            "name": "Параметры по умолчанию",
+                            "order": 100,
+                            "type": "title",
+                            "is_parameter": true,
+                            "is_hide": true
+                        },
+                        "cs_tech_name_default": {
+                            "value": "Тех. запас",
+                            "name": "Название тех. запаса",
+                            "order": 101,
+                            "type": "string_line",
+                            "is_parameter": true,
+                            "is_hide": true
+                        },
+                        "cs_tech_mufta_physical_length_default": {
+                            "value": 15,
+                            "name": "Физическая длина тех. запаса, прилагающий к муфте",
+                            "order": 102,
+                            "type": "number_float",
+                            "is_parameter": true,
+                            "is_hide": true
+                        },
+                        "cs_tech_cross_lenght_default": {
+                            "value": 10,
+                            "name": "Расстояние тех. запаса, прилагающий к кроссу",
+                            "order": 103,
+                            "type": "number_float",
+                            "is_parameter": true,
+                            "is_hide": true
+                        },
+                        "cs_tech_lenght_default": {
+                            "value": 140,
+                            "name": "Расстояние тех. запаса",
+                            "order": 104,
+                            "type": "number_int",
+                            "is_parameter": true,
+                            "is_hide": true
+                        }
+                    }
+                },
+                {
+                    "data_pars": {
+                        "cs_delta_wrap_x": {
+                            "is_parameter": true,
+                            "name": "Расстояние переноса по X после сектора",
+                            "order": 12,
+                            "type": "number_int_signed",
+                            "value": 0
+                        },
+                        "cs_lenght": {
+                            "is_parameter": true,
+                            "name": "Расстояние сектора",
+                            "order": 11,
+                            "type": "number_int",
+                            "value": 140
+                        },
+                        "cs_name": {
+                            "is_data": true,
+                            "name": "Название сектора",
+                            "order": 1,
+                            "type": "string_line",
+                            "value": "Тех. запас"
+                        },
+                        "cs_physical_length": {
+                            "is_data": true,
+                            "name": "Физическая длина сектора",
+                            "order": 2,
+                            "type": "number_float",
+                            "value": 15
+                        },
+                        "cs_tech_cross_lenght_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Расстояние тех. запаса, прилагающий к кроссу",
+                            "order": 103,
+                            "type": "number_float",
+                            "value": 10
+                        },
+                        "cs_tech_lenght_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Расстояние тех. запаса",
+                            "order": 104,
+                            "type": "number_int",
+                            "value": 140
+                        },
+                        "cs_tech_mufta_physical_length_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Физическая длина тех. запаса, прилагающий к муфте",
+                            "order": 102,
+                            "type": "number_float",
+                            "value": 15
+                        },
+                        "cs_tech_name_default": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Название тех. запаса",
+                            "order": 101,
+                            "type": "string_line",
+                            "value": "Тех. запас"
+                        },
+                        "Данные": {
+                            "arguments": {
+                                "is_data": true
+                            },
+                            "name": "Данные",
+                            "order": 0,
+                            "type": "title",
+                            "value": ""
+                        },
+                        "Параметры": {
+                            "is_parameter": true,
+                            "name": "Параметры",
+                            "order": 10,
+                            "type": "title",
+                            "value": ""
+                        },
+                        "Параметры по умолчанию (глобальные)": {
+                            "is_hide": true,
+                            "is_parameter": true,
+                            "name": "Параметры по умолчанию",
+                            "order": 100,
+                            "type": "title",
+                            "value": ""
+                        }
+                    },
+                    "id": "32520b75a7a74c79a7490c41281e07f7",
+                    "is_wrap": false,
+                    "order": 5
                 }
-            ]
-        },
-        {
-            "id": "553945bbd8da41418ed3d57ba72eed42",
-            "order": 1,
-            "connection_id": "100",
+            ],
             "data": {
                 "название": {
-                    "name": "Название (над линией)",
-                    "order": 0,
                     "value": "Секция"
                 },
                 "физическая_длина": {
-                    "name": "Физическая длина",
-                    "order": 4,
-                    "type": "number_float",
-                    "value": 0
+                    "value": 15.0
+                },
+                "оптическая_длина": {
+                    "value": 15.0
                 }
             },
+            "id": "66167edac59645a2a5ef48134c5df79e",
+            "order": 1,
             "parameters": {
                 "connection_length": {
+                    "value": 320,
                     "name": "Длина соединения",
-                    "order": 0,
-                    "value": 320
-                },
-                "connection_caption_color": {
-                    "name": "Цвет шрифта подписей соединения",
-                    "order": 101,
-                    "type": "color",
-                    "value": "#000000"
-                },
-                "connection_caption_pixel_size": {
-                    "name": "Размер шрифта подписей соединения",
-                    "order": 102,
-                    "value": 15
-                },
-                "connection_color": {
-                    "name": "Цвет основной линии соединения",
-                    "order": 1,
-                    "type": "color",
-                    "value": "#000000"
-                },
-                "connection_main_caption_vertical_padding": {
-                    "name": "Высота подписей над/под соединением",
-                    "order": 104,
-                    "value": 10
-                },
-                "connection_style": {
-                    "name": "Стиль основной линии соединения",
-                    "order": 3,
-                    "type": "line_style",
-                    "value": "SolidLine"
-                },
-                "connection_width": {
-                    "name": "Толщина основной линии соединения",
-                    "order": 2,
-                    "value": 2
-                },
-                "node_border_color": {
-                    "name": "Цвет линии вершин",
-                    "order": 201,
-                    "type": "color",
-                    "value": "#000000"
-                },
-                "node_border_weight": {
-                    "name": "Толщина линии вершин",
-                    "order": 202,
-                    "value": 2
-                },
-                "node_caption_physics_color": {
-                    "name": "Цвет шрифта подписей физ. длин вершин",
-                    "order": 301,
-                    "type": "color",
-                    "value": "#000000"
-                },
-                "node_caption_physics_pixel_size": {
-                    "name": "Размер шрифта подписей физ. длин вершин",
-                    "order": 302,
-                    "value": 12
-                },
-                "node_caption_physics_vertical_padding": {
-                    "name": "Высота подписей физ. длин под вершинами",
-                    "order": 303,
-                    "value": 40
-                },
-                "node_height": {
-                    "name": "Высота линии вершин",
-                    "order": 203,
-                    "value": 30
-                },
-                "Контрольные точки": {
-                    "name": "Контрольные точки",
-                    "order": 200,
-                    "type": "title",
-                    "value": "заголовок"
+                    "order": 0
                 },
                 "Основная линия соединения": {
+                    "value": "заголовок",
                     "name": "Основная линия соединения",
                     "order": 0,
-                    "type": "title",
-                    "value": "заголовок"
+                    "type": "title"
                 },
-                "Подписи контрольных точек": {
-                    "name": "Подписи контрольных точек",
-                    "order": 300,
-                    "type": "title",
-                    "value": "заголовок"
+                "connection_color": {
+                    "value": "#000000",
+                    "name": "Цвет основной линии соединения",
+                    "order": 1,
+                    "type": "color"
+                },
+                "connection_width": {
+                    "value": 2,
+                    "name": "Толщина основной линии соединения",
+                    "order": 2
+                },
+                "connection_style": {
+                    "value": "SolidLine",
+                    "name": "Стиль основной линии соединения",
+                    "order": 3,
+                    "type": "line_style"
                 },
                 "Подписи основной линии": {
+                    "value": "заголовок",
                     "name": "Подписи основной линии",
                     "order": 100,
-                    "type": "title",
-                    "value": "заголовок"
+                    "type": "title"
+                },
+                "connection_caption_color": {
+                    "value": "#000000",
+                    "name": "Цвет шрифта подписей соединения",
+                    "order": 101,
+                    "type": "color"
+                },
+                "connection_caption_pixel_size": {
+                    "value": 15,
+                    "name": "Размер шрифта подписей соединения",
+                    "order": 102
+                },
+                "connection_main_caption_vertical_padding": {
+                    "value": 20,
+                    "name": "Высота подписей над/под соединением",
+                    "order": 104
+                },
+                "префикс_физическая_длина": {
+                    "value": "",
+                    "name": "Префикс Физическая длина",
+                    "order": 108,
+                    "type": "string_line"
                 },
                 "постфикс_расстояния": {
+                    "value": " м",
                     "name": "Постфикс расстояния",
                     "order": 109,
-                    "type": "string_line",
-                    "value": " м"
-                }
-            },
-            "control_sectors": [
-                {
-                    "id": "d21fd0e1e9934980aa922c4c0735e594",
-                    "order": 0,
-                    "is_wrap": false,
-                    "data_pars": {
-                        "Данные": {
-                            "value": "",
-                            "name": "Данные",
-                            "order": 0,
-                            "type": "title",
-                            "arguments": {
-                                "is_data": true
-                            }
-                        },
-                        "cs_name": {
-                            "value": "Тех. запас",
-                            "name": "Название сектора",
-                            "order": 1,
-                            "type": "string_line",
-                            "is_data": true
-                        },
-                        "cs_physical_length": {
-                            "value": 15,
-                            "name": "Физическая длина сектора",
-                            "order": 2,
-                            "type": "number_float",
-                            "is_data": true
-                        },
-                        "Параметры": {
-                            "value": "",
-                            "name": "Параметры",
-                            "order": 10,
-                            "type": "title",
-                            "is_parameter": true
-                        },
-                        "cs_lenght": {
-                            "value": 140,
-                            "name": "Расстояние сектора",
-                            "order": 11,
-                            "type": "number_int",
-                            "is_parameter": true
-                        },
-                        "cs_delta_wrap_x": {
-                            "value": 0,
-                            "name": "Расстояние переноса по X после сектора",
-                            "order": 12,
-                            "type": "number_int_signed",
-                            "is_parameter": true
-                        },
-                        "Параметры по умолчанию (глобальные)": {
-                            "value": "",
-                            "name": "Параметры по умолчанию",
-                            "order": 100,
-                            "type": "title",
-                            "is_parameter": true,
-                            "is_hide": true
-                        },
-                        "cs_tech_name_default": {
-                            "value": "Тех. запас",
-                            "name": "Название тех. запаса",
-                            "order": 101,
-                            "type": "string_line",
-                            "is_parameter": true,
-                            "is_hide": true
-                        },
-                        "cs_tech_mufta_physical_length_default": {
-                            "value": 15,
-                            "name": "Физическая длина тех. запаса, прилагающий к муфте",
-                            "order": 102,
-                            "type": "number_float",
-                            "is_parameter": true,
-                            "is_hide": true
-                        },
-                        "cs_tech_cross_lenght_default": {
-                            "value": 10,
-                            "name": "Расстояние тех. запаса, прилагающий к кроссу",
-                            "order": 103,
-                            "type": "number_float",
-                            "is_parameter": true,
-                            "is_hide": true
-                        },
-                        "cs_tech_lenght_default": {
-                            "value": 140,
-                            "name": "Расстояние тех. запаса",
-                            "order": 104,
-                            "type": "number_int",
-                            "is_parameter": true,
-                            "is_hide": true
-                        }
-                    }
+                    "type": "string_line"
                 },
-                {
-                    "id": "041b1df29b8041708e7697388c041cc3",
-                    "order": 1,
-                    "is_wrap": false,
-                    "data_pars": {
-                        "Данные": {
-                            "value": "",
-                            "name": "Данные",
-                            "order": 0,
-                            "type": "title",
-                            "arguments": {
-                                "is_data": true
-                            }
-                        },
-                        "cs_name": {
-                            "value": "Сектор",
-                            "name": "Название сектора",
-                            "order": 1,
-                            "type": "string_line",
-                            "is_data": true
-                        },
-                        "cs_physical_length": {
-                            "value": 0,
-                            "name": "Физическая длина сектора",
-                            "order": 2,
-                            "type": "number_float",
-                            "is_data": true
-                        },
-                        "Параметры": {
-                            "value": "",
-                            "name": "Параметры",
-                            "order": 10,
-                            "type": "title",
-                            "is_parameter": true
-                        },
-                        "cs_lenght": {
-                            "value": 250,
-                            "name": "Расстояние сектора",
-                            "order": 11,
-                            "type": "number_int",
-                            "is_parameter": true
-                        },
-                        "cs_delta_wrap_x": {
-                            "value": 0,
-                            "name": "Расстояние переноса по X после сектора",
-                            "order": 12,
-                            "type": "number_int_signed",
-                            "is_parameter": true
-                        },
-                        "Параметры по умолчанию (глобальные)": {
-                            "value": "",
-                            "name": "Параметры по умолчанию",
-                            "order": 100,
-                            "type": "title",
-                            "is_parameter": true,
-                            "is_hide": true
-                        },
-                        "cs_tech_name_default": {
-                            "value": "Тех. запас",
-                            "name": "Название тех. запаса",
-                            "order": 101,
-                            "type": "string_line",
-                            "is_parameter": true,
-                            "is_hide": true
-                        },
-                        "cs_tech_mufta_physical_length_default": {
-                            "value": 15,
-                            "name": "Физическая длина тех. запаса, прилагающий к муфте",
-                            "order": 102,
-                            "type": "number_float",
-                            "is_parameter": true,
-                            "is_hide": true
-                        },
-                        "cs_tech_cross_lenght_default": {
-                            "value": 10,
-                            "name": "Расстояние тех. запаса, прилагающий к кроссу",
-                            "order": 103,
-                            "type": "number_float",
-                            "is_parameter": true,
-                            "is_hide": true
-                        },
-                        "cs_tech_lenght_default": {
-                            "value": 140,
-                            "name": "Расстояние тех. запаса",
-                            "order": 104,
-                            "type": "number_int",
-                            "is_parameter": true,
-                            "is_hide": true
-                        }
-                    }
-                },
-                {
-                    "id": "2fc3bcaa9e2a4701b1d03fc77b906409",
-                    "order": 2,
-                    "is_wrap": false,
-                    "data_pars": {
-                        "Данные": {
-                            "value": "",
-                            "name": "Данные",
-                            "order": 0,
-                            "type": "title",
-                            "arguments": {
-                                "is_data": true
-                            }
-                        },
-                        "cs_name": {
-                            "value": "Тех. запас",
-                            "name": "Название сектора",
-                            "order": 1,
-                            "type": "string_line",
-                            "is_data": true
-                        },
-                        "cs_physical_length": {
-                            "value": 15,
-                            "name": "Физическая длина сектора",
-                            "order": 2,
-                            "type": "number_float",
-                            "is_data": true
-                        },
-                        "Параметры": {
-                            "value": "",
-                            "name": "Параметры",
-                            "order": 10,
-                            "type": "title",
-                            "is_parameter": true
-                        },
-                        "cs_lenght": {
-                            "value": 140,
-                            "name": "Расстояние сектора",
-                            "order": 11,
-                            "type": "number_int",
-                            "is_parameter": true
-                        },
-                        "cs_delta_wrap_x": {
-                            "value": 0,
-                            "name": "Расстояние переноса по X после сектора",
-                            "order": 12,
-                            "type": "number_int_signed",
-                            "is_parameter": true
-                        },
-                        "Параметры по умолчанию (глобальные)": {
-                            "value": "",
-                            "name": "Параметры по умолчанию",
-                            "order": 100,
-                            "type": "title",
-                            "is_parameter": true,
-                            "is_hide": true
-                        },
-                        "cs_tech_name_default": {
-                            "value": "Тех. запас",
-                            "name": "Название тех. запаса",
-                            "order": 101,
-                            "type": "string_line",
-                            "is_parameter": true,
-                            "is_hide": true
-                        },
-                        "cs_tech_mufta_physical_length_default": {
-                            "value": 15,
-                            "name": "Физическая длина тех. запаса, прилагающий к муфте",
-                            "order": 102,
-                            "type": "number_float",
-                            "is_parameter": true,
-                            "is_hide": true
-                        },
-                        "cs_tech_cross_lenght_default": {
-                            "value": 10,
-                            "name": "Расстояние тех. запаса, прилагающий к кроссу",
-                            "order": 103,
-                            "type": "number_float",
-                            "is_parameter": true,
-                            "is_hide": true
-                        },
-                        "cs_tech_lenght_default": {
-                            "value": 140,
-                            "name": "Расстояние тех. запаса",
-                            "order": 104,
-                            "type": "number_int",
-                            "is_parameter": true,
-                            "is_hide": true
-                        }
-                    }
+                "префикс_оптическая_длина": {
+                    "value": "",
+                    "name": "Префикс Оптическая длина",
+                    "order": 110,
+                    "type": "string_line"
                 }
-            ]
+            }
         }
     ],
-    "archived_parameters": {}
+    "archived_parameters": {
+        "100": {
+            "nodes": {
+                "fd1e6ea665964057ad7abb5cd973ebc6": {
+                    "parameters": {
+                        "delta_wrap_x": {
+                            "name": "Расстояние переноса по X",
+                            "order": 2,
+                            "type": "number_int_signed",
+                            "value": 0
+                        },
+                        "node_border_color": {
+                            "name": "Цвет рамки вершин",
+                            "order": 1,
+                            "type": "color",
+                            "value": "#000000"
+                        },
+                        "node_border_weight": {
+                            "name": "Толщина рамки вершин",
+                            "order": 2,
+                            "value": 2
+                        },
+                        "node_caption_physics_color": {
+                            "name": "Цвет шрифта подписей физ. длин вершин",
+                            "order": 101,
+                            "type": "color",
+                            "value": "#000000"
+                        },
+                        "node_caption_physics_pixel_size": {
+                            "name": "Размер шрифта подписей физ. длин вершин",
+                            "order": 102,
+                            "value": 15
+                        },
+                        "node_caption_physics_vertical_padding": {
+                            "name": "Высота подписей физ. длин под вершинами",
+                            "order": 103,
+                            "value": 40
+                        },
+                        "node_fill_color": {
+                            "name": "Цвет заливки вершин",
+                            "order": 3,
+                            "type": "color",
+                            "value": "#A0A0A4"
+                        },
+                        "node_fill_style": {
+                            "name": "Стиль заливки вершин",
+                            "order": 4,
+                            "type": "fill_style",
+                            "value": "NoBrush"
+                        },
+                        "node_height": {
+                            "name": "Высота вершин",
+                            "order": 6,
+                            "value": 40
+                        },
+                        "node_name_add_color": {
+                            "name": "Цвет шрифта диапазона вершины",
+                            "order": 101,
+                            "type": "color",
+                            "value": "#000000"
+                        },
+                        "node_name_add_pixel_size": {
+                            "name": "Размер шрифта диапазона вершины",
+                            "order": 102,
+                            "value": 16
+                        },
+                        "node_name_align": {
+                            "name": "Выравнивание названия вершины",
+                            "order": 53,
+                            "type": "text_align",
+                            "value": "CenterAlign"
+                        },
+                        "node_name_color": {
+                            "name": "Цвет шрифта названия вершины",
+                            "order": 51,
+                            "type": "color",
+                            "value": "#000000"
+                        },
+                        "node_name_height": {
+                            "name": "Высота названия над вершиной",
+                            "order": 53,
+                            "value": 60
+                        },
+                        "node_name_max_width": {
+                            "name": "Максимальная ширина названия вершины",
+                            "order": 54,
+                            "value": 200
+                        },
+                        "node_name_pixel_size": {
+                            "name": "Размер шрифта названия вершины",
+                            "order": 52,
+                            "value": 16
+                        },
+                        "node_width": {
+                            "name": "Ширина вершин",
+                            "order": 5,
+                            "value": 120
+                        },
+                        "Диапазон вершин": {
+                            "name": "Диапазон вершин",
+                            "order": 100,
+                            "type": "title",
+                            "value": "заголовок"
+                        },
+                        "Названия вершин": {
+                            "name": "Названия вершин",
+                            "order": 50,
+                            "type": "title",
+                            "value": "заголовок"
+                        },
+                        "Подписи физ. длин вершин": {
+                            "name": "Подписи вершин",
+                            "order": 100,
+                            "type": "title",
+                            "value": "заголовок"
+                        },
+                        "постфикс_расстояния": {
+                            "name": "Постфикс расстояния",
+                            "order": 104,
+                            "type": "string_line",
+                            "value": " м"
+                        }
+                    }
+                },
+                "04f51676a2694b1b8f5bfb8b3b86e734": {
+                    "parameters": {
+                        "delta_wrap_x": {
+                            "name": "Расстояние переноса по X",
+                            "order": 2,
+                            "type": "number_int_signed",
+                            "value": 0
+                        },
+                        "node_border_color": {
+                            "name": "Цвет рамки вершин",
+                            "order": 1,
+                            "type": "color",
+                            "value": "#000000"
+                        },
+                        "node_border_weight": {
+                            "name": "Толщина рамки вершин",
+                            "order": 2,
+                            "value": 2
+                        },
+                        "node_caption_physics_color": {
+                            "name": "Цвет шрифта подписей физ. длин вершин",
+                            "order": 101,
+                            "type": "color",
+                            "value": "#000000"
+                        },
+                        "node_caption_physics_pixel_size": {
+                            "name": "Размер шрифта подписей физ. длин вершин",
+                            "order": 102,
+                            "value": 15
+                        },
+                        "node_caption_physics_vertical_padding": {
+                            "name": "Высота подписей физ. длин под вершинами",
+                            "order": 103,
+                            "value": 40
+                        },
+                        "node_fill_color": {
+                            "name": "Цвет заливки вершин",
+                            "order": 3,
+                            "type": "color",
+                            "value": "#A0A0A4"
+                        },
+                        "node_fill_style": {
+                            "name": "Стиль заливки вершин",
+                            "order": 4,
+                            "type": "fill_style",
+                            "value": "DiagCrossPattern"
+                        },
+                        "node_name_color": {
+                            "name": "Цвет шрифта названия вершины",
+                            "order": 51,
+                            "type": "color",
+                            "value": "#000000"
+                        },
+                        "node_name_height": {
+                            "name": "Высота названия над вершиной",
+                            "order": 53,
+                            "value": 60
+                        },
+                        "node_name_max_width": {
+                            "name": "Максимальная ширина названия вершины",
+                            "order": 54,
+                            "value": 200
+                        },
+                        "node_name_pixel_size": {
+                            "name": "Размер шрифта названия вершины",
+                            "order": 52,
+                            "value": 16
+                        },
+                        "node_radius": {
+                            "name": "Радиус маленького круга вершин",
+                            "order": 5,
+                            "value": 20
+                        },
+                        "Названия вершин": {
+                            "name": "Названия вершин",
+                            "order": 50,
+                            "type": "title",
+                            "value": "заголовок"
+                        },
+                        "Подписи физ. длин вершин": {
+                            "name": "Подписи вершин",
+                            "order": 100,
+                            "type": "title",
+                            "value": "заголовок"
+                        },
+                        "постфикс_расстояния": {
+                            "name": "Постфикс расстояния",
+                            "order": 104,
+                            "type": "string_line",
+                            "value": " м"
+                        }
+                    }
+                },
+                "d221d64461094d2e9141a202c79529ca": {
+                    "parameters": {
+                        "delta_wrap_x": {
+                            "name": "Расстояние переноса по X",
+                            "order": 2,
+                            "type": "number_int_signed",
+                            "value": 0
+                        },
+                        "node_border_color": {
+                            "name": "Цвет рамки вершин",
+                            "order": 1,
+                            "type": "color",
+                            "value": "#000000"
+                        },
+                        "node_border_weight": {
+                            "name": "Толщина рамки вершин",
+                            "order": 2,
+                            "value": 2
+                        },
+                        "node_caption_physics_color": {
+                            "name": "Цвет шрифта подписей физ. длин вершин",
+                            "order": 101,
+                            "type": "color",
+                            "value": "#000000"
+                        },
+                        "node_caption_physics_pixel_size": {
+                            "name": "Размер шрифта подписей физ. длин вершин",
+                            "order": 102,
+                            "value": 15
+                        },
+                        "node_caption_physics_vertical_padding": {
+                            "name": "Высота подписей физ. длин под вершинами",
+                            "order": 103,
+                            "value": 40
+                        },
+                        "node_fill_color": {
+                            "name": "Цвет заливки вершин",
+                            "order": 3,
+                            "type": "color",
+                            "value": "#A0A0A4"
+                        },
+                        "node_fill_style": {
+                            "name": "Стиль заливки вершин",
+                            "order": 4,
+                            "type": "fill_style",
+                            "value": "DiagCrossPattern"
+                        },
+                        "node_name_color": {
+                            "name": "Цвет шрифта названия вершины",
+                            "order": 51,
+                            "type": "color",
+                            "value": "#000000"
+                        },
+                        "node_name_height": {
+                            "name": "Высота названия над вершиной",
+                            "order": 53,
+                            "value": 60
+                        },
+                        "node_name_max_width": {
+                            "name": "Максимальная ширина названия вершины",
+                            "order": 54,
+                            "value": 200
+                        },
+                        "node_name_pixel_size": {
+                            "name": "Размер шрифта названия вершины",
+                            "order": 52,
+                            "value": 16
+                        },
+                        "node_radius": {
+                            "name": "Радиус маленького круга вершин",
+                            "order": 5,
+                            "value": 20
+                        },
+                        "Названия вершин": {
+                            "name": "Названия вершин",
+                            "order": 50,
+                            "type": "title",
+                            "value": "заголовок"
+                        },
+                        "Подписи физ. длин вершин": {
+                            "name": "Подписи вершин",
+                            "order": 100,
+                            "type": "title",
+                            "value": "заголовок"
+                        },
+                        "постфикс_расстояния": {
+                            "name": "Постфикс расстояния",
+                            "order": 104,
+                            "type": "string_line",
+                            "value": " м"
+                        }
+                    }
+                }
+            },
+            "connections": {
+                "882ead29fc384d20a6e965dd9ecb2268": {
+                    "parameters": {
+                        "connection_caption_color": {
+                            "value": "#000000"
+                        },
+                        "connection_caption_pixel_size": {
+                            "value": 13
+                        },
+                        "connection_color": {
+                            "value": "#000000"
+                        },
+                        "connection_length": {
+                            "value": 320
+                        },
+                        "connection_main_caption_vertical_padding": {
+                            "value": 10
+                        },
+                        "connection_style": {
+                            "value": "SolidLine"
+                        },
+                        "connection_width": {
+                            "value": 2
+                        },
+                        "node_border_color": {
+                            "value": "#000000"
+                        },
+                        "node_border_weight": {
+                            "value": 2
+                        },
+                        "node_caption_physics_color": {
+                            "value": "#000000"
+                        },
+                        "node_caption_physics_pixel_size": {
+                            "value": 15
+                        },
+                        "node_caption_physics_vertical_padding": {
+                            "value": 40
+                        },
+                        "node_height": {
+                            "value": 30
+                        },
+                        "Контрольные точки": {
+                            "name": "Контрольные точки",
+                            "order": 200,
+                            "type": "title",
+                            "value": "заголовок"
+                        },
+                        "Основная линия соединения": {
+                            "name": "Основная линия соединения",
+                            "order": 0,
+                            "type": "title",
+                            "value": "заголовок"
+                        },
+                        "Подписи контрольных точек": {
+                            "name": "Подписи контрольных точек",
+                            "order": 300,
+                            "type": "title",
+                            "value": "заголовок"
+                        },
+                        "Подписи основной линии": {
+                            "name": "Подписи основной линии",
+                            "order": 100,
+                            "type": "title",
+                            "value": "заголовок"
+                        },
+                        "постфикс_расстояния": {
+                            "value": " м"
+                        }
+                    }
+                },
+                "66167edac59645a2a5ef48134c5df79e": {
+                    "parameters": {
+                        "connection_caption_color": {
+                            "value": "#000000"
+                        },
+                        "connection_caption_pixel_size": {
+                            "value": 13
+                        },
+                        "connection_color": {
+                            "value": "#000000"
+                        },
+                        "connection_length": {
+                            "name": "Длина соединения",
+                            "order": 0,
+                            "value": 320
+                        },
+                        "connection_main_caption_vertical_padding": {
+                            "value": 10
+                        },
+                        "connection_style": {
+                            "value": "SolidLine"
+                        },
+                        "connection_width": {
+                            "value": 2
+                        },
+                        "node_border_color": {
+                            "value": "#000000"
+                        },
+                        "node_border_weight": {
+                            "value": 2
+                        },
+                        "node_caption_physics_color": {
+                            "value": "#000000"
+                        },
+                        "node_caption_physics_pixel_size": {
+                            "value": 15
+                        },
+                        "node_caption_physics_vertical_padding": {
+                            "value": 40
+                        },
+                        "node_height": {
+                            "value": 30
+                        },
+                        "Контрольные точки": {
+                            "name": "Контрольные точки",
+                            "order": 200,
+                            "type": "title",
+                            "value": "заголовок"
+                        },
+                        "Основная линия соединения": {
+                            "name": "Основная линия соединения",
+                            "order": 0,
+                            "type": "title",
+                            "value": "заголовок"
+                        },
+                        "Подписи контрольных точек": {
+                            "name": "Подписи контрольных точек",
+                            "order": 300,
+                            "type": "title",
+                            "value": "заголовок"
+                        },
+                        "Подписи основной линии": {
+                            "name": "Подписи основной линии",
+                            "order": 100,
+                            "type": "title",
+                            "value": "заголовок"
+                        },
+                        "постфикс_расстояния": {
+                            "value": " м"
+                        }
+                    }
+                }
+            },
+            "diagram_parameters": {
+                "arrow_height": {
+                    "name": "Высота стрелки",
+                    "order": 202,
+                    "value": 8
+                },
+                "arrow_width": {
+                    "name": "Ширина стрелки",
+                    "order": 201,
+                    "value": 20
+                },
+                "delta_wrap_y": {
+                    "name": "Расстояние между рядами вершин по Y",
+                    "order": 3,
+                    "value": 300
+                },
+                "font_name": {
+                    "name": "Название шрифта диграммы",
+                    "order": 6,
+                    "type": "font_name",
+                    "value": "Open Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1"
+                },
+                "indent_bottom": {
+                    "name": "Отступ схемы снизу",
+                    "order": 2,
+                    "value": 200
+                },
+                "indent_left": {
+                    "name": "Отступ схемы слева",
+                    "order": -2,
+                    "value": 200
+                },
+                "indent_right": {
+                    "name": "Отступ схемы справа",
+                    "order": 1,
+                    "value": 200
+                },
+                "indent_top": {
+                    "name": "Отступ схемы сверху",
+                    "order": -1,
+                    "value": 200
+                },
+                "is_center": {
+                    "name": "Центрировать схему по центру изображения по X",
+                    "order": 4,
+                    "type": "bool",
+                    "value": false
+                },
+                "is_wrap_arrow": {
+                    "name": "Показывать стрелку переноса",
+                    "order": 204,
+                    "type": "bool",
+                    "value": true
+                },
+                "max_nodes_in_row": {
+                    "arguments": {
+                        "min": 2
+                    },
+                    "name": "Максимальное кол-во вершин в ряду",
+                    "order": 5,
+                    "type": "number_int",
+                    "value": 5
+                },
+                "precision_number": {
+                    "name": "Кол-во знаков после разделителя",
+                    "order": 10,
+                    "type": "number_int",
+                    "value": 1
+                },
+                "precision_separator": {
+                    "name": "Разделитель точка/запятая",
+                    "order": 11,
+                    "type": "bool",
+                    "value": true
+                },
+                "thin_line_color": {
+                    "name": "Цвет тонкой линии",
+                    "order": 151,
+                    "type": "color",
+                    "value": "#000000"
+                },
+                "thin_line_weight": {
+                    "name": "Толщина тонкой линии",
+                    "order": 152,
+                    "value": 2
+                },
+                "wrap_arrow_length": {
+                    "name": "Длина линии стрелки переноса",
+                    "order": 203,
+                    "value": 50
+                },
+                "Стрелки": {
+                    "name": "Стрелки",
+                    "order": 200,
+                    "type": "title",
+                    "value": ""
+                },
+                "Тонкие линии": {
+                    "name": "Тонкие линии",
+                    "order": 150,
+                    "type": "title",
+                    "value": ""
+                }
+            }
+        }
+    }
 }

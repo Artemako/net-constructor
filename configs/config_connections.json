@@ -327,7 +327,7 @@
                 "type": "color"
             },
             "connection_caption_pixel_size": {
-                "value": 15,
+                "value": 13,
                 "name": "Размер шрифта подписей соединения",
                 "order": 102
             },
@@ -377,7 +377,7 @@
                 "type": "color"
             },
             "node_caption_physics_pixel_size": {
-                "value": 12,
+                "value": 15,
                 "name": "Размер шрифта подписей физ. длин вершин",
                 "order": 302
             },
@@ -397,10 +397,11 @@
                 "name": "Название (не отображается на схеме)",
                 "order": 0
             },
-            "метки": {
-                "value": "0000-0000",
-                "name": "Метки",
-                "order": 1
+            "нач_метка": {
+                "value": 0,
+                "name": "Начальная метка",
+                "order": 1,
+                "type": "number_int"
             },
             "физическая_длина": {
                 "value": 0,
@@ -475,6 +476,18 @@
                 "name": "Постфикс расстояния",
                 "order": 109,
                 "type": "string_line"
+            },
+            "Метки": {
+                "value": "заголовок",
+                "name": "Метки",
+                "order": 200,
+                "type": "title"
+            },
+            "direction_metka": {
+                "value": false,
+                "name": "Направление меток",
+                "order": 202,
+                "type": "bool"
             }
         },
         "objects_parameters": {}

@@ -13,6 +13,7 @@ class Project:
         self.__data = None
         self.__copied_node_data = None
         self.__copied_connection_data = None
+        self.__copied_control_sector_data = None
 
     def get_data(self):
         return self.__data
@@ -711,3 +712,21 @@ class Project:
     def has_copied_connection_data(self):
         """Проверяет, есть ли скопированные данные соединения"""
         return self.__copied_connection_data is not None
+
+    def copy_control_sector_data(self, control_sector):
+        """Копирует данные контрольного сектора (только data_pars)"""
+        self.__copied_control_sector_data = copy.deepcopy(
+            control_sector.get("data_pars", {})
+        )
+
+    def paste_control_sector_data(self, control_sector):
+        """Вставляет данные в контрольный сектор (только data_pars)"""
+        if self.__copied_control_sector_data:
+            control_sector["data_pars"] = copy.deepcopy(
+                self.__copied_control_sector_data
+            )
+            self._write_project()
+
+    def has_copied_control_sector_data(self):
+        """Проверяет, есть ли скопированные данные контрольного сектора"""
+        return self.__copied_control_sector_data is not None

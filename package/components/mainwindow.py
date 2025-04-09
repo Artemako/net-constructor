@@ -27,9 +27,7 @@ from PySide6.QtWidgets import (
     QStyle,
     QHBoxLayout,
 )
-
-
-from PySide6.QtGui import QIntValidator, QFont
+from PySide6.QtGui import QIntValidator, QFont, QColor, QFontMetrics
 from PySide6.QtCore import Qt, QModelIndex, QLocale
 
 import package.controllers.style as style
@@ -302,7 +300,7 @@ class MainWindow(QMainWindow):
             # Проверка оптической и физической длины соединения
             self._clear_error_messages()
             if is_editor_tab:
-                self._validate_lengths_on_editor_tab()
+                self._validate_connection(self.__current_object, show_errors=True)
 
             # Обновляем таблицу контрольных секторов если мы на вкладке редактирования соединения
             # или редактирования контрольного сектора
@@ -395,7 +393,9 @@ class MainWindow(QMainWindow):
                 if not key_dict_node_and_key_dict_connection.get("node"):
                     connections = project_data.get("connections", [])
                     if connections:
-                        self._edit_object(connections[-1], len(connections), is_node=False)
+                        self._edit_object(
+                            connections[-1], len(connections), is_node=False
+                        )
 
     def _move_nodes(self):
         if self.__obsm.obj_project.is_active():
@@ -562,15 +562,23 @@ class MainWindow(QMainWindow):
             table_widget.setHorizontalHeaderLabels(headers)
             table_widget.verticalHeader().setVisible(False)
             #
-            print("NODES", nodes)
             for index, node in enumerate(nodes):
-                print("NODE", node)
-                #
+                node_id = node.get("node_id", "")
+                # Получаем конфигурацию узла по его ID
+                node_config = self.__obsm.obj_configs.get_node(node_id)
+                tooltip = (
+                    node_config.get("info", "Неизвестный узел")
+                    if node_config
+                    else "Неизвестный узел"
+                )
+
                 item_number = QTableWidgetItem(str(index + 1))
+                item_number.setToolTip(tooltip)
                 table_widget.setItem(index, 0, item_number)
                 #
                 node_name = node.get("data", {}).get("название", {}).get("value", "")
                 item = QTableWidgetItem(node_name)
+                item.setToolTip(tooltip)
                 table_widget.setItem(index, 1, item)
                 #
                 is_wrap = node.get("is_wrap", False)
@@ -609,7 +617,6 @@ class MainWindow(QMainWindow):
             table_widget.clearContents()
             table_widget.setRowCount(len(connections))
 
-            # Заголовки теперь будут просто "№" и "Название"
             headers = ["№", "Начало – Конец", "Редактировать"]
             table_widget.setColumnCount(len(headers))
             table_widget.setHorizontalHeaderLabels(headers)
@@ -618,10 +625,12 @@ class MainWindow(QMainWindow):
             nodes = self.__obsm.obj_project.get_data().get("nodes", [])
 
             for index, connection in enumerate(connections):
-                #
+                # Проверяем соединение на ошибки
+                has_errors = self._validate_connection(connection, show_errors=False)
+
                 item_number = QTableWidgetItem(str(index + 1))
                 table_widget.setItem(index, 0, item_number)
-                #
+
                 node1_name = ""
                 node2_name = ""
                 if index < len(nodes):
@@ -641,21 +650,29 @@ class MainWindow(QMainWindow):
                 connection_name = f"{node1_name} – {node2_name}"
                 item = QTableWidgetItem(connection_name)
                 table_widget.setItem(index, 1, item)
-                #
+
                 btn_edit = QPushButton("Редактировать")
                 table_widget.setCellWidget(index, 2, btn_edit)
                 btn_edit.clicked.connect(
                     partial(self._edit_object, connection, index + 1, is_node=False)
                 )
 
+                # Подсвечиваем строку, если есть ошибки
+                if has_errors:
+                    for col in range(table_widget.columnCount()):
+                        item = table_widget.item(index, col)
+                        if item:
+                            item.setBackground(QColor("#661111"))
+                            item.setForeground(Qt.white)
+
             header = table_widget.horizontalHeader()
             header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
             header.setSectionResizeMode(1, QHeaderView.Stretch)
             header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
             table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
-            # контекстное меню
-            self.ui.tablew_connections.setContextMenuPolicy(Qt.CustomContextMenu)
-            self.ui.tablew_connections.customContextMenuRequested.connect(
+
+            table_widget.setContextMenuPolicy(Qt.CustomContextMenu)
+            table_widget.customContextMenuRequested.connect(
                 self.connection_table_context_menu
             )
             table_widget.blockSignals(False)
@@ -774,22 +791,84 @@ class MainWindow(QMainWindow):
         self._create_editor_parameters_widgets_by_object(obj, is_node)
         #
         self._clear_error_messages()
-        self._validate_lengths_on_editor_tab()
+        self._validate_connection(self.__current_object, show_errors=True)
 
-    def _validate_lengths_on_editor_tab(self):
-        obj = self.__current_object
-        if not obj:
-            return
-            
-        # Проверка оптической и физической длины
-        optical_length = obj.get("data", {}).get("оптическая_длина", {}).get("value")
-        physical_length = obj.get("data", {}).get("физическая_длина", {}).get("value")
-        self._check_lengths(optical_length=optical_length, physical_length=physical_length)
-        
-        # Проверка контрольных секторов (только для соединений)
-        if not self.__current_is_node:
-            control_sectors = obj.get("control_sectors", [])
-            self._check_sum_control_sectors(control_sectors)
+    def _validate_connection(self, connection, show_errors=False):
+        has_errors = False
+
+        # Получаем конфиг соединения
+        connection_id = connection.get("connection_id", "0")
+        connection_config = self.__obsm.obj_configs.get_connection(connection_id)
+
+        # Проверяем, есть ли в конфиге параметры для оптической и физической длины
+        has_optical_length = "оптическая_длина" in connection_config.get(
+            "object_data", {}
+        )
+        has_physical_length = "физическая_длина" in connection_config.get(
+            "object_data", {}
+        )
+
+        # Проверка оптической и физической длины (только если они есть в конфиге)
+        if has_optical_length and has_physical_length:
+            optical_length = (
+                connection.get("data", {}).get("оптическая_длина", {}).get("value")
+            )
+            physical_length = (
+                connection.get("data", {}).get("физическая_длина", {}).get("value")
+            )
+
+            if optical_length is not None and physical_length is not None:
+                try:
+                    if float(optical_length) < float(physical_length):
+                        has_errors = True
+                        if show_errors:
+                            difference = float(physical_length) - float(optical_length)
+                            self._add_error_message(
+                                f"Оптическая длина не может быть меньше физической. Разница: {difference:.3f}"
+                            )
+                except (ValueError, TypeError):
+                    pass
+
+        # Проверка контрольных секторов (только если есть физическая длина в конфиге)
+        if has_physical_length:
+            control_sectors = connection.get("control_sectors", [])
+            if control_sectors:
+                total_physical_length = sum(
+                    cs.get("data_pars", {})
+                    .get("cs_physical_length", {})
+                    .get("value", 0)
+                    for cs in control_sectors
+                )
+                physical_length = (
+                    connection.get("data", {})
+                    .get("физическая_длина", {})
+                    .get("value", 0)
+                )
+                try:
+                    physical_length = (
+                        float(physical_length) if physical_length is not None else 0
+                    )
+                    if abs(total_physical_length - physical_length) > 0.001:
+                        has_errors = True
+                        if show_errors:
+                            if total_physical_length > physical_length:
+                                difference = total_physical_length - physical_length
+                                self._add_error_message(
+                                    f"Сумма физических длин секторов ({total_physical_length}) больше "
+                                    f"физической длины соединения ({physical_length}). Разница: {difference:.3f}"
+                                )
+                            else:
+                                difference = physical_length - total_physical_length
+                                self._add_error_message(
+                                    f"Сумма физических длин секторов ({total_physical_length}) меньше "
+                                    f"физической длины соединения ({physical_length}). Разница: {difference:.3f}"
+                                )
+                except (ValueError, TypeError):
+                    pass
+            elif show_errors and not self.__current_is_node:
+                self._add_error_message("Нет контрольных секторов.")
+
+        return has_errors
 
     def _edit_control_sector(self, cs):
         self.__current_control_sector = cs
@@ -1137,7 +1216,9 @@ class MainWindow(QMainWindow):
         return len(dict_widgets) > 0
 
     def _add_control_sector(self, obj):
-        control_sectors = self.__obsm.obj_project.add_control_sector(obj, penultimate=True)
+        control_sectors = self.__obsm.obj_project.add_control_sector(
+            obj, penultimate=True
+        )
         #
         project_data = self.__obsm.obj_project.get_data()
         self.ui.imagewidget.run(project_data)
@@ -1388,7 +1469,6 @@ class MainWindow(QMainWindow):
                 self.ui.imagewidget.run(project_data)
                 self._reset_widgets_by_data(project_data)
 
-
     def control_sector_table_context_menu(self, position):
         """Отображение контекстного меню для таблицы контрольных секторов"""
         menu = QMenu()
@@ -1402,10 +1482,28 @@ class MainWindow(QMainWindow):
         control_sectors = obj.get("control_sectors", [])
         selected_cs = control_sectors[selected_row]
 
+        # Добавляем новые действия
+        copy_data_action = menu.addAction("Копировать данные сектора")
+        paste_data_action = menu.addAction("Вставить данные сектора")
+        menu.addSeparator()
         delete_action = menu.addAction("Удалить контрольный сектор")
+
+        # Проверяем, есть ли что в буфере обмена для вставки
+        paste_data_action.setEnabled(self.__obsm.obj_project.has_copied_control_sector_data())
+
+        # Отображаем меню
         action = menu.exec_(self.ui.tw_control_sectors.viewport().mapToGlobal(position))
 
-        if action == delete_action and selected_cs:
+        # Обработка выбора действия
+        if action == copy_data_action and selected_cs:
+            self.__obsm.obj_project.copy_control_sector_data(selected_cs)
+        elif action == paste_data_action and selected_cs:
+            self.__obsm.obj_project.paste_control_sector_data(selected_cs)
+            # Обновляем интерфейс
+            project_data = self.__obsm.obj_project.get_data()
+            self.ui.imagewidget.run(project_data)
+            self._reset_table_control_sectors(control_sectors)
+        elif action == delete_action and selected_cs:
             self._delete_control_sector(obj, selected_cs)
 
     def _clear_error_messages(self):
@@ -1489,16 +1587,14 @@ class MainWindow(QMainWindow):
     def _add_error_message(self, message):
         self.ui.label_edit_errors.setVisible(True)
         self.ui.line_errors.setVisible(True)
-        
-        error_text_edit = QTextEdit()
-        error_text_edit.setText(message)
-        error_text_edit.setReadOnly(True) 
-        error_text_edit.setLineWrapMode(QTextEdit.WidgetWidth)  
-        error_text_edit.setStyleSheet("color: red; background-color: transparent; border: none;")
-        error_text_edit.setMaximumHeight(50)
-        
-        # Добавляем QTextEdit в контейнер
-        self.ui.vl_edit_errors.addWidget(error_text_edit)
+
+        # Используем QLabel вместо QTextEdit
+        error_label = QLabel()
+        error_label.setText(message)
+        error_label.setWordWrap(True)
+        error_label.setStyleSheet("color: red;")
+
+        self.ui.vl_edit_errors.addWidget(error_label)
 
     def _show_info_dialog(self, info):
         """Отображает диалоговое окно с информацией."""
