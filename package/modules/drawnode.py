@@ -786,11 +786,11 @@ class DrawNode:
                 self.__y - pars.get_sp("node_name_height"),
                 pars.get_sp("node_name_max_width")
             )
-            # TODO Рисование номера (внутри круга)
-            text = str(self.__node_index + 1)
-            drawtext.DrawText().draw_multiline_text_by_hc_vc(
-                get_painter_text_name_add, text, self.__x, self.__y
-            )
+            # УЖЕ НЕ НУЖНО Рисование номера (внутри круга)
+            # text = str(self.__node_index + 1)
+            # drawtext.DrawText().draw_multiline_text_by_hc_vc(
+            #     get_painter_text_name_add, text, self.__x, self.__y
+            # )
 
         
         def draw_node_id_151():

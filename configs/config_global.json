@@ -10,7 +10,7 @@
             }
         },
         "cs_name": {
-            "value": "Контрольная точка",
+            "value": "Сектор",
             "name": "Название сектора",
             "order": 1,
             "type": "string_line",
@@ -43,6 +43,46 @@
             "order": 12,
             "type": "number_int_signed",
             "is_parameter" : true
+        },
+        "Параметры по умолчанию (глобальные)": {
+            "value": "",
+            "name": "Параметры по умолчанию",
+            "order": 100,
+            "type": "title",
+            "is_parameter" : true,
+            "is_hide": true
+        },
+        "cs_tech_name_default": {
+            "value": "Тех. запас",
+            "name": "Название тех. запаса",
+            "order": 101,
+            "type": "string_line",
+            "is_parameter" : true,
+            "is_hide": true
+        },
+        "cs_tech_mufta_physical_length_default": {
+            "value": 15,
+            "name": "Физическая длина тех. запаса, прилагающий к муфте",
+            "order": 102,
+            "type": "number_float",
+            "is_parameter" : true,
+            "is_hide": true
+        },
+        "cs_tech_cross_lenght_default": {
+            "value": 10,
+            "name": "Расстояние тех. запаса, прилагающий к кроссу",
+            "order": 103,
+            "type": "number_float",
+            "is_parameter" : true,
+            "is_hide": true
+        },
+        "cs_tech_lenght_default": {
+            "value": 140,
+            "name": "Расстояние тех. запаса",
+            "order": 104,
+            "type": "number_int",
+            "is_parameter" : true,
+            "is_hide": true
         }
     },
     "diagrams": {

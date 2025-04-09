@@ -88,7 +88,7 @@ class MainWindow(QMainWindow):
         obj_style = style.Style()
         obj_style.set_style_for(self)
         #
-        self.resize(1280, 768)
+        self.resize(1366, 768)
         self.ui.centralwidget_splitter.setSizes([806, 560])
         #
         self.ui.tabw_right.tabBar().setTabVisible(2, False)
@@ -391,6 +391,12 @@ class MainWindow(QMainWindow):
                 self.ui.imagewidget.run(project_data)
                 self._reset_widgets_by_data(project_data)
 
+                # Если добавляем соединение, обновляем таблицу секторов
+                if not key_dict_node_and_key_dict_connection.get("node"):
+                    connections = project_data.get("connections", [])
+                    if connections:
+                        self._edit_object(connections[-1], len(connections), is_node=False)
+
     def _move_nodes(self):
         if self.__obsm.obj_project.is_active():
             nodes = self.__obsm.obj_project.get_data().get("nodes", [])
@@ -680,9 +686,6 @@ class MainWindow(QMainWindow):
             table_widget.clearContents()
             table_widget.setRowCount(len(control_sectors))
 
-            # Проверка суммы физических длин
-            self._check_sum_control_sectors(control_sectors)
-
             headers = ["№", "Название", "Физ. длина", "Перенос после", "Редактировать"]
             table_widget.setColumnCount(len(headers))
             table_widget.setHorizontalHeaderLabels(headers)
@@ -775,11 +778,18 @@ class MainWindow(QMainWindow):
 
     def _validate_lengths_on_editor_tab(self):
         obj = self.__current_object
+        if not obj:
+            return
+            
+        # Проверка оптической и физической длины
         optical_length = obj.get("data", {}).get("оптическая_длина", {}).get("value")
         physical_length = obj.get("data", {}).get("физическая_длина", {}).get("value")
-        self._check_lengths(
-            optical_length=optical_length, physical_length=physical_length
-        )
+        self._check_lengths(optical_length=optical_length, physical_length=physical_length)
+        
+        # Проверка контрольных секторов (только для соединений)
+        if not self.__current_is_node:
+            control_sectors = obj.get("control_sectors", [])
+            self._check_sum_control_sectors(control_sectors)
 
     def _edit_control_sector(self, cs):
         self.__current_control_sector = cs
@@ -901,6 +911,10 @@ class MainWindow(QMainWindow):
                 value if value is not None else config_parameter_data.get("value", "")
             )
             arguments = config_parameter_data.get("arguments", {})
+            is_hide = config_parameter_data.get("is_hide", False)
+
+            if is_hide:
+                continue
 
             # Создаем метку для параметра
             label = self._get_label_name(label_text, widget_type)
@@ -1086,6 +1100,10 @@ class MainWindow(QMainWindow):
                     else config_parameter_data.get("value", "")
                 )
                 arguments = config_parameter_data.get("arguments", {})
+                is_hide = config_parameter_data.get("is_hide", False)
+
+                if is_hide:
+                    continue
 
                 # Создаем метку для параметра
                 label = self._get_label_name(label_text, widget_type)
@@ -1119,7 +1137,7 @@ class MainWindow(QMainWindow):
         return len(dict_widgets) > 0
 
     def _add_control_sector(self, obj):
-        control_sectors = self.__obsm.obj_project.add_control_sector(obj)
+        control_sectors = self.__obsm.obj_project.add_control_sector(obj, penultimate=True)
         #
         project_data = self.__obsm.obj_project.get_data()
         self.ui.imagewidget.run(project_data)
@@ -1405,15 +1423,14 @@ class MainWindow(QMainWindow):
         """
         Проверяет и добавляет сообщения об ошибках, связанных с оптической и физической длиной.
         """
-        print(
-            f"_update_length_errors(): optical_length={optical_length}, physical_length={physical_length}"
-        )
         if (
             optical_length is not None
             and physical_length is not None
             and optical_length < physical_length
         ):
-            self._add_error_message("Оптическая длина не может быть меньше физической.")
+            difference = physical_length - optical_length
+            error_message = f"Оптическая длина не может быть меньше физической. Разница: {difference:.3f}"
+            self._add_error_message(error_message)
 
     def _check_sum_control_sectors(self, control_sectors):
         total_physical_length = sum(
@@ -1425,12 +1442,11 @@ class MainWindow(QMainWindow):
             .get("физическая_длина", {})
             .get("value", 0)
         )
-        #
         try:
             connection_physical_length = float(connection_physical_length)
         except (ValueError, TypeError):
             connection_physical_length = 0
-        #
+
         comparison_result, total_length, connection_length = None, None, None
         if abs(total_physical_length - connection_physical_length) <= 0.001:
             comparison_result, total_length, connection_length = (
@@ -1450,24 +1466,39 @@ class MainWindow(QMainWindow):
                 total_physical_length,
                 connection_physical_length,
             )
-        #
+
         error_message = ""
         if comparison_result == 2:
             error_message = "Нет контрольных секторов."
         elif comparison_result == 1:
-            error_message = f"Сумма физических длин секторов ({total_length}) больше физической длины соединения ({connection_length})."
+            difference = total_length - connection_length
+            error_message = (
+                f"Сумма физических длин секторов ({total_length}) больше физической длины соединения "
+                f"({connection_length}). Разница: {difference:.3f}"
+            )
         elif comparison_result == -1:
-            error_message = f"Сумма физических длин секторов ({total_length}) меньше физической длины соединения ({connection_length})."
-        #
+            difference = connection_length - total_length
+            error_message = (
+                f"Сумма физических длин секторов ({total_length}) меньше физической длины соединения "
+                f"({connection_length}). Разница: {difference:.3f}"
+            )
+
         if error_message:
             self._add_error_message(error_message)
 
     def _add_error_message(self, message):
         self.ui.label_edit_errors.setVisible(True)
         self.ui.line_errors.setVisible(True)
-        error_label = QLabel(message)
-        error_label.setStyleSheet("color: red;")
-        self.ui.vl_edit_errors.addWidget(error_label)
+        
+        error_text_edit = QTextEdit()
+        error_text_edit.setText(message)
+        error_text_edit.setReadOnly(True) 
+        error_text_edit.setLineWrapMode(QTextEdit.WidgetWidth)  
+        error_text_edit.setStyleSheet("color: red; background-color: transparent; border: none;")
+        error_text_edit.setMaximumHeight(50)
+        
+        # Добавляем QTextEdit в контейнер
+        self.ui.vl_edit_errors.addWidget(error_text_edit)
 
     def _show_info_dialog(self, info):
         """Отображает диалоговое окно с информацией."""

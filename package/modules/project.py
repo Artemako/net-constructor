@@ -1,3 +1,5 @@
+# project.py
+
 import json
 import uuid
 import copy
@@ -164,26 +166,52 @@ class Project:
             self._add_connection(key_dict_connection)
         self._write_project()
 
-    def add_control_sector(self, obj) -> list:
-        # TODO add_control_sector - проверить
+    def add_control_sector(
+        self, obj, name=None, physical_length=None, length=None, penultimate=False
+    ) -> list:
+        """Добавляет контрольный сектор с возможностью указания параметров по умолчанию"""
         connection_id = obj.get("id")
         control_sectors_return = []
+
         for connection in self.__data.get("connections", []):
             if connection["id"] == connection_id:
                 new_id = uuid.uuid4().hex
                 new_order = len(connection.get("control_sectors", []))
+                if penultimate:
+                    new_order -= 1
                 new_config = copy.deepcopy(
                     self.__data.get("control_sectors_config", {})
                 )
+
+                # Устанавливаем значения по умолчанию, если они переданы
+                if name is not None:
+                    new_config["cs_name"]["value"] = name
+                if physical_length is not None:
+                    new_config["cs_physical_length"]["value"] = physical_length
+                if length is not None:
+                    new_config["cs_lenght"]["value"] = length
+
                 new_control_sector = {
                     "id": new_id,
                     "order": new_order,
                     "is_wrap": False,
                     "data_pars": new_config,
                 }
-                connection["control_sectors"].append(new_control_sector)
+                #
+                # Если указана позиция вставки и она валидна
+                if penultimate:
+                    connection["control_sectors"].insert(new_order, new_control_sector)
+                else:
+                    # Иначе добавляем в конец
+                    connection["control_sectors"].append(new_control_sector)
+
+                # Обновляем порядок всех секторов
+                for index, cs in enumerate(connection["control_sectors"]):
+                    cs["order"] = index
+
                 control_sectors_return = connection.get("control_sectors", [])
                 break
+
         self._write_project()
         return control_sectors_return
 
@@ -315,6 +343,80 @@ class Project:
         }
         self.__data["connections"].append(new_dict)
 
+        # Добавляем 3 сектора по умолчанию
+        self._add_default_control_sectors(new_dict)
+
+        self._write_project()
+
+    def _add_default_control_sectors(self, connection):
+        """Добавляет 3 сектора по умолчанию для нового соединения"""
+        # Получаем конфигурацию секторов
+        config = self.__data.get("control_sectors_config", {})
+
+        # Получаем ID узлов, к которым прилегает соединение
+        nodes = self.__data.get("nodes", [])
+        connection_order = connection.get("order", 0)
+
+        # Определяем тип левого и правого узлов
+        left_node = nodes[connection_order] if connection_order < len(nodes) else None
+        right_node = (
+            nodes[connection_order + 1] if connection_order + 1 < len(nodes) else None
+        )
+
+        # Добавляем первый сектор (тех. запас)
+        tech_name = config.get("cs_tech_name_default", {}).get("value", "Тех. запас")
+        tech_length = config.get("cs_tech_lenght_default", {}).get("value", 140)
+
+        # Определяем физическую длину для первого тех. запаса
+        if left_node and left_node.get("node_id") in ["1", "51", "101", "151"]:  # Кросс
+            tech_phys_length = config.get("cs_tech_cross_lenght_default", {}).get(
+                "value", 10
+            )
+        else:  # Муфта
+            tech_phys_length = config.get(
+                "cs_tech_mufta_physical_length_default", {}
+            ).get("value", 15)
+
+        # Создаем первый тех. запас
+        self.add_control_sector(
+            connection,
+            name=tech_name,
+            physical_length=tech_phys_length,
+            length=tech_length,
+        )
+
+        # Добавляем средний сектор (основной)
+        main_name = config.get("cs_name", {}).get("value", "Сектор")
+        main_length = config.get("cs_lenght", {}).get("value", 200)
+        self.add_control_sector(
+            connection,
+            name=main_name,
+            physical_length=0,  # По умолчанию не заполнено
+            length=main_length,
+        )
+
+        # Добавляем второй тех. запас
+        if right_node and right_node.get("node_id") in [
+            "1",
+            "51",
+            "101",
+            "151",
+        ]:  # Кросс
+            tech_phys_length = config.get("cs_tech_cross_lenght_default", {}).get(
+                "value", 10
+            )
+        else:  # Муфта
+            tech_phys_length = config.get(
+                "cs_tech_mufta_physical_length_default", {}
+            ).get("value", 15)
+
+        self.add_control_sector(
+            connection,
+            name=tech_name,
+            physical_length=tech_phys_length,
+            length=tech_length,
+        )
+
     def _update_objects_values(
         self, existing_obj, config_dict, default_data, default_parameters
     ):
@@ -380,7 +482,6 @@ class Project:
         self._write_project()
 
     def delete_control_sector(self, obj, selected_cs) -> list:
-        # TODO delete_control_sector - проверить
         connection_id = obj.get("id")
         control_sectors_return = []
         for connection in self.__data.get("connections", []):

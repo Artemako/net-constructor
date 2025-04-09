@@ -3,7 +3,6 @@ class DrawText:
         self.__painter = None
 
     def _wrap_text_to_width(self, text, max_width=None):
-        """Переносит текст по словам с учетом max_width и сохранения пользовательских переносов."""
         if max_width is None or max_width <= 0:
             return text.split("\n")
 
@@ -18,21 +17,58 @@ class DrawText:
             current_line_width = 0
 
             for word in words:
-                word_width = self.__painter.fontMetrics().horizontalAdvance(word + " ")
-                if current_line and (current_line_width + word_width) > max_width:
-                    wrapped_lines.append(" ".join(current_line))
-                    current_line = [word]
-                    current_line_width = word_width
-                else:
-                    current_line.append(word)
-                    current_line_width += word_width
+                word_width = self.__painter.fontMetrics().horizontalAdvance(word)
 
+                # Если слово не помещается в текущую строку
+                if current_line and (current_line_width + word_width) > max_width:
+                    # Если слово слишком длинное для пустой строки - разбиваем посимвольно
+                    if word_width > max_width:
+                        # Добавляем текущую строку, если она не пустая
+                        if current_line:
+                            wrapped_lines.append(" ".join(current_line))
+                            current_line = []
+                            current_line_width = 0
+
+                        # Разбиваем слово посимвольно
+                        chars = list(word)
+                        current_word_part = []
+                        current_part_width = 0
+
+                        for char in chars:
+                            char_width = self.__painter.fontMetrics().horizontalAdvance(
+                                char
+                            )
+                            if current_part_width + char_width > max_width:
+                                wrapped_lines.append("".join(current_word_part))
+                                current_word_part = [char]
+                                current_part_width = char_width
+                            else:
+                                current_word_part.append(char)
+                                current_part_width += char_width
+
+                        if current_word_part:
+                            wrapped_lines.append("".join(current_word_part))
+                    else:
+                        # Переносим слово на следующую строку
+                        wrapped_lines.append(" ".join(current_line))
+                        current_line = [word]
+                        current_line_width = word_width
+                else:
+                    # Добавляем слово в текущую строку
+                    current_line.append(word)
+                    current_line_width += (
+                        word_width + self.__painter.fontMetrics().horizontalAdvance(" ")
+                    )  # добавляем пробел
+
+            # Добавляем оставшиеся слова
             if current_line:
                 wrapped_lines.append(" ".join(current_line))
 
         return wrapped_lines
 
-    def draw_multiline_text_by_hl_vb(self, painter_text, text, left_x, bottom_y, max_width=None):
+    def draw_multiline_text_by_hl_vb(
+        self, painter_text, text, left_x, bottom_y, max_width=None
+    ):
         """По левому краю по горизонтали и по низу по вертикали"""
         self.__painter = painter_text()
         lines = self._wrap_text_to_width(text, max_width)
@@ -43,7 +79,9 @@ class DrawText:
             self.__painter.drawText(left_x, text_y, line)
             text_y -= self.__painter.fontMetrics().height()
 
-    def draw_multiline_text_by_hr_vb(self, painter_text, text, right_x, bottom_y, max_width=None):
+    def draw_multiline_text_by_hr_vb(
+        self, painter_text, text, right_x, bottom_y, max_width=None
+    ):
         """По правому краю по горизонтали и по низу по вертикали"""
         self.__painter = painter_text()
         lines = self._wrap_text_to_width(text, max_width)
@@ -56,7 +94,9 @@ class DrawText:
             self.__painter.drawText(text_x, text_y, line)
             text_y -= self.__painter.fontMetrics().height()
 
-    def draw_multiline_text_by_hc_vb(self, painter_text, text, center_x, bottom_y, max_width=None):
+    def draw_multiline_text_by_hc_vb(
+        self, painter_text, text, center_x, bottom_y, max_width=None
+    ):
         self.__painter = painter_text()
         """По центру по горизонтали и по низу по вертикали"""
         lines = self._wrap_text_to_width(text, max_width)
@@ -71,7 +111,9 @@ class DrawText:
             self.__painter.drawText(text_x, text_y, line)
             text_y -= self.__painter.fontMetrics().height()
 
-    def draw_multiline_text_by_hc_vt(self, painter_text, text, center_x, top_y, max_width=None):
+    def draw_multiline_text_by_hc_vt(
+        self, painter_text, text, center_x, top_y, max_width=None
+    ):
         """По центру по горизонтали и по верху по вертикали"""
         self.__painter = painter_text()
         lines = self._wrap_text_to_width(text, max_width)
@@ -86,7 +128,9 @@ class DrawText:
             self.__painter.drawText(text_x, text_y, line)
             text_y += self.__painter.fontMetrics().height()
 
-    def draw_multiline_text_by_hc_vc(self, painter_text, text, center_x, center_y, max_width=None):
+    def draw_multiline_text_by_hc_vc(
+        self, painter_text, text, center_x, center_y, max_width=None
+    ):
         """По центру по горизонтали и по центру по вертикали"""
         self.__painter = painter_text()
         lines = self._wrap_text_to_width(text, max_width)

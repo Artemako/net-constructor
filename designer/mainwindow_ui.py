@@ -540,7 +540,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabw_right.setCurrentIndex(2)
+        self.tabw_right.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -596,7 +596,7 @@ class Ui_MainWindow(object):
         self.btn_moveconnections.setText(QCoreApplication.translate("MainWindow", u"\u0418\u0437\u043c\u0435\u043d\u0438\u0442\u044c \u043f\u043e\u0440\u044f\u0434\u043e\u043a \u0441\u0442\u0440\u043e\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0445 \u0434\u043b\u0438\u043d", None))
         self.tabw_right.setTabText(self.tabw_right.indexOf(self.tab_elements), QCoreApplication.translate("MainWindow", u"\u042d\u043b\u0435\u043c\u0435\u043d\u0442\u044b", None))
         self.label_edit_errors.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u041e\u0448\u0438\u0431\u043a\u0438</span></p></body></html>", None))
-        self.label_control_sectors.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u041a\u043e\u043d\u0442\u0440\u043e\u043b\u044c\u043d\u044b\u0435 \u0441\u0435\u043a\u0442\u043e\u0440\u0430 \u0441\u043e\u0435\u0434\u0438\u043d\u0435\u043d\u0438\u044f</span></p></body></html>", None))
+        self.label_control_sectors.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0421\u043f\u043e\u0441\u043e\u0431 \u043f\u0440\u043e\u043a\u043b\u0430\u0434\u043a\u0438 \u0412\u041e\u041a</span></p></body></html>", None))
         self.btn_add_control_sector.setText(QCoreApplication.translate("MainWindow", u"\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u0441\u0435\u043a\u0442\u043e\u0440", None))
         self.btn_move_control_sectors.setText(QCoreApplication.translate("MainWindow", u"\u0418\u0437\u043c\u0435\u043d\u0438\u0442\u044c \u043f\u043e\u0440\u044f\u0434\u043e\u043a \u0441\u0435\u043a\u0442\u043e\u0440\u043e\u0432", None))
         self.label_object_data.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><span style=\" font-weight:700;\">\u0414\u0430\u043d\u043d\u044b\u0435</span></p></body></html>", None))

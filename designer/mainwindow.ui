@@ -123,7 +123,7 @@
         <item>
          <widget class="QTabWidget" name="tabw_right">
           <property name="currentIndex">
-           <number>2</number>
+           <number>0</number>
           </property>
           <property name="documentMode">
            <bool>false</bool>
@@ -400,7 +400,7 @@
                 <item>
                  <widget class="QLabel" name="label_control_sectors">
                   <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Контрольные сектора соединения&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Способ прокладки ВОК&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                   </property>
                  </widget>
                 </item>
