@@ -27,7 +27,7 @@ from PySide6.QtWidgets import (
     QStyle,
     QHBoxLayout,
 )
-from PySide6.QtGui import QIntValidator, QFont, QColor, QFontMetrics
+from PySide6.QtGui import QIntValidator, QFont, QColor, QFontMetrics, QKeySequence
 from PySide6.QtCore import Qt, QModelIndex, QLocale
 
 import package.controllers.style as style
@@ -88,6 +88,14 @@ class MainWindow(QMainWindow):
         #
         self.resize(1366, 768)
         self.ui.centralwidget_splitter.setSizes([806, 560])
+        # QAction Ctrl S или Enter
+        self.ui.action_save.setShortcuts(
+            [
+                QKeySequence("Return"),  # Enter (Return)
+                QKeySequence("Ctrl+S"),  # Ctrl + S
+            ]
+        )
+
         #
         self.ui.tabw_right.tabBar().setTabVisible(2, False)
         self.ui.tabw_right.tabBar().setTabVisible(3, False)
@@ -1489,7 +1497,9 @@ class MainWindow(QMainWindow):
         delete_action = menu.addAction("Удалить контрольный сектор")
 
         # Проверяем, есть ли что в буфере обмена для вставки
-        paste_data_action.setEnabled(self.__obsm.obj_project.has_copied_control_sector_data())
+        paste_data_action.setEnabled(
+            self.__obsm.obj_project.has_copied_control_sector_data()
+        )
 
         # Отображаем меню
         action = menu.exec_(self.ui.tw_control_sectors.viewport().mapToGlobal(position))

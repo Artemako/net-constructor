@@ -660,25 +660,41 @@ class DrawConnection:
         )
 
         # МЕТКИ
-        start_metka_value = int(float(data.get_sd("нач_метка")))
+        # Получаем значение начальной метки (если пустое или не число - используем 0)
+        start_metka_str = data.get_sd("нач_метка")
+        try:
+            start_metka_value = int(float(start_metka_str)) if start_metka_str else 0
+        except (ValueError, TypeError):
+            start_metka_value = 0
+
         start_metka = str(start_metka_value).zfill(4)
-        # Вычисляем конечную метку (начальная + длина) и преобразуем в целое число
-        end_metka_value = start_metka_value + int(
-            float(data.get_sd("физическая_длина"))
-        )
+
+        # Получаем значение физической длины (если пустое или не число - используем 0)
+        physical_length_str = data.get_sd("физическая_длина")
+        try:
+            physical_length = (
+                int(float(physical_length_str)) if physical_length_str else 0
+            )
+        except (ValueError, TypeError):
+            physical_length = 0
+
+        # Вычисляем конечную метку (начальная + длина)
+        end_metka_value = start_metka_value + physical_length
         end_metka = str(end_metka_value).zfill(4)
+
         # Формируем текст метки с учетом направления
         text_metki = (
             f"{end_metka}-{start_metka}"
             if pars.get_sp("direction_metka")
             else f"{start_metka}-{end_metka}"
         )
-        #
+
+        # Рисуем текст метки и физическую длину
         drawtext.DrawText().draw_multiline_text_by_hc_vt(
             get_painter_text_caption,
             text_metki
             + "\n"
-            + nf.get(data.get_sd("физическая_длина"))
+            + nf.get(physical_length_str)
             + pars.get_sp("постфикс_расстояния"),
             center_x,
             self.__y + pars.get_sp("connection_main_caption_vertical_padding"),
