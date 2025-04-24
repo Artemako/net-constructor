@@ -76,10 +76,14 @@ class MainWindow(QMainWindow):
         self.config()
 
     def _tab_right_changed(self, index):
+        # Скрываем вкладки
         if index in [0, 1]:
             self.ui.tabw_right.tabBar().setTabVisible(2, False)
         elif index == 2:
             self.ui.tabw_right.tabBar().setTabVisible(3, False)
+            self._clear_error_messages()
+            self._validate_connection(self.__current_object, show_errors=True)
+            
 
     def config(self):
         # СТИЛЬ
@@ -797,7 +801,7 @@ class MainWindow(QMainWindow):
         #
         self._create_editor_data_widgets_by_object(obj, is_node)
         self._create_editor_parameters_widgets_by_object(obj, is_node)
-        #
+        # Очищаем сообщения об ошибках
         self._clear_error_messages()
         self._validate_connection(self.__current_object, show_errors=True)
 
@@ -877,6 +881,8 @@ class MainWindow(QMainWindow):
                 self._add_error_message("Нет контрольных секторов.")
 
         return has_errors
+    
+
 
     def _edit_control_sector(self, cs):
         self.__current_control_sector = cs

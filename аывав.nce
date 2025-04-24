@@ -687,7 +687,7 @@
                     "value": ""
                 },
                 "оптическая_длина": {
-                    "value": 0.0
+                    "value": 50.0
                 },
                 "физическая_длина": {
                     "value": 50.0
@@ -883,7 +883,7 @@
                             "is_data": true
                         },
                         "cs_physical_length": {
-                            "value": 0.0,
+                            "value": 20.0,
                             "name": "Физическая длина сектора",
                             "order": 2,
                             "type": "number_float",
@@ -1853,8 +1853,6 @@
                     "value": ""
                 },
                 "название": {
-                    "name": "Марка ВОК",
-                    "order": 0,
                     "value": "Участок размещения проложенного кабеля"
                 },
                 "название_доп": {
@@ -1863,19 +1861,16 @@
                     "value": ""
                 },
                 "оптическая_длина": {
-                    "name": "Оптическая длина",
-                    "order": 5,
-                    "type": "number_float",
-                    "value": 0
+                    "value": 0.0
                 },
                 "физическая_длина": {
-                    "name": "Физическая длина",
-                    "order": 4,
-                    "type": "number_float",
-                    "value": 0
+                    "value": 0.0
                 },
                 "direction_metka": {
                     "value": false
+                },
+                "нач_метка": {
+                    "value": 0
                 }
             },
             "parameters": {
@@ -2062,7 +2057,7 @@
                             "is_data": true
                         },
                         "cs_physical_length": {
-                            "value": 0,
+                            "value": 60.0,
                             "name": "Физическая длина сектора",
                             "order": 2,
                             "type": "number_float",
@@ -2153,7 +2148,7 @@
                             "is_data": true
                         },
                         "cs_physical_length": {
-                            "value": 15,
+                            "value": 30.0,
                             "name": "Физическая длина сектора",
                             "order": 2,
                             "type": "number_float",
