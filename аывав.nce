@@ -690,7 +690,13 @@
                     "value": 0.0
                 },
                 "физическая_длина": {
-                    "value": 0.0
+                    "value": 50.0
+                },
+                "нач_метка": {
+                    "value": 0
+                },
+                "direction_metka": {
+                    "value": false
                 }
             },
             "parameters": {
@@ -1067,6 +1073,9 @@
                 },
                 "физическая_длина": {
                     "value": 0.0
+                },
+                "direction_metka": {
+                    "value": false
                 }
             },
             "parameters": {
@@ -1464,6 +1473,9 @@
                     "order": 4,
                     "type": "number_float",
                     "value": 0
+                },
+                "direction_metka": {
+                    "value": false
                 }
             },
             "parameters": {
@@ -1861,6 +1873,9 @@
                     "order": 4,
                     "type": "number_float",
                     "value": 0
+                },
+                "direction_metka": {
+                    "value": false
                 }
             },
             "parameters": {

@@ -418,7 +418,7 @@
                     "type": "bool"
                 },
                 "max_nodes_in_row": {
-                    "value": 5,
+                    "value": 10,
                     "name": "Максимальное кол-во вершин в ряду",
                     "order": 5,
                     "type": "number_int",

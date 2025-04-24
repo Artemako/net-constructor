@@ -417,7 +417,14 @@
             }
         },
         "type_object_data": {},
-        "objects_data": {},
+        "objects_data": {
+            "direction_metka": {
+                "value": false,
+                "name": "Направление меток",
+                "order": 10,
+                "type": "bool"
+            }
+        },
         "object_parameters": {
             "connection_length": {
                 "value": 320,
@@ -476,18 +483,6 @@
                 "name": "Постфикс расстояния",
                 "order": 109,
                 "type": "string_line"
-            },
-            "Метки": {
-                "value": "заголовок",
-                "name": "Метки",
-                "order": 200,
-                "type": "title"
-            },
-            "direction_metka": {
-                "value": false,
-                "name": "Направление меток",
-                "order": 202,
-                "type": "bool"
             }
         },
         "objects_parameters": {}

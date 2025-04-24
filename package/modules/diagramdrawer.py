@@ -205,7 +205,7 @@ class DiagramDrawer:
                             "to_right_physical_length": to_right_physical_length,
                         }
                     )
-                elif not node.get("is_wrap") and current_row_node_count < max_nodes_in_row:
+                elif not node.get("is_wrap") and (current_row_node_count < max_nodes_in_row or index == len(self.__nodes) - 1):
                     prepared_data.append(
                         {
                             "type": "node",

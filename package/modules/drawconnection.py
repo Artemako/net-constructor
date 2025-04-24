@@ -683,18 +683,22 @@ class DrawConnection:
         end_metka = str(end_metka_value).zfill(4)
 
         # Формируем текст метки с учетом направления
+        direction_metka = (
+            data.get_sd("direction_metka") == "True"
+        )  # сравнение с строкой True ибо это дата, а не параметр
         text_metki = (
             f"{end_metka}-{start_metka}"
-            if pars.get_sp("direction_metka")
+            if direction_metka
             else f"{start_metka}-{end_metka}"
         )
+        # print(f"BLABLA {direction_metka, text_metki}")
 
         # Рисуем текст метки и физическую длину
         drawtext.DrawText().draw_multiline_text_by_hc_vt(
             get_painter_text_caption,
             text_metki
             + "\n"
-            + nf.get(physical_length_str)
+            + nf.get(data.get_sd("физическая_длина"))
             + pars.get_sp("постфикс_расстояния"),
             center_x,
             self.__y + pars.get_sp("connection_main_caption_vertical_padding"),
