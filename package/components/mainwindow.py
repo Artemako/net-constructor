@@ -27,10 +27,11 @@ from PySide6.QtWidgets import (
     QStyle,
     QHBoxLayout,
 )
-from PySide6.QtGui import QIntValidator, QFont, QColor, QFontMetrics, QKeySequence
+from PySide6.QtGui import QIntValidator, QFont, QColor, QFontMetrics, QKeySequence, QAction, QIcon
 from PySide6.QtCore import Qt, QModelIndex, QLocale
 
 import package.controllers.style as style
+import package.controllers.icons as icons
 import package.controllers.imagewidget as imagewidget
 
 import package.components.nodeconnectionselectdialog as nodeconnectionselectdialog
@@ -87,8 +88,11 @@ class MainWindow(QMainWindow):
 
     def config(self):
         # СТИЛЬ
-        obj_style = style.Style()
-        obj_style.set_style_for(self)
+        self.__obj_style = style.Style()
+        self.__obj_style.set_style_for_mw_by_name(self)
+        # + иконки
+        self.__obj_icons = icons.Icons()
+        self.__obj_icons.set_icons_for_mw_by_name(self)
         #
         self.resize(1366, 768)
         self.ui.centralwidget_splitter.setSizes([806, 560])
@@ -129,6 +133,18 @@ class MainWindow(QMainWindow):
         self.ui.action_export_to_image.triggered.connect(self._export_to_image)
         # видимость параметров
         self.ui.action_parameters.triggered.connect(self._toggle_parameters_visibility)
+        # смены темы
+        self.ui.dark_action.triggered.connect(lambda: self._change_theme("dark"))
+        self.ui.light_action.triggered.connect(lambda: self._change_theme("light"))
+
+    def _change_theme(self, theme_name):
+        self.__obj_style.set_style_for_mw_by_name(self, theme_name)
+        self.__obj_icons.set_icons_for_mw_by_name(self, theme_name)
+        # self.setStyleSheet(style)
+        # QApplication.instance().setStyleSheet(style)
+
+
+
 
     def _start_qt_actions(self):
         self.ui.action_new.setEnabled(True)
@@ -154,6 +170,7 @@ class MainWindow(QMainWindow):
         else:
             project_data = self.__obsm.obj_project.get_data()
             self._reset_widgets_by_data(project_data)
+
 
     def create_file_nce(self):
         file_name, _ = QFileDialog.getSaveFileName(self, " ", "", self.__text_format)
@@ -569,7 +586,7 @@ class MainWindow(QMainWindow):
             table_widget.clearContents()
             table_widget.setRowCount(len(nodes))
             #
-            headers = ["№", "Название", "Перенос", "Редактировать"]
+            headers = ["№", "Название", "Редактировать"]
             table_widget.setColumnCount(len(headers))
             table_widget.setHorizontalHeaderLabels(headers)
             table_widget.verticalHeader().setVisible(False)
@@ -593,13 +610,13 @@ class MainWindow(QMainWindow):
                 item.setToolTip(tooltip)
                 table_widget.setItem(index, 1, item)
                 #
-                is_wrap = node.get("is_wrap", False)
-                btn_wrap = QPushButton("Не переносить" if is_wrap else "Переносить")
-                table_widget.setCellWidget(index, 2, btn_wrap)
-                btn_wrap.clicked.connect(partial(self._wrap_node, node))
+                # is_wrap = node.get("is_wrap", False)
+                # btn_wrap = QPushButton("Не переносить" if is_wrap else "Переносить")
+                # table_widget.setCellWidget(index, 2, btn_wrap)
+                # btn_wrap.clicked.connect(partial(self._wrap_node, node))
                 #
                 btn_edit = QPushButton("Редактировать")
-                table_widget.setCellWidget(index, 3, btn_edit)
+                table_widget.setCellWidget(index, 2, btn_edit)
                 btn_edit.clicked.connect(
                     partial(self._edit_object, node, index + 1, is_node=True)
                 )
@@ -608,7 +625,7 @@ class MainWindow(QMainWindow):
             header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
             header.setSectionResizeMode(1, QHeaderView.Stretch)
             header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
-            header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
+            # header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
             #
             table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
             # контекстное меню
@@ -715,7 +732,7 @@ class MainWindow(QMainWindow):
             table_widget.clearContents()
             table_widget.setRowCount(len(control_sectors))
 
-            headers = ["№", "Название", "Физ. длина", "Перенос после", "Редактировать"]
+            headers = ["№", "Название", "Физ. длина", "Редактировать"]
             table_widget.setColumnCount(len(headers))
             table_widget.setHorizontalHeaderLabels(headers)
 
@@ -740,18 +757,18 @@ class MainWindow(QMainWindow):
                 item_length = QTableWidgetItem(str(physical_length))
                 table_widget.setItem(index, 2, item_length)
 
-                if index < len(control_sectors) - 1:
-                    is_wrap = cs.get("is_wrap", False)
-                    btn_wrap = QPushButton("Не переносить" if is_wrap else "Переносить")
-                    table_widget.setCellWidget(index, 3, btn_wrap)
-                    btn_wrap.clicked.connect(partial(self._wrap_control_sector, cs))
-                else:
-                    empty_item = QTableWidgetItem("")
-                    empty_item.setFlags(empty_item.flags() & ~Qt.ItemIsEditable)
-                    table_widget.setItem(index, 3, empty_item)
+                # if index < len(control_sectors) - 1:
+                    # is_wrap = cs.get("is_wrap", False)
+                    # btn_wrap = QPushButton("Не переносить" if is_wrap else "Переносить")
+                    # table_widget.setCellWidget(index, 3, btn_wrap)
+                    # btn_wrap.clicked.connect(partial(self._wrap_control_sector, cs))
+                # else:
+                #     empty_item = QTableWidgetItem("")
+                #     empty_item.setFlags(empty_item.flags() & ~Qt.ItemIsEditable)
+                #     table_widget.setItem(index, 3, empty_item)
 
                 btn_edit = QPushButton("Редактировать")
-                table_widget.setCellWidget(index, 4, btn_edit)
+                table_widget.setCellWidget(index, 3, btn_edit)
                 btn_edit.clicked.connect(partial(self._edit_control_sector, cs))
 
             header = table_widget.horizontalHeader()
@@ -759,7 +776,7 @@ class MainWindow(QMainWindow):
             header.setSectionResizeMode(1, QHeaderView.Stretch)
             header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
             header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
-            header.setSectionResizeMode(4, QHeaderView.ResizeToContents)
+            # header.setSectionResizeMode(4, QHeaderView.ResizeToContents)
             table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
             # Контекстное меню
             table_widget.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -836,7 +853,7 @@ class MainWindow(QMainWindow):
                         if show_errors:
                             difference = float(physical_length) - float(optical_length)
                             self._add_error_message(
-                                f"Оптическая длина не может быть меньше физической. Разница: {difference:.3f}"
+                                f"Опт. длина < физ. длина на {difference:.3f}"
                             )
                 except (ValueError, TypeError):
                     pass
@@ -866,14 +883,14 @@ class MainWindow(QMainWindow):
                             if total_physical_length > physical_length:
                                 difference = total_physical_length - physical_length
                                 self._add_error_message(
-                                    f"Сумма физических длин секторов ({total_physical_length}) больше "
-                                    f"физической длины соединения ({physical_length}). Разница: {difference:.3f}"
+                                    f"Сумма физ. длин секторов ({total_physical_length}) > "
+                                    f"физ. длины соединения ({physical_length}) на {difference:.3f}"
                                 )
                             else:
                                 difference = physical_length - total_physical_length
                                 self._add_error_message(
-                                    f"Сумма физических длин секторов ({total_physical_length}) меньше "
-                                    f"физической длины соединения ({physical_length}). Разница: {difference:.3f}"
+                                    f"Сумма физ. длин секторов ({total_physical_length}) < "
+                                    f"физ. длины соединения ({physical_length}) на {difference:.3f}"
                                 )
                 except (ValueError, TypeError):
                     pass
@@ -926,12 +943,12 @@ class MainWindow(QMainWindow):
             combined_data_parameters=True,
         )
 
-    def _wrap_node(self, node):
-        self.__obsm.obj_project.wrap_node(node)
-        #
-        project_data = self.__obsm.obj_project.get_data()
-        self.ui.imagewidget.run(project_data)
-        self._reset_widgets_by_data(project_data)
+    # def _wrap_node(self, node):
+    #     self.__obsm.obj_project.wrap_node(node)
+    #     #
+    #     project_data = self.__obsm.obj_project.get_data()
+    #     self.ui.imagewidget.run(project_data)
+    #     self._reset_widgets_by_data(project_data)
 
     def _wrap_control_sector(self, control_sector):
         control_sector["is_wrap"] = not control_sector.get("is_wrap", False)
@@ -1543,7 +1560,7 @@ class MainWindow(QMainWindow):
             and optical_length < physical_length
         ):
             difference = physical_length - optical_length
-            error_message = f"Оптическая длина не может быть меньше физической. Разница: {difference:.3f}"
+            error_message = f"Опт. длина < физ. длина на {difference:.3f}"
             self._add_error_message(error_message)
 
     def _check_sum_control_sectors(self, control_sectors):
@@ -1587,14 +1604,12 @@ class MainWindow(QMainWindow):
         elif comparison_result == 1:
             difference = total_length - connection_length
             error_message = (
-                f"Сумма физических длин секторов ({total_length}) больше физической длины соединения "
-                f"({connection_length}). Разница: {difference:.3f}"
+                f"Сумма физ. длин секторов ({total_length}) > физ. длины соединения ({connection_length}) на {difference:.3f}"
             )
         elif comparison_result == -1:
             difference = connection_length - total_length
             error_message = (
-                f"Сумма физических длин секторов ({total_length}) меньше физической длины соединения "
-                f"({connection_length}). Разница: {difference:.3f}"
+                f"Сумма физ. длин секторов ({total_length}) < физ. длины соединения ({connection_length}) на {difference:.3f}"
             )
 
         if error_message:
@@ -1608,7 +1623,7 @@ class MainWindow(QMainWindow):
         error_label = QLabel()
         error_label.setText(message)
         error_label.setWordWrap(True)
-        error_label.setStyleSheet("color: red;")
+        error_label.setStyleSheet("color: #e29c4a;")
 
         self.ui.vl_edit_errors.addWidget(error_label)
 

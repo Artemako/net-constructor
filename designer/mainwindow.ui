@@ -627,7 +627,15 @@
     <property name="title">
      <string>Прочее</string>
     </property>
+    <widget class="QMenu" name="menu_3">
+     <property name="title">
+      <string>Тема</string>
+     </property>
+     <addaction name="light_action"/>
+     <addaction name="dark_action"/>
+    </widget>
     <addaction name="action_parameters"/>
+    <addaction name="menu_3"/>
    </widget>
    <addaction name="menu_file"/>
    <addaction name="menu"/>
@@ -865,6 +873,16 @@
    </property>
    <property name="text">
     <string>Блоки параметров</string>
+   </property>
+  </action>
+  <action name="light_action">
+   <property name="text">
+    <string>Светлая</string>
+   </property>
+  </action>
+  <action name="dark_action">
+   <property name="text">
+    <string>Тёмная</string>
    </property>
   </action>
  </widget>

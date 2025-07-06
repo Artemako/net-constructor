@@ -1,5 +1,17 @@
 python -m nuitka --follow-imports main.py
 
+# 
+Get-ChildItem -Recurse -Filter *.py | 
+Where-Object { 
+    $_.FullName -notmatch "\\.venv\\|\\env\\|\\venv\\" -and
+    $_.Name -ne "resources_rc.py"
+} | 
+ForEach-Object { 
+    $content = Get-Content $_.FullName -Raw -Encoding UTF8
+    "### $($_.FullName)`n````python`n$content`n````" 
+} | Out-File -FilePath all_code.md -Encoding utf8
+
+
 # исключит templates
 python -m nuitka --follow-imports --noinclude-data-files=templates/**/*.docx main.py
 python -m nuitka --standalone --follow-imports --plugin-enable=pyside6 --noinclude-data-files=templates/**/*.docx --disable-console main.pyw
@@ -25,3 +37,4 @@ export_to_pdf() -> time: 2.232374429702759
 python -m nuitka --standalone --follow-imports --plugin-enable=pyside6  --disable-console main.pyw
 
 python -m nuitka --mingw64 --plugin-enable=pyside6 --include-qt-plugins=sensible --disable-console --standalone main.pyw
+
