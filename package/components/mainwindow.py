@@ -28,7 +28,7 @@ from PySide6.QtWidgets import (
     QHBoxLayout,
 )
 from PySide6.QtGui import QIntValidator, QFont, QColor, QFontMetrics, QKeySequence, QAction, QIcon
-from PySide6.QtCore import Qt, QModelIndex, QLocale
+from PySide6.QtCore import Qt, QModelIndex, QLocale, QSettings
 
 import package.controllers.style as style
 import package.controllers.icons as icons
@@ -87,12 +87,15 @@ class MainWindow(QMainWindow):
             
 
     def config(self):
+        # тема
+        self.__settings = QSettings("MyCompany", "MyApp")
+        self.__theme_name = self.__settings.value("theme_name", "dark")
         # СТИЛЬ
         self.__obj_style = style.Style()
-        self.__obj_style.set_style_for_mw_by_name(self)
+        self.__obj_style.set_style_for_mw_by_name(self, self.__theme_name)
         # + иконки
         self.__obj_icons = icons.Icons()
-        self.__obj_icons.set_icons_for_mw_by_name(self)
+        self.__obj_icons.set_icons_for_mw_by_name(self, self.__theme_name)       
         #
         self.resize(1366, 768)
         self.ui.centralwidget_splitter.setSizes([806, 560])
@@ -138,6 +141,7 @@ class MainWindow(QMainWindow):
         self.ui.light_action.triggered.connect(lambda: self._change_theme("light"))
 
     def _change_theme(self, theme_name):
+        self.__settings.setValue("theme_name", theme_name)
         self.__obj_style.set_style_for_mw_by_name(self, theme_name)
         self.__obj_icons.set_icons_for_mw_by_name(self, theme_name)
         # self.setStyleSheet(style)

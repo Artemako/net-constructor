@@ -52,7 +52,7 @@
         "objects_data": {},
         "object_parameters": {
             "connection_length": {
-                "value": 320,
+                "value": 640,
                 "name": "Длина соединения",
                 "order": 0
             }
@@ -71,7 +71,7 @@
                 "type": "color"
             },
             "connection_width": {
-                "value": 4,
+                "value": 8,
                 "name": "Толщина основной линии соединения",
                 "order": 2
             },
@@ -94,17 +94,17 @@
                 "type": "color"
             },
             "connection_caption_pixel_size": {
-                "value": 13,
+                "value": 26,
                 "name": "Размер шрифта подписей соединения",
                 "order": 102
             },
             "connection_caption_margin_left_right": {
-                "value": 7,
+                "value": 14,
                 "name": "Боковые отступы подписей от вершин",
                 "order": 103
             },
             "connection_main_caption_vertical_padding": {
-                "value": 10,
+                "value": 20,
                 "name": "Высота подписей над/под соединением",
                 "order": 104
             },
@@ -151,12 +151,12 @@
                 "type": "color"
             },
             "connection_name_pixel_size": {
-                "value": 13,
+                "value": 26,
                 "name": "Размер шрифта названия и местоположения соединения",
                 "order": 202
             },
             "connection_thin_caption_vertical_padding": {
-                "value": 6,
+                "value": 12,
                 "name": "Высота подписей над/под тонкой линией",
                 "order": 203
             },
@@ -194,7 +194,7 @@
         "objects_data": {},
         "object_parameters": {
             "connection_length": {
-                "value": 320,
+                "value": 640,
                 "name": "Длина соединения",
                 "order": 0
             }
@@ -213,7 +213,7 @@
                 "type": "color"
             },
             "connection_width": {
-                "value": 2,
+                "value": 4,
                 "name": "Толщина основной линии соединения",
                 "order": 2
             },
@@ -236,12 +236,12 @@
                 "type": "color"
             },
             "connection_caption_pixel_size": {
-                "value": 15,
+                "value": 30,
                 "name": "Размер шрифта подписей соединения",
                 "order": 102
             },
             "connection_main_caption_vertical_padding": {
-                "value": 20,
+                "value": 40,
                 "name": "Высота подписей над/под соединением",
                 "order": 104
             },
@@ -285,7 +285,7 @@
         "objects_data": {},
         "object_parameters": {
             "connection_length": {
-                "value": 320,
+                "value": 640,
                 "name": "Длина соединения",
                 "order": 0
             }
@@ -304,7 +304,7 @@
                 "type": "color"
             },
             "connection_width": {
-                "value": 2,
+                "value": 4,
                 "name": "Толщина основной линии соединения",
                 "order": 2
             },
@@ -327,12 +327,12 @@
                 "type": "color"
             },
             "connection_caption_pixel_size": {
-                "value": 13,
+                "value": 26,
                 "name": "Размер шрифта подписей соединения",
                 "order": 102
             },
             "connection_main_caption_vertical_padding": {
-                "value": 10,
+                "value": 20,
                 "name": "Высота подписей над/под соединением",
                 "order": 104
             },
@@ -355,12 +355,12 @@
                 "type": "color"
             },
             "node_border_weight": {
-                "value": 2,
+                "value": 4,
                 "name": "Толщина линии вершин",
                 "order": 202
             },
             "node_height": {
-                "value": 30,
+                "value": 60,
                 "name": "Высота линии вершин",
                 "order": 203
             },
@@ -377,12 +377,12 @@
                 "type": "color"
             },
             "node_caption_physics_pixel_size": {
-                "value": 15,
+                "value": 30,
                 "name": "Размер шрифта подписей физ. длин вершин",
                 "order": 302
             },
             "node_caption_physics_vertical_padding": {
-                "value": 40,
+                "value": 80,
                 "name": "Высота подписей физ. длин под вершинами",
                 "order": 303
             }
@@ -419,7 +419,7 @@
         "type_object_data": {},
         "objects_data": {
             "direction_metka": {
-                "value": false,
+                "value": 0,
                 "name": "Направление меток",
                 "order": 10,
                 "type": "bool"
@@ -427,7 +427,7 @@
         },
         "object_parameters": {
             "connection_length": {
-                "value": 320,
+                "value": 640,
                 "name": "Длина соединения",
                 "order": 0
             }
@@ -446,7 +446,7 @@
                 "type": "color"
             },
             "connection_width": {
-                "value": 2,
+                "value": 4,
                 "name": "Толщина основной линии соединения",
                 "order": 2
             },
@@ -469,12 +469,12 @@
                 "type": "color"
             },
             "connection_caption_pixel_size": {
-                "value": 13,
+                "value": 26,
                 "name": "Размер шрифта подписей соединения",
                 "order": 102
             },
             "connection_main_caption_vertical_padding": {
-                "value": 12,
+                "value": 24,
                 "name": "Высота подписей над/под соединением",
                 "order": 104
             },

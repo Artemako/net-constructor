@@ -813,10 +813,11 @@ from PySide6.QtWidgets import (
     QStyle,
     QHBoxLayout,
 )
-from PySide6.QtGui import QIntValidator, QFont, QColor, QFontMetrics, QKeySequence, QAction
+from PySide6.QtGui import QIntValidator, QFont, QColor, QFontMetrics, QKeySequence, QAction, QIcon
 from PySide6.QtCore import Qt, QModelIndex, QLocale
 
 import package.controllers.style as style
+import package.controllers.icons as icons
 import package.controllers.imagewidget as imagewidget
 
 import package.components.nodeconnectionselectdialog as nodeconnectionselectdialog
@@ -874,8 +875,10 @@ class MainWindow(QMainWindow):
     def config(self):
         # СТИЛЬ
         self.__obj_style = style.Style()
-        self.__obj_style.set_style_for_widget_by_name(self)
-        
+        self.__obj_style.set_style_for_mw_by_name(self)
+        # + иконки
+        self.__obj_icons = icons.Icons()
+        self.__obj_icons.set_icons_for_mw_by_name(self)
         #
         self.resize(1366, 768)
         self.ui.centralwidget_splitter.setSizes([806, 560])
@@ -921,9 +924,12 @@ class MainWindow(QMainWindow):
         self.ui.light_action.triggered.connect(lambda: self._change_theme("light"))
 
     def _change_theme(self, theme_name):
-        self.__obj_style.set_style_for_widget_by_name(self, theme_name)
+        self.__obj_style.set_style_for_mw_by_name(self, theme_name)
+        self.__obj_icons.set_icons_for_mw_by_name(self, theme_name)
         # self.setStyleSheet(style)
         # QApplication.instance().setStyleSheet(style)
+
+
 
 
     def _start_qt_actions(self):
@@ -2403,7 +2409,7 @@ class MainWindow(QMainWindow):
         error_label = QLabel()
         error_label.setText(message)
         error_label.setWordWrap(True)
-        error_label.setStyleSheet("color: #FFA500;")
+        error_label.setStyleSheet("color: #e29c4a;")
 
         self.ui.vl_edit_errors.addWidget(error_label)
 
@@ -2674,6 +2680,30 @@ class NodeConnectSelectDialog(QDialog):
 ``python
 
 ``
+### D:\projects\net-constructor\package\controllers\icons.py
+``python
+from PySide6.QtGui import QAction, QIcon
+from PySide6.QtCore import QSize
+
+class Icons:
+    def __init__(self):
+        self.__icon_sets = {"dark": "white-icons", "light": "black-icons"}
+
+    def set_icons_for_mw_by_name(self, mw, theme_name = "dark"):
+        icon_set = self.__icon_sets.get(theme_name)
+        actions_and_icons = [
+            (mw.ui.action_new, f":/{icon_set}/resources/{icon_set}/add-file.svg"),
+            (mw.ui.action_open, f":/{icon_set}/resources/{icon_set}/open.svg"),
+            (mw.ui.action_saveas, f":/{icon_set}/resources/{icon_set}/save.svg"),
+            (mw.ui.action_save, f":/{icon_set}/resources/{icon_set}/save.svg"),
+            (mw.ui.action_export_to_image, f":/{icon_set}/resources/{icon_set}/export.svg"),
+            (mw.ui.action_parameters, f":/{icon_set}/resources/{icon_set}/show-properties.svg"),
+        ]
+        for action, icon_path in actions_and_icons:
+            icon = QIcon()
+            icon.addFile(icon_path, QSize(), QIcon.Normal, QIcon.Off)
+            action.setIcon(icon)
+``
 ### D:\projects\net-constructor\package\controllers\imagewidget.py
 ``python
 # imagewidget.py
@@ -2839,6 +2869,7 @@ class ImageWidget(QWidget):
 ``
 ### D:\projects\net-constructor\package\controllers\style.py
 ``python
+
 class Style:
 
     def __init__(self):
@@ -2846,16 +2877,11 @@ class Style:
             "dark": qss,
             "light": lqss 
         }
-        self.__current_theme = "dark" 
-        # Иконки по темам
-        self.__icon_sets = {
-            "dark": "white-icons",  
-            "light": "black-icons"  
-        }
 
-    def set_style_for_widget_by_name(self, widget, theme_name = "dark"):
-        widget.setStyleSheet(self.__themes.get(theme_name))
-
+    def set_style_for_mw_by_name(self, mw, theme_name = "dark"):
+        # сам стиль
+        mw.setStyleSheet(self.__themes.get(theme_name))
+        
 
 
 qss = """
