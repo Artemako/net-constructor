@@ -994,7 +994,7 @@
                             "is_data": true
                         },
                         "cs_physical_length": {
-                            "value": 15,
+                            "value": 15.0,
                             "name": "Физическая длина сектора",
                             "order": 2,
                             "type": "number_float",
@@ -1078,14 +1078,14 @@
                             }
                         },
                         "cs_name": {
-                            "value": "Сектор",
+                            "value": "Секторчик",
                             "name": "Название сектора",
                             "order": 1,
                             "type": "string_line",
                             "is_data": true
                         },
                         "cs_physical_length": {
-                            "value": 0,
+                            "value": 100.0,
                             "name": "Физическая длина сектора",
                             "order": 2,
                             "type": "number_float",
@@ -1176,7 +1176,98 @@
                             "is_data": true
                         },
                         "cs_physical_length": {
+                            "value": 12.5,
+                            "name": "Физическая длина сектора",
+                            "order": 2,
+                            "type": "number_float",
+                            "is_data": true
+                        },
+                        "Параметры": {
+                            "value": "",
+                            "name": "Параметры",
+                            "order": 10,
+                            "type": "title",
+                            "is_parameter": true
+                        },
+                        "cs_lenght": {
+                            "value": 250,
+                            "name": "Расстояние сектора",
+                            "order": 11,
+                            "type": "number_int",
+                            "is_parameter": true
+                        },
+                        "cs_delta_wrap_x": {
                             "value": 0,
+                            "name": "Расстояние переноса по X после сектора",
+                            "order": 12,
+                            "type": "number_int_signed",
+                            "is_parameter": true
+                        },
+                        "Параметры по умолчанию (глобальные)": {
+                            "value": "",
+                            "name": "Параметры по умолчанию",
+                            "order": 100,
+                            "type": "title",
+                            "is_parameter": true,
+                            "is_hide": true
+                        },
+                        "cs_tech_name_default": {
+                            "value": "Тех. запас",
+                            "name": "Название тех. запаса",
+                            "order": 101,
+                            "type": "string_line",
+                            "is_parameter": true,
+                            "is_hide": true
+                        },
+                        "cs_tech_mufta_physical_length_default": {
+                            "value": 15,
+                            "name": "Физическая длина тех. запаса, прилагающий к муфте",
+                            "order": 102,
+                            "type": "number_float",
+                            "is_parameter": true,
+                            "is_hide": true
+                        },
+                        "cs_tech_cross_lenght_default": {
+                            "value": 10,
+                            "name": "Расстояние тех. запаса, прилагающий к кроссу",
+                            "order": 103,
+                            "type": "number_float",
+                            "is_parameter": true,
+                            "is_hide": true
+                        },
+                        "cs_tech_lenght_default": {
+                            "value": 140,
+                            "name": "Расстояние тех. запаса",
+                            "order": 104,
+                            "type": "number_int",
+                            "is_parameter": true,
+                            "is_hide": true
+                        }
+                    }
+                },
+                {
+                    "id": "f1e93dbdcfa44375a35a32f8d4510fd8",
+                    "order": 3,
+                    "is_wrap": false,
+                    "data_pars": {
+                        "Данные": {
+                            "value": "",
+                            "name": "Данные",
+                            "order": 0,
+                            "type": "title",
+                            "arguments": {
+                                "is_data": true
+                            }
+                        },
+                        "cs_name": {
+                            "value": "Сектор",
+                            "name": "Название сектора",
+                            "order": 1,
+                            "type": "string_line",
+                            "is_data": true
+                        },
+                        "cs_physical_length": {
+                            "value": 0.0,
                             "name": "Физическая длина сектора",
                             "order": 2,
                             "type": "number_float",
@@ -1247,7 +1338,7 @@
                 },
                 {
                     "id": "c7855dd6be054f1f9552a3a40572a1aa",
-                    "order": 3,
+                    "order": 4,
                     "is_wrap": false,
                     "data_pars": {
                         "Данные": {
@@ -1267,7 +1358,7 @@
                             "is_data": true
                         },
                         "cs_physical_length": {
-                            "value": 15,
+                            "value": 15.0,
                             "name": "Физическая длина сектора",
                             "order": 2,
                             "type": "number_float",
@@ -1484,7 +1575,7 @@
                             "is_data": true
                         },
                         "cs_physical_length": {
-                            "value": 15,
+                            "value": 15.0,
                             "name": "Физическая длина сектора",
                             "order": 2,
                             "type": "number_float",
@@ -1659,6 +1750,97 @@
                             }
                         },
                         "cs_name": {
+                            "value": "вава",
+                            "name": "Название сектора",
+                            "order": 1,
+                            "type": "string_line",
+                            "is_data": true
+                        },
+                        "cs_physical_length": {
+                            "value": 0.0,
+                            "name": "Физическая длина сектора",
+                            "order": 2,
+                            "type": "number_float",
+                            "is_data": true
+                        },
+                        "Параметры": {
+                            "value": "",
+                            "name": "Параметры",
+                            "order": 10,
+                            "type": "title",
+                            "is_parameter": true
+                        },
+                        "cs_lenght": {
+                            "value": 250,
+                            "name": "Расстояние сектора",
+                            "order": 11,
+                            "type": "number_int",
+                            "is_parameter": true
+                        },
+                        "cs_delta_wrap_x": {
+                            "value": 0,
+                            "name": "Расстояние переноса по X после сектора",
+                            "order": 12,
+                            "type": "number_int_signed",
+                            "is_parameter": true
+                        },
+                        "Параметры по умолчанию (глобальные)": {
+                            "value": "",
+                            "name": "Параметры по умолчанию",
+                            "order": 100,
+                            "type": "title",
+                            "is_parameter": true,
+                            "is_hide": true
+                        },
+                        "cs_tech_name_default": {
+                            "value": "Тех. запас",
+                            "name": "Название тех. запаса",
+                            "order": 101,
+                            "type": "string_line",
+                            "is_parameter": true,
+                            "is_hide": true
+                        },
+                        "cs_tech_mufta_physical_length_default": {
+                            "value": 15,
+                            "name": "Физическая длина тех. запаса, прилагающий к муфте",
+                            "order": 102,
+                            "type": "number_float",
+                            "is_parameter": true,
+                            "is_hide": true
+                        },
+                        "cs_tech_cross_lenght_default": {
+                            "value": 10,
+                            "name": "Расстояние тех. запаса, прилагающий к кроссу",
+                            "order": 103,
+                            "type": "number_float",
+                            "is_parameter": true,
+                            "is_hide": true
+                        },
+                        "cs_tech_lenght_default": {
+                            "value": 140,
+                            "name": "Расстояние тех. запаса",
+                            "order": 104,
+                            "type": "number_int",
+                            "is_parameter": true,
+                            "is_hide": true
+                        }
+                    }
+                },
+                {
+                    "id": "ed0ff9e182df4044b7687c0035424353",
+                    "order": 3,
+                    "is_wrap": false,
+                    "data_pars": {
+                        "Данные": {
+                            "value": "",
+                            "name": "Данные",
+                            "order": 0,
+                            "type": "title",
+                            "arguments": {
+                                "is_data": true
+                            }
+                        },
+                        "cs_name": {
                             "value": "Сектор",
                             "name": "Название сектора",
                             "order": 1,
@@ -1666,7 +1848,189 @@
                             "is_data": true
                         },
                         "cs_physical_length": {
+                            "value": 0.0,
+                            "name": "Физическая длина сектора",
+                            "order": 2,
+                            "type": "number_float",
+                            "is_data": true
+                        },
+                        "Параметры": {
+                            "value": "",
+                            "name": "Параметры",
+                            "order": 10,
+                            "type": "title",
+                            "is_parameter": true
+                        },
+                        "cs_lenght": {
+                            "value": 250,
+                            "name": "Расстояние сектора",
+                            "order": 11,
+                            "type": "number_int",
+                            "is_parameter": true
+                        },
+                        "cs_delta_wrap_x": {
                             "value": 0,
+                            "name": "Расстояние переноса по X после сектора",
+                            "order": 12,
+                            "type": "number_int_signed",
+                            "is_parameter": true
+                        },
+                        "Параметры по умолчанию (глобальные)": {
+                            "value": "",
+                            "name": "Параметры по умолчанию",
+                            "order": 100,
+                            "type": "title",
+                            "is_parameter": true,
+                            "is_hide": true
+                        },
+                        "cs_tech_name_default": {
+                            "value": "Тех. запас",
+                            "name": "Название тех. запаса",
+                            "order": 101,
+                            "type": "string_line",
+                            "is_parameter": true,
+                            "is_hide": true
+                        },
+                        "cs_tech_mufta_physical_length_default": {
+                            "value": 15,
+                            "name": "Физическая длина тех. запаса, прилагающий к муфте",
+                            "order": 102,
+                            "type": "number_float",
+                            "is_parameter": true,
+                            "is_hide": true
+                        },
+                        "cs_tech_cross_lenght_default": {
+                            "value": 10,
+                            "name": "Расстояние тех. запаса, прилагающий к кроссу",
+                            "order": 103,
+                            "type": "number_float",
+                            "is_parameter": true,
+                            "is_hide": true
+                        },
+                        "cs_tech_lenght_default": {
+                            "value": 140,
+                            "name": "Расстояние тех. запаса",
+                            "order": 104,
+                            "type": "number_int",
+                            "is_parameter": true,
+                            "is_hide": true
+                        }
+                    }
+                },
+                {
+                    "id": "57db1de8fc1a4caca1fdd58381b44ad3",
+                    "order": 4,
+                    "is_wrap": false,
+                    "data_pars": {
+                        "Данные": {
+                            "value": "",
+                            "name": "Данные",
+                            "order": 0,
+                            "type": "title",
+                            "arguments": {
+                                "is_data": true
+                            }
+                        },
+                        "cs_name": {
+                            "value": "Сектор",
+                            "name": "Название сектора",
+                            "order": 1,
+                            "type": "string_line",
+                            "is_data": true
+                        },
+                        "cs_physical_length": {
+                            "value": 0.0,
+                            "name": "Физическая длина сектора",
+                            "order": 2,
+                            "type": "number_float",
+                            "is_data": true
+                        },
+                        "Параметры": {
+                            "value": "",
+                            "name": "Параметры",
+                            "order": 10,
+                            "type": "title",
+                            "is_parameter": true
+                        },
+                        "cs_lenght": {
+                            "value": 250,
+                            "name": "Расстояние сектора",
+                            "order": 11,
+                            "type": "number_int",
+                            "is_parameter": true
+                        },
+                        "cs_delta_wrap_x": {
+                            "value": 0,
+                            "name": "Расстояние переноса по X после сектора",
+                            "order": 12,
+                            "type": "number_int_signed",
+                            "is_parameter": true
+                        },
+                        "Параметры по умолчанию (глобальные)": {
+                            "value": "",
+                            "name": "Параметры по умолчанию",
+                            "order": 100,
+                            "type": "title",
+                            "is_parameter": true,
+                            "is_hide": true
+                        },
+                        "cs_tech_name_default": {
+                            "value": "Тех. запас",
+                            "name": "Название тех. запаса",
+                            "order": 101,
+                            "type": "string_line",
+                            "is_parameter": true,
+                            "is_hide": true
+                        },
+                        "cs_tech_mufta_physical_length_default": {
+                            "value": 15,
+                            "name": "Физическая длина тех. запаса, прилагающий к муфте",
+                            "order": 102,
+                            "type": "number_float",
+                            "is_parameter": true,
+                            "is_hide": true
+                        },
+                        "cs_tech_cross_lenght_default": {
+                            "value": 10,
+                            "name": "Расстояние тех. запаса, прилагающий к кроссу",
+                            "order": 103,
+                            "type": "number_float",
+                            "is_parameter": true,
+                            "is_hide": true
+                        },
+                        "cs_tech_lenght_default": {
+                            "value": 140,
+                            "name": "Расстояние тех. запаса",
+                            "order": 104,
+                            "type": "number_int",
+                            "is_parameter": true,
+                            "is_hide": true
+                        }
+                    }
+                },
+                {
+                    "id": "8a5631b27d2c445589f216e224c0eab0",
+                    "order": 5,
+                    "is_wrap": false,
+                    "data_pars": {
+                        "Данные": {
+                            "value": "",
+                            "name": "Данные",
+                            "order": 0,
+                            "type": "title",
+                            "arguments": {
+                                "is_data": true
+                            }
+                        },
+                        "cs_name": {
+                            "value": "Сектор",
+                            "name": "Название сектора",
+                            "order": 1,
+                            "type": "string_line",
+                            "is_data": true
+                        },
+                        "cs_physical_length": {
+                            "value": 0.0,
                             "name": "Физическая длина сектора",
                             "order": 2,
                             "type": "number_float",
@@ -1737,7 +2101,7 @@
                 },
                 {
                     "id": "2692848397ee48a6b4bf9d603cc5f5ff",
-                    "order": 3,
+                    "order": 6,
                     "is_wrap": false,
                     "data_pars": {
                         "Данные": {
@@ -1757,7 +2121,7 @@
                             "is_data": true
                         },
                         "cs_physical_length": {
-                            "value": 15,
+                            "value": 15.0,
                             "name": "Физическая длина сектора",
                             "order": 2,
                             "type": "number_float",

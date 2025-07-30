@@ -826,7 +826,7 @@
                             "is_data": true
                         },
                         "cs_physical_length": {
-                            "value": 15,
+                            "value": 15.0,
                             "name": "Физическая длина сектора",
                             "order": 2,
                             "type": "number_float",
@@ -1001,14 +1001,14 @@
                             }
                         },
                         "cs_name": {
-                            "value": "Тех. запас",
+                            "value": "Сектор",
                             "name": "Название сектора",
                             "order": 1,
                             "type": "string_line",
                             "is_data": true
                         },
                         "cs_physical_length": {
-                            "value": 15,
+                            "value": 15.0,
                             "name": "Физическая длина сектора",
                             "order": 2,
                             "type": "number_float",
@@ -1022,7 +1022,7 @@
                             "is_parameter": true
                         },
                         "cs_lenght": {
-                            "value": 140,
+                            "value": 250,
                             "name": "Расстояние сектора",
                             "order": 11,
                             "type": "number_int",

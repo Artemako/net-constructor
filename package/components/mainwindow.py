@@ -26,9 +26,11 @@ from PySide6.QtWidgets import (
     QToolButton,
     QStyle,
     QHBoxLayout,
+    QStyledItemDelegate
 )
-from PySide6.QtGui import QIntValidator, QFont, QColor, QFontMetrics, QKeySequence, QAction, QIcon
-from PySide6.QtCore import Qt, QModelIndex, QLocale, QSettings
+
+from PySide6.QtGui import QRegularExpressionValidator, QIntValidator, QFont, QColor, QFontMetrics, QKeySequence, QAction, QIcon
+from PySide6.QtCore import QRegularExpression, Qt, QModelIndex, QLocale, QSettings
 
 import package.controllers.style as style
 import package.controllers.icons as icons
@@ -88,7 +90,7 @@ class MainWindow(QMainWindow):
 
     def config(self):
         # тема
-        self.__settings = QSettings("MyCompany", "MyApp")
+        self.__settings = QSettings("Constant", "Net-constructor")
         self.__theme_name = self.__settings.value("theme_name", "dark")
         # СТИЛЬ
         self.__obj_style = style.Style()
@@ -288,6 +290,22 @@ class MainWindow(QMainWindow):
                     **type_object_parameters_widgets,
                     **objects_parameters_widgets,
                 }
+
+                # Если соединение - то нужно получить значения Название и Физ. длина из таблицы 
+                if not self.__current_is_node and self.__current_object is not None:
+                    control_sectors = self.__current_object.get("control_sectors", [])
+                    for row, cs in enumerate(control_sectors):
+                        # Получаем виджеты из таблицы
+                        item_cs_name = self.ui.tw_control_sectors.item(row, 1)
+                        item_cs_physical_length = self.ui.tw_control_sectors.item(row, 2)
+                        if item_cs_name:
+                            cs["data_pars"]["cs_name"]["value"] = item_cs_name.text().strip()
+                        if item_cs_physical_length:
+                            try:
+                                length_val = float(item_cs_physical_length.text().replace(',', '.'))
+                                cs["data_pars"]["cs_physical_length"]["value"] = length_val
+                            except (ValueError, TypeError):
+                                pass  # Оставить старое значение, если не число
 
             elif self.ui.tabw_right.currentIndex() == 3:
                 is_control_sector_tab = True
@@ -736,22 +754,21 @@ class MainWindow(QMainWindow):
             table_widget.clearContents()
             table_widget.setRowCount(len(control_sectors))
 
-            headers = ["№", "Название", "Физ. длина", "Редактировать"]
+            headers = ["№", "✎ Название", "✎ Физ. длина", "Редактировать"]
             table_widget.setColumnCount(len(headers))
             table_widget.setHorizontalHeaderLabels(headers)
-
-            # Устанавливаем стандартный заголовок для столбца физической длины
-            table_widget.setHorizontalHeaderItem(2, QTableWidgetItem("Физ. длина"))
 
             table_widget.verticalHeader().setVisible(False)
 
             for index, cs in enumerate(control_sectors):
                 item_number = QTableWidgetItem(str(index + 1))
+                item_number.setFlags(item_number.flags() & ~Qt.ItemIsEditable)  # Только чтение
                 table_widget.setItem(index, 0, item_number)
 
                 cs_name = cs.get("data_pars", {}).get("cs_name", {}).get("value", "")
-                item = QTableWidgetItem(cs_name)
-                table_widget.setItem(index, 1, item)
+                item_name = QTableWidgetItem(cs_name)
+                item_name.setFlags(item_name.flags() | Qt.ItemIsEditable)
+                table_widget.setItem(index, 1, item_name)
 
                 physical_length = (
                     cs.get("data_pars", {})
@@ -759,17 +776,21 @@ class MainWindow(QMainWindow):
                     .get("value", 0)
                 )
                 item_length = QTableWidgetItem(str(physical_length))
+                item_length.setFlags(item_length.flags() | Qt.ItemIsEditable)
+                
+                # делегат для валидации ввода
+                class FloatDelegate(QStyledItemDelegate):
+                    def createEditor(self, parent, option, index):
+                        editor = QLineEdit(parent)
+                        validator = QRegularExpressionValidator(
+                            QRegularExpression(r'^\d*[,.]?\d*$'),  # Разрешены только цифры, точка или запятая
+                            editor
+                        )
+                        editor.setValidator(validator)
+                        return editor
+                
+                table_widget.setItemDelegateForColumn(2, FloatDelegate(table_widget))
                 table_widget.setItem(index, 2, item_length)
-
-                # if index < len(control_sectors) - 1:
-                    # is_wrap = cs.get("is_wrap", False)
-                    # btn_wrap = QPushButton("Не переносить" if is_wrap else "Переносить")
-                    # table_widget.setCellWidget(index, 3, btn_wrap)
-                    # btn_wrap.clicked.connect(partial(self._wrap_control_sector, cs))
-                # else:
-                #     empty_item = QTableWidgetItem("")
-                #     empty_item.setFlags(empty_item.flags() & ~Qt.ItemIsEditable)
-                #     table_widget.setItem(index, 3, empty_item)
 
                 btn_edit = QPushButton("Редактировать")
                 table_widget.setCellWidget(index, 3, btn_edit)
@@ -780,14 +801,13 @@ class MainWindow(QMainWindow):
             header.setSectionResizeMode(1, QHeaderView.Stretch)
             header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
             header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
-            # header.setSectionResizeMode(4, QHeaderView.ResizeToContents)
-            table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
+
             # Контекстное меню
             table_widget.setContextMenuPolicy(Qt.CustomContextMenu)
             table_widget.customContextMenuRequested.connect(
                 self.control_sector_table_context_menu
             )
-            #
+            
             table_widget.blockSignals(False)
 
         self._save_and_restore_scroll_position(

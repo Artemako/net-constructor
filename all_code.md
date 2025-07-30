@@ -1,8 +1,8 @@
-﻿### D:\projects\net-constructor\__init__.py
+﻿### D:\vs_projects\net-constructor\__init__.py
 ``python
 
 ``
-### D:\projects\net-constructor\examples\example.py
+### D:\vs_projects\net-constructor\examples\example.py
 ``python
 from PySide6.QtWidgets import QApplication, QWidget
 from PySide6.QtGui import QPainter, QPen, QBrush
@@ -82,7 +82,7 @@ if __name__ == "__main__":
     sys.exit(app.exec())
 
 ``
-### D:\projects\net-constructor\examples\example_+.py
+### D:\vs_projects\net-constructor\examples\example_+.py
 ``python
 from PySide6.QtWidgets import QApplication, QWidget
 from PySide6.QtGui import QPainter, QPen, QBrush, QImage
@@ -181,7 +181,7 @@ if __name__ == "__main__":
     sys.exit(app.exec())
 
 ``
-### D:\projects\net-constructor\examples\example_qimage.py
+### D:\vs_projects\net-constructor\examples\example_qimage.py
 ``python
 from PySide6.QtWidgets import QWidget, QApplication
 from PySide6.QtGui import QPainter, QImage, QColor
@@ -218,7 +218,7 @@ if __name__ == "__main__":
     app.exec()
 
 ``
-### D:\projects\net-constructor\examples\example_qpaintner.py
+### D:\vs_projects\net-constructor\examples\example_qpaintner.py
 ``python
 from PySide6.QtWidgets import QApplication, QWidget, QPushButton
 from PySide6.QtGui import QPainter, QPen, QBrush, QImage, QWheelEvent, QMouseEvent
@@ -353,7 +353,58 @@ if __name__ == "__main__":
     sys.exit(app.exec())
 
 ``
-### D:\projects\net-constructor\package\app.py
+### D:\vs_projects\net-constructor\examples\json_x2.py
+``python
+import json
+
+def process_json(data):
+    # Проверяем, является ли data словарем
+    if isinstance(data, dict):
+        for key, value in data.items():
+            # Если ключ - "value" и значение - число, увеличиваем его в 4 раза
+            if key == "value" and isinstance(value, (int, float)):
+                data[key] = value * 2
+            # Рекурсивно обрабатываем вложенные словари или списки
+            elif isinstance(value, (dict, list)):
+                process_json(value)
+    # Проверяем, является ли data списком
+    elif isinstance(data, list):
+        for item in data:
+            # Рекурсивно обрабатываем каждый элемент списка
+            process_json(item)
+
+# Чтение JSON из файла
+# input_file = "configs/config_connections.json"
+# input_file = "configs/config_global.json"
+input_file = "configs/config_nodes.json"
+with open(input_file, 'r', encoding='utf-8') as f:
+    json_data = json.load(f)
+
+# Обработка JSON
+process_json(json_data)
+
+# Запись результата в файл
+output_file = "result.json"
+with open(output_file, 'w', encoding='utf-8') as f:
+    json.dump(json_data, f, indent=4, ensure_ascii=False)
+
+print(f"Обработка завершена. Результат сохранён в файл {output_file}")
+``
+### D:\vs_projects\net-constructor\main.build\scons-debug.py
+``python
+# -*- coding: utf-8 -*-
+
+import sys
+import os
+import subprocess
+
+exit_code = subprocess.call(
+    ['C:\\Users\\hayar\\AppData\\Local\\Programs\\Python\\Python38\\python.exe', '-W', 'ignore', 'C:\\Users\\hayar\\AppData\\Local\\Programs\\Python\\Python38\\Lib\\SITE-P~1\\nuitka\\build\\INLINE~1\\bin\\scons.py', '--quiet', '-f', 'C:\\Users\\hayar\\AppData\\Local\\Programs\\Python\\Python38\\Lib\\SITE-P~1\\nuitka\\build\\BACKEN~1.SCO', '--jobs', '12', '--warn=no-deprecated', '--no-site-dir', 'source_dir=.', 'nuitka_python=false', 'debug_mode=false', 'debugger_mode=false', 'python_debug=false', 'module_mode=false', 'full_compat=false', 'experimental=', 'trace_mode=false', 'file_reference_mode=runtime', 'module_count=344', 'gil_mode=true', 'result_exe=D:\\projects\\net-constructor\\main.dist\\main.exe', 'standalone_mode=true', 'frozen_modules=152', 'python_sysflag_no_site=true', 'nuitka_src=C:\\Users\\hayar\\AppData\\Local\\Programs\\Python\\Python38\\Lib\\SITE-P~1\\nuitka\\build', 'python_version=3.8', 'python_prefix=C:\\Users\\hayar\\AppData\\Local\\Programs\\Python\\Python38', 'debug_modes=', 'deployment=false', 'no_deployment=', 'console_mode=disable', 'noelf_mode=true', 'target_arch=x86_64'],
+    env={'ALLUSERSPROFILE': 'C:\\ProgramData', 'APPDATA': 'C:\\Users\\hayar\\AppData\\Roaming', 'CHROME_CRASHPAD_PIPE_NAME': '\\\\.\\pipe\\crashpad_4400_MBSLAIMJEDBNMYMP', 'COMMONPROGRAMFILES': 'C:\\Program Files\\Common Files', 'COMMONPROGRAMFILES(X86)': 'C:\\Program Files (x86)\\Common Files', 'COMMONPROGRAMW6432': 'C:\\Program Files\\Common Files', 'COMPUTERNAME': 'DESKTOP-A187AO3', 'COMSPEC': 'C:\\Windows\\system32\\cmd.exe', 'DATAGRIP': 'C:\\Program Files\\JetBrains\\DataGrip 2024.3.5\\bin;', 'DRIVERDATA': 'C:\\Windows\\System32\\Drivers\\DriverData', 'FPS_BROWSER_APP_PROFILE_STRING': 'Internet Explorer', 'FPS_BROWSER_USER_PROFILE_STRING': 'Default', 'HOMEDRIVE': 'C:', 'HOMEPATH': '\\Users\\hayar', 'LOCALAPPDATA': 'C:\\Users\\hayar\\AppData\\Local', 'LOGONSERVER': '\\\\DESKTOP-A187AO3', 'NUITKA_SITE_FILENAME': '3564:C:\\Users\\hayar\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site.py', 'NUMBER_OF_PROCESSORS': '12', 'ONEDRIVE': 'C:\\Users\\hayar\\OneDrive', 'ORIGINAL_XDG_CURRENT_DESKTOP': 'undefined', 'OS': 'Windows_NT', 'PAI_MODEL_DIR': 'C:\\ProgramData\\Topaz Labs LLC\\Topaz Photo AI\\models', 'PATH': 'd:\\work\\project\\NetCon\\.venv\\Scripts;C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\java8path;C:\\Program Files (x86)\\Common Files\\Oracle\\Java\\javapath;C:\\Windows\\system32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Windows\\System32\\OpenSSH\\;C:\\Program Files\\Git\\cmd;C:\\Program Files\\NVIDIA Corporation\\NVIDIA app\\NvDLISR;C:\\Program Files (x86)\\NVIDIA Corporation\\PhysX\\Common;C:\\Program Files\\dotnet\\;C:\\Program Files (x86)\\GnuWin32\\bin;C:\\Users\\hayar\\AppData\\Local\\Programs\\Python\\Python38\\Scripts\\;C:\\Users\\hayar\\AppData\\Local\\Programs\\Python\\Python38\\;C:\\Users\\hayar\\AppData\\Local\\Programs\\Python\\Python38;C:\\Users\\hayar\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;C:\\MinGW\\bin;C:\\Users\\hayar\\ffmpeg-master-latest-win64-gpl-shared\\bin;', 'PATHEXT': '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.CPL', 'PROCESSOR_ARCHITECTURE': 'AMD64', 'PROCESSOR_IDENTIFIER': 'AMD64 Family 23 Model 96 Stepping 1, AuthenticAMD', 'PROCESSOR_LEVEL': '23', 'PROCESSOR_REVISION': '6001', 'PROGRAMDATA': 'C:\\ProgramData', 'PROGRAMFILES': 'C:\\Program Files', 'PROGRAMFILES(X86)': 'C:\\Program Files (x86)', 'PROGRAMW6432': 'C:\\Program Files', 'PSMODULEPATH': 'C:\\Users\\hayar\\Documents\\WindowsPowerShell\\Modules;C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules', 'PT8HOME': 'C:\\Program Files\\Cisco Packet Tracer 8.2.0', 'PUBLIC': 'C:\\Users\\Public', 'PYTHONHASHSEED': '0', 'SESSIONNAME': 'Console', 'SYSTEMDRIVE': 'C:', 'SYSTEMROOT': 'C:\\Windows', 'TEMP': 'C:\\Users\\hayar\\AppData\\Local\\Temp', 'TMP': 'C:\\Users\\hayar\\AppData\\Local\\Temp', 'USERDOMAIN': 'DESKTOP-A187AO3', 'USERDOMAIN_ROAMINGPROFILE': 'DESKTOP-A187AO3', 'USERNAME': 'hayar', 'USERPROFILE': 'C:\\Users\\hayar', 'WINDIR': 'C:\\Windows', 'TERM_PROGRAM': 'vscode', 'TERM_PROGRAM_VERSION': '1.99.3', 'LANG': 'en_US.UTF-8', 'COLORTERM': 'truecolor', 'VSCODE_ENV_PREPEND': 'PATH=d\\x3a\\work\\project\\NetCon\\.venv\\Scripts;', 'GIT_ASKPASS': 'c:\\Users\\hayar\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\extensions\\git\\dist\\askpass.sh', 'VSCODE_GIT_ASKPASS_NODE': 'C:\\Users\\hayar\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe', 'VSCODE_GIT_ASKPASS_EXTRA_ARGS': '', 'VSCODE_GIT_ASKPASS_MAIN': 'c:\\Users\\hayar\\AppData\\Local\\Programs\\Microsoft VS Code\\resources\\app\\extensions\\git\\dist\\askpass-main.js', 'VSCODE_GIT_IPC_HANDLE': '\\\\.\\pipe\\vscode-git-e02a9da2ab-sock', 'PYDEVD_DISABLE_FILE_VALIDATION': '1', 'VSCODE_DEBUGPY_ADAPTER_ENDPOINTS': 'c:\\Users\\hayar\\.vscode\\extensions\\ms-python.debugpy-2025.6.0-win32-x64\\.noConfigDebugAdapterEndpoints\\endpoint-75d6389094c5523d.txt', 'BUNDLED_DEBUGPY_PATH': 'c:\\Users\\hayar\\.vscode\\extensions\\ms-python.debugpy-2025.6.0-win32-x64\\bundled\\libs\\debugpy', 'PROMPT': '(.venv) $P$G', 'VSCODE_ENV_REPLACE': 'PROMPT=(.venv) $P$G:VIRTUAL_ENV=d\\x3a\\work\\project\\NetCon\\.venv:_OLD_VIRTUAL_PROMPT=$P$G', 'VIRTUAL_ENV': 'd:\\work\\project\\NetCon\\.venv', '_OLD_VIRTUAL_PROMPT': '$P$G', 'VSCODE_INJECTION': '1', 'VSCODE_NONCE': 'e79daaeb-ed9f-45ea-8321-cf7616103d7d', 'VSCODE_STABLE': '1', 'NUITKA_PYTHON_EXE_PATH': 'C:\\Users\\hayar\\AppData\\Local\\Programs\\Python\\Python38\\python.exe', 'NUITKA_PACKAGE_DIR': 'C:\\Users\\hayar\\AppData\\Local\\Programs\\Python\\Python38\\lib\\site-packages\\nuitka', 'NUITKA_CACHE_DIR_DOWNLOADS': 'C:\\Users\\hayar\\AppData\\Local\\Nuitka\\Nuitka\\Cache\\DOWNLO~1', '_NUITKA_BUILD_DEFINITIONS_CATALOG': '_NUITKA_BUILD_DEFINITIONS_CATALOG', 'NUITKA_QUIET': '0'},
+    shell=False
+)
+``
+### D:\vs_projects\net-constructor\package\app.py
 ``python
 import sys
 
@@ -428,7 +479,7 @@ class App:
             print(f"Error: {e}")
 
 ``
-### D:\projects\net-constructor\package\constants.py
+### D:\vs_projects\net-constructor\package\constants.py
 ``python
 # constants.py
 
@@ -563,11 +614,11 @@ class DiagramToDiagram:
         return mapping.get(new_diagram_type_id, {}).get(object_type_id, None)
 
 ``
-### D:\projects\net-constructor\package\__init__.py
+### D:\vs_projects\net-constructor\package\__init__.py
 ``python
 
 ``
-### D:\projects\net-constructor\package\components\changeorderdialog.py
+### D:\vs_projects\net-constructor\package\components\changeorderdialog.py
 ``python
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QPushButton, QHBoxLayout, QListWidget, QListWidgetItem
 from PySide6.QtCore import Qt
@@ -667,7 +718,7 @@ class ChangeOrderDialog(QDialog):
         return self.__data
 
 ``
-### D:\projects\net-constructor\package\components\controlsectordeletedialog.py
+### D:\vs_projects\net-constructor\package\components\controlsectordeletedialog.py
 ``python
 from PySide6.QtWidgets import (
     QDialog,
@@ -715,7 +766,7 @@ class ControlSectorDeleteDialog(QDialog):
         return None
 
 ``
-### D:\projects\net-constructor\package\components\diagramtypeselectdialog.py
+### D:\vs_projects\net-constructor\package\components\diagramtypeselectdialog.py
 ``python
 from PySide6.QtWidgets import (
     QDialog, QVBoxLayout, QListWidget, QLabel, QDialogButtonBox, QHBoxLayout, QListWidgetItem
@@ -782,7 +833,7 @@ class DiagramTypeSelectDialog(QDialog):
         super().accept()
 
 ``
-### D:\projects\net-constructor\package\components\mainwindow.py
+### D:\vs_projects\net-constructor\package\components\mainwindow.py
 ``python
 # mainwindow.py
 from PySide6.QtWidgets import (
@@ -812,9 +863,11 @@ from PySide6.QtWidgets import (
     QToolButton,
     QStyle,
     QHBoxLayout,
+    QStyledItemDelegate
 )
-from PySide6.QtGui import QIntValidator, QFont, QColor, QFontMetrics, QKeySequence, QAction, QIcon
-from PySide6.QtCore import Qt, QModelIndex, QLocale
+
+from PySide6.QtGui import QRegularExpressionValidator, QIntValidator, QFont, QColor, QFontMetrics, QKeySequence, QAction, QIcon
+from PySide6.QtCore import QRegularExpression, Qt, QModelIndex, QLocale, QSettings
 
 import package.controllers.style as style
 import package.controllers.icons as icons
@@ -873,12 +926,15 @@ class MainWindow(QMainWindow):
             
 
     def config(self):
+        # тема
+        self.__settings = QSettings("MyCompany", "MyApp")
+        self.__theme_name = self.__settings.value("theme_name", "dark")
         # СТИЛЬ
         self.__obj_style = style.Style()
-        self.__obj_style.set_style_for_mw_by_name(self)
+        self.__obj_style.set_style_for_mw_by_name(self, self.__theme_name)
         # + иконки
         self.__obj_icons = icons.Icons()
-        self.__obj_icons.set_icons_for_mw_by_name(self)
+        self.__obj_icons.set_icons_for_mw_by_name(self, self.__theme_name)       
         #
         self.resize(1366, 768)
         self.ui.centralwidget_splitter.setSizes([806, 560])
@@ -924,6 +980,7 @@ class MainWindow(QMainWindow):
         self.ui.light_action.triggered.connect(lambda: self._change_theme("light"))
 
     def _change_theme(self, theme_name):
+        self.__settings.setValue("theme_name", theme_name)
         self.__obj_style.set_style_for_mw_by_name(self, theme_name)
         self.__obj_icons.set_icons_for_mw_by_name(self, theme_name)
         # self.setStyleSheet(style)
@@ -1070,6 +1127,10 @@ class MainWindow(QMainWindow):
                     **type_object_parameters_widgets,
                     **objects_parameters_widgets,
                 }
+
+                # TODO Если соединение - то нужно получить значения Название и Физ. длина из таблицы 
+                ...
+                
 
             elif self.ui.tabw_right.currentIndex() == 3:
                 is_control_sector_tab = True
@@ -1529,11 +1590,13 @@ class MainWindow(QMainWindow):
 
             for index, cs in enumerate(control_sectors):
                 item_number = QTableWidgetItem(str(index + 1))
+                item_number.setFlags(item_number.flags() & ~Qt.ItemIsEditable)  # Только чтение
                 table_widget.setItem(index, 0, item_number)
 
                 cs_name = cs.get("data_pars", {}).get("cs_name", {}).get("value", "")
-                item = QTableWidgetItem(cs_name)
-                table_widget.setItem(index, 1, item)
+                item_name = QTableWidgetItem(cs_name)
+                item_name.setFlags(item_name.flags() | Qt.ItemIsEditable)
+                table_widget.setItem(index, 1, item_name)
 
                 physical_length = (
                     cs.get("data_pars", {})
@@ -1541,17 +1604,21 @@ class MainWindow(QMainWindow):
                     .get("value", 0)
                 )
                 item_length = QTableWidgetItem(str(physical_length))
+                item_length.setFlags(item_length.flags() | Qt.ItemIsEditable)
+                
+                # делегат для валидации ввода
+                class FloatDelegate(QStyledItemDelegate):
+                    def createEditor(self, parent, option, index):
+                        editor = QLineEdit(parent)
+                        validator = QRegularExpressionValidator(
+                            QRegularExpression(r'^\d*[,.]?\d*$'),  # Разрешены только цифры, точка или запятая
+                            editor
+                        )
+                        editor.setValidator(validator)
+                        return editor
+                
+                table_widget.setItemDelegateForColumn(2, FloatDelegate(table_widget))
                 table_widget.setItem(index, 2, item_length)
-
-                # if index < len(control_sectors) - 1:
-                    # is_wrap = cs.get("is_wrap", False)
-                    # btn_wrap = QPushButton("Не переносить" if is_wrap else "Переносить")
-                    # table_widget.setCellWidget(index, 3, btn_wrap)
-                    # btn_wrap.clicked.connect(partial(self._wrap_control_sector, cs))
-                # else:
-                #     empty_item = QTableWidgetItem("")
-                #     empty_item.setFlags(empty_item.flags() & ~Qt.ItemIsEditable)
-                #     table_widget.setItem(index, 3, empty_item)
 
                 btn_edit = QPushButton("Редактировать")
                 table_widget.setCellWidget(index, 3, btn_edit)
@@ -1562,14 +1629,13 @@ class MainWindow(QMainWindow):
             header.setSectionResizeMode(1, QHeaderView.Stretch)
             header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
             header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
-            # header.setSectionResizeMode(4, QHeaderView.ResizeToContents)
-            table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
+
             # Контекстное меню
             table_widget.setContextMenuPolicy(Qt.CustomContextMenu)
             table_widget.customContextMenuRequested.connect(
                 self.control_sector_table_context_menu
             )
-            #
+            
             table_widget.blockSignals(False)
 
         self._save_and_restore_scroll_position(
@@ -2440,7 +2506,7 @@ class MainWindow(QMainWindow):
         return widget
 
 ``
-### D:\projects\net-constructor\package\components\nodeconnectiondeletedialog.py
+### D:\vs_projects\net-constructor\package\components\nodeconnectiondeletedialog.py
 ``python
 # # nodeconnectiondeletedialog.py
 
@@ -2519,7 +2585,7 @@ class MainWindow(QMainWindow):
 # # 
 
 ``
-### D:\projects\net-constructor\package\components\nodeconnectionselectdialog.py
+### D:\vs_projects\net-constructor\package\components\nodeconnectionselectdialog.py
 ``python
 from PySide6.QtWidgets import (
     QDialog,
@@ -2672,15 +2738,15 @@ class NodeConnectSelectDialog(QDialog):
             "connection": self.combo_box_connections.currentData()
         }
 ``
-### D:\projects\net-constructor\package\components\__init__.py
+### D:\vs_projects\net-constructor\package\components\__init__.py
 ``python
 
 ``
-### D:\projects\net-constructor\package\components\__pycache__\__init__.py
+### D:\vs_projects\net-constructor\package\components\__pycache__\__init__.py
 ``python
 
 ``
-### D:\projects\net-constructor\package\controllers\icons.py
+### D:\vs_projects\net-constructor\package\controllers\icons.py
 ``python
 from PySide6.QtGui import QAction, QIcon
 from PySide6.QtCore import QSize
@@ -2704,7 +2770,7 @@ class Icons:
             icon.addFile(icon_path, QSize(), QIcon.Normal, QIcon.Off)
             action.setIcon(icon)
 ``
-### D:\projects\net-constructor\package\controllers\imagewidget.py
+### D:\vs_projects\net-constructor\package\controllers\imagewidget.py
 ``python
 # imagewidget.py
 
@@ -2867,7 +2933,7 @@ class ImageWidget(QWidget):
         self.update()
 
 ``
-### D:\projects\net-constructor\package\controllers\style.py
+### D:\vs_projects\net-constructor\package\controllers\style.py
 ``python
 
 class Style:
@@ -3823,6 +3889,7 @@ QToolBar QToolButton:checked {
 """
 
 
+
 lqss = """
 /*!*************************************
     VS15 Light
@@ -4602,10 +4669,12 @@ QToolBar QToolButton:disabled {
 QToolBar QToolButton:checked {
     background-color: #4a90e2;
 }
+
+
 """
 
 ``
-### D:\projects\net-constructor\package\modules\configs.py
+### D:\vs_projects\net-constructor\package\modules\configs.py
 ``python
 import json
 
@@ -4758,7 +4827,7 @@ class Configs:
         )
 
 ``
-### D:\projects\net-constructor\package\modules\diagramdrawer.py
+### D:\vs_projects\net-constructor\package\modules\diagramdrawer.py
 ``python
 # diagramdrawer.py
 
@@ -5302,7 +5371,7 @@ class DiagramDrawer:
         connection_obj.draw()
 
 ``
-### D:\projects\net-constructor\package\modules\dirpathmanager.py
+### D:\vs_projects\net-constructor\package\modules\dirpathmanager.py
 ``python
 
 
@@ -5317,7 +5386,7 @@ class DirPathManager:
     def get_dir_app(self):
         return self.__dir_app
 ``
-### D:\projects\net-constructor\package\modules\drawconnection.py
+### D:\vs_projects\net-constructor\package\modules\drawconnection.py
 ``python
 from PySide6.QtWidgets import QWidget
 from PySide6.QtGui import QPainter, QColor, QPen, QBrush, QImage, QFont, QPolygon
@@ -6027,7 +6096,7 @@ class DrawConnection:
         )
 
 ``
-### D:\projects\net-constructor\package\modules\drawdataparameters.py
+### D:\vs_projects\net-constructor\package\modules\drawdataparameters.py
 ``python
 
 class DrawData:
@@ -6108,7 +6177,7 @@ class DrawParameters:
     
 
 ``
-### D:\projects\net-constructor\package\modules\drawnode.py
+### D:\vs_projects\net-constructor\package\modules\drawnode.py
 ``python
 from PySide6.QtWidgets import QWidget
 from PySide6.QtGui import QPainter, QPen, QBrush, QImage, QFont, QPolygon
@@ -6961,7 +7030,7 @@ class DrawNode:
 
 
 ``
-### D:\projects\net-constructor\package\modules\drawobject.py
+### D:\vs_projects\net-constructor\package\modules\drawobject.py
 ``python
 from PySide6.QtWidgets import QWidget
 from PySide6.QtGui import QPainter, QPen, QBrush, QImage, QFont, QPolygon
@@ -7051,7 +7120,7 @@ class DrawObject:
             self.__painter.drawLine(QPoint(x - length, y), QPoint(x, y))
 
 ``
-### D:\projects\net-constructor\package\modules\drawtext.py
+### D:\vs_projects\net-constructor\package\modules\drawtext.py
 ``python
 class DrawText:
     def __init__(self):
@@ -7258,7 +7327,7 @@ class DrawText:
         self.__painter.drawText(text_x, text_y, text)
 
 ``
-### D:\projects\net-constructor\package\modules\numberformatter.py
+### D:\vs_projects\net-constructor\package\modules\numberformatter.py
 ``python
 class NumberFormatter:
 
@@ -7286,7 +7355,7 @@ class NumberFormatter:
 
 
 ``
-### D:\projects\net-constructor\package\modules\painterconfigurator.py
+### D:\vs_projects\net-constructor\package\modules\painterconfigurator.py
 ``python
 from PySide6.QtGui import QPainter, QPen, QBrush, QImage, QFont, QPolygon, QColor, QTextOption
 from PySide6.QtCore import Qt
@@ -7358,7 +7427,7 @@ class PainterConfigurator:
         return self.__painter
 
 ``
-### D:\projects\net-constructor\package\modules\project.py
+### D:\vs_projects\net-constructor\package\modules\project.py
 ``python
 # project.py
 
@@ -8094,7 +8163,7 @@ class Project:
         return self.__copied_control_sector_data is not None
 
 ``
-### D:\projects\net-constructor\package\ui\mainwindow_ui.py
+### D:\vs_projects\net-constructor\package\ui\mainwindow_ui.py
 ``python
 # -*- coding: utf-8 -*-
 
@@ -8721,7 +8790,7 @@ class Ui_MainWindow(object):
 
 
 ``
-### D:\projects\net-constructor\package\ui\__init__.py
+### D:\vs_projects\net-constructor\package\ui\__init__.py
 ``python
 
 ``

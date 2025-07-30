@@ -952,6 +952,7 @@ QToolBar QToolButton:checked {
 """
 
 
+
 lqss = """
 /*!*************************************
     VS15 Light
@@ -1731,4 +1732,6 @@ QToolBar QToolButton:disabled {
 QToolBar QToolButton:checked {
     background-color: #4a90e2;
 }
+
+
 """
