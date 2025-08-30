@@ -172,6 +172,13 @@ class MainWindow(QMainWindow):
             self.statusBar().showMessage("Проект не открыт")
 
     def _toggle_parameters_visibility(self):
+        # Обновляем все вкладки при изменении видимости параметров
+        project_data = self.__obsm.obj_project.get_data()
+        
+        # Обновляем главную вкладку (Основные настройки)
+        self._reset_widgets_by_data(project_data)
+        
+        # Если находимся на вкладке редактирования объекта, обновляем её тоже
         if self.ui.tabw_right.currentIndex() == 2:
             obj = self.__current_object
             is_node = self.__current_is_node
@@ -179,9 +186,6 @@ class MainWindow(QMainWindow):
             self._create_editor_parameters_widgets_by_object(obj, is_node)
         elif self.ui.tabw_right.currentIndex() == 3:
             self._create_control_sector_widgets(self.__current_control_sector)
-        else:
-            project_data = self.__obsm.obj_project.get_data()
-            self._reset_widgets_by_data(project_data)
 
     def create_file_nce(self):
         file_name, _ = QFileDialog.getSaveFileName(self, " ", "", self.__text_format)
@@ -613,6 +617,7 @@ class MainWindow(QMainWindow):
             self.ui.fl_diagram_parameters,
             config_diagram_parameters,
             diagram_parameters,
+            combined_data_parameters=False,
         )
         self.ui.label_diagram_parameters.setVisible(flag)
         self.ui.line_p_dia.setVisible(flag)
@@ -1505,6 +1510,7 @@ class MainWindow(QMainWindow):
             self.ui.fl_object_parameters,
             config_object_parameters,
             object_parameters,
+            combined_data_parameters=False,
         )
         self.ui.label_object_parameters.setVisible(flag)
         self.ui.line_pars.setVisible(flag)
@@ -1514,6 +1520,7 @@ class MainWindow(QMainWindow):
             self.ui.fl_type_object_parameters,
             config_type_object_parameters,
             object_parameters,
+            combined_data_parameters=False,
         )
         self.ui.label_type_object_parameters.setVisible(flag)
         self.ui.line_type_pars.setVisible(flag)
@@ -1523,6 +1530,7 @@ class MainWindow(QMainWindow):
             self.ui.fl_objects_parameters,
             config_objects_parameters,
             object_parameters,
+            combined_data_parameters=False,
         )
         self.ui.label_objects_parameters.setVisible(flag)
         self.ui.line_global_pars.setVisible(flag)
