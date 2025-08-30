@@ -173,7 +173,7 @@ class DrawConnection:
         # RT
         text = (
             pars.get_sp("префикс_физическая_длина")
-            + nf.get(data.get_sd("физическая_длина"))
+            + nf.get(data.get_sd("физ_и_опт_длины", "фд"))
             + pars.get_sp("постфикс_расстояния")
         )
         drawtext.DrawText().draw_singleline_text_by_hr_vb(
@@ -188,7 +188,7 @@ class DrawConnection:
         # RB
         text = (
             pars.get_sp("префикс_оптическая_длина")
-            + nf.get(data.get_sd("оптическая_длина"))
+            + nf.get(data.get_sd("физ_и_опт_длины", "од"))
             + pars.get_sp("постфикс_расстояния")
         )
         drawtext.DrawText().draw_singleline_text_by_hr_vt(
@@ -374,7 +374,7 @@ class DrawConnection:
 
         draw_text_caption(
             pars.get_sp("префикс_физическая_длина")
-            + nf.get(data.get_sd("физическая_длина"))
+            + nf.get(data.get_sd("физ_и_опт_длины", "фд"))
             + pars.get_sp("постфикс_расстояния"),
             (2 * self.__x + pars.get_sp("connection_length")) // 2,
             self.__y - pars.get_sp("connection_main_caption_vertical_padding"),
@@ -383,7 +383,7 @@ class DrawConnection:
 
         draw_text_caption(
             pars.get_sp("префикс_оптическая_длина")
-            + nf.get(data.get_sd("оптическая_длина"))
+            + nf.get(data.get_sd("физ_и_опт_длины", "од"))
             + pars.get_sp("постфикс_расстояния"),
             (2 * self.__x + pars.get_sp("connection_length")) // 2,
             self.__y + pars.get_sp("connection_main_caption_vertical_padding"),
@@ -597,7 +597,7 @@ class DrawConnection:
             draw_main_line(
                 pars.get_sp("connection_length"),
                 data.get_sd("название"),
-                data.get_sd("физическая_длина"),
+                data.get_sd("физ_и_опт_длины", "фд"),
                 True,
                 True,
             )
@@ -652,7 +652,7 @@ class DrawConnection:
         #
         drawtext.DrawText().draw_multiline_text_by_hc_vb(
             get_painter_text_caption,
-            nf.get(data.get_sd("оптическая_длина"))
+            nf.get(data.get_sd("физ_и_опт_длины", "од"))
             + pars.get_sp("постфикс_расстояния"),
             center_x,
             self.__y - pars.get_sp("connection_main_caption_vertical_padding"),
@@ -670,7 +670,7 @@ class DrawConnection:
         start_metka = str(start_metka_value).zfill(4)
 
         # Получаем значение физической длины (если пустое или не число - используем 0)
-        physical_length_str = data.get_sd("физическая_длина")
+        physical_length_str = data.get_sd("физ_и_опт_длины", "фд")
         try:
             physical_length = (
                 int(float(physical_length_str)) if physical_length_str else 0
@@ -698,7 +698,7 @@ class DrawConnection:
             get_painter_text_caption,
             text_metki
             + "\n"
-            + nf.get(data.get_sd("физическая_длина"))
+            + nf.get(data.get_sd("физ_и_опт_длины", "фд"))
             + pars.get_sp("постфикс_расстояния"),
             center_x,
             self.__y + pars.get_sp("connection_main_caption_vertical_padding"),

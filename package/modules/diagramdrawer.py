@@ -272,11 +272,11 @@ class DiagramDrawer:
                 # Так по идее не работает config_connection.get("data", {})
                 config_data = config_connection.get("data", {})
                 connection_optical_length = data.get(
-                    "оптическая_длина", config_data.get("оптическая_длина", {})
-                ).get("value", 0)
+                    "физ_и_опт_длины", config_data.get("физ_и_опт_длины", {})
+                ).get("value", {}).get("од", 0)
                 connection_physical_length = data.get(
-                    "физическая_длина", config_data.get("физическая_длина", {})
-                ).get("value", 0)
+                    "физ_и_опт_длины", config_data.get("физ_и_опт_длины", {})
+                ).get("value", {}).get("фд", 0)
                 # сектора
                 control_sectors = connection.get("control_sectors", [])
                 # рисуем соединение

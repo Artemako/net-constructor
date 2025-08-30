@@ -24,7 +24,7 @@
                 "type": "number_int_signed"
             },
             "node_is_connected_with_thin_line_location": {
-                "value": true,
+                "value": 2,
                 "name": "Cоединение с тонкой линией местоположения",
                 "order": 10,
                 "type": "bool"
@@ -32,7 +32,7 @@
         },
         "type_object_parameters": {
             "node_radius": {
-                "value": 20,
+                "value": 40,
                 "name": "Радиус маленького круга вершин",
                 "order": 55
             }
@@ -45,7 +45,7 @@
                 "type": "color"
             },
             "node_border_weight": {
-                "value": 2,
+                "value": 4,
                 "name": "Толщина рамки вершин",
                 "order": 52
             },
@@ -74,17 +74,17 @@
                 "type": "color"
             },
             "node_name_pixel_size": {
-                "value": 16,
+                "value": 32,
                 "name": "Размер шрифта названия вершины",
                 "order": 102
             },
             "node_name_height": {
-                "value": 45,
+                "value": 90,
                 "name": "Высота названия над вершиной",
                 "order": 103
             },
             "node_name_max_width": {
-                "value": 200,
+                "value": 400,
                 "name": "Максимальная ширина названия вершины",
                 "order": 104
             }
@@ -110,7 +110,7 @@
                 "type": "number_int_signed"
             },
             "node_is_connected_with_thin_line_location": {
-                "value": true,
+                "value": 2,
                 "name": "Cоединение с тонкой линией местоположения",
                 "order": 10,
                 "type": "bool"
@@ -118,7 +118,7 @@
         },
         "type_object_parameters": {
             "node_radius": {
-                "value": 20,
+                "value": 40,
                 "name": "Радиус маленького круга вершин",
                 "order": 55
             }
@@ -137,7 +137,7 @@
                 "type": "color"
             },
             "node_border_weight": {
-                "value": 2,
+                "value": 4,
                 "name": "Толщина рамки вершин",
                 "order": 52
             },
@@ -166,17 +166,17 @@
                 "type": "color"
             },
             "node_name_pixel_size": {
-                "value": 16,
+                "value": 32,
                 "name": "Размер шрифта названия вершины",
                 "order": 102
             },
             "node_name_height": {
-                "value": 45,
+                "value": 90,
                 "name": "Высота названия над вершиной",
                 "order": 103
             },
             "node_name_max_width": {
-                "value": 200,
+                "value": 400,
                 "name": "Максимальная ширина названия вершины",
                 "order": 104
             }
@@ -209,7 +209,7 @@
         },
         "type_object_parameters": {
             "node_radius": {
-                "value": 20,
+                "value": 40,
                 "name": "Радиус маленького круга вершин",
                 "order": 5
             }
@@ -222,7 +222,7 @@
                 "type": "color"
             },
             "node_border_weight": {
-                "value": 2,
+                "value": 4,
                 "name": "Толщина рамки вершин",
                 "order": 2
             },
@@ -251,17 +251,17 @@
                 "type": "color"
             },
             "node_name_pixel_size": {
-                "value": 16,
+                "value": 32,
                 "name": "Размер шрифта названия вершины",
                 "order": 52
             },
             "node_name_height": {
-                "value": 90,
+                "value": 180,
                 "name": "Высота названия над вершиной",
                 "order": 53
             },
             "node_name_max_width": {
-                "value": 200,
+                "value": 400,
                 "name": "Максимальная ширина названия вершины",
                 "order": 54
             },
@@ -278,28 +278,28 @@
                 "type": "color"
             },
             "node_caption_pixel_size": {
-                "value": 15,
+                "value": 30,
                 "name": "Размер шрифта подписей вершин",
                 "order": 102
             },
             "node_caption_vertical_padding": {
-                "value": 5,
+                "value": 10,
                 "name": "Высота подписей над/под стрелками",
                 "order": 103
             },
             "node_caption_horizontal_padding": {
-                "value": 20,
+                "value": 40,
                 "name": "Боковой отступ подписей от вертикальных тонких линий",
                 "order": 104
             },
             "is_top_node_top_caption": {
-                "value": true,
+                "value": 2,
                 "name": "Расположение верхних подписей вершин над/под стрелками",
                 "order": 105,
                 "type": "bool"
             },
             "is_top_node_bottom_caption": {
-                "value": true,
+                "value": 2,
                 "name": "Расположение нижних подписей вершин над/под стрелками",
                 "order": 106,
                 "type": "bool"
@@ -317,22 +317,22 @@
                 "type": "title"
             },
             "to_left_and_to_right_arrow_length": {
-                "value": 65,
+                "value": 130,
                 "name": "Длина линии стрелок подписей вершин",
                 "order": 151
             },
             "delta_node_and_to_right_arrow": {
-                "value": 55,
+                "value": 110,
                 "name": "Расстояние между вершиной и стрелками вправо подписей",
                 "order": 152
             },
             "delta_node_and_to_left_arrow": {
-                "value": 65,
+                "value": 130,
                 "name": "Расстояние между вершиной и стрелками влево подписей",
                 "order": 153
             },
             "distance_thin_line_after_connection_y": {
-                "value": 10,
+                "value": 20,
                 "name": "Расстояние тонкой линии после соединения со стрелками подписей по Y",
                 "order": 154
             }
@@ -360,7 +360,7 @@
         },
         "type_object_parameters": {
             "node_radius": {
-                "value": 20,
+                "value": 40,
                 "name": "Радиус маленького круга вершин",
                 "order": 5
             }
@@ -373,7 +373,7 @@
                 "type": "color"
             },
             "node_border_weight": {
-                "value": 2,
+                "value": 4,
                 "name": "Толщина рамки вершин",
                 "order": 2
             },
@@ -402,17 +402,17 @@
                 "type": "color"
             },
             "node_name_pixel_size": {
-                "value": 16,
+                "value": 32,
                 "name": "Размер шрифта названия вершины",
                 "order": 52
             },
             "node_name_height": {
-                "value": 90,
+                "value": 180,
                 "name": "Высота названия над вершиной",
                 "order": 53
             },
             "node_name_max_width": {
-                "value": 200,
+                "value": 400,
                 "name": "Максимальная ширина названия вершины",
                 "order": 54
             },
@@ -429,28 +429,28 @@
                 "type": "color"
             },
             "node_caption_pixel_size": {
-                "value": 15,
+                "value": 30,
                 "name": "Размер шрифта подписей вершин",
                 "order": 102
             },
             "node_caption_vertical_padding": {
-                "value": 5,
+                "value": 10,
                 "name": "Высота подписей над/под стрелками",
                 "order": 103
             },
             "node_caption_horizontal_padding": {
-                "value": 20,
+                "value": 40,
                 "name": "Боковой отступ подписей от вертикальных тонких линий",
                 "order": 104
             },
             "is_top_node_top_caption": {
-                "value": true,
+                "value": 2,
                 "name": "Расположение верхних подписей вершин над/под стрелками",
                 "order": 105,
                 "type": "bool"
             },
             "is_top_node_bottom_caption": {
-                "value": true,
+                "value": 2,
                 "name": "Расположение нижних подписей вершин над/под стрелками",
                 "order": 106,
                 "type": "bool"
@@ -468,22 +468,22 @@
                 "type": "title"
             },
             "to_left_and_to_right_arrow_length": {
-                "value": 65,
+                "value": 130,
                 "name": "Длина линии стрелок подписей вершин",
                 "order": 151
             },
             "delta_node_and_to_right_arrow": {
-                "value": 55,
+                "value": 110,
                 "name": "Расстояние между вершиной и стрелками вправо подписей",
                 "order": 152
             },
             "delta_node_and_to_left_arrow": {
-                "value": 65,
+                "value": 130,
                 "name": "Расстояние между вершиной и стрелками влево подписей",
                 "order": 153
             },
             "distance_thin_line_after_connection_y": {
-                "value": 10,
+                "value": 20,
                 "name": "Расстояние тонкой линии после соединения со стрелками подписей по Y",
                 "order": 154
             }
@@ -522,7 +522,7 @@
                 "type": "color"
             },
             "node_border_weight": {
-                "value": 2,
+                "value": 4,
                 "name": "Толщина рамки вершин",
                 "order": 2
             },
@@ -539,7 +539,7 @@
                 "type": "fill_style"
             },
             "node_radius": {
-                "value": 20,
+                "value": 40,
                 "name": "Радиус маленького круга вершин",
                 "order": 5
             },
@@ -556,17 +556,17 @@
                 "type": "color"
             },
             "node_name_pixel_size": {
-                "value": 16,
+                "value": 32,
                 "name": "Размер шрифта названия вершины",
                 "order": 52
             },
             "node_name_height": {
-                "value": 60,
+                "value": 120,
                 "name": "Высота названия над вершиной",
                 "order": 53
             },
             "node_name_max_width": {
-                "value": 200,
+                "value": 400,
                 "name": "Максимальная ширина названия вершины",
                 "order": 54
             }
@@ -585,12 +585,12 @@
                 "type": "color"
             },
             "node_caption_physics_pixel_size": {
-                "value": 15,
+                "value": 30,
                 "name": "Размер шрифта подписей физ. длин вершин",
                 "order": 102
             },
             "node_caption_physics_vertical_padding": {
-                "value": 40,
+                "value": 80,
                 "name": "Высота подписей физ. длин под вершинами",
                 "order": 103
             },
@@ -641,7 +641,7 @@
                 "type": "color"
             },
             "node_border_weight": {
-                "value": 2,
+                "value": 4,
                 "name": "Толщина рамки вершин",
                 "order": 2
             },
@@ -658,12 +658,12 @@
                 "type": "fill_style"
             },
             "node_width": {
-                "value": 120,
+                "value": 240,
                 "name": "Ширина вершин",
                 "order": 5
             },
             "node_height": {
-                "value": 40,
+                "value": 80,
                 "name": "Высота вершин",
                 "order": 6
             },
@@ -680,17 +680,17 @@
                 "type": "color"
             },
             "node_name_pixel_size": {
-                "value": 16,
+                "value": 32,
                 "name": "Размер шрифта названия вершины",
                 "order": 52
             },
             "node_name_height": {
-                "value": 60,
+                "value": 120,
                 "name": "Высота названия над вершиной",
                 "order": 53
             },
             "node_name_max_width": {
-                "value": 200,
+                "value": 400,
                 "name": "Максимальная ширина названия вершины",
                 "order": 54
             },
@@ -707,7 +707,7 @@
                 "type": "color"
             },
             "node_name_add_pixel_size": {
-                "value": 16,
+                "value": 32,
                 "name": "Размер шрифта диапазона вершины",
                 "order": 102
             }
@@ -726,12 +726,12 @@
                 "type": "color"
             },
             "node_caption_physics_pixel_size": {
-                "value": 15,
+                "value": 30,
                 "name": "Размер шрифта подписей физ. длин вершин",
                 "order": 102
             },
             "node_caption_physics_vertical_padding": {
-                "value": 40,
+                "value": 80,
                 "name": "Высота подписей физ. длин под вершинами",
                 "order": 103
             },
@@ -776,7 +776,7 @@
                 "type": "color"
             },
             "node_border_weight": {
-                "value": 2,
+                "value": 4,
                 "name": "Толщина рамки вершин",
                 "order": 2
             },
@@ -793,7 +793,7 @@
                 "type": "fill_style"
             },
             "node_radius": {
-                "value": 20,
+                "value": 40,
                 "name": "Радиус маленького круга вершин",
                 "order": 5
             },
@@ -810,7 +810,7 @@
                 "type": "color"
             },
             "node_name_add_pixel_size": {
-                "value": 16,
+                "value": 32,
                 "name": "Размер шрифта номера вершины",
                 "order": 102
             }
@@ -829,17 +829,17 @@
                 "type": "color"
             },
             "node_name_pixel_size": {
-                "value": 16,
+                "value": 32,
                 "name": "Размер шрифта названия вершины",
                 "order": 52
             },
             "node_name_height": {
-                "value": 60,
+                "value": 120,
                 "name": "Высота названия над вершиной",
                 "order": 53
             },
             "node_name_max_width": {
-                "value": 200,
+                "value": 400,
                 "name": "Максимальная ширина названия вершины",
                 "order": 54
             }
@@ -879,7 +879,7 @@
                 "type": "color"
             },
             "node_border_weight": {
-                "value": 2,
+                "value": 4,
                 "name": "Толщина рамки вершин",
                 "order": 2
             },
@@ -896,12 +896,12 @@
                 "type": "fill_style"
             },
             "node_width": {
-                "value": 120,
+                "value": 240,
                 "name": "Ширина вершин",
                 "order": 5
             },
             "node_height": {
-                "value": 40,
+                "value": 80,
                 "name": "Высота вершин",
                 "order": 6
             }
@@ -920,20 +920,20 @@
                 "type": "color"
             },
             "node_name_pixel_size": {
-                "value": 16,
+                "value": 32,
                 "name": "Размер шрифта названия вершины",
                 "order": 52
             },
             "node_name_height": {
-                "value": 60,
+                "value": 120,
                 "name": "Высота названия над вершиной",
                 "order": 53
             },
             "node_name_max_width": {
-                "value": 200,
+                "value": 400,
                 "name": "Максимальная ширина названия вершины",
                 "order": 54
-            }            
+            }
         }
     }
 }

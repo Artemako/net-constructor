@@ -26,10 +26,20 @@ from PySide6.QtWidgets import (
     QToolButton,
     QStyle,
     QHBoxLayout,
-    QStyledItemDelegate
+    QStyledItemDelegate,
+    QWidget,
 )
 
-from PySide6.QtGui import QRegularExpressionValidator, QIntValidator, QFont, QColor, QFontMetrics, QKeySequence, QAction, QIcon
+from PySide6.QtGui import (
+    QRegularExpressionValidator,
+    QIntValidator,
+    QFont,
+    QColor,
+    QFontMetrics,
+    QKeySequence,
+    QAction,
+    QIcon,
+)
 from PySide6.QtCore import QRegularExpression, Qt, QModelIndex, QLocale, QSettings
 
 import package.controllers.style as style
@@ -86,7 +96,6 @@ class MainWindow(QMainWindow):
             self.ui.tabw_right.tabBar().setTabVisible(3, False)
             self._clear_error_messages()
             self._validate_connection(self.__current_object, show_errors=True)
-            
 
     def config(self):
         # тема
@@ -97,7 +106,7 @@ class MainWindow(QMainWindow):
         self.__obj_style.set_style_for_mw_by_name(self, self.__theme_name)
         # + иконки
         self.__obj_icons = icons.Icons()
-        self.__obj_icons.set_icons_for_mw_by_name(self, self.__theme_name)       
+        self.__obj_icons.set_icons_for_mw_by_name(self, self.__theme_name)
         #
         self.resize(1366, 768)
         self.ui.centralwidget_splitter.setSizes([806, 560])
@@ -149,9 +158,6 @@ class MainWindow(QMainWindow):
         # self.setStyleSheet(style)
         # QApplication.instance().setStyleSheet(style)
 
-
-
-
     def _start_qt_actions(self):
         self.ui.action_new.setEnabled(True)
         self.ui.action_open.setEnabled(True)
@@ -176,7 +182,6 @@ class MainWindow(QMainWindow):
         else:
             project_data = self.__obsm.obj_project.get_data()
             self._reset_widgets_by_data(project_data)
-
 
     def create_file_nce(self):
         file_name, _ = QFileDialog.getSaveFileName(self, " ", "", self.__text_format)
@@ -291,19 +296,27 @@ class MainWindow(QMainWindow):
                     **objects_parameters_widgets,
                 }
 
-                # Если соединение - то нужно получить значения Название и Физ. длина из таблицы 
+                # Если соединение - то нужно получить значения Название и Физ. длина из таблицы
                 if not self.__current_is_node and self.__current_object is not None:
                     control_sectors = self.__current_object.get("control_sectors", [])
                     for row, cs in enumerate(control_sectors):
                         # Получаем виджеты из таблицы
                         item_cs_name = self.ui.tw_control_sectors.item(row, 1)
-                        item_cs_physical_length = self.ui.tw_control_sectors.item(row, 2)
+                        item_cs_physical_length = self.ui.tw_control_sectors.item(
+                            row, 2
+                        )
                         if item_cs_name:
-                            cs["data_pars"]["cs_name"]["value"] = item_cs_name.text().strip()
+                            cs["data_pars"]["cs_name"]["value"] = (
+                                item_cs_name.text().strip()
+                            )
                         if item_cs_physical_length:
                             try:
-                                length_val = float(item_cs_physical_length.text().replace(',', '.'))
-                                cs["data_pars"]["cs_physical_length"]["value"] = length_val
+                                length_val = float(
+                                    item_cs_physical_length.text().replace(",", ".")
+                                )
+                                cs["data_pars"]["cs_physical_length"]["value"] = (
+                                    length_val
+                                )
                             except (ValueError, TypeError):
                                 pass  # Оставить старое значение, если не число
 
@@ -402,6 +415,22 @@ class MainWindow(QMainWindow):
                 or widget_type == "number_float"
             ):
                 new_data_or_parameters[key] = {"value": widget.value()}
+            elif widget_type == "physical_length_calculator":
+                try:
+                    coeff = float(widget.coefficient_input.text().replace(",", "."))
+                except (ValueError, TypeError):
+                    coeff = 1.0  # Значение по умолчанию при ошибке
+                    
+                new_data_or_parameters[key] = {
+                    "value": {
+                        "од": widget.optical_length_input.value(),
+                        "к": coeff,
+                        "фд": widget.physical_length_input.value(),
+                    }
+                }
+            elif widget_type == "list_with_custom":
+                current_text = widget.currentText()
+                new_data_or_parameters[key] = {"value": current_text}
             else:
                 if is_parameters:
                     new_data_or_parameters[key] = {"value": widget.value()}
@@ -762,7 +791,9 @@ class MainWindow(QMainWindow):
 
             for index, cs in enumerate(control_sectors):
                 item_number = QTableWidgetItem(str(index + 1))
-                item_number.setFlags(item_number.flags() & ~Qt.ItemIsEditable)  # Только чтение
+                item_number.setFlags(
+                    item_number.flags() & ~Qt.ItemIsEditable
+                )  # Только чтение
                 table_widget.setItem(index, 0, item_number)
 
                 cs_name = cs.get("data_pars", {}).get("cs_name", {}).get("value", "")
@@ -777,18 +808,20 @@ class MainWindow(QMainWindow):
                 )
                 item_length = QTableWidgetItem(str(physical_length))
                 item_length.setFlags(item_length.flags() | Qt.ItemIsEditable)
-                
+
                 # делегат для валидации ввода
                 class FloatDelegate(QStyledItemDelegate):
                     def createEditor(self, parent, option, index):
                         editor = QLineEdit(parent)
                         validator = QRegularExpressionValidator(
-                            QRegularExpression(r'^\d*[,.]?\d*$'),  # Разрешены только цифры, точка или запятая
-                            editor
+                            QRegularExpression(
+                                r"^\d*[,.]?\d*$"
+                            ),  # Разрешены только цифры, точка или запятая
+                            editor,
                         )
                         editor.setValidator(validator)
                         return editor
-                
+
                 table_widget.setItemDelegateForColumn(2, FloatDelegate(table_widget))
                 table_widget.setItem(index, 2, item_length)
 
@@ -807,7 +840,7 @@ class MainWindow(QMainWindow):
             table_widget.customContextMenuRequested.connect(
                 self.control_sector_table_context_menu
             )
-            
+
             table_widget.blockSignals(False)
 
         self._save_and_restore_scroll_position(
@@ -854,20 +887,20 @@ class MainWindow(QMainWindow):
         connection_config = self.__obsm.obj_configs.get_connection(connection_id)
 
         # Проверяем, есть ли в конфиге параметры для оптической и физической длины
-        has_optical_length = "оптическая_длина" in connection_config.get(
+        has_optical_length = "физ_и_опт_длины" in connection_config.get(
             "object_data", {}
         )
-        has_physical_length = "физическая_длина" in connection_config.get(
+        has_physical_length = "физ_и_опт_длины" in connection_config.get(
             "object_data", {}
         )
 
         # Проверка оптической и физической длины (только если они есть в конфиге)
         if has_optical_length and has_physical_length:
             optical_length = (
-                connection.get("data", {}).get("оптическая_длина", {}).get("value")
+                connection.get("data", {}).get("физ_и_опт_длины", {}).get("value", {}).get("од", 0)
             )
             physical_length = (
-                connection.get("data", {}).get("физическая_длина", {}).get("value")
+                connection.get("data", {}).get("физ_и_опт_длины", {}).get("value", {}).get("фд", 0)
             )
 
             if optical_length is not None and physical_length is not None:
@@ -889,13 +922,13 @@ class MainWindow(QMainWindow):
                 total_physical_length = sum(
                     cs.get("data_pars", {})
                     .get("cs_physical_length", {})
-                    .get("value", 0)
+                    .get("value", {})
                     for cs in control_sectors
                 )
                 physical_length = (
                     connection.get("data", {})
-                    .get("физическая_длина", {})
-                    .get("value", 0)
+                    .get("физ_и_опт_длины", {})
+                    .get("value", {}).get("фд", 0)
                 )
                 try:
                     physical_length = (
@@ -922,8 +955,6 @@ class MainWindow(QMainWindow):
                 self._add_error_message("Нет контрольных секторов.")
 
         return has_errors
-    
-
 
     def _edit_control_sector(self, cs):
         self.__current_control_sector = cs
@@ -1063,7 +1094,12 @@ class MainWindow(QMainWindow):
                 precision_number=precision_number,
             )
 
-            widget_to_add = self._create_widget_with_info(new_widget, info)
+            # Специальная обработка для поля "нач_метка" (начальная метка)
+            if config_parameter_key == "нач_метка" and not self.__current_is_node:
+                widget_to_add = self._create_start_mark_widget_with_continue_button(new_widget, info)
+            else:
+                widget_to_add = self._create_widget_with_info(new_widget, info)
+            
             form_layout.addRow(label, widget_to_add)
 
             dict_widgets[config_parameter_key] = [widget_type, new_widget]
@@ -1150,17 +1186,32 @@ class MainWindow(QMainWindow):
             new_widget.setValue(value)
         #
         elif widget_type == "number_float":
-            new_widget = QDoubleSpinBox()
-            new_widget.setRange(0, 2147483647)
-            new_widget.setValue(value)
-            if precision_separator is not None:
-                new_widget.setDecimals(precision_number)
-            if precision_separator == 0:
-                locale = QLocale(QLocale.Russian)
-            else:
-                locale = QLocale(QLocale.C)
-            new_widget.setLocale(locale)
+            new_widget = self._create_double_spinbox(
+                value, precision_separator, precision_number
+            )
+        #
+        elif widget_type == "physical_length_calculator":
+            new_widget = self._create_physical_length_calculator(
+                value, precision_separator, precision_number
+            )
+            return new_widget
+        #
+        elif widget_type == "list_with_custom":
+            new_widget = QComboBox()
+            new_widget.setEditable(True)
 
+            predefined_values = arguments.get("list", [])
+            for val in predefined_values: 
+                new_widget.addItem(str(val))
+    
+            if value is not None:  
+                index = new_widget.findText(str(value))
+                if index >= 0:
+                    new_widget.setCurrentIndex(index)
+                else:
+                    new_widget.setCurrentText(str(value))
+            elif predefined_values:
+                new_widget.setCurrentIndex(0)
         #
         else:
             if is_parameters:
@@ -1181,6 +1232,102 @@ class MainWindow(QMainWindow):
             new_widget.wheelEvent = ignore_wheel_event
 
         return new_widget
+
+    def _create_double_spinbox(self, value, precision_separator, precision_number):
+        spinbox = QDoubleSpinBox()
+        spinbox.setRange(0, 2147483647)
+        spinbox.setValue(value)
+        if precision_separator is not None:
+            spinbox.setDecimals(precision_number)
+        if precision_separator == 0:
+            locale = QLocale(QLocale.Russian)
+        else:
+            locale = QLocale(QLocale.C)
+        spinbox.setLocale(locale)
+        return spinbox
+    
+    def _create_physical_length_calculator(self, value, precision_separator, precision_number):
+        widget = QWidget()
+        layout = QVBoxLayout(widget)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(5)  # Уменьшаем отступы между элементами
+        
+        # Создаем делегат для валидации ввода
+        class FloatValidator(QRegularExpressionValidator):
+            def __init__(self, parent=None):
+                super().__init__(parent)
+                self.setRegularExpression(QRegularExpression(r"^\d*[,.]?\d*$"))
+
+        # Первая строка: Оптическая длина и Коэффициент
+        first_row = QWidget()
+        first_row_layout = QHBoxLayout(first_row)
+        first_row_layout.setContentsMargins(0, 0, 0, 0)
+        first_row_layout.setSpacing(10)
+        
+        # Оптическая длина
+        optical_label = QLabel("Оптическая длина")
+        optical_input = self._create_double_spinbox(
+            value.get("од", 0), 
+            precision_separator, 
+            precision_number
+        )
+        optical_input.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        
+        # Коэффициент
+        coeff_label = QLabel("Коэф.")
+        coefficient_input = QLineEdit()
+        coefficient_input.setValidator(FloatValidator())
+        coefficient_input.setText(str(value.get("к", 0.97)))
+        coefficient_input.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        
+        first_row_layout.addWidget(optical_label)
+        first_row_layout.addWidget(optical_input, stretch=1)
+        first_row_layout.addWidget(coeff_label)
+        first_row_layout.addWidget(coefficient_input, stretch=1)
+        
+        # Вторая строка: Физическая длина и кнопка
+        second_row = QWidget()
+        second_row_layout = QHBoxLayout(second_row)
+        second_row_layout.setContentsMargins(0, 0, 0, 0)
+        second_row_layout.setSpacing(10)
+        
+        # Физическая длина
+        physical_label = QLabel("Физическая длина")
+        physical_input = self._create_double_spinbox(
+            value.get("фд", 0), 
+            precision_separator, 
+            precision_number
+        )
+        physical_input.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        
+        # Кнопка расчета
+        calculate_btn = QPushButton("по Коэф.")
+        calculate_btn.setFixedWidth(80)
+        
+        second_row_layout.addWidget(physical_label)
+        second_row_layout.addWidget(physical_input, stretch=1)
+        second_row_layout.addWidget(calculate_btn)
+        
+        # Добавляем строки в основной layout
+        layout.addWidget(first_row)
+        layout.addWidget(second_row)
+        
+        # Сохраняем ссылки на виджеты как атрибуты
+        widget.optical_length_input = optical_input
+        widget.coefficient_input = coefficient_input
+        widget.physical_length_input = physical_input
+        
+        # Подключаем обработчик кнопки
+        def calculate():
+            optical = optical_input.value()
+            try:
+                coeff = float(coefficient_input.text().replace(",", "."))
+            except (ValueError, TypeError):
+                coeff = 0.97  # Значение по умолчанию при ошибке преобразования
+            physical_input.setValue(optical * coeff)
+        
+        calculate_btn.clicked.connect(calculate)
+        return widget
 
     def _get_label_name(self, label_text, widget_type):
         label = QLabel(label_text)
@@ -1594,8 +1741,7 @@ class MainWindow(QMainWindow):
         )
         connection_physical_length = (
             self.__current_object.get("data", {})
-            .get("физическая_длина", {})
-            .get("value", 0)
+            .get("физ_и_опт_длины", {}).get("value", {}).get("фд", 0)
         )
         try:
             connection_physical_length = float(connection_physical_length)
@@ -1627,14 +1773,10 @@ class MainWindow(QMainWindow):
             error_message = "Нет контрольных секторов."
         elif comparison_result == 1:
             difference = total_length - connection_length
-            error_message = (
-                f"Сумма физ. длин секторов ({total_length}) > физ. длины соединения ({connection_length}) на {difference:.3f}"
-            )
+            error_message = f"Сумма физ. длин секторов ({total_length}) > физ. длины соединения ({connection_length}) на {difference:.3f}"
         elif comparison_result == -1:
             difference = connection_length - total_length
-            error_message = (
-                f"Сумма физ. длин секторов ({total_length}) < физ. длины соединения ({connection_length}) на {difference:.3f}"
-            )
+            error_message = f"Сумма физ. длин секторов ({total_length}) < физ. длины соединения ({connection_length}) на {difference:.3f}"
 
         if error_message:
             self._add_error_message(error_message)
@@ -1676,3 +1818,83 @@ class MainWindow(QMainWindow):
             return h_layout
 
         return widget
+
+    def _create_start_mark_widget_with_continue_button(self, widget, info):
+        """
+        Создает виджет для начальной метки с кнопкой "Продолжить метки"
+        """
+        # Создаем горизонтальный layout для виджета и кнопки
+        h_layout = QHBoxLayout()
+        h_layout.setContentsMargins(0, 0, 0, 0)
+        h_layout.setSpacing(5)
+        
+        # Добавляем основной виджет (поле ввода начальной метки)
+        h_layout.addWidget(widget)
+        
+        # Создаем кнопку "Продолжить метки"
+        continue_button = QPushButton("Продолжить метки")
+        continue_button.setToolTip("Установить начальную метку равной конечной метке предыдущего соединения")
+        continue_button.clicked.connect(lambda: self._continue_mark_from_previous_connection(widget))
+        h_layout.addWidget(continue_button)
+        
+        # Если есть информация, добавляем кнопку с информацией
+        if info:
+            info_button = QToolButton()
+            info_button.setIcon(self.style().standardIcon(QStyle.SP_MessageBoxQuestion))
+            info_button.setToolTip("Нажмите для получения информации")
+            info_button.clicked.connect(lambda: self._show_info_dialog(info))
+            h_layout.addWidget(info_button)
+        
+        return h_layout
+
+    def _continue_mark_from_previous_connection(self, widget):
+        """
+        Устанавливает начальную метку равной конечной метке предыдущего соединения
+        """
+        try:
+            # Получаем текущее соединение
+            current_connection = self.__current_object
+            if not current_connection:
+                return
+            
+            # Получаем все соединения из проекта
+            project_data = self.__obsm.obj_project.get_data()
+            connections = project_data.get("connections", [])
+            
+            # Находим индекс текущего соединения
+            current_index = None
+            for i, conn in enumerate(connections):
+                if conn == current_connection:
+                    current_index = i
+                    break
+            
+            if current_index is None or current_index == 0:
+                # Это первое соединение, нет предыдущего
+                QMessageBox.information(self, "Информация", "Это первое соединение. Нет предыдущего соединения для продолжения метки.")
+                return
+            
+            # Получаем предыдущее соединение
+            previous_connection = connections[current_index - 1]
+            
+            # Получаем начальную метку и физическую длину предыдущего соединения
+            prev_start_mark = previous_connection.get("data", {}).get("нач_метка", {}).get("value", 0)
+            prev_physical_length = 0
+            
+            # Получаем физическую длину из поля "физ_и_опт_длины"
+            prev_physical_length_data = previous_connection.get("data", {}).get("физ_и_опт_длины", {}).get("value", {})
+            if isinstance(prev_physical_length_data, dict):
+                prev_physical_length = prev_physical_length_data.get("фд", 0)
+            else:
+                prev_physical_length = prev_physical_length_data
+            
+            # Вычисляем конечную метку предыдущего соединения
+            prev_end_mark = prev_start_mark + prev_physical_length
+            
+            # Устанавливаем значение в виджет
+            if isinstance(widget, QSpinBox):
+                widget.setValue(int(prev_end_mark))
+            else:
+                widget.setText(str(prev_end_mark))
+            
+        except Exception as e:
+            QMessageBox.warning(self, "Ошибка", f"Не удалось продолжить метку: {str(e)}")
