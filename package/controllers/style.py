@@ -87,6 +87,9 @@ class Style:
         for widget in QApplication.allWidgets():
             widget.setStyleSheet(style)
         
+        # Принудительно обновляем layout'ы для корректной работы WrapLongRows
+        self._force_layout_updates()
+        
         # Сохраняем в настройках
         if hasattr(self, '__osbm') and self.__osbm and hasattr(self.__osbm, 'obj_settings'):
             self.__osbm.obj_settings.set_theme(theme_name)
@@ -98,6 +101,55 @@ class Style:
         new_theme = "light" if current_theme == "dark" else "dark"
         self.apply_theme_to_all_windows(new_theme)
         return new_theme
+
+    def _force_layout_updates(self):
+        """Принудительно обновляет все layout'ы для корректной работы WrapLongRows после смены темы"""
+        try:
+            from PySide6.QtWidgets import QApplication, QWidget
+            
+            # Получаем все виджеты
+            for widget in QApplication.allWidgets():
+                if isinstance(widget, QWidget):
+                    # Обновляем layout виджета и всех его дочерних элементов
+                    self._update_widget_layouts_recursive(widget)
+                    
+        except Exception as e:
+            # Логируем ошибку, если есть система логирования
+            if hasattr(self, '__osbm') and self.__osbm and hasattr(self.__osbm, 'obj_logg'):
+                self.__osbm.obj_logg.debug_logger(f"Error updating layouts: {e}")
+                
+    def _update_widget_layouts_recursive(self, widget):
+        """Рекурсивно обновляет layout'ы виджета и всех его дочерних элементов"""
+        try:
+            from PySide6.QtWidgets import QFormLayout, QLayout
+            
+            # Обновляем layout текущего виджета
+            layout = widget.layout()
+            if layout:
+                # Особое внимание QFormLayout с WrapLongRows
+                if isinstance(layout, QFormLayout):
+                    # Принудительно инвалидируем и обновляем layout
+                    layout.invalidate()
+                    layout.activate()
+                    widget.updateGeometry()
+                elif isinstance(layout, QLayout):
+                    # Для других типов layout'ов
+                    layout.invalidate()
+                    layout.activate()
+                    
+                # Рекурсивно обновляем все дочерние layout'ы
+                for i in range(layout.count()):
+                    item = layout.itemAt(i)
+                    if item and item.widget():
+                        self._update_widget_layouts_recursive(item.widget())
+                        
+            # Принудительно обновляем размеры и геометрию виджета
+            widget.updateGeometry()
+            widget.update()
+            
+        except Exception:
+            # Игнорируем ошибки для отдельных виджетов
+            pass
 
 
 qss = """
@@ -293,6 +345,8 @@ QAbstractSpinBox {
     padding: 2px;
     border-style: solid;
     border-width: 1px;
+    /* Убираем фиксированную минимальную ширину для лучшей работы с WrapLongRows */
+    min-width: 0px;
 }
 
 QLineEdit {
@@ -318,6 +372,8 @@ QComboBox {
     margin: 3px 0 1px 0;
     border-style: solid;
     border-width: 1px;
+    /* Убираем фиксированную минимальную ширину для лучшей работы с WrapLongRows */
+    min-width: 0px;
 }
 
 QComboBox:editable {
@@ -1034,6 +1090,21 @@ QToolBar QToolButton:checked {
     background-color: #3399ff;
 }
 
+/* Оптимизация для QFormLayout и WrapLongRows */
+QFormLayout {
+    /* Обеспечиваем правильное поведение переноса */
+    spacing: 6px;
+}
+
+/* Убираем жёсткие ограничения ширины для виджетов в формах */
+QWidget[qformLayoutWidget="true"] QLineEdit,
+QWidget[qformLayoutWidget="true"] QComboBox,
+QWidget[qformLayoutWidget="true"] QSpinBox,
+QWidget[qformLayoutWidget="true"] QDoubleSpinBox {
+    max-width: none;
+    min-width: 50px; /* Минимальная разумная ширина */
+}
+
 """
 
 
@@ -1204,6 +1275,8 @@ QAbstractSpinBox {
     padding: 2px;
     border-style: solid;
     border-width: 1px;
+    /* Убираем фиксированную минимальную ширину для лучшей работы с WrapLongRows */
+    min-width: 0px;
 }
 QLineEdit {
     margin-top: 0;
@@ -1225,6 +1298,8 @@ QComboBox {
     margin: 3px 0 1px 0;
     border-style: solid;
     border-width: 1px;
+    /* Убираем фиксированную минимальную ширину для лучшей работы с WrapLongRows */
+    min-width: 0px;
 }
 QComboBox:editable {
     padding-left: 3px;
@@ -1815,6 +1890,21 @@ QToolBar QToolButton:disabled {
 }
 QToolBar QToolButton:checked {
     background-color: #4a90e2;
+}
+
+/* Оптимизация для QFormLayout и WrapLongRows */
+QFormLayout {
+    /* Обеспечиваем правильное поведение переноса */
+    spacing: 6px;
+}
+
+/* Убираем жёсткие ограничения ширины для виджетов в формах */
+QWidget[qformLayoutWidget="true"] QLineEdit,
+QWidget[qformLayoutWidget="true"] QComboBox,
+QWidget[qformLayoutWidget="true"] QSpinBox,
+QWidget[qformLayoutWidget="true"] QDoubleSpinBox {
+    max-width: none;
+    min-width: 50px; /* Минимальная разумная ширина */
 }
 
 
