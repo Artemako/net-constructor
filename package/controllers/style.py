@@ -345,8 +345,13 @@ QAbstractSpinBox {
     padding: 2px;
     border-style: solid;
     border-width: 1px;
-    /* Убираем фиксированную минимальную ширину для лучшей работы с WrapLongRows */
-    min-width: 0px;
+    /* Оптимальная минимальная ширина на основе золотого сечения */
+    min-width: 130px;
+}
+
+/* Специфичные размеры для разных типов полей ввода */
+QSpinBox, QDoubleSpinBox {
+    min-width: 110px; /* Для числового ввода */
 }
 
 QLineEdit {
@@ -372,8 +377,8 @@ QComboBox {
     margin: 3px 0 1px 0;
     border-style: solid;
     border-width: 1px;
-    /* Убираем фиксированную минимальную ширину для лучшей работы с WrapLongRows */
-    min-width: 0px;
+    /* Оптимальная минимальная ширина для dropdown с учетом стрелки */
+    min-width: 150px;
 }
 
 QComboBox:editable {
@@ -1105,6 +1110,12 @@ QWidget[qformLayoutWidget="true"] QDoubleSpinBox {
     min-width: 50px; /* Минимальная разумная ширина */
 }
 
+/* Минимальная ширина правого блока с вкладками (на основе золотого сечения) */
+QGroupBox[objectName="gb_right"],
+QWidget[objectName="gb_right"] {
+    min-width: 400px;
+}
+
 """
 
 
@@ -1275,8 +1286,13 @@ QAbstractSpinBox {
     padding: 2px;
     border-style: solid;
     border-width: 1px;
-    /* Убираем фиксированную минимальную ширину для лучшей работы с WrapLongRows */
-    min-width: 0px;
+    /* Оптимальная минимальная ширина на основе золотого сечения */
+    min-width: 130px;
+}
+
+/* Специфичные размеры для разных типов полей ввода */
+QSpinBox, QDoubleSpinBox {
+    min-width: 110px; /* Для числового ввода */
 }
 QLineEdit {
     margin-top: 0;
@@ -1298,8 +1314,8 @@ QComboBox {
     margin: 3px 0 1px 0;
     border-style: solid;
     border-width: 1px;
-    /* Убираем фиксированную минимальную ширину для лучшей работы с WrapLongRows */
-    min-width: 0px;
+    /* Оптимальная минимальная ширина для dropdown с учетом стрелки */
+    min-width: 150px;
 }
 QComboBox:editable {
     padding-left: 3px;
@@ -1905,6 +1921,12 @@ QWidget[qformLayoutWidget="true"] QSpinBox,
 QWidget[qformLayoutWidget="true"] QDoubleSpinBox {
     max-width: none;
     min-width: 50px; /* Минимальная разумная ширина */
+}
+
+/* Минимальная ширина правого блока с вкладками (на основе золотого сечения) */
+QGroupBox[objectName="gb_right"],
+QWidget[objectName="gb_right"] {
+    min-width: 400px;
 }
 
 
