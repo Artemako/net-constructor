@@ -19,17 +19,17 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
 
 
-class CableListsDialog(QDialog):
-    """Диалог для управления списком кабелей"""
+class SectorNamesDialog(QDialog):
+    """Диалог для управления списком названий секторов"""
     
     def __init__(self, obsm, parent=None):
         super().__init__(parent)
         self.__obsm = obsm
         self.__configs = obsm.obj_configs
-        self.__current_cables = []
-        self.__original_cables = []  # Сохраняем исходный список для восстановления
+        self.__current_sector_names = []
+        self.__original_sector_names = [] 
         
-        self.setWindowTitle("Управление списком кабелей")
+        self.setWindowTitle("Управление списком названий секторов")
         self.setModal(True)
         self.resize(600, 500)
         
@@ -43,18 +43,18 @@ class CableListsDialog(QDialog):
         main_layout.setContentsMargins(10, 10, 10, 10)
         main_layout.setSpacing(10)
         
-        # Группа редактирования списка кабелей
-        edit_group = QGroupBox("Список кабелей")
+        # Группа редактирования списка названий секторов
+        edit_group = QGroupBox("Список названий секторов")
         edit_layout = QVBoxLayout()
         edit_layout.setContentsMargins(10, 10, 10, 10)
         edit_layout.setSpacing(10)
         
         # Текстовое поле для редактирования
-        self.cables_text = QTextEdit()
-        self.cables_text.setPlaceholderText("Введите кабели, каждый с новой строки")
-        self.cables_text.setMinimumHeight(200)
-        self.cables_text.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        edit_layout.addWidget(self.cables_text)
+        self.sector_names_text = QTextEdit()
+        self.sector_names_text.setPlaceholderText("Введите названия секторов, каждый с новой строки")
+        self.sector_names_text.setMinimumHeight(200)
+        self.sector_names_text.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        edit_layout.addWidget(self.sector_names_text)
         
         edit_group.setLayout(edit_layout)
         main_layout.addWidget(edit_group)
@@ -65,17 +65,17 @@ class CableListsDialog(QDialog):
         control_layout.setContentsMargins(10, 10, 10, 10)
         control_layout.setSpacing(10)
         
-        self.add_cable_btn = QPushButton("Добавить кабель")
-        self.clear_cables_btn = QPushButton("Очистить")
+        self.add_sector_name_btn = QPushButton("Добавить название")
+        self.clear_sector_names_btn = QPushButton("Очистить")
         self.restore_default_btn = QPushButton("По умолчанию")
         
         # Добавляем подсказки
-        self.add_cable_btn.setToolTip("Добавить новый кабель в список")
-        self.clear_cables_btn.setToolTip("Очистить весь список кабелей")
-        self.restore_default_btn.setToolTip("Восстановить список кабелей по умолчанию")
+        self.add_sector_name_btn.setToolTip("Добавить новое название сектора в список")
+        self.clear_sector_names_btn.setToolTip("Очистить весь список названий секторов")
+        self.restore_default_btn.setToolTip("Восстановить список названий секторов по умолчанию")
         
-        control_layout.addWidget(self.add_cable_btn)
-        control_layout.addWidget(self.clear_cables_btn)
+        control_layout.addWidget(self.add_sector_name_btn)
+        control_layout.addWidget(self.clear_sector_names_btn)
         control_layout.addWidget(self.restore_default_btn)
         control_layout.addStretch()
         
@@ -111,39 +111,39 @@ class CableListsDialog(QDialog):
             button_box.accepted.connect(self.accept)
             button_box.rejected.connect(self.reject)
             
-        self.add_cable_btn.clicked.connect(self.add_cable)
-        self.clear_cables_btn.clicked.connect(self.clear_cables)
-        self.restore_default_btn.clicked.connect(self.restore_default_cables)
-        self.cables_text.textChanged.connect(self.on_cables_changed)
+        self.add_sector_name_btn.clicked.connect(self.add_sector_name)
+        self.clear_sector_names_btn.clicked.connect(self.clear_sector_names)
+        self.restore_default_btn.clicked.connect(self.restore_default_sector_names)
+        self.sector_names_text.textChanged.connect(self.on_sector_names_changed)
         
     def load_data(self):
         """Загрузка данных"""
-        self.__current_cables = self.__configs.get_list_by_type("cable_types")
+        self.__current_sector_names = self.__configs.get_list_by_type("sector_names")
         
         # Загружаем исходные данные по умолчанию
-        default_cables = ["Марка ВОК 1", "Марка ВОК 2", "Марка ВОК 3"]
-        self.__original_cables = default_cables.copy()
+        default_sector_names = ["По опорам", "В грунте", "По зданию"]
+        self.__original_sector_names = default_sector_names.copy()
         
-        self.cables_text.setPlainText("\n".join(self.__current_cables))
+        self.sector_names_text.setPlainText("\n".join(self.__current_sector_names))
         
-    def on_cables_changed(self):
-        """Обработчик изменения списка кабелей"""
-        text = self.cables_text.toPlainText()
-        self.__current_cables = [line.strip() for line in text.split('\n') if line.strip()]
+    def on_sector_names_changed(self):
+        """Обработчик изменения списка названий секторов"""
+        text = self.sector_names_text.toPlainText()
+        self.__current_sector_names = [line.strip() for line in text.split('\n') if line.strip()]
         
-    def add_cable(self):
-        """Добавляет новый кабель"""
+    def add_sector_name(self):
+        """Добавляет новое название сектора"""
        
         # Создаем собственный диалог для ввода
         dialog = QDialog(self)
-        dialog.setWindowTitle("Добавить кабель")
+        dialog.setWindowTitle("Добавить название сектора")
         dialog.setModal(True)
         dialog.resize(300, 100)
         
         layout = QVBoxLayout(dialog)
         
         # Поле ввода
-        label = QLabel("Введите название кабеля:")
+        label = QLabel("Введите название сектора:")
         layout.addWidget(label)
         
         input_field = QLineEdit()
@@ -168,19 +168,19 @@ class CableListsDialog(QDialog):
         
         # Показываем диалог
         if dialog.exec() == QDialog.Accepted:
-            cable_name = input_field.text().strip()
-            if cable_name:
-                current_text = self.cables_text.toPlainText()
+            sector_name = input_field.text().strip()
+            if sector_name:
+                current_text = self.sector_names_text.toPlainText()
                 if current_text:
                     current_text += "\n"
-                current_text += cable_name
-                self.cables_text.setPlainText(current_text)
+                current_text += sector_name
+                self.sector_names_text.setPlainText(current_text)
             
-    def clear_cables(self):
-        """Очищает список кабелей"""
+    def clear_sector_names(self):
+        """Очищает список названий секторов"""
         msg_box = QMessageBox(self)
         msg_box.setWindowTitle("Подтверждение")
-        msg_box.setText("Вы уверены, что хотите очистить список кабелей?")
+        msg_box.setText("Вы уверены, что хотите очистить список названий секторов?")
         msg_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
         msg_box.setDefaultButton(QMessageBox.No)
         
@@ -191,13 +191,13 @@ class CableListsDialog(QDialog):
         reply = msg_box.exec()
         
         if reply == QMessageBox.Yes:
-            self.cables_text.clear()
+            self.sector_names_text.clear()
             
-    def restore_default_cables(self):
-        """Восстанавливает список кабелей по умолчанию"""
+    def restore_default_sector_names(self):
+        """Восстанавливает список названий секторов по умолчанию"""
         msg_box = QMessageBox(self)
         msg_box.setWindowTitle("Подтверждение")
-        msg_box.setText("Восстановить список кабелей по умолчанию? Текущий список будет заменен.")
+        msg_box.setText("Восстановить список названий секторов по умолчанию? Текущий список будет заменен.")
         msg_box.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
         msg_box.setDefaultButton(QMessageBox.No)
         
@@ -209,14 +209,14 @@ class CableListsDialog(QDialog):
         
         if reply == QMessageBox.Yes:
             # Восстанавливаем список по умолчанию
-            if self.__original_cables:
-                self.cables_text.setPlainText("\n".join(self.__original_cables))
+            if self.__original_sector_names:
+                self.sector_names_text.setPlainText("\n".join(self.__original_sector_names))
             else:
-                self.cables_text.clear()
+                self.sector_names_text.clear()
             
     def accept(self):
         """Обработчик нажатия OK"""
         # Сохраняем изменения
-        self.__configs.update_list_by_type("cable_types", self.__current_cables)
+        self.__configs.update_list_by_type("sector_names", self.__current_sector_names)
         self.__configs.save_lists(self.__obsm.obj_dirpath.get_dir_app())
         super().accept()

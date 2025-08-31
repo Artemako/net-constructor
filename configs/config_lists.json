@@ -1,0 +1,54 @@
+{
+    "lists": {
+        "sector_names": {
+            "name": "Названия секторов",
+            "description": "Список предопределенных названий секторов",
+            "type": "sector_names",
+            "items": [
+                {
+                    "value": "По опорам",
+                    "name": "По опорам",
+                    "description": "Сектор, проложенный по опорам",
+                    "is_default": false
+                },
+                {
+                    "value": "В грунте",
+                    "name": "В грунте",
+                    "description": "Сектор, проложенный в грунте",
+                    "is_default": false
+                },
+                {
+                    "value": "По зданию",
+                    "name": "По зданию",
+                    "description": "Сектор, проложенный по зданию",
+                    "is_default": false
+                }
+            ]
+        },
+        "cable_types": {
+            "name": "cable_types",
+            "description": "",
+            "type": "cable_types",
+            "items": [
+                {
+                    "value": "Марка ВОК 1",
+                    "name": "Марка ВОК 1",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "Марка ВОК 2",
+                    "name": "Марка ВОК 2",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "Марка ВОК 3",
+                    "name": "Марка ВОК 3",
+                    "description": "",
+                    "is_default": false
+                }
+            ]
+        }
+    }
+}

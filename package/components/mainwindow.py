@@ -53,6 +53,7 @@ import package.components.diagramtypeselectdialog as diagramtypeselectdialog
 import package.components.changeorderdialog as changeorderdialog
 import package.components.controlsectordeletedialog as controlsectordeletedialog
 import package.components.cablelistsdialog as cablelistsdialog
+import package.components.sectornamesdialog as sectornamesdialog
 import package.components.settingsdialog as settingsdialog
 
 import package.ui.mainwindow_ui as mainwindow_ui
@@ -154,6 +155,7 @@ class MainWindow(QMainWindow):
         # self.ui.light_action.triggered.connect(lambda: self._change_theme("light"))
         # управление списками кабелей
         self.ui.action_edit_cable_lists.triggered.connect(self._edit_cable_lists)
+        self.ui.action_edit_sector_names.triggered.connect(self._edit_sector_names)
         # открытие диалога настроек
         self.ui.action_settings.triggered.connect(self._open_settings)
         
@@ -1484,6 +1486,7 @@ class MainWindow(QMainWindow):
                 widget_type,
                 value,
                 arguments,
+                config_parameter_key,  # Передаем имя поля
                 is_parameters=False,
                 precision_separator=precision_separator,
                 precision_number=precision_number,
@@ -1507,6 +1510,7 @@ class MainWindow(QMainWindow):
         widget_type,
         value,
         arguments,
+        field_name=None,  # Имя поля для определения типа списка
         is_parameters=True,
         precision_separator=None,
         precision_number=None,
@@ -1595,8 +1599,18 @@ class MainWindow(QMainWindow):
             new_widget = QComboBox()
             new_widget.setEditable(True)
 
-            # Используем централизованный список кабелей вместо локального
-            predefined_values = self.__obsm.obj_configs.get_cable_list()
+            # Определяем, какой список использовать на основе параметра list_type
+            list_type = arguments.get("list_type")
+            if list_type:
+                # Используем новый принцип присвоения на основе типа списка
+                predefined_values = self.__obsm.obj_configs.get_list_by_type(list_type)
+            else:
+                # Fallback для обратной совместимости
+                if field_name == "cs_name":
+                    predefined_values = self.__obsm.obj_configs.get_sector_names_list()
+                else:
+                    predefined_values = self.__obsm.obj_configs.get_cable_list()
+                
             if not predefined_values:
                 # Если централизованный список пуст, используем локальный как fallback
                 predefined_values = arguments.get("list", [])
@@ -1800,6 +1814,7 @@ class MainWindow(QMainWindow):
                 widget_type,
                 value,
                 arguments,
+                config_parameter_key,  # Передаем имя поля
                 is_parameters=True,
                 precision_separator=precision_separator,
                 precision_number=precision_number,
@@ -2345,6 +2360,15 @@ class MainWindow(QMainWindow):
             # Обновляем интерфейс после изменения списков кабелей
             self._refresh_cable_lists_in_ui()
             
+    def _edit_sector_names(self):
+        """Открывает диалог управления списками названий секторов"""
+        dialog = sectornamesdialog.SectorNamesDialog(self.__obsm, self)
+        result = dialog.exec()
+        
+        if result == QDialog.Accepted:
+            # Обновляем интерфейс после изменения списков названий секторов
+            self._refresh_sector_names_in_ui()
+            
     def _open_settings(self):
         """Открывает диалог настроек"""
         dialog = settingsdialog.SettingsDialog(self.__obsm)
@@ -2374,6 +2398,24 @@ class MainWindow(QMainWindow):
         if self.__current_object and not self.__current_is_node:
             # Обновляем виджеты данных соединения
             self._create_editor_data_widgets_by_object(self.__current_object, self.__current_is_node)
+            
+    def _refresh_sector_names_in_ui(self):
+        """Обновляет список названий секторов в интерфейсе"""
+        # Получаем список названий секторов
+        sector_names = self.__obsm.obj_configs.get_sector_names_list()
+        
+        # Обновляем все комбобоксы с названиями секторов в интерфейсе
+        project_data = self.__obsm.obj_project.get_data()
+        if project_data:
+            # Обновляем виджеты на текущей вкладке
+            if self.ui.tabw_right.currentIndex() == 2:  # Вкладка редактирования
+                self._refresh_editor_widgets()
+            elif self.ui.tabw_right.currentIndex() == 0:  # Основная вкладка
+                self._reset_widgets_by_data(project_data)
+            elif self.ui.tabw_right.currentIndex() == 3:  # Вкладка редактирования контрольного сектора
+                # Обновляем виджеты контрольного сектора
+                if self.__current_object:
+                    self._create_editor_control_sectors_by_object(self.__current_object, self.__current_is_node)
 
     def hide_right_panel(self):
         """Скрывает правый блок с вкладками"""

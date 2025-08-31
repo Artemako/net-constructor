@@ -4,6 +4,7 @@
         "object_data": {
             "название": {
                 "type": "list_with_custom",
+                "list_type": "cable_types",
                 "name": "Название / Марка ВОК",
                 "arguments": {
                     "list": []
@@ -190,6 +191,7 @@
         "object_data": {
             "название": {
                 "type": "list_with_custom",
+                "list_type": "cable_types",
                 "name": "Название / Марка ВОК",
                 "arguments": {
                     "list": []
@@ -331,6 +333,7 @@
         "object_data": {
             "название": {
                 "type": "list_with_custom",
+                "list_type": "cable_types",
                 "name": "Название / Марка ВОК",
                 "arguments": {
                     "list": []
@@ -504,6 +507,7 @@
         "object_data": {
             "название": {
                 "type": "list_with_custom",
+                "list_type": "cable_types",
                 "name": "Название / Марка ВОК",
                 "arguments": {
                     "list": []

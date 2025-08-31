@@ -4,7 +4,8 @@
             "value": "Сектор",
             "name": "Название сектора",
             "order": 1,
-            "type": "string_line",
+            "type": "list_with_custom",
+            "list_type": "sector_names",
             "is_data": true
         },
         "cs_physical_length": {

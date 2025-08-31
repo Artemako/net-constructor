@@ -6,7 +6,7 @@ class Configs:
         self.__global = {}
         self.__nodes = {}
         self.__connections = {}
-        self.__cable_lists = {}
+        self.__lists = {}
 
     def load_configs(self, dir_app):
         with open(dir_app + "/configs/config_global.json", "r", encoding="utf-8") as f:
@@ -17,25 +17,83 @@ class Configs:
             dir_app + "/configs/config_connections.json", "r", encoding="utf-8"
         ) as f:
             self.__connections = json.load(f)
-        with open(
-            dir_app + "/configs/config_cable_lists.json", "r", encoding="utf-8"
-        ) as f:
-            self.__cable_lists = json.load(f)
+        try:
+            with open(
+                dir_app + "/configs/config_lists.json", "r", encoding="utf-8"
+            ) as f:
+                self.__lists = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
+            # Если файл не найден или поврежден, используем пустую структуру
+            self.__lists = {"lists": {}}
 
-    def save_cable_lists(self, dir_app):
-        """Сохраняет списки кабелей в файл"""
+    def save_lists(self, dir_app):
+        """Сохраняет все списки в файл"""
         with open(
-            dir_app + "/configs/config_cable_lists.json", "w", encoding="utf-8"
+            dir_app + "/configs/config_lists.json", "w", encoding="utf-8"
         ) as f:
-            json.dump(self.__cable_lists, f, ensure_ascii=False, indent=4)
+            json.dump(self.__lists, f, ensure_ascii=False, indent=4)
 
+    def get_list_by_type(self, list_type: str) -> list:
+        """Возвращает список значений по типу"""
+        lists = self.__lists.get("lists", {})
+        list_config = lists.get(list_type, {})
+        items = list_config.get("items", [])
+        return [item.get("value", "") for item in items]
+
+    def get_list_config_by_type(self, list_type: str) -> dict:
+        """Возвращает полную конфигурацию списка по типу"""
+        lists = self.__lists.get("lists", {})
+        return lists.get(list_type, {})
+
+    def update_list_by_type(self, list_type: str, items: list):
+        """Обновляет список по типу"""
+        if "lists" not in self.__lists:
+            self.__lists["lists"] = {}
+        
+        # Преобразуем простой список в структуру с дополнительными параметрами
+        structured_items = []
+        for item in items:
+            if isinstance(item, dict):
+                structured_items.append(item)
+            else:
+                structured_items.append({
+                    "value": str(item),
+                    "name": str(item),
+                    "description": "",
+                    "is_default": False
+                })
+        
+        self.__lists["lists"][list_type] = {
+            "name": list_type,
+            "description": "",
+            "type": list_type,
+            "items": structured_items
+        }
+
+    # Методы для обратной совместимости
     def get_cable_list(self) -> list:
-        """Возвращает список кабелей"""
-        return self.__cable_lists.get("cable_list", [])
+        """Возвращает список кабелей (для обратной совместимости)"""
+        return self.get_list_by_type("cable_types")
 
     def update_cable_list(self, cables: list):
-        """Обновляет список кабелей"""
-        self.__cable_lists["cable_list"] = cables
+        """Обновляет список кабелей (для обратной совместимости)"""
+        self.update_list_by_type("cable_types", cables)
+
+    def get_sector_names_list(self) -> list:
+        """Возвращает список названий секторов (для обратной совместимости)"""
+        return self.get_list_by_type("sector_names")
+
+    def update_sector_names_list(self, sector_names: list):
+        """Обновляет список названий секторов (для обратной совместимости)"""
+        self.update_list_by_type("sector_names", sector_names)
+
+    def save_cable_lists(self, dir_app):
+        """Сохраняет списки кабелей в файл (для обратной совместимости)"""
+        self.save_lists(dir_app)
+
+    def save_sector_names(self, dir_app):
+        """Сохраняет список названий секторов в файл (для обратной совместимости)"""
+        self.save_lists(dir_app)
 
     def get_node(self, node_id: str) -> dict:
         return self.__nodes.get(node_id, {})
