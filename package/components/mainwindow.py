@@ -28,6 +28,7 @@ from PySide6.QtWidgets import (
     QHBoxLayout,
     QStyledItemDelegate,
     QWidget,
+    QFrame,
 )
 
 from PySide6.QtGui import (
@@ -129,15 +130,8 @@ class MainWindow(QMainWindow):
 
         # self.update_menu_recent_projects()
         #
-        self.ui.btn_addnode.clicked.connect(self._add_node)
-        self.ui.btn_movenodes.clicked.connect(self._move_nodes)
         # self.ui.btn_deletenode.clicked.connect(self._delete_node)
         #
-        self.ui.btn_moveconnections.clicked.connect(self._move_connections)
-        #
-        self.ui.combox_type_diagram.currentIndexChanged.connect(
-            self._change_type_diagram
-        )
         #
         # создание нового файла
         self.ui.action_new.triggered.connect(self.create_file_nce)
@@ -161,6 +155,287 @@ class MainWindow(QMainWindow):
         self.ui.action_edit_cable_lists.triggered.connect(self._edit_cable_lists)
         # открытие диалога настроек
         self.ui.action_settings.triggered.connect(self._open_settings)
+        
+        # Генерируем виджеты для вкладок
+        self._setup_general_tab_widgets()
+        self._setup_elements_tab_widgets()
+        self._setup_editor_tab_widgets()
+        self._setup_control_tab_widgets()
+
+    def _setup_general_tab_widgets(self):
+        """Генерирует виджеты для вкладки 'Основные настройки'"""
+        # Очищаем содержимое вкладки
+        self._clear_general_tab()
+        
+        # Создаем виджеты
+        self._create_general_tab_widgets()
+        
+    def _clear_general_tab(self):
+        """Очищает содержимое вкладки 'Основные настройки'"""
+        # Очищаем все виджеты из layout
+        while self.ui.sa_general_contents.layout().count():
+            child = self.ui.sa_general_contents.layout().takeAt(0)
+            if child.widget():
+                child.widget().deleteLater()
+                
+    def _create_general_tab_widgets(self):
+        """Создает виджеты для вкладки 'Основные настройки'"""
+        layout = self.ui.sa_general_contents.layout()
+        
+        # Создаем виджеты и сохраняем ссылки на них
+        self.label_type = QLabel("<html><head/><body><p><span style=\" font-weight:700;\">Тип схемы</span></p></body></html>")
+        self.combox_type_diagram = QComboBox()
+        self.line_type_dia = QFrame()
+        self.line_type_dia.setFrameShape(QFrame.HLine)
+        self.line_type_dia.setFrameShadow(QFrame.Sunken)
+        
+        self.label_diagram_parameters = QLabel("<html><head/><body><p><span style=\" font-weight:700;\">Параметры схемы</span></p></body></html>")
+        self.fl_diagram_parameters = QFormLayout()
+        self.fl_diagram_parameters.setRowWrapPolicy(QFormLayout.WrapLongRows)
+        
+        self.line_p_dia = QFrame()
+        self.line_p_dia.setFrameShape(QFrame.HLine)
+        self.line_p_dia.setFrameShadow(QFrame.Sunken)
+        
+        # Создаем вертикальный спейсер
+        self.verticalSpacer = QWidget()
+        self.verticalSpacer.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
+        
+        # Добавляем виджеты в layout
+        layout.addWidget(self.label_type)
+        layout.addWidget(self.combox_type_diagram)
+        layout.addWidget(self.line_type_dia)
+        layout.addWidget(self.label_diagram_parameters)
+        layout.addLayout(self.fl_diagram_parameters)
+        layout.addWidget(self.line_p_dia)
+        layout.addWidget(self.verticalSpacer)
+        
+        # Подключаем сигналы
+        self.combox_type_diagram.currentIndexChanged.connect(self._change_type_diagram)
+        
+    def _setup_elements_tab_widgets(self):
+        """Генерирует виджеты для вкладки 'Элементы'"""
+        # Очищаем содержимое вкладки
+        self._clear_elements_tab()
+        
+        # Создаем виджеты
+        self._create_elements_tab_widgets()
+        
+    def _clear_elements_tab(self):
+        """Очищает содержимое вкладки 'Элементы'"""
+        # Очищаем виджеты узлов
+        while self.ui.vl_nodes.layout().count():
+            child = self.ui.vl_nodes.layout().takeAt(0)
+            if child.widget():
+                child.widget().deleteLater()
+                
+        # Очищаем виджеты соединений
+        while self.ui.vl_connections.layout().count():
+            child = self.ui.vl_connections.layout().takeAt(0)
+            if child.widget():
+                child.widget().deleteLater()
+                
+    def _create_elements_tab_widgets(self):
+        """Создает виджеты для вкладки 'Элементы'"""
+        # Создаем виджеты для узлов
+        self.label_nodes = QLabel("<html><head/><body><p><span style=\" font-weight:700;\">Точки</span></p></body></html>")
+        self.tablew_nodes = QTableWidget()
+        self.hl_btns = QHBoxLayout()
+        
+        self.btn_addnode = QPushButton("Добавить точку")
+        self.btn_movenodes = QPushButton("Изменить порядок точек")
+        
+        self.hl_btns.addWidget(self.btn_addnode)
+        self.hl_btns.addWidget(self.btn_movenodes)
+        
+        # Добавляем виджеты узлов в layout
+        self.ui.vl_nodes.layout().addWidget(self.label_nodes)
+        self.ui.vl_nodes.layout().addWidget(self.tablew_nodes)
+        self.ui.vl_nodes.layout().addLayout(self.hl_btns)
+        
+        # Создаем виджеты для соединений
+        self.line_3 = QFrame()
+        self.line_3.setFrameShape(QFrame.HLine)
+        self.line_3.setFrameShadow(QFrame.Sunken)
+        
+        self.label_connections = QLabel("<html><head/><body><p><span style=\" font-weight:700;\">Строительные длины</span></p></body></html>")
+        self.tablew_connections = QTableWidget()
+        self.btn_moveconnections = QPushButton("Изменить порядок строительных длин")
+        
+        # Добавляем виджеты соединений в layout
+        self.ui.vl_connections.layout().addWidget(self.line_3)
+        self.ui.vl_connections.layout().addWidget(self.label_connections)
+        self.ui.vl_connections.layout().addWidget(self.tablew_connections)
+        self.ui.vl_connections.layout().addWidget(self.btn_moveconnections)
+        
+        # Подключаем сигналы
+        self.btn_addnode.clicked.connect(self._add_node)
+        self.btn_movenodes.clicked.connect(self._move_nodes)
+        self.btn_moveconnections.clicked.connect(self._move_connections)
+        
+    def _setup_editor_tab_widgets(self):
+        """Генерирует виджеты для вкладки 'Редактирование'"""
+        # Очищаем содержимое вкладки
+        self._clear_editor_tab()
+        
+        # Создаем виджеты
+        self._create_editor_tab_widgets()
+        
+    def _clear_editor_tab(self):
+        """Очищает содержимое вкладки 'Редактирование'"""
+        # Очищаем все виджеты из layout
+        while self.ui.editor_scrollarea_contents.layout().count():
+            child = self.ui.editor_scrollarea_contents.layout().takeAt(0)
+            if child.widget():
+                child.widget().deleteLater()
+            elif child.layout():
+                # Если это layout, очищаем его содержимое
+                while child.layout().count():
+                    sub_child = child.layout().takeAt(0)
+                    if sub_child.widget():
+                        sub_child.widget().deleteLater()
+                        
+    def _create_editor_tab_widgets(self):
+        """Создает виджеты для вкладки 'Редактирование'"""
+        layout = self.ui.editor_scrollarea_contents.layout()
+        
+        # Создаем виджеты ошибок
+        self.label_edit_errors = QLabel("<html><head/><body><p><span style=\" font-weight:700;\">Ошибки</span></p></body></html>")
+        self.vl_edit_errors = QVBoxLayout()
+        self.line_errors = QFrame()
+        self.line_errors.setFrameShape(QFrame.HLine)
+        self.line_errors.setFrameShadow(QFrame.Sunken)
+        
+        # Создаем виджеты контрольных секторов
+        self.label_control_sectors = QLabel("<html><head/><body><p><span style=\" font-weight:700;\">Способ прокладки ВОК</span></p></body></html>")
+        self.vl_control_sectors = QVBoxLayout()
+        self.vl_control_sectors.setSpacing(4)
+        
+        self.tw_control_sectors = QTableWidget()
+        self.hl_control_sectors_buttons = QHBoxLayout()
+        
+        self.btn_add_control_sector = QPushButton("Добавить сектор")
+        self.btn_move_control_sectors = QPushButton("Изменить порядок секторов")
+        
+        self.hl_control_sectors_buttons.addWidget(self.btn_add_control_sector)
+        self.hl_control_sectors_buttons.addWidget(self.btn_move_control_sectors)
+        
+        self.line_cont_sect = QFrame()
+        self.line_cont_sect.setFrameShape(QFrame.HLine)
+        self.line_cont_sect.setFrameShadow(QFrame.Sunken)
+        
+        self.vl_control_sectors.addWidget(self.tw_control_sectors)
+        self.vl_control_sectors.addLayout(self.hl_control_sectors_buttons)
+        self.vl_control_sectors.addWidget(self.line_cont_sect)
+        
+        # Создаем виджеты данных объекта
+        self.label_object_data = QLabel("<html><head/><body><p><span style=\" font-weight:700;\">Данные</span></p></body></html>")
+        self.fl_object_data = QFormLayout()
+        self.fl_object_data.setRowWrapPolicy(QFormLayout.WrapLongRows)
+        
+        self.line_data = QFrame()
+        self.line_data.setFrameShape(QFrame.HLine)
+        self.line_data.setFrameShadow(QFrame.Sunken)
+        
+        # Создаем виджеты типовых данных объекта
+        self.label_type_object_data = QLabel("<html><head/><body><p><span style=\" font-weight:700;\">Типовые данные</span></p></body></html>")
+        self.fl_type_object_data = QFormLayout()
+        self.fl_type_object_data.setRowWrapPolicy(QFormLayout.WrapLongRows)
+        
+        self.line_type_data = QFrame()
+        self.line_type_data.setFrameShape(QFrame.HLine)
+        self.line_type_data.setFrameShadow(QFrame.Sunken)
+        
+        # Создаем виджеты глобальных данных
+        self.label_objects_data = QLabel("<html><head/><body><p><span style=\" font-weight:700;\">Глобальные данные</span></p></body></html>")
+        self.fl_objects_data = QFormLayout()
+        self.fl_objects_data.setRowWrapPolicy(QFormLayout.WrapLongRows)
+        
+        self.line_global_data = QFrame()
+        self.line_global_data.setFrameShape(QFrame.HLine)
+        self.line_global_data.setFrameShadow(QFrame.Sunken)
+        
+        # Создаем виджеты параметров объекта
+        self.label_object_parameters = QLabel("<html><head/><body><p><span style=\" font-weight:700;\">Параметры</span></p></body></html>")
+        self.fl_object_parameters = QFormLayout()
+        self.fl_object_parameters.setRowWrapPolicy(QFormLayout.WrapLongRows)
+        
+        self.line_pars = QFrame()
+        self.line_pars.setFrameShape(QFrame.HLine)
+        self.line_pars.setFrameShadow(QFrame.Sunken)
+        
+        # Создаем виджеты типовых параметров объекта
+        self.label_type_object_parameters = QLabel("<html><head/><body><p><span style=\" font-weight:700;\">Типовые параметры</span></p></body></html>")
+        self.fl_type_object_parameters = QFormLayout()
+        self.fl_type_object_parameters.setRowWrapPolicy(QFormLayout.WrapLongRows)
+        
+        self.line_type_pars = QFrame()
+        self.line_type_pars.setFrameShape(QFrame.HLine)
+        self.line_type_pars.setFrameShadow(QFrame.Sunken)
+        
+        # Создаем виджеты глобальных параметров
+        self.label_objects_parameters = QLabel("<html><head/><body><p><span style=\" font-weight:700;\">Глобальные параметры</span></p></body></html>")
+        self.fl_objects_parameters = QFormLayout()
+        self.fl_objects_parameters.setRowWrapPolicy(QFormLayout.WrapLongRows)
+        
+        self.line_global_pars = QFrame()
+        self.line_global_pars.setFrameShape(QFrame.HLine)
+        self.line_global_pars.setFrameShadow(QFrame.Sunken)
+        
+        # Создаем вертикальный спейсер
+        self.vertical_spacer = QWidget()
+        self.vertical_spacer.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
+        
+        # Добавляем все виджеты в layout
+        layout.addWidget(self.label_edit_errors)
+        layout.addLayout(self.vl_edit_errors)
+        layout.addWidget(self.line_errors)
+        layout.addWidget(self.label_control_sectors)
+        layout.addLayout(self.vl_control_sectors)
+        layout.addWidget(self.label_object_data)
+        layout.addLayout(self.fl_object_data)
+        layout.addWidget(self.line_data)
+        layout.addWidget(self.label_type_object_data)
+        layout.addLayout(self.fl_type_object_data)
+        layout.addWidget(self.line_type_data)
+        layout.addWidget(self.label_objects_data)
+        layout.addLayout(self.fl_objects_data)
+        layout.addWidget(self.line_global_data)
+        layout.addWidget(self.label_object_parameters)
+        layout.addLayout(self.fl_object_parameters)
+        layout.addWidget(self.line_pars)
+        layout.addWidget(self.label_type_object_parameters)
+        layout.addLayout(self.fl_type_object_parameters)
+        layout.addWidget(self.line_type_pars)
+        layout.addWidget(self.label_objects_parameters)
+        layout.addLayout(self.fl_objects_parameters)
+        layout.addWidget(self.line_global_pars)
+        layout.addWidget(self.vertical_spacer)
+         
+    def _setup_control_tab_widgets(self):
+        """Генерирует виджеты для вкладки 'Редактирование контрольного сектора'"""
+        # Очищаем содержимое вкладки
+        self._clear_control_tab()
+        
+        # Создаем виджеты
+        self._create_control_tab_widgets()
+        
+    def _clear_control_tab(self):
+        """Очищает содержимое вкладки 'Редактирование контрольного сектора'"""
+        # Очищаем все виджеты из layout
+        while self.ui.fl_control.count():
+            child = self.ui.fl_control.takeAt(0)
+            if child.widget():
+                child.widget().deleteLater()
+                
+    def _create_control_tab_widgets(self):
+        """Создает виджеты для вкладки 'Редактирование контрольного сектора'"""
+        # Создаем FormLayout для параметров контрольного сектора
+        self.fl_control = QFormLayout()
+        self.fl_control.setRowWrapPolicy(QFormLayout.WrapLongRows)
+        
+        # Добавляем layout в контейнер вкладки
+        self.ui.verticalLayout_6.addLayout(self.fl_control)
 
     def _change_theme(self, theme_name):
         self.__obsm.obj_settings.set_theme(theme_name)
@@ -283,10 +558,10 @@ class MainWindow(QMainWindow):
 
             if self.ui.tabw_right.currentIndex() == 0:
                 is_general_tab = True
-                diagram_type_id = self.ui.combox_type_diagram.currentData().get(
+                diagram_type_id = self.combox_type_diagram.currentData().get(
                     "type_id", ""
                 )
-                diagram_name = self.ui.combox_type_diagram.currentData().get("name", "")
+                diagram_name = self.combox_type_diagram.currentData().get("name", "")
                 new_diagram_parameters = self._get_new_data_or_parameters(
                     self.__general_diagram_parameters_widgets, is_parameters=True
                 )
@@ -330,8 +605,8 @@ class MainWindow(QMainWindow):
                     control_sectors = self.__current_object.get("control_sectors", [])
                     for row, cs in enumerate(control_sectors):
                         # Получаем виджеты из таблицы
-                        item_cs_name = self.ui.tw_control_sectors.item(row, 1)
-                        item_cs_physical_length = self.ui.tw_control_sectors.item(
+                        item_cs_name = self.tw_control_sectors.item(row, 1)
+                        item_cs_physical_length = self.tw_control_sectors.item(
                             row, 2
                         )
                         if item_cs_name:
@@ -592,7 +867,7 @@ class MainWindow(QMainWindow):
     def _reset_combobox_type_diagram(self, diagram_type_id):
         print("reset_combobox_type_diagram():\n")
         print(f"diagram_type_id={diagram_type_id}\n")
-        combox_widget = self.ui.combox_type_diagram
+        combox_widget = self.combox_type_diagram
         combox_widget.blockSignals(True)
         combox_widget.clear()
         #
@@ -610,7 +885,7 @@ class MainWindow(QMainWindow):
         #
 
     def _change_type_diagram(self, index):
-        new_diagram = self.ui.combox_type_diagram.currentData()
+        new_diagram = self.combox_type_diagram.currentData()
         new_type_id = new_diagram.get("type_id", "0")
         current_type_id = self.__obsm.obj_project.get_data().get(
             "diagram_type_id", None
@@ -639,13 +914,13 @@ class MainWindow(QMainWindow):
         )
         flag = self._create_parameters_widgets(
             self.__general_diagram_parameters_widgets,
-            self.ui.fl_diagram_parameters,
+            self.fl_diagram_parameters,
             config_diagram_parameters,
             diagram_parameters,
             combined_data_parameters=False,
         )
-        self.ui.label_diagram_parameters.setVisible(flag)
-        self.ui.line_p_dia.setVisible(flag)
+        self.label_diagram_parameters.setVisible(flag)
+        self.line_p_dia.setVisible(flag)
 
     def _save_and_restore_scroll_position(self, table_widget, reset_function):
         scroll_position = table_widget.verticalScrollBar().value()
@@ -662,7 +937,7 @@ class MainWindow(QMainWindow):
 
     def _reset_table_nodes(self, nodes):
         def reset_nodes():
-            table_widget = self.ui.tablew_nodes
+            table_widget = self.tablew_nodes
             table_widget.blockSignals(True)
             table_widget.clearContents()
             table_widget.setRowCount(len(nodes))
@@ -717,12 +992,12 @@ class MainWindow(QMainWindow):
             #
             table_widget.blockSignals(False)
 
-        self._save_and_restore_scroll_position(self.ui.tablew_nodes, reset_nodes)
+        self._save_and_restore_scroll_position(self.tablew_nodes, reset_nodes)
 
     def _reset_table_connections(self, connections):
         def reset_connections():
             print("reset_table_connections")
-            table_widget = self.ui.tablew_connections
+            table_widget = self.tablew_connections
             table_widget.blockSignals(True)
             table_widget.clearContents()
             table_widget.setRowCount(len(connections))
@@ -788,7 +1063,7 @@ class MainWindow(QMainWindow):
             table_widget.blockSignals(False)
 
         self._save_and_restore_scroll_position(
-            self.ui.tablew_connections, reset_connections
+            self.tablew_connections, reset_connections
         )
 
     def _update_physical_length_header(self, table_widget, comparison_result):
@@ -808,7 +1083,7 @@ class MainWindow(QMainWindow):
     def _reset_table_control_sectors(self, control_sectors):
         def reset_control_sectors():
             print("reset_table_control_sectors")
-            table_widget = self.ui.tw_control_sectors
+            table_widget = self.tw_control_sectors
             table_widget.blockSignals(True)
             table_widget.clearContents()
             table_widget.setRowCount(len(control_sectors))
@@ -874,7 +1149,7 @@ class MainWindow(QMainWindow):
             table_widget.blockSignals(False)
 
         self._save_and_restore_scroll_position(
-            self.ui.tw_control_sectors, reset_control_sectors
+            self.tw_control_sectors, reset_control_sectors
         )
 
     def _reset_widgets_by_data(self, data):
@@ -994,11 +1269,11 @@ class MainWindow(QMainWindow):
             3, f"Редактирование контрольного сектора {cs.get('order', 0) + 1}"
         )
         #
-        self._clear_form_layout(self.ui.fl_control)
+        self._clear_form_layout(self.fl_control)
         self._create_control_sector_widgets(cs)
 
     def _create_control_sector_widgets(self, cs):
-        self._clear_form_layout(self.ui.fl_control)
+        self._clear_form_layout(self.fl_control)
         # получаем precision_separator и precision_number из параметров диаграммы
         precision_separator, precision_number = (
             self._get_precision_separator_and_number()
@@ -1020,7 +1295,7 @@ class MainWindow(QMainWindow):
         # Используем _create_parameters_widgets для создания виджетов
         self._create_parameters_widgets(
             self.__control_data_parameters_widgets,
-            self.ui.fl_control,
+            self.fl_control,
             control_sectors_config,
             cs_data_pars,
             precision_separator,
@@ -1483,23 +1758,23 @@ class MainWindow(QMainWindow):
         self._reset_table_control_sectors(control_sectors)
 
     def _create_editor_control_sectors_by_object(self, obj, is_node=False):
-        self.ui.label_control_sectors.setVisible(not is_node)
-        self.ui.line_cont_sect.setVisible(not is_node)
+        self.label_control_sectors.setVisible(not is_node)
+        self.line_cont_sect.setVisible(not is_node)
         #
-        self.ui.tw_control_sectors.setVisible(not is_node)
-        self.ui.btn_add_control_sector.setVisible(not is_node)
-        self.ui.btn_move_control_sectors.setVisible(not is_node)
+        self.tw_control_sectors.setVisible(not is_node)
+        self.btn_add_control_sector.setVisible(not is_node)
+        self.btn_move_control_sectors.setVisible(not is_node)
         # отключаем старые обработчики
         try:
-            self.ui.btn_add_control_sector.clicked.disconnect()
-            self.ui.btn_move_control_sectors.clicked.disconnect()
+            self.btn_add_control_sector.clicked.disconnect()
+            self.btn_move_control_sectors.clicked.disconnect()
         except:
             pass
         #
-        self.ui.btn_add_control_sector.clicked.connect(
+        self.btn_add_control_sector.clicked.connect(
             partial(self._add_control_sector, obj)
         )
-        self.ui.btn_move_control_sectors.clicked.connect(
+        self.btn_move_control_sectors.clicked.connect(
             partial(self._move_control_sectors, obj)
         )
         #
@@ -1534,33 +1809,33 @@ class MainWindow(QMainWindow):
         object_parameters = obj.get("parameters", {})
         flag = self._create_parameters_widgets(
             self.__editor_object_parameters_widgets,
-            self.ui.fl_object_parameters,
+            self.fl_object_parameters,
             config_object_parameters,
             object_parameters,
             combined_data_parameters=False,
         )
-        self.ui.label_object_parameters.setVisible(flag)
-        self.ui.line_pars.setVisible(flag)
+        self.label_object_parameters.setVisible(flag)
+        self.line_pars.setVisible(flag)
         #
         flag = self._create_parameters_widgets(
             self.__editor_type_object_parameters_widgets,
-            self.ui.fl_type_object_parameters,
+            self.fl_type_object_parameters,
             config_type_object_parameters,
             object_parameters,
             combined_data_parameters=False,
         )
-        self.ui.label_type_object_parameters.setVisible(flag)
-        self.ui.line_type_pars.setVisible(flag)
+        self.label_type_object_parameters.setVisible(flag)
+        self.line_type_pars.setVisible(flag)
         #
         flag = self._create_parameters_widgets(
             self.__editor_objects_parameters_widgets,
-            self.ui.fl_objects_parameters,
+            self.fl_objects_parameters,
             config_objects_parameters,
             object_parameters,
             combined_data_parameters=False,
         )
-        self.ui.label_objects_parameters.setVisible(flag)
-        self.ui.line_global_pars.setVisible(flag)
+        self.label_objects_parameters.setVisible(flag)
+        self.line_global_pars.setVisible(flag)
 
     def _create_editor_data_widgets_by_object(self, obj, is_node=False):
         if is_node:
@@ -1589,37 +1864,37 @@ class MainWindow(QMainWindow):
         object_data = obj.get("data", {})
         flag = self.create_data_widgets(
             self.__editor_object_data_widgets,
-            self.ui.fl_object_data,
+            self.fl_object_data,
             config_object_data,
             object_data,
         )
-        self.ui.label_object_data.setVisible(flag)
-        self.ui.line_data.setVisible(flag)
+        self.label_object_data.setVisible(flag)
+        self.line_data.setVisible(flag)
         #
         flag = self.create_data_widgets(
             self.__editor_type_object_data_widgets,
-            self.ui.fl_type_object_data,
+            self.fl_type_object_data,
             config_type_object_data,
             object_data,
         )
-        self.ui.label_type_object_data.setVisible(flag)
-        self.ui.line_type_data.setVisible(flag)
+        self.label_type_object_data.setVisible(flag)
+        self.line_type_data.setVisible(flag)
         #
         flag = self.create_data_widgets(
             self.__editor_objects_data_widgets,
-            self.ui.fl_objects_data,
+            self.fl_objects_data,
             config_objects_data,
             object_data,
         )
-        self.ui.label_objects_data.setVisible(flag)
-        self.ui.line_global_data.setVisible(flag)
+        self.label_objects_data.setVisible(flag)
+        self.line_global_data.setVisible(flag)
 
     def node_table_context_menu(self, position):
         """Отображение контекстного меню для таблицы узлов"""
         menu = QMenu()
         menu.setStyleSheet(self.styleSheet())
 
-        selected_row = self.ui.tablew_nodes.currentRow()
+        selected_row = self.tablew_nodes.currentRow()
         if selected_row < 0:
             return
 
@@ -1676,7 +1951,7 @@ class MainWindow(QMainWindow):
         menu = QMenu()
         menu.setStyleSheet(self.styleSheet())
 
-        selected_row = self.ui.tablew_connections.currentRow()
+        selected_row = self.tablew_connections.currentRow()
         if selected_row < 0:
             return
 
@@ -1693,7 +1968,7 @@ class MainWindow(QMainWindow):
         )
 
         # Отображаем меню
-        action = menu.exec_(self.ui.tablew_connections.viewport().mapToGlobal(position))
+        action = menu.exec_(self.tablew_connections.viewport().mapToGlobal(position))
 
         # Обработка выбора действия
         if selected_row >= 0 and selected_connection:
@@ -1711,7 +1986,7 @@ class MainWindow(QMainWindow):
         menu = QMenu()
         menu.setStyleSheet(self.styleSheet())
 
-        selected_row = self.ui.tw_control_sectors.currentRow()
+        selected_row = self.tw_control_sectors.currentRow()
         if selected_row < 0:
             return
 
@@ -1731,7 +2006,7 @@ class MainWindow(QMainWindow):
         )
 
         # Отображаем меню
-        action = menu.exec_(self.ui.tw_control_sectors.viewport().mapToGlobal(position))
+        action = menu.exec_(self.tw_control_sectors.viewport().mapToGlobal(position))
 
         # Обработка выбора действия
         if action == copy_data_action and selected_cs:
@@ -1749,12 +2024,12 @@ class MainWindow(QMainWindow):
         """
         Очищает все сообщения об ошибках из контейнера vl_edit_errors.
         """
-        while self.ui.vl_edit_errors.count():
-            item = self.ui.vl_edit_errors.takeAt(0)
+        while self.vl_edit_errors.count():
+            item = self.vl_edit_errors.takeAt(0)
             if item.widget():
                 item.widget().deleteLater()
-        self.ui.label_edit_errors.setVisible(False)
-        self.ui.line_errors.setVisible(False)
+        self.label_edit_errors.setVisible(False)
+        self.line_errors.setVisible(False)
 
     def _check_lengths(self, optical_length=None, physical_length=None):
         """
@@ -1817,8 +2092,8 @@ class MainWindow(QMainWindow):
             self._add_error_message(error_message)
 
     def _add_error_message(self, message):
-        self.ui.label_edit_errors.setVisible(True)
-        self.ui.line_errors.setVisible(True)
+        self.label_edit_errors.setVisible(True)
+        self.line_errors.setVisible(True)
 
         # Используем QLabel вместо QTextEdit
         error_label = QLabel()
@@ -1826,7 +2101,7 @@ class MainWindow(QMainWindow):
         error_label.setWordWrap(True)
         error_label.setStyleSheet("color: #e29c4a;")
 
-        self.ui.vl_edit_errors.addWidget(error_label)
+        self.vl_edit_errors.addWidget(error_label)
 
     def _show_info_dialog(self, info):
         """Отображает диалоговое окно с информацией."""

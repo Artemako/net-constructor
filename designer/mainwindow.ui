@@ -17,7 +17,7 @@
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -62,7 +62,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>350</width>
+         <width>250</width>
          <height>0</height>
         </size>
        </property>
@@ -103,7 +103,7 @@
        </property>
        <property name="minimumSize">
         <size>
-         <width>500</width>
+         <width>300</width>
          <height>0</height>
         </size>
        </property>
@@ -123,7 +123,7 @@
         <item>
          <widget class="QTabWidget" name="tabw_right">
           <property name="currentIndex">
-           <number>0</number>
+           <number>3</number>
           </property>
           <property name="documentMode">
            <bool>false</bool>
@@ -164,11 +164,11 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>747</width>
+                 <width>847</width>
                  <height>519</height>
                 </rect>
                </property>
-               <layout class="QVBoxLayout" name="verticalLayout_8" stretch="0,0,0,0,0,0,0">
+               <layout class="QVBoxLayout" name="verticalLayout_8">
                 <property name="spacing">
                  <number>4</number>
                 </property>
@@ -184,57 +184,6 @@
                 <property name="bottomMargin">
                  <number>0</number>
                 </property>
-                <item>
-                 <widget class="QLabel" name="label_type">
-                  <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Тип схемы&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QComboBox" name="combox_type_diagram"/>
-                </item>
-                <item>
-                 <widget class="Line" name="line_type_dia">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_diagram_parameters">
-                  <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Параметры схемы&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <layout class="QFormLayout" name="fl_diagram_parameters">
-                  <property name="rowWrapPolicy">
-                   <enum>QFormLayout::WrapLongRows</enum>
-                  </property>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="Line" name="line_p_dia">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="verticalSpacer">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
                </layout>
               </widget>
              </widget>
@@ -259,34 +208,6 @@
                 <property name="spacing">
                  <number>4</number>
                 </property>
-                <item>
-                 <widget class="QLabel" name="label_nodes">
-                  <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Точки&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QTableWidget" name="tablew_nodes"/>
-                </item>
-                <item>
-                 <layout class="QHBoxLayout" name="hl_btns">
-                  <item>
-                   <widget class="QPushButton" name="btn_addnode">
-                    <property name="text">
-                     <string>Добавить точку</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="btn_movenodes">
-                    <property name="text">
-                     <string>Изменить порядок точек</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
                </layout>
               </widget>
               <widget class="QWidget" name="verticalLayoutWidget_2">
@@ -294,30 +215,6 @@
                 <property name="spacing">
                  <number>4</number>
                 </property>
-                <item>
-                 <widget class="Line" name="line_3">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_connections">
-                  <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Строительные длины&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QTableWidget" name="tablew_connections"/>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="btn_moveconnections">
-                  <property name="text">
-                   <string>Изменить порядок строительных длин</string>
-                  </property>
-                 </widget>
-                </item>
                </layout>
               </widget>
              </widget>
@@ -360,11 +257,11 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>274</width>
-                 <height>572</height>
+                 <width>847</width>
+                 <height>519</height>
                 </rect>
                </property>
-               <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1">
+               <layout class="QVBoxLayout" name="verticalLayout_4">
                 <property name="spacing">
                  <number>6</number>
                 </property>
@@ -380,204 +277,6 @@
                 <property name="bottomMargin">
                  <number>0</number>
                 </property>
-                <item>
-                 <widget class="QLabel" name="label_edit_errors">
-                  <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Ошибки&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="vl_edit_errors"/>
-                </item>
-                <item>
-                 <widget class="Line" name="line_errors">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_control_sectors">
-                  <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Способ прокладки ВОК&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <layout class="QVBoxLayout" name="vl_control_sectors">
-                  <property name="spacing">
-                   <number>4</number>
-                  </property>
-                  <item>
-                   <widget class="QTableWidget" name="tw_control_sectors"/>
-                  </item>
-                  <item>
-                   <layout class="QHBoxLayout" name="hl_control_sectors_buttons">
-                    <item>
-                     <widget class="QPushButton" name="btn_add_control_sector">
-                      <property name="text">
-                       <string>Добавить сектор</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item>
-                     <widget class="QPushButton" name="btn_move_control_sectors">
-                      <property name="text">
-                       <string>Изменить порядок секторов</string>
-                      </property>
-                     </widget>
-                    </item>
-                   </layout>
-                  </item>
-                  <item>
-                   <widget class="Line" name="line_cont_sect">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_object_data">
-                  <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Данные&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <layout class="QFormLayout" name="fl_object_data">
-                  <property name="rowWrapPolicy">
-                   <enum>QFormLayout::WrapLongRows</enum>
-                  </property>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="Line" name="line_data">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_type_object_data">
-                  <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Типовые данные&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <layout class="QFormLayout" name="fl_type_object_data">
-                  <property name="rowWrapPolicy">
-                   <enum>QFormLayout::WrapLongRows</enum>
-                  </property>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="Line" name="line_type_data">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_objects_data">
-                  <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Глобальные данные&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <layout class="QFormLayout" name="fl_objects_data">
-                  <property name="rowWrapPolicy">
-                   <enum>QFormLayout::WrapLongRows</enum>
-                  </property>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="Line" name="line_global_data">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_object_parameters">
-                  <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Параметры&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <layout class="QFormLayout" name="fl_object_parameters">
-                  <property name="rowWrapPolicy">
-                   <enum>QFormLayout::WrapLongRows</enum>
-                  </property>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="Line" name="line_pars">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_type_object_parameters">
-                  <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Типовые параметры&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <layout class="QFormLayout" name="fl_type_object_parameters">
-                  <property name="rowWrapPolicy">
-                   <enum>QFormLayout::WrapLongRows</enum>
-                  </property>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="Line" name="line_type_pars">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QLabel" name="label_objects_parameters">
-                  <property name="text">
-                   <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700;&quot;&gt;Глобальные параметры&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <layout class="QFormLayout" name="fl_objects_parameters">
-                  <property name="rowWrapPolicy">
-                   <enum>QFormLayout::WrapLongRows</enum>
-                  </property>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="Line" name="line_global_pars">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="vertical_spacer">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
                </layout>
               </widget>
              </widget>
@@ -627,16 +326,10 @@
     <property name="title">
      <string>Прочее</string>
     </property>
-    <widget class="QMenu" name="menu_3">
-     <property name="title">
-      <string>Тема</string>
-     </property>
-     <addaction name="light_action"/>
-     <addaction name="dark_action"/>
-    </widget>
     <addaction name="action_parameters"/>
     <addaction name="action_edit_cable_lists"/>
-    <addaction name="menu_3"/>
+    <addaction name="separator"/>
+    <addaction name="action_settings"/>
    </widget>
    <addaction name="menu_file"/>
    <addaction name="menu"/>
@@ -893,6 +586,18 @@
   <action name="dark_action">
    <property name="text">
     <string>Тёмная</string>
+   </property>
+  </action>
+  <action name="action_settings">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/white-icons/resources/white-icons/settings.svg</normaloff>:/white-icons/resources/white-icons/settings.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Настройки</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+,</string>
    </property>
   </action>
  </widget>
