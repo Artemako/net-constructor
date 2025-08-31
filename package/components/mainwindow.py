@@ -42,7 +42,6 @@ from PySide6.QtGui import (
 )
 from PySide6.QtCore import QRegularExpression, Qt, QModelIndex, QLocale, QSettings
 
-import package.controllers.style as style
 import package.controllers.icons as icons
 import package.controllers.imagewidget as imagewidget
 
@@ -102,8 +101,8 @@ class MainWindow(QMainWindow):
         # тема
         self.__settings = QSettings("Constant", "Net-constructor")
         self.__theme_name = self.__settings.value("theme_name", "dark")
-        # СТИЛЬ
-        self.__obj_style = style.Style()
+        # СТИЛЬ - используем контроллер стилей из OSBM
+        self.__obj_style = self.__obsm.obj_style
         self.__obj_style.set_style_for_mw_by_name(self, self.__theme_name)
         # + иконки
         self.__obj_icons = icons.Icons()
@@ -160,10 +159,10 @@ class MainWindow(QMainWindow):
 
     def _change_theme(self, theme_name):
         self.__settings.setValue("theme_name", theme_name)
-        self.__obj_style.set_style_for_mw_by_name(self, theme_name)
+        self.__theme_name = theme_name
+        # Применяем тему ко всем окнам приложения
+        self.__obj_style.apply_theme_to_all_windows(theme_name)
         self.__obj_icons.set_icons_for_mw_by_name(self, theme_name)
-        # self.setStyleSheet(style)
-        # QApplication.instance().setStyleSheet(style)
 
     def _start_qt_actions(self):
         self.ui.action_new.setEnabled(True)

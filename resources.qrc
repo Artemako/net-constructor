@@ -28,6 +28,56 @@
     <file>resources/png/sub-menu-arrow.png</file>
     <file>resources/png/sub-menu-arrow-hover.png</file>
   </qresource>
+  <qresource prefix="black-png">
+    <file>resources/black-png/branch-closed.png</file>
+    <file>resources/black-png/branch-open.png</file>
+    <file>resources/black-png/checkbox-check.png</file>
+    <file>resources/black-png/checkbox-check-disabled.png</file>
+    <file>resources/black-png/combobox-down.png</file>
+    <file>resources/black-png/scrollbar-down.png</file>
+    <file>resources/black-png/scrollbar-down-disabled.png</file>
+    <file>resources/black-png/scrollbar-down-hover.png</file>
+    <file>resources/black-png/scrollbar-left.png</file>
+    <file>resources/black-png/scrollbar-left-disabled.png</file>
+    <file>resources/black-png/scrollbar-left-hover.png</file>
+    <file>resources/black-png/scrollbar-right.png</file>
+    <file>resources/black-png/scrollbar-right-disabled.png</file>
+    <file>resources/black-png/scrollbar-right-hover.png</file>
+    <file>resources/black-png/scrollbar-up.png</file>
+    <file>resources/black-png/scrollbar-up-disabled.png</file>
+    <file>resources/black-png/scrollbar-up-hover.png</file>
+    <file>resources/black-png/sort-asc.png</file>
+    <file>resources/black-png/sort-desc.png</file>
+    <file>resources/black-png/spinner-down.png</file>
+    <file>resources/black-png/spinner-up.png</file>
+    <file>resources/black-png/sub-menu-arrow.png</file>
+    <file>resources/black-png/sub-menu-arrow-hover.png</file>
+  </qresource>
+  <qresource prefix="white-png">
+    <file>resources/white-png/branch-closed.png</file>
+    <file>resources/white-png/branch-open.png</file>
+    <file>resources/white-png/checkbox-check.png</file>
+    <file>resources/white-png/checkbox-check-disabled.png</file>
+    <file>resources/white-png/combobox-down.png</file>
+    <file>resources/white-png/scrollbar-down.png</file>
+    <file>resources/white-png/scrollbar-down-disabled.png</file>
+    <file>resources/white-png/scrollbar-down-hover.png</file>
+    <file>resources/white-png/scrollbar-left.png</file>
+    <file>resources/white-png/scrollbar-left-disabled.png</file>
+    <file>resources/white-png/scrollbar-left-hover.png</file>
+    <file>resources/white-png/scrollbar-right.png</file>
+    <file>resources/white-png/scrollbar-right-disabled.png</file>
+    <file>resources/white-png/scrollbar-right-hover.png</file>
+    <file>resources/white-png/scrollbar-up.png</file>
+    <file>resources/white-png/scrollbar-up-disabled.png</file>
+    <file>resources/white-png/scrollbar-up-hover.png</file>
+    <file>resources/white-png/sort-asc.png</file>
+    <file>resources/white-png/sort-desc.png</file>
+    <file>resources/white-png/spinner-down.png</file>
+    <file>resources/white-png/spinner-up.png</file>
+    <file>resources/white-png/sub-menu-arrow.png</file>
+    <file>resources/white-png/sub-menu-arrow-hover.png</file>
+  </qresource>
   <qresource prefix="white-icons">
     <file>resources/white-icons/add-file.svg</file>
     <file>resources/white-icons/calendar.svg</file>
