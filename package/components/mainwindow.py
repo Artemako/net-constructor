@@ -51,6 +51,7 @@ import package.components.diagramtypeselectdialog as diagramtypeselectdialog
 import package.components.changeorderdialog as changeorderdialog
 import package.components.controlsectordeletedialog as controlsectordeletedialog
 import package.components.cablelistsdialog as cablelistsdialog
+import package.components.settingsdialog as settingsdialog
 
 import package.ui.mainwindow_ui as mainwindow_ui
 
@@ -98,9 +99,8 @@ class MainWindow(QMainWindow):
             self._validate_connection(self.__current_object, show_errors=True)
 
     def config(self):
-        # тема
-        self.__settings = QSettings("Constant", "Net-constructor")
-        self.__theme_name = self.__settings.value("theme_name", "dark")
+        # тема - используем настройки из OSBM
+        self.__theme_name = self.__obsm.obj_settings.get_theme()
         # СТИЛЬ - используем контроллер стилей из OSBM
         self.__obj_style = self.__obsm.obj_style
         self.__obj_style.set_style_for_mw_by_name(self, self.__theme_name)
@@ -151,14 +151,19 @@ class MainWindow(QMainWindow):
         self.ui.action_export_to_image.triggered.connect(self._export_to_image)
         # видимость параметров
         self.ui.action_parameters.triggered.connect(self._toggle_parameters_visibility)
-        # смены темы
-        self.ui.dark_action.triggered.connect(lambda: self._change_theme("dark"))
-        self.ui.light_action.triggered.connect(lambda: self._change_theme("light"))
+        # Инициализируем состояние действия из настроек
+        show_parameters = self.__obsm.obj_settings.get_show_parameters()
+        self.ui.action_parameters.setChecked(show_parameters)
+        # смены темы (убрано из меню, теперь в диалоге настроек)
+        # self.ui.dark_action.triggered.connect(lambda: self._change_theme("dark"))
+        # self.ui.light_action.triggered.connect(lambda: self._change_theme("light"))
         # управление списками кабелей
         self.ui.action_edit_cable_lists.triggered.connect(self._edit_cable_lists)
+        # открытие диалога настроек
+        self.ui.action_settings.triggered.connect(self._open_settings)
 
     def _change_theme(self, theme_name):
-        self.__settings.setValue("theme_name", theme_name)
+        self.__obsm.obj_settings.set_theme(theme_name)
         self.__theme_name = theme_name
         # Применяем тему ко всем окнам приложения
         self.__obj_style.apply_theme_to_all_windows(theme_name)
@@ -182,6 +187,11 @@ class MainWindow(QMainWindow):
         if not self.__obsm.obj_project.is_active():
             QMessageBox.information(self, "Информация", "Сначала откройте или создайте проект.")
             return
+        
+        # Синхронизируем состояние действия с настройкой
+        is_checked = self.ui.action_parameters.isChecked()
+        self.__obsm.obj_settings.set_show_parameters(is_checked)
+        self.__obsm.obj_settings.sync()
             
         # Обновляем все вкладки при изменении видимости параметров
         project_data = self.__obsm.obj_project.get_data()
@@ -1960,6 +1970,15 @@ class MainWindow(QMainWindow):
         if result == QDialog.Accepted:
             # Обновляем интерфейс после изменения списков кабелей
             self._refresh_cable_lists_in_ui()
+            
+    def _open_settings(self):
+        """Открывает диалог настроек"""
+        dialog = settingsdialog.SettingsDialog(self.__obsm)
+        result = dialog.exec()
+        
+        if result == QDialog.Accepted:
+            # Настройки были сохранены, обновляем интерфейс если нужно
+            pass
             
     def _refresh_cable_lists_in_ui(self):
         """Обновляет список кабелей в интерфейсе"""

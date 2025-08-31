@@ -8,6 +8,7 @@ import package.components.mainwindow as mainwindow
 import package.modules.dirpathmanager as dirpathmanager
 import package.modules.configs as configs
 import package.modules.project as project
+import package.modules.settings as settings
 import package.controllers.style as style
 
 class ObjectsManager:
@@ -19,12 +20,16 @@ class ObjectsManager:
         self.obj_dirpath = None
         self.obj_configs = None
         self.obj_project = None
+        self.obj_settings = None
         self.obj_style = None
 
     def initializing_objects(self):
         self.obj_dirpath = dirpathmanager.DirPathManager()
         self.obj_configs = configs.Configs()
         self.obj_project = project.Project()
+        self.obj_settings = settings.Settings()
+        self.obj_settings.setting_osbm(self)
+        self.obj_settings.initialize_default_settings()
         self.obj_style = style.Style()
         self.obj_style.setting_all_osbm(self)
    
@@ -69,7 +74,8 @@ class App:
             self.window = mainwindow.MainWindow(self.__obsm)
             self.__obsm.obj_mw = self.window
             # Применяем стиль к главному окну
-            self.__obsm.obj_style.set_style_for_mw_by_name(self.window, "dark")
+            saved_theme = self.__obsm.obj_settings.get_theme()
+            self.__obsm.obj_style.set_style_for_mw_by_name(self.window, saved_theme)
             self.window.show()
             # sys.exit(self.app.exec())
             self.app.exec_()
