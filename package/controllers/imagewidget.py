@@ -25,6 +25,14 @@ class ImageWidget(QWidget):
     def set_obsm(self, obsm):
         self.__obsm = obsm
 
+    def clear(self):
+        """Очищает изображение и сбрасывает состояние виджета"""
+        self.__image = None
+        self.__diagram_drawer = None
+        self.__zoom_level = 1.0
+        self.__pan_offset = QPointF(0, 0)
+        self.update()
+
     def run(self, data, is_new=False):
         self.__diagram_drawer = diagramdrawer.DiagramDrawer(self.__obsm, data)
         self.__image = self.create_image(data)

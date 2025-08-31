@@ -6,6 +6,7 @@ class Configs:
         self.__global = {}
         self.__nodes = {}
         self.__connections = {}
+        self.__cable_lists = {}
 
     def load_configs(self, dir_app):
         with open(dir_app + "/configs/config_global.json", "r", encoding="utf-8") as f:
@@ -16,6 +17,25 @@ class Configs:
             dir_app + "/configs/config_connections.json", "r", encoding="utf-8"
         ) as f:
             self.__connections = json.load(f)
+        with open(
+            dir_app + "/configs/config_cable_lists.json", "r", encoding="utf-8"
+        ) as f:
+            self.__cable_lists = json.load(f)
+
+    def save_cable_lists(self, dir_app):
+        """Сохраняет списки кабелей в файл"""
+        with open(
+            dir_app + "/configs/config_cable_lists.json", "w", encoding="utf-8"
+        ) as f:
+            json.dump(self.__cable_lists, f, ensure_ascii=False, indent=4)
+
+    def get_cable_list(self) -> list:
+        """Возвращает список кабелей"""
+        return self.__cable_lists.get("cable_list", [])
+
+    def update_cable_list(self, cables: list):
+        """Обновляет список кабелей"""
+        self.__cable_lists["cable_list"] = cables
 
     def get_node(self, node_id: str) -> dict:
         return self.__nodes.get(node_id, {})

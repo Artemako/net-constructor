@@ -301,10 +301,8 @@ QGroupBox {
     border-color: #3f3f46;
     border-style: solid;
     border-width: 1px;
-    /*
-    padding: 1em 0.3em 0.3em 0.3em;
-    margin-top: 0.65em;
-    */
+    padding: 10px 5px 5px 5px;
+    margin-top: 10px;
 }
 
 QGroupBox::title {
@@ -1199,11 +1197,10 @@ QGroupBox {
     border-color: #cccccc;
     border-style: solid;
     border-width: 1px;
-    /*
-    padding: 1em 0.3em 0.3em 0.3em;
-    margin-top: 0.65em;
-    */
+    padding: 10px 5px 5px 5px;
+    margin-top: 10px;
 }
+
 QGroupBox::title {
     subcontrol-origin: margin;
     subcontrol-position: top left;

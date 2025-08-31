@@ -51,6 +51,7 @@ import package.components.nodeconnectiondeletedialog as nodeconnectiondeletedial
 import package.components.diagramtypeselectdialog as diagramtypeselectdialog
 import package.components.changeorderdialog as changeorderdialog
 import package.components.controlsectordeletedialog as controlsectordeletedialog
+import package.components.cablelistsdialog as cablelistsdialog
 
 import package.ui.mainwindow_ui as mainwindow_ui
 
@@ -121,6 +122,8 @@ class MainWindow(QMainWindow):
         self.installEventFilter(self)
 
         #
+        # Скрываем правый блок с вкладками при запуске
+        self.ui.gb_right.setVisible(False)
         self.ui.tabw_right.tabBar().setTabVisible(2, False)
         self.ui.tabw_right.tabBar().setTabVisible(3, False)
         self.ui.tabw_right.currentChanged.connect(self._tab_right_changed)
@@ -152,6 +155,8 @@ class MainWindow(QMainWindow):
         # смены темы
         self.ui.dark_action.triggered.connect(lambda: self._change_theme("dark"))
         self.ui.light_action.triggered.connect(lambda: self._change_theme("light"))
+        # управление списками кабелей
+        self.ui.action_edit_cable_lists.triggered.connect(self._edit_cable_lists)
 
     def _change_theme(self, theme_name):
         self.__settings.setValue("theme_name", theme_name)
@@ -174,6 +179,19 @@ class MainWindow(QMainWindow):
             self.statusBar().showMessage("Проект не открыт")
 
     def _toggle_parameters_visibility(self):
+        # Проверяем, активен ли проект
+        if not self.__obsm.obj_project.is_active():
+            QMessageBox.information(self, "Информация", "Сначала откройте или создайте проект.")
+            return
+            
+        # Переключаем видимость правого блока
+        is_visible = self.ui.gb_right.isVisible()
+        self.ui.gb_right.setVisible(not is_visible)
+        
+        # Если блок скрыт, не обновляем виджеты
+        if not self.ui.gb_right.isVisible():
+            return
+            
         # Обновляем все вкладки при изменении видимости параметров
         project_data = self.__obsm.obj_project.get_data()
         
@@ -200,6 +218,8 @@ class MainWindow(QMainWindow):
             if result == QDialog.Accepted:
                 diagram_data = dialog.get_data()
                 #
+                # Показываем правый блок с вкладками
+                self.ui.gb_right.setVisible(True)
                 self.ui.tabw_right.setCurrentIndex(0)
                 #
                 control_sectors_config = (
@@ -222,6 +242,8 @@ class MainWindow(QMainWindow):
         file_name, _ = QFileDialog.getOpenFileName(self, " ", "", self.__text_format)
         if file_name:
             #
+            # Показываем правый блок с вкладками
+            self.ui.gb_right.setVisible(True)
             self.ui.tabw_right.setCurrentIndex(0)
             #
             self.__obsm.obj_project.open_project(file_name)
@@ -1207,7 +1229,12 @@ class MainWindow(QMainWindow):
             new_widget = QComboBox()
             new_widget.setEditable(True)
 
-            predefined_values = arguments.get("list", [])
+            # Используем централизованный список кабелей вместо локального
+            predefined_values = self.__obsm.obj_configs.get_cable_list()
+            if not predefined_values:
+                # Если централизованный список пуст, используем локальный как fallback
+                predefined_values = arguments.get("list", [])
+                
             for val in predefined_values: 
                 new_widget.addItem(str(val))
     
@@ -1936,3 +1963,43 @@ class MainWindow(QMainWindow):
                 return True
         
         return False
+
+    def _edit_cable_lists(self):
+        """Открывает диалог управления списками кабелей"""
+        dialog = cablelistsdialog.CableListsDialog(self.__obsm, self)
+        result = dialog.exec()
+        
+        if result == QDialog.Accepted:
+            # Обновляем интерфейс после изменения списков кабелей
+            self._refresh_cable_lists_in_ui()
+            
+    def _refresh_cable_lists_in_ui(self):
+        """Обновляет список кабелей в интерфейсе"""
+        # Получаем список кабелей
+        cables = self.__obsm.obj_configs.get_cable_list()
+        
+        # Обновляем все комбобоксы с кабелями в интерфейсе
+        # Это нужно сделать для всех соединений, которые используют списки кабелей
+        project_data = self.__obsm.obj_project.get_data()
+        if project_data:
+            # Обновляем виджеты на текущей вкладке
+            if self.ui.tabw_right.currentIndex() == 2:  # Вкладка редактирования
+                self._refresh_editor_widgets()
+            elif self.ui.tabw_right.currentIndex() == 0:  # Основная вкладка
+                self._reset_widgets_by_data(project_data)
+                
+    def _refresh_editor_widgets(self):
+        """Обновляет виджеты редактора после изменения списков кабелей"""
+        if self.__current_object and not self.__current_is_node:
+            # Обновляем виджеты данных соединения
+            self._create_editor_data_widgets_by_object(self.__current_object, self.__current_is_node)
+
+    def hide_right_panel(self):
+        """Скрывает правый блок с вкладками"""
+        self.ui.gb_right.setVisible(False)
+
+    def show_right_panel(self):
+        """Показывает правый блок с вкладками"""
+        self.ui.gb_right.setVisible(True)
+
+
