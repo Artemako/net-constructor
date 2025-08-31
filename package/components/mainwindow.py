@@ -110,13 +110,15 @@ class MainWindow(QMainWindow):
         #
         self.resize(1366, 768)
         self.ui.centralwidget_splitter.setSizes([806, 560])
-        # QAction Ctrl S или Enter
+        # QAction Ctrl S или Enter (с фильтром для текстовых полей)
         self.ui.action_save.setShortcuts(
             [
-                QKeySequence("Return"),  # Enter (Return)
                 QKeySequence("Ctrl+S"),  # Ctrl + S
             ]
         )
+        
+        # Устанавливаем фильтр событий для обработки Enter
+        self.installEventFilter(self)
 
         #
         self.ui.tabw_right.tabBar().setTabVisible(2, False)
@@ -1906,3 +1908,31 @@ class MainWindow(QMainWindow):
             
         except Exception as e:
             QMessageBox.warning(self, "Ошибка", f"Не удалось продолжить метку: {str(e)}")
+
+    def eventFilter(self, obj, event):
+        """
+        Фильтр событий для обработки нажатия Enter.
+        Сохранение выполняется только если фокус не находится в текстовом поле.
+        """
+        from PySide6.QtCore import QEvent
+        from PySide6.QtGui import QKeyEvent
+        
+        if event.type() == QEvent.KeyPress:
+            key_event = QKeyEvent(event)
+            if key_event.key() == Qt.Key_Return or key_event.key() == Qt.Key_Enter:
+                # Получаем виджет с фокусом
+                focused_widget = QApplication.focusWidget()
+                
+                # Проверяем, является ли виджет с фокусом текстовым полем
+                if focused_widget is not None:
+                    widget_class_name = focused_widget.__class__.__name__
+                    if widget_class_name in ['QLineEdit', 'QTextEdit', 'QPlainTextEdit']:
+                        # Если фокус в текстовом поле, не выполняем сохранение
+                        return False
+                
+                # Если фокус не в текстовом поле, выполняем сохранение
+                if self.__obsm.obj_project.is_active():
+                    self._save_changes_to_file_nce()
+                return True
+        
+        return False
