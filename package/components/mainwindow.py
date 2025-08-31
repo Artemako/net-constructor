@@ -29,6 +29,7 @@ from PySide6.QtWidgets import (
     QStyledItemDelegate,
     QWidget,
     QFrame,
+    QGroupBox,
 )
 
 from PySide6.QtGui import (
@@ -182,32 +183,36 @@ class MainWindow(QMainWindow):
         """Создает виджеты для вкладки 'Основные настройки'"""
         layout = self.ui.sa_general_contents.layout()
         
-        # Создаем виджеты и сохраняем ссылки на них
-        self.label_type = QLabel("<html><head/><body><p><span style=\" font-weight:700;\">Тип схемы</span></p></body></html>")
-        self.combox_type_diagram = QComboBox()
-        self.line_type_dia = QFrame()
-        self.line_type_dia.setFrameShape(QFrame.HLine)
-        self.line_type_dia.setFrameShadow(QFrame.Sunken)
+        # Создаем группу "Тип схемы"
+        self.type_group = QGroupBox("Тип схемы")
+        type_layout = QVBoxLayout()
+        type_layout.setContentsMargins(10, 10, 10, 10)
+        type_layout.setSpacing(6)
         
-        self.label_diagram_parameters = QLabel("<html><head/><body><p><span style=\" font-weight:700;\">Параметры схемы</span></p></body></html>")
+        self.combox_type_diagram = QComboBox()
+        type_layout.addWidget(self.combox_type_diagram)
+        
+        self.type_group.setLayout(type_layout)
+        
+        # Создаем группу "Параметры схемы"
+        self.parameters_group = QGroupBox("Параметры схемы")
+        parameters_layout = QVBoxLayout()
+        parameters_layout.setContentsMargins(10, 10, 10, 10)
+        parameters_layout.setSpacing(6)
+        
         self.fl_diagram_parameters = QFormLayout()
         self.fl_diagram_parameters.setRowWrapPolicy(QFormLayout.WrapLongRows)
+        parameters_layout.addLayout(self.fl_diagram_parameters)
         
-        self.line_p_dia = QFrame()
-        self.line_p_dia.setFrameShape(QFrame.HLine)
-        self.line_p_dia.setFrameShadow(QFrame.Sunken)
+        self.parameters_group.setLayout(parameters_layout)
         
         # Создаем вертикальный спейсер
         self.verticalSpacer = QWidget()
         self.verticalSpacer.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
         
         # Добавляем виджеты в layout
-        layout.addWidget(self.label_type)
-        layout.addWidget(self.combox_type_diagram)
-        layout.addWidget(self.line_type_dia)
-        layout.addWidget(self.label_diagram_parameters)
-        layout.addLayout(self.fl_diagram_parameters)
-        layout.addWidget(self.line_p_dia)
+        layout.addWidget(self.type_group)
+        layout.addWidget(self.parameters_group)
         layout.addWidget(self.verticalSpacer)
         
         # Подключаем сигналы
@@ -237,36 +242,52 @@ class MainWindow(QMainWindow):
                 
     def _create_elements_tab_widgets(self):
         """Создает виджеты для вкладки 'Элементы'"""
-        # Создаем виджеты для узлов
-        self.label_nodes = QLabel("<html><head/><body><p><span style=\" font-weight:700;\">Точки</span></p></body></html>")
-        self.tablew_nodes = QTableWidget()
-        self.hl_btns = QHBoxLayout()
+        # Создаем группу "Точки"
+        self.nodes_group = QGroupBox("Точки")
+        nodes_layout = QVBoxLayout()
+        nodes_layout.setContentsMargins(10, 10, 10, 10)
+        nodes_layout.setSpacing(6)
         
+        self.tablew_nodes = QTableWidget()
+        nodes_layout.addWidget(self.tablew_nodes)
+        
+        self.hl_btns = QHBoxLayout()
         self.btn_addnode = QPushButton("Добавить точку")
         self.btn_movenodes = QPushButton("Изменить порядок точек")
         
         self.hl_btns.addWidget(self.btn_addnode)
         self.hl_btns.addWidget(self.btn_movenodes)
+        nodes_layout.addLayout(self.hl_btns)
         
-        # Добавляем виджеты узлов в layout
-        self.ui.vl_nodes.layout().addWidget(self.label_nodes)
-        self.ui.vl_nodes.layout().addWidget(self.tablew_nodes)
-        self.ui.vl_nodes.layout().addLayout(self.hl_btns)
+        self.nodes_group.setLayout(nodes_layout)
         
-        # Создаем виджеты для соединений
-        self.line_3 = QFrame()
-        self.line_3.setFrameShape(QFrame.HLine)
-        self.line_3.setFrameShadow(QFrame.Sunken)
+        # Создаем группу "Строительные длины"
+        self.connections_group = QGroupBox("Строительные длины")
+        connections_layout = QVBoxLayout()
+        connections_layout.setContentsMargins(10, 10, 10, 10)
+        connections_layout.setSpacing(6)
         
-        self.label_connections = QLabel("<html><head/><body><p><span style=\" font-weight:700;\">Строительные длины</span></p></body></html>")
         self.tablew_connections = QTableWidget()
-        self.btn_moveconnections = QPushButton("Изменить порядок строительных длин")
+        connections_layout.addWidget(self.tablew_connections)
         
-        # Добавляем виджеты соединений в layout
-        self.ui.vl_connections.layout().addWidget(self.line_3)
-        self.ui.vl_connections.layout().addWidget(self.label_connections)
-        self.ui.vl_connections.layout().addWidget(self.tablew_connections)
-        self.ui.vl_connections.layout().addWidget(self.btn_moveconnections)
+        self.btn_moveconnections = QPushButton("Изменить порядок строительных длин")
+        connections_layout.addWidget(self.btn_moveconnections)
+        
+        self.connections_group.setLayout(connections_layout)
+        
+        # Создаем вертикальные спейсеры для прижатия к верху
+        self.nodes_spacer = QWidget()
+        self.nodes_spacer.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
+        
+        self.connections_spacer = QWidget()
+        self.connections_spacer.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
+        
+        # Добавляем группы и спейсеры в layout
+        self.ui.vl_nodes.layout().addWidget(self.nodes_group)
+        self.ui.vl_nodes.layout().addWidget(self.nodes_spacer)
+        
+        self.ui.vl_connections.layout().addWidget(self.connections_group)
+        self.ui.vl_connections.layout().addWidget(self.connections_spacer)
         
         # Подключаем сигналы
         self.btn_addnode.clicked.connect(self._add_node)
@@ -299,117 +320,128 @@ class MainWindow(QMainWindow):
         """Создает виджеты для вкладки 'Редактирование'"""
         layout = self.ui.editor_scrollarea_contents.layout()
         
-        # Создаем виджеты ошибок
-        self.label_edit_errors = QLabel("<html><head/><body><p><span style=\" font-weight:700;\">Ошибки</span></p></body></html>")
-        self.vl_edit_errors = QVBoxLayout()
-        self.line_errors = QFrame()
-        self.line_errors.setFrameShape(QFrame.HLine)
-        self.line_errors.setFrameShadow(QFrame.Sunken)
+        # Создаем группу "Ошибки"
+        self.errors_group = QGroupBox("Ошибки")
+        errors_layout = QVBoxLayout()
+        errors_layout.setContentsMargins(10, 10, 10, 10)
+        errors_layout.setSpacing(6)
         
-        # Создаем виджеты контрольных секторов
-        self.label_control_sectors = QLabel("<html><head/><body><p><span style=\" font-weight:700;\">Способ прокладки ВОК</span></p></body></html>")
-        self.vl_control_sectors = QVBoxLayout()
-        self.vl_control_sectors.setSpacing(4)
+        self.vl_edit_errors = QVBoxLayout()
+        errors_layout.addLayout(self.vl_edit_errors)
+        
+        self.errors_group.setLayout(errors_layout)
+        
+        # Создаем группу "Способ прокладки ВОК"
+        self.control_sectors_group = QGroupBox("Способ прокладки ВОК")
+        self.control_sectors_group.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum)
+        control_sectors_layout = QVBoxLayout()
+        control_sectors_layout.setContentsMargins(10, 10, 10, 10)
+        control_sectors_layout.setSpacing(6)
         
         self.tw_control_sectors = QTableWidget()
-        self.hl_control_sectors_buttons = QHBoxLayout()
+        control_sectors_layout.addWidget(self.tw_control_sectors)
         
+        self.hl_control_sectors_buttons = QHBoxLayout()
         self.btn_add_control_sector = QPushButton("Добавить сектор")
         self.btn_move_control_sectors = QPushButton("Изменить порядок секторов")
         
         self.hl_control_sectors_buttons.addWidget(self.btn_add_control_sector)
         self.hl_control_sectors_buttons.addWidget(self.btn_move_control_sectors)
+        control_sectors_layout.addLayout(self.hl_control_sectors_buttons)
         
-        self.line_cont_sect = QFrame()
-        self.line_cont_sect.setFrameShape(QFrame.HLine)
-        self.line_cont_sect.setFrameShadow(QFrame.Sunken)
+        self.control_sectors_group.setLayout(control_sectors_layout)
         
-        self.vl_control_sectors.addWidget(self.tw_control_sectors)
-        self.vl_control_sectors.addLayout(self.hl_control_sectors_buttons)
-        self.vl_control_sectors.addWidget(self.line_cont_sect)
+        # Создаем группу "Данные"
+        self.object_data_group = QGroupBox("Данные")
+        self.object_data_group.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum)
+        object_data_layout = QVBoxLayout()
+        object_data_layout.setContentsMargins(10, 10, 10, 10)
+        object_data_layout.setSpacing(6)
         
-        # Создаем виджеты данных объекта
-        self.label_object_data = QLabel("<html><head/><body><p><span style=\" font-weight:700;\">Данные</span></p></body></html>")
         self.fl_object_data = QFormLayout()
         self.fl_object_data.setRowWrapPolicy(QFormLayout.WrapLongRows)
+        object_data_layout.addLayout(self.fl_object_data)
         
-        self.line_data = QFrame()
-        self.line_data.setFrameShape(QFrame.HLine)
-        self.line_data.setFrameShadow(QFrame.Sunken)
+        self.object_data_group.setLayout(object_data_layout)
         
-        # Создаем виджеты типовых данных объекта
-        self.label_type_object_data = QLabel("<html><head/><body><p><span style=\" font-weight:700;\">Типовые данные</span></p></body></html>")
+        # Создаем группу "Типовые данные"
+        self.type_object_data_group = QGroupBox("Типовые данные")
+        self.type_object_data_group.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum)
+        type_object_data_layout = QVBoxLayout()
+        type_object_data_layout.setContentsMargins(10, 10, 10, 10)
+        type_object_data_layout.setSpacing(6)
+        
         self.fl_type_object_data = QFormLayout()
         self.fl_type_object_data.setRowWrapPolicy(QFormLayout.WrapLongRows)
+        type_object_data_layout.addLayout(self.fl_type_object_data)
         
-        self.line_type_data = QFrame()
-        self.line_type_data.setFrameShape(QFrame.HLine)
-        self.line_type_data.setFrameShadow(QFrame.Sunken)
+        self.type_object_data_group.setLayout(type_object_data_layout)
         
-        # Создаем виджеты глобальных данных
-        self.label_objects_data = QLabel("<html><head/><body><p><span style=\" font-weight:700;\">Глобальные данные</span></p></body></html>")
+        # Создаем группу "Глобальные данные"
+        self.objects_data_group = QGroupBox("Глобальные данные")
+        self.objects_data_group.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum)
+        objects_data_layout = QVBoxLayout()
+        objects_data_layout.setContentsMargins(10, 10, 10, 10)
+        objects_data_layout.setSpacing(6)
+        
         self.fl_objects_data = QFormLayout()
         self.fl_objects_data.setRowWrapPolicy(QFormLayout.WrapLongRows)
+        objects_data_layout.addLayout(self.fl_objects_data)
         
-        self.line_global_data = QFrame()
-        self.line_global_data.setFrameShape(QFrame.HLine)
-        self.line_global_data.setFrameShadow(QFrame.Sunken)
+        self.objects_data_group.setLayout(objects_data_layout)
         
-        # Создаем виджеты параметров объекта
-        self.label_object_parameters = QLabel("<html><head/><body><p><span style=\" font-weight:700;\">Параметры</span></p></body></html>")
+        # Создаем группу "Параметры"
+        self.object_parameters_group = QGroupBox("Параметры")
+        self.object_parameters_group.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum)
+        object_parameters_layout = QVBoxLayout()
+        object_parameters_layout.setContentsMargins(10, 10, 10, 10)
+        object_parameters_layout.setSpacing(6)
+        
         self.fl_object_parameters = QFormLayout()
         self.fl_object_parameters.setRowWrapPolicy(QFormLayout.WrapLongRows)
+        object_parameters_layout.addLayout(self.fl_object_parameters)
         
-        self.line_pars = QFrame()
-        self.line_pars.setFrameShape(QFrame.HLine)
-        self.line_pars.setFrameShadow(QFrame.Sunken)
+        self.object_parameters_group.setLayout(object_parameters_layout)
         
-        # Создаем виджеты типовых параметров объекта
-        self.label_type_object_parameters = QLabel("<html><head/><body><p><span style=\" font-weight:700;\">Типовые параметры</span></p></body></html>")
+        # Создаем группу "Типовые параметры"
+        self.type_object_parameters_group = QGroupBox("Типовые параметры")
+        self.type_object_parameters_group.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum)
+        type_object_parameters_layout = QVBoxLayout()
+        type_object_parameters_layout.setContentsMargins(10, 10, 10, 10)
+        type_object_parameters_layout.setSpacing(6)
+        
         self.fl_type_object_parameters = QFormLayout()
         self.fl_type_object_parameters.setRowWrapPolicy(QFormLayout.WrapLongRows)
+        type_object_parameters_layout.addLayout(self.fl_type_object_parameters)
         
-        self.line_type_pars = QFrame()
-        self.line_type_pars.setFrameShape(QFrame.HLine)
-        self.line_type_pars.setFrameShadow(QFrame.Sunken)
+        self.type_object_parameters_group.setLayout(type_object_parameters_layout)
         
-        # Создаем виджеты глобальных параметров
-        self.label_objects_parameters = QLabel("<html><head/><body><p><span style=\" font-weight:700;\">Глобальные параметры</span></p></body></html>")
+        # Создаем группу "Глобальные параметры"
+        self.objects_parameters_group = QGroupBox("Глобальные параметры")
+        self.objects_parameters_group.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Minimum)
+        objects_parameters_layout = QVBoxLayout()
+        objects_parameters_layout.setContentsMargins(10, 10, 10, 10)
+        objects_parameters_layout.setSpacing(6)
+        
         self.fl_objects_parameters = QFormLayout()
         self.fl_objects_parameters.setRowWrapPolicy(QFormLayout.WrapLongRows)
+        objects_parameters_layout.addLayout(self.fl_objects_parameters)
         
-        self.line_global_pars = QFrame()
-        self.line_global_pars.setFrameShape(QFrame.HLine)
-        self.line_global_pars.setFrameShadow(QFrame.Sunken)
+        self.objects_parameters_group.setLayout(objects_parameters_layout)
         
         # Создаем вертикальный спейсер
         self.vertical_spacer = QWidget()
         self.vertical_spacer.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
         
-        # Добавляем все виджеты в layout
-        layout.addWidget(self.label_edit_errors)
-        layout.addLayout(self.vl_edit_errors)
-        layout.addWidget(self.line_errors)
-        layout.addWidget(self.label_control_sectors)
-        layout.addLayout(self.vl_control_sectors)
-        layout.addWidget(self.label_object_data)
-        layout.addLayout(self.fl_object_data)
-        layout.addWidget(self.line_data)
-        layout.addWidget(self.label_type_object_data)
-        layout.addLayout(self.fl_type_object_data)
-        layout.addWidget(self.line_type_data)
-        layout.addWidget(self.label_objects_data)
-        layout.addLayout(self.fl_objects_data)
-        layout.addWidget(self.line_global_data)
-        layout.addWidget(self.label_object_parameters)
-        layout.addLayout(self.fl_object_parameters)
-        layout.addWidget(self.line_pars)
-        layout.addWidget(self.label_type_object_parameters)
-        layout.addLayout(self.fl_type_object_parameters)
-        layout.addWidget(self.line_type_pars)
-        layout.addWidget(self.label_objects_parameters)
-        layout.addLayout(self.fl_objects_parameters)
-        layout.addWidget(self.line_global_pars)
+        # Добавляем все группы в layout
+        layout.addWidget(self.errors_group)
+        layout.addWidget(self.control_sectors_group)
+        layout.addWidget(self.object_data_group)
+        layout.addWidget(self.type_object_data_group)
+        layout.addWidget(self.objects_data_group)
+        layout.addWidget(self.object_parameters_group)
+        layout.addWidget(self.type_object_parameters_group)
+        layout.addWidget(self.objects_parameters_group)
         layout.addWidget(self.vertical_spacer)
          
     def _setup_control_tab_widgets(self):
@@ -422,20 +454,56 @@ class MainWindow(QMainWindow):
         
     def _clear_control_tab(self):
         """Очищает содержимое вкладки 'Редактирование контрольного сектора'"""
-        # Очищаем все виджеты из layout
-        while self.ui.fl_control.count():
-            child = self.ui.fl_control.takeAt(0)
-            if child.widget():
-                child.widget().deleteLater()
+        # Очищаем данные контрольного сектора
+        if hasattr(self, 'fl_control_data'):
+            while self.fl_control_data.count():
+                child = self.fl_control_data.takeAt(0)
+                if child.widget():
+                    child.widget().deleteLater()
+        
+        # Очищаем параметры контрольного сектора
+        if hasattr(self, 'fl_control_parameters'):
+            while self.fl_control_parameters.count():
+                child = self.fl_control_parameters.takeAt(0)
+                if child.widget():
+                    child.widget().deleteLater()
                 
     def _create_control_tab_widgets(self):
         """Создает виджеты для вкладки 'Редактирование контрольного сектора'"""
-        # Создаем FormLayout для параметров контрольного сектора
-        self.fl_control = QFormLayout()
-        self.fl_control.setRowWrapPolicy(QFormLayout.WrapLongRows)
-        
-        # Добавляем layout в контейнер вкладки
-        self.ui.verticalLayout_6.addLayout(self.fl_control)
+        # Создаем виджеты только один раз
+        if not hasattr(self, 'control_data_group'):
+            # Создаем группу "Данные контрольного сектора"
+            self.control_data_group = QGroupBox("Данные")
+            control_data_layout = QVBoxLayout()
+            control_data_layout.setContentsMargins(10, 10, 10, 10)
+            control_data_layout.setSpacing(6)
+            
+            self.fl_control_data = QFormLayout()
+            self.fl_control_data.setRowWrapPolicy(QFormLayout.WrapLongRows)
+            control_data_layout.addLayout(self.fl_control_data)
+            
+            self.control_data_group.setLayout(control_data_layout)
+            
+            # Создаем группу "Параметры контрольного сектора"
+            self.control_parameters_group = QGroupBox("Параметры")
+            control_parameters_layout = QVBoxLayout()
+            control_parameters_layout.setContentsMargins(10, 10, 10, 10)
+            control_parameters_layout.setSpacing(6)
+            
+            self.fl_control_parameters = QFormLayout()
+            self.fl_control_parameters.setRowWrapPolicy(QFormLayout.WrapLongRows)
+            control_parameters_layout.addLayout(self.fl_control_parameters)
+            
+            self.control_parameters_group.setLayout(control_parameters_layout)
+            
+            # Создаем вертикальный спейсер для прижатия к верху
+            self.control_spacer = QWidget()
+            self.control_spacer.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
+            
+            # Добавляем группы и спейсер в контейнер вкладки
+            self.ui.verticalLayout_6.addWidget(self.control_data_group)
+            self.ui.verticalLayout_6.addWidget(self.control_parameters_group)
+            self.ui.verticalLayout_6.addWidget(self.control_spacer)
 
     def _change_theme(self, theme_name):
         self.__obsm.obj_settings.set_theme(theme_name)
@@ -919,8 +987,7 @@ class MainWindow(QMainWindow):
             diagram_parameters,
             combined_data_parameters=False,
         )
-        self.label_diagram_parameters.setVisible(flag)
-        self.line_p_dia.setVisible(flag)
+        self.parameters_group.setVisible(flag)
 
     def _save_and_restore_scroll_position(self, table_widget, reset_function):
         scroll_position = table_widget.verticalScrollBar().value()
@@ -1269,39 +1336,62 @@ class MainWindow(QMainWindow):
             3, f"Редактирование контрольного сектора {cs.get('order', 0) + 1}"
         )
         #
-        self._clear_form_layout(self.fl_control)
+        # Убеждаемся, что layout создан перед его использованием
+        self._create_control_tab_widgets()
         self._create_control_sector_widgets(cs)
 
     def _create_control_sector_widgets(self, cs):
-        self._clear_form_layout(self.fl_control)
+        # Очищаем формы перед заполнением новыми виджетами
+        if hasattr(self, 'fl_control_data'):
+            self._clear_form_layout(self.fl_control_data)
+        if hasattr(self, 'fl_control_parameters'):
+            self._clear_form_layout(self.fl_control_parameters)
+            
         # получаем precision_separator и precision_number из параметров диаграммы
         precision_separator, precision_number = (
             self._get_precision_separator_and_number()
         )
-        #
-        self.__control_data_parameters_widgets = {}
+        
         # Получить именно через config
         control_sectors_config = self.__obsm.obj_configs.get_config_control_sectors()
         # Создаем словарь параметров для текущего контрольного сектора
         cs_data_pars = cs.get("data_pars", {})
 
-        # {
-        #     "cs_name": {"value": cs.get("cs_name", "")},
-        #     "cs_physical_length": {"value": cs.get("cs_physical_length", 0)},
-        #     "cs_lenght": {"value": cs.get("cs_lenght", 0)},
-        #     "cs_delta_wrap_x": {"value": cs.get("cs_delta_wrap_x", 0)}
-        # }
-
-        # Используем _create_parameters_widgets для создания виджетов
-        self._create_parameters_widgets(
-            self.__control_data_parameters_widgets,
-            self.fl_control,
-            control_sectors_config,
+        # Разделяем конфиг на данные и параметры
+        data_config = {}
+        parameters_config = {}
+        
+        for key, config in control_sectors_config.items():
+            if config.get("is_data", False):
+                data_config[key] = config
+            elif config.get("is_parameter", False):
+                parameters_config[key] = config
+        
+        # Создаем виджеты данных (всегда видимые)
+        self.__control_sector_data_widgets = {}
+        data_flag = self.create_data_widgets(
+            self.__control_sector_data_widgets,
+            self.fl_control_data,
+            data_config,
+            cs_data_pars,
+        )
+        self.control_data_group.setVisible(data_flag)
+        
+        # Создаем виджеты параметров (видимость зависит от настройки)
+        self.__control_sector_parameters_widgets = {}
+        parameters_flag = self._create_parameters_widgets(
+            self.__control_sector_parameters_widgets,
+            self.fl_control_parameters,
+            parameters_config,
             cs_data_pars,
             precision_separator,
             precision_number,
             combined_data_parameters=False,
         )
+        
+        # Управляем видимостью параметров через action_parameters
+        is_action_parameters = self.ui.action_parameters.isChecked()
+        self.control_parameters_group.setVisible(parameters_flag and is_action_parameters)
 
     # def _wrap_node(self, node):
     #     self.__obsm.obj_project.wrap_node(node)
@@ -1758,8 +1848,10 @@ class MainWindow(QMainWindow):
         self._reset_table_control_sectors(control_sectors)
 
     def _create_editor_control_sectors_by_object(self, obj, is_node=False):
-        self.label_control_sectors.setVisible(not is_node)
-        self.line_cont_sect.setVisible(not is_node)
+        self.control_sectors_group.setVisible(not is_node)
+        
+        # Перемещаем спейсер в конец после изменения видимости групп
+        self._reposition_editor_spacer()
         #
         self.tw_control_sectors.setVisible(not is_node)
         self.btn_add_control_sector.setVisible(not is_node)
@@ -1814,8 +1906,7 @@ class MainWindow(QMainWindow):
             object_parameters,
             combined_data_parameters=False,
         )
-        self.label_object_parameters.setVisible(flag)
-        self.line_pars.setVisible(flag)
+        self.object_parameters_group.setVisible(flag)
         #
         flag = self._create_parameters_widgets(
             self.__editor_type_object_parameters_widgets,
@@ -1824,8 +1915,7 @@ class MainWindow(QMainWindow):
             object_parameters,
             combined_data_parameters=False,
         )
-        self.label_type_object_parameters.setVisible(flag)
-        self.line_type_pars.setVisible(flag)
+        self.type_object_parameters_group.setVisible(flag)
         #
         flag = self._create_parameters_widgets(
             self.__editor_objects_parameters_widgets,
@@ -1834,8 +1924,10 @@ class MainWindow(QMainWindow):
             object_parameters,
             combined_data_parameters=False,
         )
-        self.label_objects_parameters.setVisible(flag)
-        self.line_global_pars.setVisible(flag)
+        self.objects_parameters_group.setVisible(flag)
+        
+        # Перемещаем спейсер в конец после изменения видимости всех групп параметров
+        self._reposition_editor_spacer()
 
     def _create_editor_data_widgets_by_object(self, obj, is_node=False):
         if is_node:
@@ -1868,8 +1960,7 @@ class MainWindow(QMainWindow):
             config_object_data,
             object_data,
         )
-        self.label_object_data.setVisible(flag)
-        self.line_data.setVisible(flag)
+        self.object_data_group.setVisible(flag)
         #
         flag = self.create_data_widgets(
             self.__editor_type_object_data_widgets,
@@ -1877,8 +1968,7 @@ class MainWindow(QMainWindow):
             config_type_object_data,
             object_data,
         )
-        self.label_type_object_data.setVisible(flag)
-        self.line_type_data.setVisible(flag)
+        self.type_object_data_group.setVisible(flag)
         #
         flag = self.create_data_widgets(
             self.__editor_objects_data_widgets,
@@ -1886,8 +1976,19 @@ class MainWindow(QMainWindow):
             config_objects_data,
             object_data,
         )
-        self.label_objects_data.setVisible(flag)
-        self.line_global_data.setVisible(flag)
+        self.objects_data_group.setVisible(flag)
+        
+        # Перемещаем спейсер в конец после изменения видимости всех групп данных
+        self._reposition_editor_spacer()
+    
+    def _reposition_editor_spacer(self):
+        """Перемещает вертикальный спейсер в конец layout'а для правильного позиционирования групп"""
+        if hasattr(self, 'vertical_spacer'):
+            layout = self.ui.editor_scrollarea_contents.layout()
+            # Удаляем спейсер из текущей позиции
+            layout.removeWidget(self.vertical_spacer)
+            # Добавляем спейсер в конец с растягивающим фактором
+            layout.addWidget(self.vertical_spacer, 1)
 
     def node_table_context_menu(self, position):
         """Отображение контекстного меню для таблицы узлов"""
@@ -2028,8 +2129,7 @@ class MainWindow(QMainWindow):
             item = self.vl_edit_errors.takeAt(0)
             if item.widget():
                 item.widget().deleteLater()
-        self.label_edit_errors.setVisible(False)
-        self.line_errors.setVisible(False)
+        self.errors_group.setVisible(False)
 
     def _check_lengths(self, optical_length=None, physical_length=None):
         """
@@ -2092,8 +2192,7 @@ class MainWindow(QMainWindow):
             self._add_error_message(error_message)
 
     def _add_error_message(self, message):
-        self.label_edit_errors.setVisible(True)
-        self.line_errors.setVisible(True)
+        self.errors_group.setVisible(True)
 
         # Используем QLabel вместо QTextEdit
         error_label = QLabel()

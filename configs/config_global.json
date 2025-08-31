@@ -1,14 +1,5 @@
 {
     "control_sectors_config": {
-        "Данные": {
-            "value": "",
-            "name": "Данные",
-            "order": 0,
-            "type": "title",
-            "arguments": {
-                "is_data": true
-            }
-        },
         "cs_name": {
             "value": "Сектор",
             "name": "Название сектора",
@@ -22,13 +13,6 @@
             "order": 2,
             "type": "number_float",
             "is_data": true
-        },
-        "Параметры": {
-            "value": "",
-            "name": "Параметры",
-            "order": 10,
-            "type": "title",
-            "is_parameter": true
         },
         "cs_lenght": {
             "value": 500,
