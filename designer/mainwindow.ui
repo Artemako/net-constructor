@@ -635,6 +635,7 @@
      <addaction name="dark_action"/>
     </widget>
     <addaction name="action_parameters"/>
+    <addaction name="action_edit_cable_lists"/>
     <addaction name="menu_3"/>
    </widget>
    <addaction name="menu_file"/>
@@ -863,6 +864,15 @@
     <string>Очистка от мусора</string>
    </property>
   </action>
+  <action name="action_edit_cable_lists">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/white-icons/resources/white-icons/list.svg</normaloff>:/white-icons/resources/white-icons/list.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Список кабелей</string>
+   </property>
+  </action>
   <action name="action_parameters">
    <property name="checkable">
     <bool>true</bool>
@@ -872,7 +882,7 @@
      <normaloff>:/white-icons/resources/white-icons/show-properties.svg</normaloff>:/white-icons/resources/white-icons/show-properties.svg</iconset>
    </property>
    <property name="text">
-    <string>Блоки параметров</string>
+    <string>Показать/скрыть параметры</string>
    </property>
   </action>
   <action name="light_action">

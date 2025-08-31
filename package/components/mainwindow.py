@@ -184,14 +184,6 @@ class MainWindow(QMainWindow):
             QMessageBox.information(self, "Информация", "Сначала откройте или создайте проект.")
             return
             
-        # Переключаем видимость правого блока
-        is_visible = self.ui.gb_right.isVisible()
-        self.ui.gb_right.setVisible(not is_visible)
-        
-        # Если блок скрыт, не обновляем виджеты
-        if not self.ui.gb_right.isVisible():
-            return
-            
         # Обновляем все вкладки при изменении видимости параметров
         project_data = self.__obsm.obj_project.get_data()
         
@@ -1024,7 +1016,7 @@ class MainWindow(QMainWindow):
             cs_data_pars,
             precision_separator,
             precision_number,
-            combined_data_parameters=True,
+            combined_data_parameters=False,
         )
 
     # def _wrap_node(self, node):
@@ -1388,65 +1380,62 @@ class MainWindow(QMainWindow):
         )
         dict_widgets.clear()
         self._clear_form_layout(form_layout)
+        
         # Проверка на наличие параметров (стоит ли галочка)
         is_action_parameters = self.ui.action_parameters.isChecked()
-        if combined_data_parameters or is_action_parameters:
-            precision_separator, precision_number = (
-                self._get_precision_separator_and_number()
+        
+        # Если action_parameters не отмечен, не показываем параметры
+        if not is_action_parameters:
+            return False
+            
+        precision_separator, precision_number = (
+            self._get_precision_separator_and_number()
+        )
+        
+        for (
+            config_parameter_key,
+            config_parameter_data,
+        ) in config_object_parameters.items():
+            print(
+                f"config_parameter_key: {config_parameter_key}, config_parameter_data: {config_parameter_data}"
             )
-            for (
-                config_parameter_key,
-                config_parameter_data,
-            ) in config_object_parameters.items():
-                print(
-                    f"config_parameter_key: {config_parameter_key}, config_parameter_data: {config_parameter_data}"
-                )
-                widget_type = config_parameter_data.get("type", "")
-                label_text = config_parameter_data.get("name", "")
-                info = config_parameter_data.get(
-                    "info", ""
-                )  # Получаем информацию для подсказки
-                value = object_parameters.get(config_parameter_key, {}).get(
-                    "value", None
-                )
-                value = (
-                    value
-                    if value is not None
-                    else config_parameter_data.get("value", "")
-                )
-                arguments = config_parameter_data.get("arguments", {})
-                is_hide = config_parameter_data.get("is_hide", False)
+            widget_type = config_parameter_data.get("type", "")
+            label_text = config_parameter_data.get("name", "")
+            info = config_parameter_data.get(
+                "info", ""
+            )  # Получаем информацию для подсказки
+            value = object_parameters.get(config_parameter_key, {}).get(
+                "value", None
+            )
+            value = (
+                value
+                if value is not None
+                else config_parameter_data.get("value", "")
+            )
+            arguments = config_parameter_data.get("arguments", {})
+            is_hide = config_parameter_data.get("is_hide", False)
 
-                if is_hide:
-                    continue
+            if is_hide:
+                continue
 
-                # Создаем метку для параметра
-                label = self._get_label_name(label_text, widget_type)
+            # Создаем метку для параметра
+            label = self._get_label_name(label_text, widget_type)
 
-                # Создаем основной виджет
-                new_widget = self._get_widget(
-                    widget_type,
-                    value,
-                    arguments,
-                    is_parameters=True,
-                    precision_separator=precision_separator,
-                    precision_number=precision_number,
-                )
+            # Создаем основной виджет
+            new_widget = self._get_widget(
+                widget_type,
+                value,
+                arguments,
+                is_parameters=True,
+                precision_separator=precision_separator,
+                precision_number=precision_number,
+            )
 
-                # Для секторов
-                is_parameter = config_parameter_data.get("is_parameter", False)
-                if (
-                    combined_data_parameters
-                    and not is_action_parameters
-                    and is_parameter
-                ):
-                    continue
+            widget_to_add = self._create_widget_with_info(new_widget, info)
+            form_layout.addRow(label, widget_to_add)
 
-                widget_to_add = self._create_widget_with_info(new_widget, info)
-                form_layout.addRow(label, widget_to_add)
-
-                if widget_type != "title":
-                    dict_widgets[config_parameter_key] = [widget_type, new_widget]
+            if widget_type != "title":
+                dict_widgets[config_parameter_key] = [widget_type, new_widget]
 
         # print("BEFORE return len(dict_widgets) > 0: dict_widgets", dict_widgets)
         return len(dict_widgets) > 0

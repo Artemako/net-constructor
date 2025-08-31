@@ -130,7 +130,7 @@
                     "type": "bool"
                 },
                 "max_nodes_in_row": {
-                    "value": 10,
+                    "value": 5,
                     "name": "Максимальное кол-во вершин в ряду",
                     "order": 5,
                     "type": "number_int",
@@ -278,7 +278,7 @@
                     "type": "bool"
                 },
                 "max_nodes_in_row": {
-                    "value": 10,
+                    "value": 5,
                     "name": "Максимальное кол-во вершин в ряду",
                     "order": 5,
                     "type": "number_int",
@@ -422,7 +422,7 @@
                     "type": "bool"
                 },
                 "max_nodes_in_row": {
-                    "value": 20,
+                    "value": 10,
                     "name": "Максимальное кол-во вершин в ряду",
                     "order": 5,
                     "type": "number_int",
@@ -538,7 +538,7 @@
                     "type": "bool"
                 },
                 "max_nodes_in_row": {
-                    "value": 10,
+                    "value": 5,
                     "name": "Максимальное кол-во вершин в ряду",
                     "order": 5,
                     "type": "number_int",
