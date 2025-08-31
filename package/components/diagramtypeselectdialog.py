@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import (
-    QDialog, QVBoxLayout, QListWidget, QLabel, QDialogButtonBox, QHBoxLayout, QListWidgetItem
+    QDialog, QVBoxLayout, QListWidget, QLabel, QDialogButtonBox, QHBoxLayout, QListWidgetItem,
+    QGroupBox, QSizePolicy
 )
 # from PySide6.QtGui import QPixmap
 from PySide6.QtCore import Qt
@@ -15,12 +16,24 @@ class DiagramTypeSelectDialog(QDialog):
         self.setWindowTitle("Выбор типа диаграммы")
         self.setFixedSize(900, 400)
         
+        self.setup_ui(global_diagrams)
+        self.setup_connections()
+
+    def setup_ui(self, global_diagrams):
+        """Настройка пользовательского интерфейса"""
         main_layout = QVBoxLayout(self)
+        main_layout.setContentsMargins(10, 10, 10, 10)
+        main_layout.setSpacing(10)
         
-        layout = QHBoxLayout()
+        # Группа выбора типа диаграммы
+        selection_group = QGroupBox("Выбор типа диаграммы")
+        selection_layout = QHBoxLayout()
+        selection_layout.setContentsMargins(10, 10, 10, 10)
+        selection_layout.setSpacing(10)
         
         self.list_widget = QListWidget()
         self.list_widget.setMinimumWidth(200)
+        self.list_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         
         # self.image_label = QLabel()
         # self.image_label.setAlignment(Qt.AlignCenter)
@@ -34,15 +47,35 @@ class DiagramTypeSelectDialog(QDialog):
         
         # self.list_widget.currentItemChanged.connect(self.load_image)
         
-        layout.addWidget(self.list_widget)
-        # layout.addWidget(self.image_label)
+        selection_layout.addWidget(self.list_widget)
+        # selection_layout.addWidget(self.image_label)
+        
+        selection_group.setLayout(selection_layout)
+        main_layout.addWidget(selection_group)
+        
+        # Кнопки диалога
+        buttons_layout = QHBoxLayout()
+        buttons_layout.setContentsMargins(0, 10, 0, 0)
+        buttons_layout.setSpacing(10)
+        
+        buttons_layout.addStretch()
         
         button_box = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
-        button_box.accepted.connect(self.accept)
-        button_box.rejected.connect(self.reject)
+        button_box.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         
-        main_layout.addLayout(layout)
-        main_layout.addWidget(button_box)
+        buttons_layout.addWidget(button_box)
+        
+        main_layout.addLayout(buttons_layout)
+        
+        # Устанавливаем политику изменения размера
+        self.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
+
+    def setup_connections(self):
+        """Настройка связей между элементами"""
+        button_box = self.findChild(QDialogButtonBox)
+        if button_box:
+            button_box.accepted.connect(self.accept)
+            button_box.rejected.connect(self.reject)
 
     # def load_image(self, current, previous):
     #     if current:

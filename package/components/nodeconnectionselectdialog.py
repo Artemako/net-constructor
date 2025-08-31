@@ -7,7 +7,8 @@ from PySide6.QtWidgets import (
     QLabel,
     QLineEdit,
     QSpacerItem,
-    QSizePolicy
+    QSizePolicy,
+    QGroupBox
 )
 from PySide6.QtCore import QSize
 
@@ -19,57 +20,104 @@ class NodeConnectSelectDialog(QDialog):
         self.setWindowTitle("Выберите узел и соединение")
         self.config_diagram_nodes = config_diagram_nodes
         
-        # Узел
-        label_node = QLabel("Узел")
-        self.combo_box_nodes = QComboBox(self)
-        self.combo_box_nodes.currentIndexChanged.connect(self._update_node_fields)
+        self.setup_ui()
+        self.setup_connections()
         
-        # Название узла
-        label_node_name = QLabel("Название")
-        self.line_edit_node_name = QLineEdit()
-        
-        # Местоположение узла
-        self.label_node_place = QLabel("Местоположение") 
-        self.line_edit_node_place = QLineEdit()
-        
-        # Соединение
-        label_connection = QLabel("Соединение")
-        self.combo_box_connections = QComboBox(self)
-        
-        # Кнопки
-        self.ok_button = QPushButton("OK", self)
-        self.cancel_button = QPushButton("Отмена", self)
-
         # Заполняем комбобокс узлов
         self._populate_nodes()
         
         # Заполняем комбобокс соединений
         self._populate_connections(config_diagram_connections)
-
-        # Настройка layout
-        button_layout = QHBoxLayout()
-        button_layout.addWidget(self.ok_button)
-        button_layout.addWidget(self.cancel_button)
-
-        # Вертикальная пружина для прижатия содержимого вверх
-        vertical_spacer = QSpacerItem(0, 0, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
-
-        layout = QVBoxLayout(self)
-        layout.addWidget(label_node)
-        layout.addWidget(self.combo_box_nodes)
-        layout.addWidget(label_node_name)
-        layout.addWidget(self.line_edit_node_name)
-        layout.addWidget(self.label_node_place)
-        layout.addWidget(self.line_edit_node_place)
-        layout.addWidget(label_connection)
-        layout.addWidget(self.combo_box_connections)
-        layout.addLayout(button_layout)
-        layout.addItem(vertical_spacer)  # Добавляем пружину в конец
-
-        self.ok_button.clicked.connect(self.accept)
-        self.cancel_button.clicked.connect(self.reject)
         
         self._update_node_fields()
+
+    def setup_ui(self):
+        """Настройка пользовательского интерфейса"""
+        main_layout = QVBoxLayout(self)
+        main_layout.setContentsMargins(10, 10, 10, 10)
+        main_layout.setSpacing(10)
+        
+        # Группа выбора узла
+        node_group = QGroupBox("Выбор узла")
+        node_layout = QVBoxLayout()
+        node_layout.setContentsMargins(10, 10, 10, 10)
+        node_layout.setSpacing(10)
+        
+        # Узел
+        label_node = QLabel("Узел:")
+        self.combo_box_nodes = QComboBox(self)
+        self.combo_box_nodes.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        
+        node_layout.addWidget(label_node)
+        node_layout.addWidget(self.combo_box_nodes)
+        
+        # Название узла
+        label_node_name = QLabel("Название:")
+        self.line_edit_node_name = QLineEdit()
+        self.line_edit_node_name.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        
+        node_layout.addWidget(label_node_name)
+        node_layout.addWidget(self.line_edit_node_name)
+        
+        # Местоположение узла
+        self.label_node_place = QLabel("Местоположение:")
+        self.line_edit_node_place = QLineEdit()
+        self.line_edit_node_place.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        
+        node_layout.addWidget(self.label_node_place)
+        node_layout.addWidget(self.line_edit_node_place)
+        
+        node_group.setLayout(node_layout)
+        main_layout.addWidget(node_group)
+        
+        # Группа выбора соединения
+        connection_group = QGroupBox("Выбор соединения")
+        connection_layout = QVBoxLayout()
+        connection_layout.setContentsMargins(10, 10, 10, 10)
+        connection_layout.setSpacing(10)
+        
+        # Соединение
+        label_connection = QLabel("Соединение:")
+        self.combo_box_connections = QComboBox(self)
+        self.combo_box_connections.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        
+        connection_layout.addWidget(label_connection)
+        connection_layout.addWidget(self.combo_box_connections)
+        
+        connection_group.setLayout(connection_layout)
+        main_layout.addWidget(connection_group)
+        
+        # Вертикальная пружина для прижатия содержимого вверх
+        vertical_spacer = QSpacerItem(0, 0, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+        main_layout.addItem(vertical_spacer)
+        
+        # Кнопки диалога
+        buttons_layout = QHBoxLayout()
+        buttons_layout.setContentsMargins(0, 10, 0, 0)
+        buttons_layout.setSpacing(10)
+        
+        buttons_layout.addStretch()
+        
+        self.ok_button = QPushButton("OK", self)
+        self.cancel_button = QPushButton("Отмена", self)
+        
+        self.ok_button.setFixedWidth(100)
+        self.cancel_button.setFixedWidth(100)
+        
+        buttons_layout.addWidget(self.ok_button)
+        buttons_layout.addWidget(self.cancel_button)
+        
+        main_layout.addLayout(buttons_layout)
+        
+        # Устанавливаем политику изменения размера
+        self.setMinimumSize(400, 350)
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+
+    def setup_connections(self):
+        """Настройка связей между элементами"""
+        self.combo_box_nodes.currentIndexChanged.connect(self._update_node_fields)
+        self.ok_button.clicked.connect(self.accept)
+        self.cancel_button.clicked.connect(self.reject)
 
     def _populate_nodes(self):
         """Заполняет комбобокс узлами"""

@@ -1,4 +1,7 @@
-from PySide6.QtWidgets import QDialog, QVBoxLayout, QPushButton, QHBoxLayout, QListWidget, QListWidgetItem
+from PySide6.QtWidgets import (
+    QDialog, QVBoxLayout, QPushButton, QHBoxLayout, QListWidget, QListWidgetItem,
+    QGroupBox, QSizePolicy
+)
 from PySide6.QtCore import Qt
 
 class ChangeOrderDialog(QDialog):
@@ -16,7 +19,20 @@ class ChangeOrderDialog(QDialog):
         elif self.__type_objects == "control_sectors":
             self.setWindowTitle("Изменение порядка контрольных точек")
         
-        self.layout = QVBoxLayout(self)
+        self.setup_ui()
+        self.setup_connections()
+        
+    def setup_ui(self):
+        """Настройка пользовательского интерфейса"""
+        main_layout = QVBoxLayout(self)
+        main_layout.setContentsMargins(10, 10, 10, 10)
+        main_layout.setSpacing(10)
+        
+        # Группа списка элементов
+        list_group = QGroupBox("Список элементов")
+        list_layout = QVBoxLayout()
+        list_layout.setContentsMargins(10, 10, 10, 10)
+        list_layout.setSpacing(10)
         
         self.list_widget = QListWidget()
         self.list_widget.setDragDropMode(QListWidget.InternalMove)  
@@ -24,29 +40,60 @@ class ChangeOrderDialog(QDialog):
         self.list_widget.setDragEnabled(True)
         self.list_widget.setAcceptDrops(True)
         self.list_widget.setDropIndicatorShown(True)
+        self.list_widget.setMinimumHeight(200)
         self._populate_list()
+        
+        list_layout.addWidget(self.list_widget)
+        
+        # Кнопки управления порядком
+        control_layout = QHBoxLayout()
+        control_layout.setContentsMargins(0, 10, 0, 0)
+        control_layout.setSpacing(10)
         
         self.up_button = QPushButton("Вверх")
         self.down_button = QPushButton("Вниз")
-        self.up_button.clicked.connect(self._move_item_up)
-        self.down_button.clicked.connect(self._move_item_down)
         
-        button_layout = QHBoxLayout()
-        button_layout.addWidget(self.up_button)
-        button_layout.addWidget(self.down_button)
-
-        self.layout.addWidget(self.list_widget)
-        self.layout.addLayout(button_layout)
-
+        # Добавляем подсказки
+        self.up_button.setToolTip("Переместить выбранный элемент вверх")
+        self.down_button.setToolTip("Переместить выбранный элемент вниз")
+        
+        # Устанавливаем политику изменения размера для заполнения всей ширины
+        self.up_button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.down_button.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        
+        control_layout.addWidget(self.up_button)
+        control_layout.addWidget(self.down_button)
+        
+        list_layout.addLayout(control_layout)
+        list_group.setLayout(list_layout)
+        main_layout.addWidget(list_group)
+        
+        # Кнопки диалога
+        buttons_layout = QHBoxLayout()
+        buttons_layout.setContentsMargins(0, 10, 0, 0)
+        buttons_layout.setSpacing(10)
+        
+        buttons_layout.addStretch()
+        
         self.ok_button = QPushButton("OK")
         self.cancel_button = QPushButton("Отмена")
+        
+        self.ok_button.setFixedWidth(100)
+        self.cancel_button.setFixedWidth(100)
+        
+        buttons_layout.addWidget(self.ok_button)
+        buttons_layout.addWidget(self.cancel_button)
+        
+        main_layout.addLayout(buttons_layout)
+        
+        # Устанавливаем политику изменения размера
+        self.setMinimumSize(400, 350)
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
-        button_ok_cancel_layout = QHBoxLayout()
-        button_ok_cancel_layout.addWidget(self.ok_button)
-        button_ok_cancel_layout.addWidget(self.cancel_button)
-
-        self.layout.addLayout(button_ok_cancel_layout)
-
+    def setup_connections(self):
+        """Настройка связей между элементами"""
+        self.up_button.clicked.connect(self._move_item_up)
+        self.down_button.clicked.connect(self._move_item_down)
         self.ok_button.clicked.connect(self.accept)
         self.cancel_button.clicked.connect(self.reject)
 

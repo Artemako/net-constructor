@@ -12,7 +12,8 @@ from PySide6.QtWidgets import (
     QWidget,
     QTextEdit,
     QListWidget,
-    QListWidgetItem
+    QListWidgetItem,
+    QSizePolicy
 )
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
@@ -32,53 +33,83 @@ class CableListsDialog(QDialog):
         self.resize(600, 500)
         
         self.setup_ui()
-        self.load_data()
         self.setup_connections()
+        self.load_data()
         
     def setup_ui(self):
         """Настройка интерфейса"""
-        layout = QVBoxLayout(self)
+        main_layout = QVBoxLayout(self)
+        main_layout.setContentsMargins(10, 10, 10, 10)
+        main_layout.setSpacing(10)
         
-        # Группа редактирования
+        # Группа редактирования списка кабелей
         edit_group = QGroupBox("Список кабелей")
-        edit_layout = QVBoxLayout(edit_group)
+        edit_layout = QVBoxLayout()
+        edit_layout.setContentsMargins(10, 10, 10, 10)
+        edit_layout.setSpacing(10)
         
         # Текстовое поле для редактирования
         self.cables_text = QTextEdit()
         self.cables_text.setPlaceholderText("Введите кабели, каждый с новой строки")
         self.cables_text.setMinimumHeight(200)
+        self.cables_text.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         edit_layout.addWidget(self.cables_text)
         
-        # Кнопки для управления
-        buttons_layout = QHBoxLayout()
+        edit_group.setLayout(edit_layout)
+        main_layout.addWidget(edit_group)
+        
+        # Группа управления
+        control_group = QGroupBox("Управление списком")
+        control_layout = QHBoxLayout()
+        control_layout.setContentsMargins(10, 10, 10, 10)
+        control_layout.setSpacing(10)
         
         self.add_cable_btn = QPushButton("Добавить кабель")
         self.clear_cables_btn = QPushButton("Очистить")
         self.restore_default_btn = QPushButton("По умолчанию")
         
-        buttons_layout.addWidget(self.add_cable_btn)
-        buttons_layout.addWidget(self.clear_cables_btn)
-        buttons_layout.addWidget(self.restore_default_btn)
-        buttons_layout.addStretch()
+        # Добавляем подсказки
+        self.add_cable_btn.setToolTip("Добавить новый кабель в список")
+        self.clear_cables_btn.setToolTip("Очистить весь список кабелей")
+        self.restore_default_btn.setToolTip("Восстановить список кабелей по умолчанию")
         
-        edit_layout.addLayout(buttons_layout)
-        layout.addWidget(edit_group)
+        control_layout.addWidget(self.add_cable_btn)
+        control_layout.addWidget(self.clear_cables_btn)
+        control_layout.addWidget(self.restore_default_btn)
+        control_layout.addStretch()
+        
+        control_group.setLayout(control_layout)
+        main_layout.addWidget(control_group)
         
         # Кнопки диалога
+        buttons_layout = QHBoxLayout()
+        buttons_layout.setContentsMargins(0, 10, 0, 0)
+        buttons_layout.setSpacing(10)
+        
+        buttons_layout.addStretch()
+        
         button_box = QDialogButtonBox(
             QDialogButtonBox.Ok | QDialogButtonBox.Cancel
         )
         # Устанавливаем русские названия для кнопок
         button_box.button(QDialogButtonBox.Ok).setText("Сохранить")
         button_box.button(QDialogButtonBox.Cancel).setText("Отмена")
-        layout.addWidget(button_box)
         
-        # Подключаем кнопки
-        button_box.accepted.connect(self.accept)
-        button_box.rejected.connect(self.reject)
+        buttons_layout.addWidget(button_box)
+        
+        main_layout.addLayout(buttons_layout)
+        
+        # Устанавливаем политику изменения размера
+        self.setMinimumSize(500, 400)
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         
     def setup_connections(self):
         """Настройка связей между элементами"""
+        button_box = self.findChild(QDialogButtonBox)
+        if button_box:
+            button_box.accepted.connect(self.accept)
+            button_box.rejected.connect(self.reject)
+            
         self.add_cable_btn.clicked.connect(self.add_cable)
         self.clear_cables_btn.clicked.connect(self.clear_cables)
         self.restore_default_btn.clicked.connect(self.restore_default_cables)
