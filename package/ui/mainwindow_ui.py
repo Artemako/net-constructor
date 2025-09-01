@@ -55,10 +55,10 @@ class Ui_MainWindow(object):
 
         self.action_clear_trash = QAction(QIcon(":/white-icons/resources/white-icons/trash.svg"), "Очистка от мусора", MainWindow)
 
-        self.action_edit_cable_lists = QAction(QIcon(":/white-icons/resources/white-icons/list.svg"), "Список кабелей", MainWindow)
-        self.action_edit_sector_names = QAction(QIcon(":/white-icons/resources/white-icons/list.svg"), "Список названий секторов", MainWindow)
+        self.action_edit_cable_lists = QAction(QIcon(":/white-icons/resources/white-icons/items-list.svg"), "Список кабелей", MainWindow)
+        self.action_edit_sector_names = QAction(QIcon(":/white-icons/resources/white-icons/items-list.svg"), "Список названий секторов", MainWindow)
 
-        self.action_parameters = QAction(QIcon(":/white-icons/resources/white-icons/show-properties.svg"), "Показать/скрыть параметры", MainWindow)
+        self.action_parameters = QAction(QIcon(":/white-icons/resources/white-icons/show-properties.svg"), "Панель параметров", MainWindow)
         self.action_parameters.setCheckable(True)
 
         self.light_action = QAction("Светлая", MainWindow)
@@ -163,9 +163,11 @@ class Ui_MainWindow(object):
         # Меню и тулбары
         self.menu_bar = QMenuBar(MainWindow)
         self.menu_file = QMenu("Файл", self.menu_bar)
-        self.menu = QMenu("Прочее", self.menu_bar)
+        self.menu_lists = QMenu("Списки", self.menu_bar)
+        self.menu_other = QMenu("Прочее", self.menu_bar)
         self.menu_bar.addMenu(self.menu_file)
-        self.menu_bar.addMenu(self.menu)
+        self.menu_bar.addMenu(self.menu_lists)
+        self.menu_bar.addMenu(self.menu_other)
         MainWindow.setMenuBar(self.menu_bar)
 
         self.tb_main = QToolBar("Панель инструментов", MainWindow)
@@ -185,11 +187,12 @@ class Ui_MainWindow(object):
         self.menu_file.addSeparator()
         self.menu_file.addAction(self.action_export_to_image)
 
-        self.menu.addAction(self.action_parameters)
-        self.menu.addAction(self.action_edit_cable_lists)
-        self.menu.addAction(self.action_edit_sector_names)
-        self.menu.addSeparator()
-        self.menu.addAction(self.action_settings)
+        self.menu_lists.addAction(self.action_edit_cable_lists)
+        self.menu_lists.addAction(self.action_edit_sector_names)
+        
+        self.menu_other.addAction(self.action_parameters)
+        self.menu_other.addSeparator()
+        self.menu_other.addAction(self.action_settings)
 
         self.tb_main.addAction(self.action_new)
         self.tb_main.addAction(self.action_open)

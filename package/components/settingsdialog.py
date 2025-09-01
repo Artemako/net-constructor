@@ -11,7 +11,7 @@ class SettingsDialog(QDialog):
         
         # СТИЛЬ
         self.__obsm.obj_style.set_style_for(self)
-        self.setWindowTitle("Параметры приложения")
+        self.setWindowTitle("Настройки приложения")
         
         # Конфигурация
         self.config_ui()
@@ -184,6 +184,9 @@ class SettingsDialog(QDialog):
             # Применение новой темы
             theme_english = self.__obsm.obj_settings.get_theme()
             self.__obsm.obj_style.apply_theme_to_all_windows(theme_english)
+            
+            # Обновление иконок для главного окна при смене темы
+            self.__obsm.obj_icons.set_icons_for_mw_by_name(self.__obsm.obj_mw, theme_english)
             
             # Сохранение настройки отображения параметров
             show_parameters = self.show_parameters_checkbox.isChecked()

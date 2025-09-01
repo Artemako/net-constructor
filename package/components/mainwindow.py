@@ -44,7 +44,7 @@ from PySide6.QtGui import (
 )
 from PySide6.QtCore import QRegularExpression, Qt, QModelIndex, QLocale, QSettings
 
-import package.controllers.icons as icons
+
 import package.controllers.imagewidget as imagewidget
 
 import package.components.nodeconnectionselectdialog as nodeconnectionselectdialog
@@ -107,8 +107,8 @@ class MainWindow(QMainWindow):
         # СТИЛЬ - используем контроллер стилей из OSBM
         self.__obj_style = self.__obsm.obj_style
         self.__obj_style.set_style_for_mw_by_name(self, self.__theme_name)
-        # + иконки
-        self.__obj_icons = icons.Icons()
+        # + иконки - используем контроллер иконок из OSBM
+        self.__obj_icons = self.__obsm.obj_icons
         self.__obj_icons.set_icons_for_mw_by_name(self, self.__theme_name)
         #
         self.resize(1366, 768)
@@ -512,7 +512,8 @@ class MainWindow(QMainWindow):
         self.__theme_name = theme_name
         # Применяем тему ко всем окнам приложения
         self.__obj_style.apply_theme_to_all_windows(theme_name)
-        self.__obj_icons.set_icons_for_mw_by_name(self, theme_name)
+        # Обновляем иконки для главного окна
+        self.__obsm.obj_icons.set_icons_for_mw_by_name(self, theme_name)
 
     def _start_qt_actions(self):
         self.ui.action_new.setEnabled(True)
@@ -530,9 +531,8 @@ class MainWindow(QMainWindow):
     def _toggle_parameters_visibility(self):
         # Проверяем, активен ли проект
         if not self.__obsm.obj_project.is_active():
-            QMessageBox.information(self, "Информация", "Сначала откройте или создайте проект.")
             return
-        
+
         # Синхронизируем состояние действия с настройкой
         is_checked = self.ui.action_parameters.isChecked()
         self.__obsm.obj_settings.set_show_parameters(is_checked)
@@ -540,7 +540,9 @@ class MainWindow(QMainWindow):
             
         # Обновляем все вкладки при изменении видимости параметров
         project_data = self.__obsm.obj_project.get_data()
-        
+        if project_data is None:
+            return
+
         # Обновляем главную вкладку (Основные настройки)
         self._reset_widgets_by_data(project_data)
         

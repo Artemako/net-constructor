@@ -108,6 +108,7 @@
     <file>resources/white-icons/zoom-fit-width.svg</file>
     <file>resources/white-icons/zoom-in.svg</file>
     <file>resources/white-icons/zoom-out.svg</file>
+    <file>resources/white-icons/settings.svg</file>
   </qresource>
   <qresource prefix="black-icons">
     <file>resources/black-icons/add-file.svg</file>
@@ -139,5 +140,6 @@
     <file>resources/black-icons/zoom-fit-width.svg</file>
     <file>resources/black-icons/zoom-in.svg</file>
     <file>resources/black-icons/zoom-out.svg</file>
+    <file>resources/black-icons/settings.svg</file>
   </qresource>
 </RCC>

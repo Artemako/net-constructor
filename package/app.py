@@ -10,6 +10,7 @@ import package.modules.configs as configs
 import package.modules.project as project
 import package.modules.settings as settings
 import package.controllers.style as style
+import package.controllers.icons as icons
 
 class ObjectsManager:
     """
@@ -22,6 +23,7 @@ class ObjectsManager:
         self.obj_project = None
         self.obj_settings = None
         self.obj_style = None
+        self.obj_icons = None
 
     def initializing_objects(self):
         self.obj_dirpath = dirpathmanager.DirPathManager()
@@ -32,6 +34,7 @@ class ObjectsManager:
         self.obj_settings.initialize_default_settings()
         self.obj_style = style.Style()
         self.obj_style.setting_all_osbm(self)
+        self.obj_icons = icons.Icons()
    
 class App:
     def __init__(self, current_directory):
