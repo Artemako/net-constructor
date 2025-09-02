@@ -64,6 +64,27 @@ import json
 from functools import partial
 
 
+class CustomTableComboBox(QComboBox):
+    """Кастомный QComboBox для использования в таблице, аналогичный list_with_custom"""
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        # Всегда редактируемый, как в list_with_custom
+        self.setEditable(True)
+        self.setFocusPolicy(Qt.StrongFocus)
+
+    def setCustomText(self, text):
+        """Устанавливает текст в виджет без изменения списка элементов"""
+        # Найдем индекс существующего элемента
+        index = self.findText(str(text))
+        if index >= 0:
+            # Если элемент есть в списке - выбираем его
+            self.setCurrentIndex(index)
+        else:
+            # Если элемента нет в списке - показываем кастомный текст
+                        self.setCurrentText(str(text))
+
+
 class MainWindow(QMainWindow):
     def __init__(self, obsm):
         self.__obsm = obsm
@@ -677,13 +698,14 @@ class MainWindow(QMainWindow):
                     control_sectors = self.__current_object.get("control_sectors", [])
                     for row, cs in enumerate(control_sectors):
                         # Получаем виджеты из таблицы
-                        item_cs_name = self.tw_control_sectors.item(row, 1)
+                        # Для названия сектора используем кастомный виджет
+                        name_widget = self.tw_control_sectors.cellWidget(row, 1)
                         item_cs_physical_length = self.tw_control_sectors.item(
                             row, 2
                         )
-                        if item_cs_name:
+                        if name_widget:
                             cs["data_pars"]["cs_name"]["value"] = (
-                                item_cs_name.text().strip()
+                                name_widget.currentText().strip()
                             )
                         if item_cs_physical_length:
                             try:
@@ -1172,10 +1194,32 @@ class MainWindow(QMainWindow):
                 )  # Только чтение
                 table_widget.setItem(index, 0, item_number)
 
+                # Создаем кастомный виджет list_with_custom для названия сектора
                 cs_name = cs.get("data_pars", {}).get("cs_name", {}).get("value", "")
-                item_name = QTableWidgetItem(cs_name)
-                item_name.setFlags(item_name.flags() | Qt.ItemIsEditable)
-                table_widget.setItem(index, 1, item_name)
+                
+                # Создаем виджет list_with_custom с отключенной автоактивацией при наведении
+                name_widget = CustomTableComboBox()
+                
+                # Получаем список названий секторов используя list_type
+                predefined_values = self.__obsm.obj_configs.get_list_by_type("sector_names")
+                
+                # Добавляем значения в комбобокс
+                for val in predefined_values:
+                    name_widget.addItem(str(val))
+                
+                # Устанавливаем текущее значение
+                if cs_name is not None:
+                    name_widget.setCustomText(str(cs_name))
+                elif predefined_values:
+                    name_widget.setCurrentIndex(0)
+                
+                # Отключаем колесико мыши
+                def ignore_wheel_event(event):
+                    event.ignore()
+                name_widget.wheelEvent = ignore_wheel_event
+                
+                # Устанавливаем виджет в ячейку
+                table_widget.setCellWidget(index, 1, name_widget)
 
                 physical_length = (
                     cs.get("data_pars", {})
