@@ -1,19 +1,11 @@
 {
     "control_sectors_config": {
-        "Данные": {
-            "value": "",
-            "name": "Данные",
-            "order": 0,
-            "type": "title",
-            "arguments": {
-                "is_data": true
-            }
-        },
         "cs_name": {
             "value": "Сектор",
             "name": "Название сектора",
             "order": 1,
-            "type": "string_line",
+            "type": "list_with_custom",
+            "list_type": "sector_names",
             "is_data": true
         },
         "cs_physical_length": {
@@ -22,13 +14,6 @@
             "order": 2,
             "type": "number_float",
             "is_data": true
-        },
-        "Параметры": {
-            "value": "",
-            "name": "Параметры",
-            "order": 10,
-            "type": "title",
-            "is_parameter": true
         },
         "cs_lenght": {
             "value": 500,
@@ -61,7 +46,7 @@
             "is_hide": true
         },
         "cs_tech_mufta_physical_length_default": {
-            "value": 30,
+            "value": 15,
             "name": "Физическая длина тех. запаса, прилагающий к муфте",
             "order": 102,
             "type": "number_float",
@@ -69,7 +54,7 @@
             "is_hide": true
         },
         "cs_tech_cross_lenght_default": {
-            "value": 20,
+            "value": 10,
             "name": "Расстояние тех. запаса, прилагающий к кроссу",
             "order": 103,
             "type": "number_float",

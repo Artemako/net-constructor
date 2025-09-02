@@ -4,9 +4,10 @@
         "object_data": {
             "название": {
                 "type": "list_with_custom",
+                "list_type": "cable_types",
                 "name": "Название / Марка ВОК",
                 "arguments": {
-                    "list": ["Марка ВОК 1", "Марка ВОК 2", "Марка ВОК 3"]
+                    "list": []
                 },
                 "value": "Марка ВОК 1",
                 "order": 0
@@ -45,7 +46,7 @@
                     "фд": 0
                 },
                 "order": 6
-            }, 
+            },
             "местоположение": {
                 "value": "",
                 "name": "Местоположение (над линией)",
@@ -190,9 +191,10 @@
         "object_data": {
             "название": {
                 "type": "list_with_custom",
+                "list_type": "cable_types",
                 "name": "Название / Марка ВОК",
                 "arguments": {
-                    "list": ["Марка ВОК 1", "Марка ВОК 2", "Марка ВОК 3"]
+                    "list": []
                 },
                 "value": "Марка ВОК 1",
                 "order": 0
@@ -231,7 +233,7 @@
                     "фд": 0
                 },
                 "order": 6
-            },  
+            },
             "местоположение": {
                 "value": "",
                 "name": "Местоположение (над линией)",
@@ -331,9 +333,10 @@
         "object_data": {
             "название": {
                 "type": "list_with_custom",
+                "list_type": "cable_types",
                 "name": "Название / Марка ВОК",
                 "arguments": {
-                    "list": ["Марка ВОК 1", "Марка ВОК 2", "Марка ВОК 3"]
+                    "list": []
                 },
                 "value": "Марка ВОК 1",
                 "order": 0
@@ -504,9 +507,10 @@
         "object_data": {
             "название": {
                 "type": "list_with_custom",
+                "list_type": "cable_types",
                 "name": "Название / Марка ВОК",
                 "arguments": {
-                    "list": ["Марка ВОК 1", "Марка ВОК 2", "Марка ВОК 3"]
+                    "list": []
                 },
                 "value": "Марка ВОК 1",
                 "order": 0

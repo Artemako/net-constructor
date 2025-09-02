@@ -251,15 +251,9 @@ class MainWindow(QMainWindow):
         
     def _clear_elements_tab(self):
         """Очищает содержимое вкладки 'Элементы'"""
-        # Очищаем виджеты узлов
-        while self.ui.vl_nodes.layout().count():
-            child = self.ui.vl_nodes.layout().takeAt(0)
-            if child.widget():
-                child.widget().deleteLater()
-                
-        # Очищаем виджеты соединений
-        while self.ui.vl_connections.layout().count():
-            child = self.ui.vl_connections.layout().takeAt(0)
+        # Очищаем все виджеты из главного layout вкладки элементов
+        while self.ui.verticalLayout_3.count():
+            child = self.ui.verticalLayout_3.takeAt(0)
             if child.widget():
                 child.widget().deleteLater()
                 
@@ -267,12 +261,13 @@ class MainWindow(QMainWindow):
         """Создает виджеты для вкладки 'Элементы'"""
         # Создаем группу "Точки"
         self.nodes_group = QGroupBox("Точки")
+        self.nodes_group.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
         nodes_layout = QVBoxLayout()
         nodes_layout.setContentsMargins(10, 10, 10, 10)
         nodes_layout.setSpacing(6)
         
         self.tablew_nodes = QTableWidget()
-        nodes_layout.addWidget(self.tablew_nodes)
+        nodes_layout.addWidget(self.tablew_nodes, 1)  # Растягивающий фактор 1
         
         self.hl_btns = QHBoxLayout()
         self.btn_addnode = QPushButton("Добавить точку")
@@ -286,31 +281,22 @@ class MainWindow(QMainWindow):
         
         # Создаем группу "Строительные длины"
         self.connections_group = QGroupBox("Строительные длины")
+        self.connections_group.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
         connections_layout = QVBoxLayout()
         connections_layout.setContentsMargins(10, 10, 10, 10)
         connections_layout.setSpacing(6)
         
         self.tablew_connections = QTableWidget()
-        connections_layout.addWidget(self.tablew_connections)
+        connections_layout.addWidget(self.tablew_connections, 1)  # Растягивающий фактор 1
         
         self.btn_moveconnections = QPushButton("Изменить порядок строительных длин")
         connections_layout.addWidget(self.btn_moveconnections)
         
         self.connections_group.setLayout(connections_layout)
         
-        # Создаем вертикальные спейсеры для прижатия к верху
-        self.nodes_spacer = QWidget()
-        self.nodes_spacer.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
-        
-        self.connections_spacer = QWidget()
-        self.connections_spacer.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
-        
-        # Добавляем группы и спейсеры в layout
-        self.ui.vl_nodes.layout().addWidget(self.nodes_group)
-        self.ui.vl_nodes.layout().addWidget(self.nodes_spacer)
-        
-        self.ui.vl_connections.layout().addWidget(self.connections_group)
-        self.ui.vl_connections.layout().addWidget(self.connections_spacer)
+        # Добавляем группы в основной layout с равными растягивающими факторами
+        self.ui.verticalLayout_3.addWidget(self.nodes_group, 1)  # Равные пропорции 1:1
+        self.ui.verticalLayout_3.addWidget(self.connections_group, 1)  # Равные пропорции 1:1
         
         # Подключаем сигналы
         self.btn_addnode.clicked.connect(self._add_node)
@@ -2091,7 +2077,7 @@ class MainWindow(QMainWindow):
         paste_data_action.setEnabled(self.__obsm.obj_project.has_copied_node_data())
 
         # Отображаем меню
-        action = menu.exec_(self.ui.tablew_nodes.viewport().mapToGlobal(position))
+        action = menu.exec_(self.tablew_nodes.viewport().mapToGlobal(position))
 
         # Обработка выбора действия
         if selected_row >= 0 and selected_node:
