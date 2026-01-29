@@ -39,7 +39,6 @@ from PySide6.QtGui import (
     QColor,
     QFontMetrics,
     QKeySequence,
-    QAction,
     QIcon,
 )
 from PySide6.QtCore import QRegularExpression, Qt, QModelIndex, QLocale, QSettings, QTimer
@@ -107,6 +106,10 @@ class MainWindow(QMainWindow):
         # self.__text_format = "NCE (пока json) files (*.json)"]
         self.__text_format = "NCE files (*.nce)"
         #
+        # Флаг для отслеживания несохранённых изменений
+        self.__document_modified = False
+        self.__current_file_path = None
+        #
         super(MainWindow, self).__init__()
         self.ui = mainwindow_ui.Ui_MainWindow()
         self.ui.setupUi(self)
@@ -133,6 +136,8 @@ class MainWindow(QMainWindow):
         # + иконки - используем контроллер иконок из OSBM
         self.__obj_icons = self.__obsm.obj_icons
         self.__obj_icons.set_icons_for_mw_by_name(self, self.__theme_name)
+        # иконка окна (фавикон)
+        self.setWindowIcon(QIcon(":/app/resources/app-icon.svg"))
         #
         self.resize(1366, 768)
         self.ui.centralwidget_splitter.setSizes([806, 560])
@@ -186,21 +191,17 @@ class MainWindow(QMainWindow):
         self.__last_widget_values = {}
         self.__last_diagram_type_value = None
         self.__applying_undo_redo = False
-        # Действия "Отмена" и "Повтор/Возврат" в меню "Правка" (только QAction — без QShortcut, чтобы не было Ambiguous shortcut)
-        self.__action_undo = QAction("Отмена", self)
-        self.__action_undo.setShortcut(QKeySequence("Ctrl+Z"))
-        self.__action_undo.setShortcutContext(Qt.ApplicationShortcut)
-        self.__action_undo.triggered.connect(self._undo)
-        self.__action_redo = QAction("Повтор/Возврат", self)
-        self.__action_redo.setShortcut(QKeySequence("Ctrl+Y"))
-        self.__action_redo.setShortcutContext(Qt.ApplicationShortcut)
-        self.__action_redo.triggered.connect(self._redo)
-        self.addAction(self.__action_undo)
-        self.addAction(self.__action_redo)
+        # Действия "Отмена" и "Повтор/Возврат" в меню "Правка" и на панели инструментов (из UI)
+        self.ui.action_undo.setShortcutContext(Qt.ApplicationShortcut)
+        self.ui.action_undo.triggered.connect(self._undo)
+        self.ui.action_redo.setShortcutContext(Qt.ApplicationShortcut)
+        self.ui.action_redo.triggered.connect(self._redo)
+        self.addAction(self.ui.action_undo)
+        self.addAction(self.ui.action_redo)
         edit_menu = QMenu("Правка", self)
         self.ui.menu_bar.insertMenu(self.ui.menu_other.menuAction(), edit_menu)
-        edit_menu.addAction(self.__action_undo)
-        edit_menu.addAction(self.__action_redo)
+        edit_menu.addAction(self.ui.action_undo)
+        edit_menu.addAction(self.ui.action_redo)
         self._update_undo_redo_actions()
         #
         # Генерируем виджеты для вкладок
@@ -208,6 +209,9 @@ class MainWindow(QMainWindow):
         self._setup_elements_tab_widgets()
         self._setup_editor_tab_widgets()
         self._setup_control_tab_widgets()
+        #
+        # Устанавливаем заголовок окна при запуске
+        self._update_window_title()
 
     def _setup_general_tab_widgets(self):
         """Генерирует виджеты для вкладки 'Основные настройки'"""
@@ -553,10 +557,74 @@ class MainWindow(QMainWindow):
         self.ui.action_export_to_image.setEnabled(True)
 
     def _update_status_bar_with_project_name(self, file_name):
-        if file_name:
-            self.statusBar().showMessage(f"Текущий проект: {file_name}")
+        self.__current_file_path = file_name
+        self._update_window_title()
+        self._update_status_bar()
+    
+    def _update_window_title(self):
+        """Обновляет заголовок окна с учётом имени файла и статуса изменённости"""
+        base_title = "Автоматизация ИД"
+        
+        if self.__current_file_path:
+            # Получаем только имя файла без пути
+            file_name = os.path.basename(self.__current_file_path)
+            modified_marker = " *" if self.__document_modified else ""
+            self.setWindowTitle(f"{base_title} — {file_name}{modified_marker}")
+        else:
+            self.setWindowTitle(base_title)
+    
+    def _update_status_bar(self):
+        """Обновляет статус-бар с информацией о файле и изменённости"""
+        if self.__current_file_path:
+            modified_text = " • Не сохранён" if self.__document_modified else ""
+            self.statusBar().showMessage(f"Текущий проект: {self.__current_file_path}{modified_text}")
         else:
             self.statusBar().showMessage("Проект не открыт")
+    
+    def _set_document_modified(self, modified=True):
+        """Устанавливает флаг изменённости документа и обновляет UI"""
+        if self.__document_modified != modified:
+            self.__document_modified = modified
+            self._update_window_title()
+            self._update_status_bar()
+    
+    def _check_unsaved_changes(self):
+        """Проверяет наличие несохранённых изменений и предлагает сохранить.
+        
+        Возвращает:
+            True - если можно продолжить (сохранено, отклонено или нет изменений)
+            False - если пользователь отменил действие
+        """
+        if not self.__document_modified or not self.__obsm.obj_project.is_active():
+            return True
+        
+        msg_box = QMessageBox(self)
+        msg_box.setWindowTitle("Несохранённые изменения")
+        msg_box.setText("В проекте есть несохранённые изменения.")
+        msg_box.setInformativeText("Сохранить изменения перед продолжением?")
+        msg_box.setIcon(QMessageBox.Question)
+        msg_box.setStandardButtons(
+            QMessageBox.Save | QMessageBox.Discard | QMessageBox.Cancel
+        )
+        msg_box.setDefaultButton(QMessageBox.Save)
+        
+        # Локализация кнопок
+        msg_box.button(QMessageBox.Save).setText("Сохранить")
+        msg_box.button(QMessageBox.Discard).setText("Не сохранять")
+        msg_box.button(QMessageBox.Cancel).setText("Отмена")
+        
+        result = msg_box.exec()
+        
+        if result == QMessageBox.Save:
+            # Сохраняем изменения
+            self._save_changes_to_file_nce()
+            return True
+        elif result == QMessageBox.Discard:
+            # Не сохраняем, продолжаем
+            return True
+        else:  # QMessageBox.Cancel
+            # Отменяем действие
+            return False
 
     def _toggle_parameters_visibility(self):
         # Проверяем, активен ли проект
@@ -586,6 +654,10 @@ class MainWindow(QMainWindow):
             self._create_control_sector_widgets(self.__current_control_sector)
 
     def create_file_nce(self):
+        # Проверяем несохранённые изменения перед созданием нового файла
+        if not self._check_unsaved_changes():
+            return  # Пользователь отменил действие
+        
         file_name, _ = QFileDialog.getSaveFileName(self, " ", "", self.__text_format)
         if file_name:
             global_diagrams = self.__obsm.obj_configs.get_config_diagrams()
@@ -613,8 +685,14 @@ class MainWindow(QMainWindow):
                 self._update_undo_redo_actions()
                 #
                 self._update_status_bar_with_project_name(file_name)
+                # Новый файл считается сохранённым
+                self._set_document_modified(False)
 
     def open_file_nce(self):
+        # Проверяем несохранённые изменения перед открытием другого файла
+        if not self._check_unsaved_changes():
+            return  # Пользователь отменил действие
+        
         file_name, _ = QFileDialog.getOpenFileName(self, " ", "", self.__text_format)
         if file_name:
             #
@@ -629,6 +707,8 @@ class MainWindow(QMainWindow):
             self._update_undo_redo_actions()
             #
             self._update_status_bar_with_project_name(file_name)
+            # Открытый файл считается сохранённым
+            self._set_document_modified(False)
 
     def _save_as_file_nce(self):
         if self.__obsm.obj_project.is_active():
@@ -640,6 +720,8 @@ class MainWindow(QMainWindow):
                 self.__obsm.obj_project.save_as_project(file_name)
                 #
                 self._update_status_bar_with_project_name(file_name)
+                # После сохранения как - файл сохранён
+                self._set_document_modified(False)
 
     def _save_changes_to_file_nce(self):
         if self.__obsm.obj_project.is_active():
@@ -779,6 +861,9 @@ class MainWindow(QMainWindow):
             # Сбрасываем журналы отмены/возврата после сохранения проекта
             self.__obsm.obj_undo_journal.clear()
             self._update_undo_redo_actions()
+            
+            # Сбрасываем флаг изменённости после сохранения
+            self._set_document_modified(False)
 
     def _export_to_image(self):
         file_name, _ = QFileDialog.getSaveFileName(self, " ", "", "PNG images (*.png)")
@@ -1019,6 +1104,10 @@ class MainWindow(QMainWindow):
                             self.__current_control_sector = cs
                             break
                     break
+        
+        # Отмечаем документ как изменённый (только если не применяем undo/redo)
+        if not self.__applying_undo_redo:
+            self._set_document_modified(True)
 
     def _connect_widget_to_journal(
         self, tab_index, context, dict_name, key, widget_type, widget
@@ -1193,6 +1282,8 @@ class MainWindow(QMainWindow):
         finally:
             self.__applying_undo_redo = False
         self._update_undo_redo_actions()
+        # Устанавливаем флаг изменённости после отмены
+        self._set_document_modified(True)
 
     def _redo(self):
         """Повтор отменённого изменения (Ctrl+Y)."""
@@ -1258,12 +1349,14 @@ class MainWindow(QMainWindow):
         finally:
             self.__applying_undo_redo = False
         self._update_undo_redo_actions()
+        # Устанавливаем флаг изменённости после повтора
+        self._set_document_modified(True)
 
     def _update_undo_redo_actions(self):
         """Обновляет доступность действий Отмена и Повтор/Возврат по состоянию журнала."""
         active = self.__obsm.obj_project.is_active()
-        self.__action_undo.setEnabled(bool(active and self.__obsm.obj_undo_journal.can_undo()))
-        self.__action_redo.setEnabled(bool(active and self.__obsm.obj_undo_journal.can_redo()))
+        self.ui.action_undo.setEnabled(bool(active and self.__obsm.obj_undo_journal.can_undo()))
+        self.ui.action_redo.setEnabled(bool(active and self.__obsm.obj_undo_journal.can_redo()))
 
     def _add_node(self):
         if self.__obsm.obj_project.is_active():
@@ -1300,6 +1393,8 @@ class MainWindow(QMainWindow):
                 self._update_undo_redo_actions()
                 #
                 self._refresh_diagram()
+                # Устанавливаем флаг изменённости
+                self._set_document_modified(True)
 
                 # Если добавляем соединение, обновляем таблицу секторов
                 if not key_dict_node_and_key_dict_connection.get("node"):
@@ -1322,6 +1417,8 @@ class MainWindow(QMainWindow):
                 self.__obsm.obj_project.set_new_order_nodes(new_order_nodes)
                 #
                 self._refresh_diagram()
+                # Устанавливаем флаг изменённости
+                self._set_document_modified(True)
 
     def _move_connections(self):
         if self.__obsm.obj_project.is_active():
@@ -1338,6 +1435,8 @@ class MainWindow(QMainWindow):
                 self.__obsm.obj_project.set_new_order_connections(new_order_connections)
                 #
                 self._refresh_diagram()
+                # Устанавливаем флаг изменённости
+                self._set_document_modified(True)
 
     # def _delete_node(self, node):
     #     if self.__obsm.obj_project.is_active():
@@ -1399,6 +1498,8 @@ class MainWindow(QMainWindow):
         self.__obsm.obj_project.delete_pair(node, connection_to_delete)
 
         self._refresh_diagram()
+        # Устанавливаем флаг изменённости
+        self._set_document_modified(True)
 
     def _reset_combobox_type_diagram(self, diagram_type_id):
         print("reset_combobox_type_diagram():\n")
@@ -1435,6 +1536,8 @@ class MainWindow(QMainWindow):
             )
             #
             self._refresh_diagram()
+            # Устанавливаем флаг изменённости
+            self._set_document_modified(True)
 
     def reset_tab_general(self, diagram_type_id, diagram_parameters):
         print("reset_tab_general")
@@ -1754,6 +1857,8 @@ class MainWindow(QMainWindow):
                         )
                         self.__last_widget_values[jk] = new_val
                         self._update_undo_redo_actions()
+                        # Устанавливаем флаг изменённости
+                        self._set_document_modified(True)
                     return record
 
                 name_widget.currentTextChanged.connect(make_record_name(row, jkey_1))
@@ -1784,6 +1889,8 @@ class MainWindow(QMainWindow):
             )
             self.__last_widget_values[jkey] = new_val
             self._update_undo_redo_actions()
+            # Устанавливаем флаг изменённости
+            self._set_document_modified(True)
 
         self._on_tw_control_sectors_item_changed = on_item_changed
         table_widget.itemChanged.connect(on_item_changed)
@@ -2447,6 +2554,8 @@ class MainWindow(QMainWindow):
         #
         self._refresh_diagram()
         self._reset_table_control_sectors(control_sectors)
+        # Устанавливаем флаг изменённости
+        self._set_document_modified(True)
 
     def _move_control_sectors(self, obj):
         control_sectors = obj.get("control_sectors", [])
@@ -2461,6 +2570,8 @@ class MainWindow(QMainWindow):
             #
             self._refresh_diagram()
             self._reset_table_control_sectors(control_sectors)
+            # Устанавливаем флаг изменённости
+            self._set_document_modified(True)
 
     def _delete_control_sector(self, obj, selected_cs):
         control_sectors = self.__obsm.obj_project.delete_control_sector(
@@ -2469,6 +2580,8 @@ class MainWindow(QMainWindow):
         #
         self._refresh_diagram()
         self._reset_table_control_sectors(control_sectors)
+        # Устанавливаем флаг изменённости
+        self._set_document_modified(True)
 
     def _create_editor_control_sectors_by_object(self, obj, is_node=False):
         self.control_sectors_group.setVisible(not is_node)
@@ -2683,6 +2796,8 @@ class MainWindow(QMainWindow):
                 self.__obsm.obj_project.paste_node_data(selected_node)
                 # Обновляем интерфейс
                 self._refresh_diagram()
+                # Устанавливаем флаг изменённости
+                self._set_document_modified(True)
             elif action == delete_with_left_action:
                 self._delete_node_with_connection(selected_node, "left")
             elif action == delete_with_right_action:
@@ -2720,6 +2835,8 @@ class MainWindow(QMainWindow):
                 self.__obsm.obj_project.paste_connection_data(selected_connection)
                 # Обновляем интерфейс
                 self._refresh_diagram()
+                # Устанавливаем флаг изменённости
+                self._set_document_modified(True)
 
     def control_sector_table_context_menu(self, position):
         """Отображение контекстного меню для таблицы контрольных секторов"""
@@ -2756,6 +2873,8 @@ class MainWindow(QMainWindow):
             # Обновляем интерфейс
             self._refresh_diagram()
             self._reset_table_control_sectors(control_sectors)
+            # Устанавливаем флаг изменённости
+            self._set_document_modified(True)
         elif action == delete_action and selected_cs:
             self._delete_control_sector(obj, selected_cs)
 
@@ -3045,6 +3164,13 @@ class MainWindow(QMainWindow):
     def hide_right_panel(self):
         """Скрывает правый блок с вкладками"""
         self.ui.gb_right.setVisible(False)
+    
+    def closeEvent(self, event):
+        """Обработчик закрытия окна - проверяет несохранённые изменения"""
+        if self._check_unsaved_changes():
+            event.accept()
+        else:
+            event.ignore()
 
     def show_right_panel(self):
         """Показывает правый блок с вкладками"""

@@ -24,6 +24,8 @@ class Icons:
             (mw.ui.action_edit_cable_lists, f":/{icon_set}/resources/{icon_set}/items-list.svg"),
             (mw.ui.action_edit_sector_names, f":/{icon_set}/resources/{icon_set}/items-list.svg"),
             (mw.ui.action_settings, f":/{icon_set}/resources/{icon_set}/settings.svg"),
+            (mw.ui.action_undo, f":/{icon_set}/resources/{icon_set}/undo.svg"),
+            (mw.ui.action_redo, f":/{icon_set}/resources/{icon_set}/redo.svg"),
         ]
         for action, icon_path in actions_and_icons:
             icon = QIcon()

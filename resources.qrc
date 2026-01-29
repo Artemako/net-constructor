@@ -3,6 +3,9 @@
     <file>resources/fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf</file>
     <file>resources/fonts/OpenSans-VariableFont_wdth,wght.ttf</file>
   </qresource>
+  <qresource prefix="app">
+    <file>resources/app-icon.svg</file>
+  </qresource>
   <qresource prefix="png">
     <file>resources/png/branch-closed.png</file>
     <file>resources/png/branch-open.png</file>
@@ -109,6 +112,8 @@
     <file>resources/white-icons/zoom-in.svg</file>
     <file>resources/white-icons/zoom-out.svg</file>
     <file>resources/white-icons/settings.svg</file>
+    <file>resources/white-icons/undo.svg</file>
+    <file>resources/white-icons/redo.svg</file>
   </qresource>
   <qresource prefix="black-icons">
     <file>resources/black-icons/add-file.svg</file>
@@ -141,5 +146,7 @@
     <file>resources/black-icons/zoom-in.svg</file>
     <file>resources/black-icons/zoom-out.svg</file>
     <file>resources/black-icons/settings.svg</file>
+    <file>resources/black-icons/undo.svg</file>
+    <file>resources/black-icons/redo.svg</file>
   </qresource>
 </RCC>

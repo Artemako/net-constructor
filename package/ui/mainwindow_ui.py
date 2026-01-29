@@ -67,6 +67,12 @@ class Ui_MainWindow(object):
         self.action_settings = QAction(QIcon(":/white-icons/resources/white-icons/settings.svg"), "Настройки", MainWindow)
         self.action_settings.setShortcut("Ctrl+,")
 
+        self.action_undo = QAction(QIcon(":/white-icons/resources/white-icons/undo.svg"), "Отмена", MainWindow)
+        self.action_undo.setShortcut("Ctrl+Z")
+
+        self.action_redo = QAction(QIcon(":/white-icons/resources/white-icons/redo.svg"), "Повтор/Возврат", MainWindow)
+        self.action_redo.setShortcut("Ctrl+Y")
+
         # Центральный виджет и лейаут
         self.centralwidget = QWidget(MainWindow)
         self.horizontalLayout = QHBoxLayout(self.centralwidget)
@@ -186,6 +192,10 @@ class Ui_MainWindow(object):
         self.tb_main.addAction(self.action_new)
         self.tb_main.addAction(self.action_open)
         self.tb_main.addAction(self.action_save)
+        self.tb_main.addSeparator()
+        self.tb_main.addAction(self.action_undo)
+        self.tb_main.addAction(self.action_redo)
+        self.tb_main.addSeparator()
         self.tb_main.addAction(self.action_export_to_image)
         self.tb_main.addSeparator()
         self.tb_main.addAction(self.action_parameters)

@@ -1,7 +1,9 @@
 import sys
 
+import resources_rc  # noqa: F401 — регистрация ресурсов Qt до использования иконки
+
 from PySide6.QtWidgets import QApplication
-from PySide6.QtGui import QFontDatabase, QFont
+from PySide6.QtGui import QFontDatabase, QFont, QIcon
 
 import package.components.mainwindow as mainwindow
 
@@ -76,6 +78,8 @@ class App:
                     self.app.setFont(self.__custom_font)
             except Exception as e:
                 print(f"Error: {e}")
+            # иконка приложения
+            self.app.setWindowIcon(QIcon(":/app/resources/app-icon.svg"))
             # создание окна
             self.window = mainwindow.MainWindow(self.__obsm)
             self.__obsm.obj_mw = self.window
