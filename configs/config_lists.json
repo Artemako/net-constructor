@@ -6,21 +6,81 @@
             "type": "sector_names",
             "items": [
                 {
-                    "value": "По опорам",
-                    "name": "По опорам",
-                    "description": "Сектор, проложенный по опорам",
+                    "value": "Прокладка ВОК по опорам",
+                    "name": "Прокладка ВОК по опорам",
+                    "description": "",
                     "is_default": false
                 },
                 {
-                    "value": "В грунте",
-                    "name": "В грунте",
-                    "description": "Сектор, проложенный в грунте",
+                    "value": "Прокладка ВОК методом подвеса",
+                    "name": "Прокладка ВОК методом подвеса",
+                    "description": "",
                     "is_default": false
                 },
                 {
-                    "value": "По зданию",
-                    "name": "По зданию",
-                    "description": "Сектор, проложенный по зданию",
+                    "value": "Прокладка ВОК в грунте",
+                    "name": "Прокладка ВОК в грунте",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "Прокладка ВОК по помещению",
+                    "name": "Прокладка ВОК по помещению",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "Прокладка ВОК в кабельной канализации",
+                    "name": "Прокладка ВОК в кабельной канализации",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "Прокладка ВОК в грунте",
+                    "name": "Прокладка ВОК в грунте",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "Прокладка ВОК по фасаду",
+                    "name": "Прокладка ВОК по фасаду",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "Прокладка внутриобъектового ВОК",
+                    "name": "Прокладка внутриобъектового ВОК",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "Прокладка ВОК между зданиями",
+                    "name": "Прокладка ВОК между зданиями",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "Прокладка ВОК в ЗПТ трубе",
+                    "name": "Прокладка ВОК в ЗПТ трубе",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "Прокладка ВОК в ПНД трубе",
+                    "name": "Прокладка ВОК в ПНД трубе",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "Прокладка ВОК по контейнеру",
+                    "name": "Прокладка ВОК по контейнеру",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ГНБ переход",
+                    "name": "ГНБ переход",
+                    "description": "",
                     "is_default": false
                 }
             ]
@@ -31,20 +91,944 @@
             "type": "cable_types",
             "items": [
                 {
-                    "value": "Марка ВОК 1",
-                    "name": "Марка ВОК 1",
+                    "value": "ОКСНМ-10-01-0,22-48(20,0)",
+                    "name": "ОКСНМ-10-01-0,22-48(20,0)",
                     "description": "",
                     "is_default": false
                 },
                 {
-                    "value": "Марка ВОК 2",
-                    "name": "Марка ВОК 2",
+                    "value": "ДПТ-Э-32У(4х8)-25кН",
+                    "name": "ДПТ-Э-32У(4х8)-25кН",
                     "description": "",
                     "is_default": false
                 },
                 {
-                    "value": "Марка ВОК 3",
-                    "name": "Марка ВОК 3",
+                    "value": "ОПН-ДПТ-06-048А08-7,0",
+                    "name": "ОПН-ДПТ-06-048А08-7,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКСНМ-10-01-0,22-48(7,0)",
+                    "name": "ОКСНМ-10-01-0,22-48(7,0)",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ДАС-05-024А12-23,0",
+                    "name": "ОПН-ДАС-05-024А12-23,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКСНМ-10-01-0,22-48(10,0)",
+                    "name": "ОКСНМ-10-01-0,22-48(10,0)",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ДС-7-6z-5/32",
+                    "name": "ДС-7-6z-5/32",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ДПСк-04-048А12-8,0",
+                    "name": "ОПН-ДПСк-04-048А12-8,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ДС-10-E3/6Z-5/32",
+                    "name": "ДС-10-E3/6Z-5/32",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ДС-25-6z-5/32",
+                    "name": "ДС-25-6z-5/32",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОМЗКГЦ-10-01-0,22-8-(2,7)",
+                    "name": "ОМЗКГЦ-10-01-0,22-8-(2,7)",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ДПСк-04-096А24-8,0",
+                    "name": "ОПН-ДПСк-04-096А24-8,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОГД-4*8А-16",
+                    "name": "ОГД-4*8А-16",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ДПТ-06-048А08-21,0",
+                    "name": "ОПН-ДПТ-06-048А08-21,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКГТ-ц-1-36(G/652)-9.6/60",
+                    "name": "ОКГТ-ц-1-36(G/652)-9.6/60",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ДПТ-П-32У(4х8)-25кН",
+                    "name": "ДПТ-П-32У(4х8)-25кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКСНМ-10-01-0,22-48(15,0)",
+                    "name": "ОКСНМ-10-01-0,22-48(15,0)",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ДПТ-048Е08-06-7,0",
+                    "name": "ДПТ-048Е08-06-7,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ДПС-024Е08-04-15,0/0,4",
+                    "name": "ДПС-024Е08-04-15,0/0,4",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ДПТ-П-16У (4*4)-18кН",
+                    "name": "ОПН-ДПТ-П-16У (4*4)-18кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ДПТ-П-24У (6*4) - 25кН",
+                    "name": "ДПТ-П-24У (6*4) - 25кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ДПТ-06-048А08-20,0",
+                    "name": "ОПН-ДПТ-06-048А08-20,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ДПТ-048Е08-06-21,0",
+                    "name": "ДПТ-048Е08-06-21,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ТОСк-01-024А24-5,0",
+                    "name": "ОПН-ТОСк-01-024А24-5,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "СЛ-ОКДМ-6/3-24Е2-7,0",
+                    "name": "СЛ-ОКДМ-6/3-24Е2-7,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОМЗКГЦ-10-01-0,22-16-(2,7)",
+                    "name": "ОМЗКГЦ-10-01-0,22-16-(2,7)",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОМЗКГЦ-10-01-0,22-24-(8,0)",
+                    "name": "ОМЗКГЦ-10-01-0,22-24-(8,0)",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "СЛ-ОКДМ-6/1-8Е2-7,0",
+                    "name": "СЛ-ОКДМ-6/1-8Е2-7,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ДПС-04-008А08-7,0",
+                    "name": "ОПН-ДПС-04-008А08-7,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКСНМ-10-01-0,22-8(7,0)",
+                    "name": "ОКСНМ-10-01-0,22-8(7,0)",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ДПСк-04-024А08-8,0",
+                    "name": "ОПН-ДПСк-04-024А08-8,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОГЦ-8А-4",
+                    "name": "ОГЦ-8А-4",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКС-8xG.652D-7кН",
+                    "name": "ОКС-8xG.652D-7кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ДА2-06-048А08-80,0",
+                    "name": "ОПН-ДА2-06-048А08-80,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКМС-8 6 кН",
+                    "name": "ОКМС-8 6 кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОМЗКГЦ-10-01-0,22-48-(8,0)",
+                    "name": "ОМЗКГЦ-10-01-0,22-48-(8,0)",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ДС-7-6-6/48",
+                    "name": "ДС-7-6-6/48",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ДПТс-П-32У-7 кН",
+                    "name": "ДПТс-П-32У-7 кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ДПЛ-П-48У (6*8) 2,7кН",
+                    "name": "ДПЛ-П-48У (6*8) 2,7кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ДПС-048Е08-06-7,0/0,4",
+                    "name": "ДПС-048Е08-06-7,0/0,4",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКЛСт-01-16-10/125-2.7",
+                    "name": "ОКЛСт-01-16-10/125-2.7",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОМЗКГЦ-10-01-0,22-16-(8,0)",
+                    "name": "ОМЗКГЦ-10-01-0,22-16-(8,0)",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ДПТ-П-32У(4х8)-7кН",
+                    "name": "ДПТ-П-32У(4х8)-7кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКЛК-01-4-24-10/125-0,36/0,22-3,5/18-7,0",
+                    "name": "ОКЛК-01-4-24-10/125-0,36/0,22-3,5/18-7,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОККМ-01-6*8Е3",
+                    "name": "ОККМ-01-6*8Е3",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКБ-8 (G.652D)-T",
+                    "name": "ОКБ-8 (G.652D)-T",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ТОС-01-016А16-7,0",
+                    "name": "ОПН-ТОС-01-016А16-7,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ДПТ-Э-24У (6*4) - 25кН",
+                    "name": "ДПТ-Э-24У (6*4) - 25кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКГ-48xG/652-7 кН",
+                    "name": "ОКГ-48xG/652-7 кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ДПМ-нг(А)-НF-04-024А08-7,0",
+                    "name": "ОПН-ДПМ-нг(А)-НF-04-024А08-7,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "СЛ-ОКПЦ Д2К-8Е2-3.0",
+                    "name": "СЛ-ОКПЦ Д2К-8Е2-3.0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ТОС-П-16У-7кН",
+                    "name": "ТОС-П-16У-7кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ДПС-04-008А04-20,0",
+                    "name": "ОПН-ДПС-04-008А04-20,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ДА2-06-096А16-80,0",
+                    "name": "ОПН-ДА2-06-096А16-80,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ДПТ-П-24У (3*8) - 10кН",
+                    "name": "ДПТ-П-24У (3*8) - 10кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКСНМ-10-01-0,22-8(6,0)",
+                    "name": "ОКСНМ-10-01-0,22-8(6,0)",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "СЛ-ОКМБ 03НУ-8Е2-2,7",
+                    "name": "СЛ-ОКМБ 03НУ-8Е2-2,7",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКБ-16 (G.652D)-T",
+                    "name": "ОКБ-16 (G.652D)-T",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ДПТс-П-24У (6*4)-12 кН",
+                    "name": "ДПТс-П-24У (6*4)-12 кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКБ-Т-16А-7,0",
+                    "name": "ОКБ-Т-16А-7,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ДПС-П-24У (3*8) 16кН",
+                    "name": "ДПС-П-24У (3*8) 16кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКБ-Т-А8-7,0",
+                    "name": "ОКБ-Т-А8-7,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКСТЦ-10-01-0,22-24-(2,7)-319/01-22/12",
+                    "name": "ОКСТЦ-10-01-0,22-24-(2,7)-319/01-22/12",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКСНМ-10-01-0,22-16(7,0)",
+                    "name": "ОКСНМ-10-01-0,22-16(7,0)",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "СО-TG16-2,7 кН",
+                    "name": "СО-TG16-2,7 кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКСНМ-10-01-0,22-96(7,0)",
+                    "name": "ОКСНМ-10-01-0,22-96(7,0)",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОГЦ-8А-2,7",
+                    "name": "ОГЦ-8А-2,7",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ИКБ-Т-А8-2,7",
+                    "name": "ИКБ-Т-А8-2,7",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКГЦ 24 G.652D",
+                    "name": "ОКГЦ 24 G.652D",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОС-М5-8-6,0",
+                    "name": "ОС-М5-8-6,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ДПС-04-032А08-7,0",
+                    "name": "ОПН-ДПС-04-032А08-7,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОМЗКГЦ-10-01-0,22-8-(8,0)",
+                    "name": "ОМЗКГЦ-10-01-0,22-8-(8,0)",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ТОС-П-24У-7кН+A261:AA285:A326",
+                    "name": "ТОС-П-24У-7кН+A261:AA285:A326",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОККН-0,22-24-6кН",
+                    "name": "ОККН-0,22-24-6кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКМС-16 7 кН",
+                    "name": "ОКМС-16 7 кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОБР-У-нг(А)-16-G.657.А1 800 Н",
+                    "name": "ОБР-У-нг(А)-16-G.657.А1 800 Н",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОМЗКГМ-10-01-0,22-96-(7,0)",
+                    "name": "ОМЗКГМ-10-01-0,22-96-(7,0)",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОСД-6х8А-7",
+                    "name": "ОСД-6х8А-7",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ИКБ-Т-А8-4,0",
+                    "name": "ИКБ-Т-А8-4,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ТОС-01-024А24-5,0",
+                    "name": "ОПН-ТОС-01-024А24-5,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ДПО-нг(А)-NF-06-024А08-1,5",
+                    "name": "ОПН-ДПО-нг(А)-NF-06-024А08-1,5",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "оптический ОКДЛ 48-0,22-8*6-2,7",
+                    "name": "оптический ОКДЛ 48-0,22-8*6-2,7",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "СЛ-ОКПЦ Д2К-4Е2-1,5",
+                    "name": "СЛ-ОКПЦ Д2К-4Е2-1,5",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОГЦ-24А-7",
+                    "name": "ОГЦ-24А-7",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "СО-ADSS8-4 на 8 вол. 4 кН",
+                    "name": "СО-ADSS8-4 на 8 вол. 4 кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОМЗКГМ-10-01-0,22-48-(7,0)",
+                    "name": "ОМЗКГМ-10-01-0,22-48-(7,0)",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "СО-TG8-2,7 кН",
+                    "name": "СО-TG8-2,7 кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ДПО-нг(А)-024А08-1,5",
+                    "name": "ОПН-ДПО-нг(А)-024А08-1,5",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОМЗКГЦ-10-01-0,22-24-(2,7)",
+                    "name": "ОМЗКГЦ-10-01-0,22-24-(2,7)",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ТОМ-Н-01-008А08-2,7",
+                    "name": "ТОМ-Н-01-008А08-2,7",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ТОСк-01-024А24-8,0",
+                    "name": "ОПН-ТОСк-01-024А24-8,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКЛСт-нг(А)-HF-01-16-10/125-2.7",
+                    "name": "ОКЛСт-нг(А)-HF-01-16-10/125-2.7",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПЦ-8А-9",
+                    "name": "ОПЦ-8А-9",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "СЛ-ОКПЦ Д2К-8Е2-1,5",
+                    "name": "СЛ-ОКПЦ Д2К-8Е2-1,5",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ДПМ-04-024А06-12,0",
+                    "name": "ОПН-ДПМ-04-024А06-12,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "силовой АВБШв 5*16ок (NIPE)-0,66",
+                    "name": "силовой АВБШв 5*16ок (NIPE)-0,66",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ДПО-нг(А)HF-16У (2*8)-2,7 кН",
+                    "name": "ДПО-нг(А)HF-16У (2*8)-2,7 кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ДПС-048К08-06-16,05/0,5-К",
+                    "name": "ОПН-ДПС-048К08-06-16,05/0,5-К",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКСЛ-МЗП-А24-2,7",
+                    "name": "ОКСЛ-МЗП-А24-2,7",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ДПО-нг(А)HF-48У (6*8)-2,7 кН",
+                    "name": "ДПО-нг(А)HF-48У (6*8)-2,7 кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКДН-4*8А-2,7 LS-HF",
+                    "name": "ОКДН-4*8А-2,7 LS-HF",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ДПС-П-32У (4*8) 7кН",
+                    "name": "ДПС-П-32У (4*8) 7кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКТ-D А16 4,0 кН (G.652)",
+                    "name": "ОКТ-D А16 4,0 кН (G.652)",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКМС-32 (G.652.D) 8 кН",
+                    "name": "ОКМС-32 (G.652.D) 8 кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "СБВГнг(А)-LS 14*2*0.9",
+                    "name": "СБВГнг(А)-LS 14*2*0.9",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "СЛ-ОКПЦ Д2К-24Е2-3.0",
+                    "name": "СЛ-ОКПЦ Д2К-24Е2-3.0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "КСПП",
+                    "name": "КСПП",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "СЛ-ОКПЦ 8Е2-2.0",
+                    "name": "СЛ-ОКПЦ 8Е2-2.0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "СЛ-ОКПЦ Д2К-4Е2-3.0",
+                    "name": "СЛ-ОКПЦ Д2К-4Е2-3.0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "СЛ-ОКПЦ Д2-2Е2-1,5",
+                    "name": "СЛ-ОКПЦ Д2-2Е2-1,5",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ПВС 3*1,5 5 м",
+                    "name": "ПВС 3*1,5 5 м",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "КИС-В 2*2*0,6 мм",
+                    "name": "КИС-В 2*2*0,6 мм",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ДПТс-П-16У-7 кН",
+                    "name": "ДПТс-П-16У-7 кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ДС-7-6z-5/48",
+                    "name": "ДС-7-6z-5/48",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ДС-7-6z-8/64",
+                    "name": "ДС-7-6z-8/64",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ДСт-21-6-6/48",
+                    "name": "ДСт-21-6-6/48",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ИКАЛс-м4П-А8-7",
+                    "name": "ИКАЛс-м4П-А8-7",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ИКАс-М4П-А8-7,0",
+                    "name": "ИКАс-М4П-А8-7,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОГЦ-16А-7",
+                    "name": "ОГЦ-16А-7",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКА-М4П-А8-3,0",
+                    "name": "ОКА-М4П-А8-3,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКА-М5П-А16-7,0",
+                    "name": "ОКА-М5П-А16-7,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКА-М5П-А8-7,0",
+                    "name": "ОКА-М5П-А8-7,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКА-М6П-А48-7,0",
+                    "name": "ОКА-М6П-А48-7,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКБ-0,22-24П-7кН",
+                    "name": "ОКБ-0,22-24П-7кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКБ-0,22-8П-7кН",
+                    "name": "ОКБ-0,22-8П-7кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКБ-Т-16А-4,0",
+                    "name": "ОКБ-Т-16А-4,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКБ-Т-8А-2,7",
+                    "name": "ОКБ-Т-8А-2,7",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКБ-Т-8А-3,0",
+                    "name": "ОКБ-Т-8А-3,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКГМ-01-4*12Е3-7,0",
+                    "name": "ОКГМ-01-4*12Е3-7,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКГМ-01-6*24ЕЗ-7кН",
+                    "name": "ОКГМ-01-6*24ЕЗ-7кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКГТ-ц-1-48(G/652)-13,8/57",
+                    "name": "ОКГТ-ц-1-48(G/652)-13,8/57",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКЗ-САО-4Сп-48(2) 2,7 кН",
+                    "name": "ОКЗ-САО-4Сп-48(2) 2,7 кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКК-0,22-48-20кН",
+                    "name": "ОКК-0,22-48-20кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКК-0,22-48-25кН",
+                    "name": "ОКК-0,22-48-25кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКК-0,22-8П-7кН",
+                    "name": "ОКК-0,22-8П-7кН",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОККМ-01-4*8Е3",
+                    "name": "ОККМ-01-4*8Е3",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОКСЛ-МЗП-А48-2,7",
+                    "name": "ОКСЛ-МЗП-А48-2,7",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ДА2-05-036А08-80,0",
+                    "name": "ОПН-ДА2-05-036А08-80,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ДПМ-Н-04-016А08-7,0",
+                    "name": "ОПН-ДПМ-Н-04-016А08-7,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ДПТ-06-048А08-15,0",
+                    "name": "ОПН-ДПТ-06-048А08-15,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ДПТ-06-048А08-17,0",
+                    "name": "ОПН-ДПТ-06-048А08-17,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ДПТ-06-064А12-20,0",
+                    "name": "ОПН-ДПТ-06-064А12-20,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ДПТ-06-064А12-7,0",
+                    "name": "ОПН-ДПТ-06-064А12-7,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ДПТ-06-096А16-7,0",
+                    "name": "ОПН-ДПТ-06-096А16-7,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПН-ТОСк-01-032А32-5,0",
+                    "name": "ОПН-ТОСк-01-032А32-5,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПНП-LS-HF-8A-1.0M",
+                    "name": "ОПНП-LS-HF-8A-1.0M",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОПС-024Е12-02-7,0/0,6",
+                    "name": "ОПС-024Е12-02-7,0/0,6",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "оптический ОСЦ-2А-1,0",
+                    "name": "оптический ОСЦ-2А-1,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОСД-4х8А-30",
+                    "name": "ОСД-4х8А-30",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОСД-8х8А-10",
+                    "name": "ОСД-8х8А-10",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ОТЦН-8А-2,7 LS-HF",
+                    "name": "ОТЦН-8А-2,7 LS-HF",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "ПВЗ 4 мм2",
+                    "name": "ПВЗ 4 мм2",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "СЛ-ОКДМ-1/4-16Е2-8,0",
+                    "name": "СЛ-ОКДМ-1/4-16Е2-8,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "СЛ-ОКДМ-6/1-8Е7-7,0",
+                    "name": "СЛ-ОКДМ-6/1-8Е7-7,0",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "СЛ-ОКМБ 02НУ-8Е2-2,5",
+                    "name": "СЛ-ОКМБ 02НУ-8Е2-2,5",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "СЛ-ОКПБ-16Е2-2,7",
+                    "name": "СЛ-ОКПБ-16Е2-2,7",
+                    "description": "",
+                    "is_default": false
+                },
+                {
+                    "value": "СЛ-ОКПЦ Д2-4Е2-1,5",
+                    "name": "СЛ-ОКПЦ Д2-4Е2-1,5",
                     "description": "",
                     "is_default": false
                 }
