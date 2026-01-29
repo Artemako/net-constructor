@@ -42,7 +42,7 @@ from PySide6.QtGui import (
     QAction,
     QIcon,
 )
-from PySide6.QtCore import QRegularExpression, Qt, QModelIndex, QLocale, QSettings
+from PySide6.QtCore import QRegularExpression, Qt, QModelIndex, QLocale, QSettings, QTimer
 
 
 import package.controllers.imagewidget as imagewidget
@@ -59,8 +59,11 @@ import package.components.settingsdialog as settingsdialog
 import package.ui.mainwindow_ui as mainwindow_ui
 
 import package.constants as constants
+import package.modules.undojournal as undojournal
 
+import copy
 import json
+import os
 from functools import partial
 
 
@@ -82,7 +85,7 @@ class CustomTableComboBox(QComboBox):
             self.setCurrentIndex(index)
         else:
             # Если элемента нет в списке - показываем кастомный текст
-                        self.setCurrentText(str(text))
+            self.setCurrentText(str(text))
 
 
 class MainWindow(QMainWindow):
@@ -179,7 +182,29 @@ class MainWindow(QMainWindow):
         self.ui.action_edit_sector_names.triggered.connect(self._edit_sector_names)
         # открытие диалога настроек
         self.ui.action_settings.triggered.connect(self._open_settings)
-        
+        #
+        # Журнал отмены/повтора (Undo/Redo)
+        self.__undo_journal = undojournal.UndoJournal(max_size=100)
+        self.__last_widget_values = {}
+        self.__last_diagram_type_value = None
+        self.__applying_undo_redo = False
+        # Действия "Отмена" и "Повтор/Возврат" в меню "Правка" (только QAction — без QShortcut, чтобы не было Ambiguous shortcut)
+        self.__action_undo = QAction("Отмена", self)
+        self.__action_undo.setShortcut(QKeySequence("Ctrl+Z"))
+        self.__action_undo.setShortcutContext(Qt.ApplicationShortcut)
+        self.__action_undo.triggered.connect(self._undo)
+        self.__action_redo = QAction("Повтор/Возврат", self)
+        self.__action_redo.setShortcut(QKeySequence("Ctrl+Y"))
+        self.__action_redo.setShortcutContext(Qt.ApplicationShortcut)
+        self.__action_redo.triggered.connect(self._redo)
+        self.addAction(self.__action_undo)
+        self.addAction(self.__action_redo)
+        edit_menu = QMenu("Правка", self)
+        self.ui.menu_bar.insertMenu(self.ui.menu_other.menuAction(), edit_menu)
+        edit_menu.addAction(self.__action_undo)
+        edit_menu.addAction(self.__action_redo)
+        self._update_undo_redo_actions()
+        #
         # Генерируем виджеты для вкладок
         self._setup_general_tab_widgets()
         self._setup_elements_tab_widgets()
@@ -238,8 +263,8 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.parameters_group)
         layout.addWidget(self.verticalSpacer)
         
-        # Подключаем сигналы
-        self.combox_type_diagram.currentIndexChanged.connect(self._change_type_diagram)
+        # Подключаем сигналы (журнал отмены + смена типа)
+        self.combox_type_diagram.currentIndexChanged.connect(self._on_diagram_type_changed)
         
     def _setup_elements_tab_widgets(self):
         """Генерирует виджеты для вкладки 'Элементы'"""
@@ -585,11 +610,9 @@ class MainWindow(QMainWindow):
                     diagram_data, control_sectors_config, file_name
                 )
                 #
-                project_data = self.__obsm.obj_project.get_data()
-                #
-                self.ui.imagewidget.run(project_data, is_new=True)
-                self._reset_widgets_by_data(project_data)
+                self._refresh_diagram(is_new=True)
                 self._start_qt_actions()
+                self._update_undo_redo_actions()
                 #
                 self._update_status_bar_with_project_name(file_name)
 
@@ -603,11 +626,9 @@ class MainWindow(QMainWindow):
             #
             self.__obsm.obj_project.open_project(file_name)
             #
-            project_data = self.__obsm.obj_project.get_data()
-            #
-            self.ui.imagewidget.run(project_data, is_new=True)
-            self._reset_widgets_by_data(project_data)
+            self._refresh_diagram(is_new=True)
             self._start_qt_actions()
+            self._update_undo_redo_actions()
             #
             self._update_status_bar_with_project_name(file_name)
 
@@ -706,22 +727,24 @@ class MainWindow(QMainWindow):
 
             elif self.ui.tabw_right.currentIndex() == 3:
                 is_control_sector_tab = True
-                # Получаем новые значения из виджетов
-                new_control_sector_parameters = self._get_new_data_or_parameters(
-                    self.__control_data_parameters_widgets, is_parameters=True
+                # Получаем новые значения из виджетов (данные + параметры)
+                new_control_data = self._get_new_data_or_parameters(
+                    self.__control_sector_data_widgets, is_parameters=False
                 )
-                print(
-                    f"new_control_sector_parameters = {new_control_sector_parameters}"
+                new_control_parameters = self._get_new_data_or_parameters(
+                    self.__control_sector_parameters_widgets, is_parameters=True
                 )
+                new_control_sector_parameters = {
+                    **new_control_data,
+                    **new_control_parameters,
+                }
                 # Обновляем данные контрольного сектора
                 if self.__current_control_sector is not None:
-                    print(
-                        f"self.__current_control_sector = {self.__current_control_sector}"
-                    )
                     for key, value in new_control_sector_parameters.items():
-                        self.__current_control_sector["data_pars"][key]["value"] = (
-                            value.get("value")
-                        )
+                        if key in self.__current_control_sector.get("data_pars", {}):
+                            self.__current_control_sector["data_pars"][key]["value"] = (
+                                value.get("value")
+                            )
 
             if is_editor_tab or is_general_tab or is_control_sector_tab:
                 config_nodes = self.__obsm.obj_configs.get_nodes()
@@ -741,9 +764,7 @@ class MainWindow(QMainWindow):
                     new_parameters,
                 )
 
-            project_data = self.__obsm.obj_project.get_data()
-            self.ui.imagewidget.run(project_data)
-            self._reset_widgets_by_data(project_data)
+            self._refresh_diagram()
 
             # Проверка оптической и физической длины соединения
             self._clear_error_messages()
@@ -756,6 +777,10 @@ class MainWindow(QMainWindow):
             if (current_tab == 2 and not self.__current_is_node) or current_tab == 3:
                 control_sectors = self.__current_object.get("control_sectors", [])
                 self._reset_table_control_sectors(control_sectors)
+            
+            # Сбрасываем журналы отмены/возврата после сохранения проекта
+            self.__undo_journal.clear()
+            self._update_undo_redo_actions()
 
     def _export_to_image(self):
         file_name, _ = QFileDialog.getSaveFileName(self, " ", "", "PNG images (*.png)")
@@ -823,6 +848,399 @@ class MainWindow(QMainWindow):
 
         return new_data_or_parameters
 
+    def _get_value_from_widget(self, widget_type, widget):
+        """Возвращает текущее значение одного виджета по типу (для журнала отмены)."""
+        if widget_type == "title":
+            return "заголовок"
+        if widget_type == "font_name":
+            return widget.currentFont().toString()
+        if widget_type == "color":
+            return widget.text()
+        if widget_type == "string_line":
+            return widget.text()
+        if widget_type in ("fill_style", "text_align", "line_style"):
+            return widget.currentText()
+        if widget_type == "bool":
+            return widget.isChecked()
+        if widget_type in ("number_int_signed", "number_int", "number_float"):
+            return widget.value()
+        if widget_type == "physical_length_calculator":
+            try:
+                coeff = float(widget.coefficient_input.text().replace(",", "."))
+            except (ValueError, TypeError):
+                coeff = 1.0
+            return {
+                "од": widget.optical_length_input.value(),
+                "к": coeff,
+                "фд": widget.physical_length_input.value(),
+            }
+        if widget_type == "list_with_custom":
+            return widget.currentText()
+        if hasattr(widget, "value"):
+            return widget.value()
+        if hasattr(widget, "toPlainText"):
+            return widget.toPlainText()
+        return None
+
+    def _set_value_to_widget(self, widget_type, widget, value):
+        """Устанавливает значение в виджет по типу (для отмены/повтора)."""
+        if widget_type == "title":
+            return
+        if widget_type == "font_name":
+            font = QFont()
+            if value and font.fromString(value):
+                widget.setCurrentFont(font)
+            return
+        if widget_type == "color":
+            if value is not None:
+                widget.setStyleSheet(f"background-color: {value};")
+                widget.setText(value)
+            return
+        if widget_type == "string_line":
+            widget.setText(value if value is not None else "")
+            return
+        if widget_type in ("fill_style", "text_align", "line_style"):
+            idx = widget.findText(value) if value else -1
+            if idx >= 0:
+                widget.setCurrentIndex(idx)
+            else:
+                widget.setCurrentText(value or "")
+            return
+        if widget_type == "bool":
+            widget.setChecked(bool(value))
+            return
+        if widget_type in ("number_int_signed", "number_int", "number_float"):
+            widget.setValue(value if value is not None else 0)
+            return
+        if widget_type == "physical_length_calculator":
+            if isinstance(value, dict):
+                widget.optical_length_input.setValue(value.get("од", 0))
+                widget.coefficient_input.setText(str(value.get("к", 0.97)))
+                widget.physical_length_input.setValue(value.get("фд", 0))
+            return
+        if widget_type == "list_with_custom":
+            if hasattr(widget, "setCustomText"):
+                widget.setCustomText(str(value) if value is not None else "")
+            else:
+                idx = widget.findText(str(value)) if value is not None else -1
+                if idx >= 0:
+                    widget.setCurrentIndex(idx)
+                else:
+                    widget.setCurrentText(str(value) if value is not None else "")
+            return
+        if hasattr(widget, "setValue"):
+            widget.setValue(value if value is not None else 0)
+            return
+        if hasattr(widget, "setText"):
+            widget.setText(str(value) if value is not None else "")
+            return
+        if hasattr(widget, "setPlainText"):
+            widget.setPlainText(str(value) if value is not None else "")
+
+    def _journal_context(self):
+        """Текущий контекст для журнала: None (вкладка 0), (object_id, is_node) (вкладка 2), (object_id, is_node, cs_id) (вкладка 3)."""
+        if self.ui.tabw_right.currentIndex() == 0:
+            return None
+        if self.ui.tabw_right.currentIndex() == 2:
+            if self.__current_object:
+                return (self.__current_object.get("id"), self.__current_is_node)
+            return None
+        if self.ui.tabw_right.currentIndex() == 3:
+            if self.__current_object and self.__current_control_sector:
+                return (
+                    self.__current_object.get("id"),
+                    self.__current_is_node,
+                    self.__current_control_sector.get("id"),
+                )
+            return None
+        return None
+
+    def _apply_widget_change_to_project(self, tab_index, dict_name, key, value):
+        """Применяет изменение виджета к данным проекта без сохранения в файл."""
+        if not self.__obsm.obj_project.is_active():
+            return
+        
+        data = self.__obsm.obj_project.get_data()
+        
+        # Для вкладки "Основные настройки" (tab 0)
+        if tab_index == 0 and dict_name == '__general_diagram_parameters_widgets':
+            if "diagram_parameters" not in data:
+                data["diagram_parameters"] = {}
+            data["diagram_parameters"][key] = {"value": value}
+        
+        # Для вкладки "Редактирование объекта" (tab 2)
+        elif tab_index == 2 and self.__current_object:
+            object_id = self.__current_object.get("id")
+            is_node = self.__current_is_node
+            
+            # Найти объект в данных проекта
+            target_obj = None
+            if is_node:
+                nodes = data.get("nodes", [])
+                for node in nodes:
+                    if node.get("id") == object_id:
+                        target_obj = node
+                        break
+            else:
+                connections = data.get("connections", [])
+                for conn in connections:
+                    if conn.get("id") == object_id:
+                        target_obj = conn
+                        break
+            
+            if target_obj:
+                if dict_name in ('__editor_object_data_widgets', '__editor_type_object_data_widgets', '__editor_objects_data_widgets'):
+                    if "data" not in target_obj:
+                        target_obj["data"] = {}
+                    target_obj["data"][key] = {"value": value}
+                elif dict_name in ('__editor_object_parameters_widgets', '__editor_type_object_parameters_widgets', '__editor_objects_parameters_widgets'):
+                    if "parameters" not in target_obj:
+                        target_obj["parameters"] = {}
+                    target_obj["parameters"][key] = {"value": value}
+                # Также обновляем локальный объект
+                self.__current_object = target_obj
+        
+        # Для вкладки "Контрольный сектор" (tab 3)
+        elif tab_index == 3 and self.__current_control_sector:
+            object_id = self.__current_object.get("id")
+            cs_id = self.__current_control_sector.get("id")
+            
+            # Найти соединение в данных проекта
+            connections = data.get("connections", [])
+            for conn in connections:
+                if conn.get("id") == object_id:
+                    # Найти контрольный сектор
+                    for cs in conn.get("control_sectors", []):
+                        if cs.get("id") == cs_id:
+                            if "data_pars" not in cs:
+                                cs["data_pars"] = {}
+                            if key not in cs["data_pars"]:
+                                cs["data_pars"][key] = {}
+                            cs["data_pars"][key]["value"] = value
+                            # Также обновляем локальный объект
+                            self.__current_control_sector = cs
+                            break
+                    break
+
+    def _connect_widget_to_journal(
+        self, tab_index, context, dict_name, key, widget_type, widget
+    ):
+        """Сохраняет начальное значение и подключает виджет к журналу отмены."""
+        if widget_type == "title":
+            return
+        jkey = (tab_index, context, dict_name, key)
+        self.__last_widget_values[jkey] = self._get_value_from_widget(widget_type, widget)
+
+        def record_change():
+            if self.__applying_undo_redo:
+                return
+            new_value = self._get_value_from_widget(widget_type, widget)
+            old_value = self.__last_widget_values.get(jkey)
+            if old_value == new_value:
+                return
+            self.__undo_journal.record_form_change(
+                tab_index, context, dict_name, key, widget_type, old_value, new_value
+            )
+            self.__last_widget_values[jkey] = new_value
+            self._update_undo_redo_actions()
+            # Обновляем схему при изменении виджета
+            self._apply_widget_change_to_project(tab_index, dict_name, key, new_value)
+            self._refresh_diagram()
+
+        if widget_type == "font_name":
+            widget.currentFontChanged.connect(record_change)
+        elif widget_type == "color":
+            widget.clicked.connect(lambda: QTimer.singleShot(0, record_change))
+        elif widget_type == "string_line":
+            widget.textChanged.connect(record_change)
+        elif widget_type in ("fill_style", "text_align", "line_style", "list_with_custom"):
+            widget.currentTextChanged.connect(record_change)
+        elif widget_type == "bool":
+            widget.stateChanged.connect(record_change)
+        elif widget_type in ("number_int_signed", "number_int", "number_float"):
+            widget.valueChanged.connect(record_change)
+        elif widget_type == "physical_length_calculator":
+            widget.optical_length_input.valueChanged.connect(record_change)
+            widget.coefficient_input.textChanged.connect(record_change)
+            widget.physical_length_input.valueChanged.connect(record_change)
+        elif hasattr(widget, "valueChanged"):
+            widget.valueChanged.connect(record_change)
+        elif hasattr(widget, "textChanged"):
+            widget.textChanged.connect(record_change)
+        elif hasattr(widget, "toPlainText"):
+            widget.textChanged.connect(record_change)
+
+    def _on_diagram_type_changed(self, index):
+        """Обработчик смены типа схемы с записью в журнал отмены."""
+        if self.__applying_undo_redo:
+            return
+        new_data = self.combox_type_diagram.currentData()
+        old_data = self.__last_diagram_type_value
+        if old_data is not None and new_data is not None:
+            self.__undo_journal.record_diagram_type_change(
+                0, copy.deepcopy(old_data), copy.deepcopy(new_data)
+            )
+        self.__last_diagram_type_value = (
+            copy.deepcopy(new_data) if new_data else None
+        )
+        self._update_undo_redo_actions()
+        self._change_type_diagram(index)
+
+    def _ensure_context_for_journal(self, tab_index, context):
+        """Переключает на нужную вкладку и объект/контрольный сектор по контексту журнала."""
+        self.ui.tabw_right.setCurrentIndex(tab_index)
+        if tab_index == 2 and context and len(context) >= 2:
+            object_id, is_node = context[0], context[1]
+            data = self.__obsm.obj_project.get_data()
+            if is_node:
+                nodes = data.get("nodes", [])
+                for i, node in enumerate(nodes):
+                    if node.get("id") == object_id:
+                        self._edit_object(node, i + 1, is_node=True)
+                        return
+            else:
+                connections = data.get("connections", [])
+                for i, conn in enumerate(connections):
+                    if conn.get("id") == object_id:
+                        self._edit_object(conn, i + 1, is_node=False)
+                        return
+        elif tab_index == 3 and context and len(context) >= 3:
+            object_id, is_node, cs_id = context[0], context[1], context[2]
+            data = self.__obsm.obj_project.get_data()
+            connections = data.get("connections", [])
+            for conn in connections:
+                if conn.get("id") == object_id:
+                    for cs in conn.get("control_sectors", []):
+                        if cs.get("id") == cs_id:
+                            self._edit_control_sector(cs)
+                            return
+                    break
+
+    def _set_diagram_type_from_data(self, data):
+        """Устанавливает тип схемы по данным (для отмены/повтора)."""
+        if not data:
+            return
+        type_id = data.get("type_id")
+        combox = self.combox_type_diagram
+        for i in range(combox.count()):
+            item_data = combox.itemData(i)
+            if item_data and item_data.get("type_id") == type_id:
+                combox.blockSignals(True)
+                combox.setCurrentIndex(i)
+                combox.blockSignals(False)
+                self.__last_diagram_type_value = copy.deepcopy(data)
+                return
+
+    def _undo(self):
+        """Отмена последнего изменения (Ctrl+Z)."""
+        if not self.__obsm.obj_project.is_active() or not self.__undo_journal.can_undo():
+            return
+        entry = self.__undo_journal.pop_undo()
+        if entry is None:
+            return
+        self.__applying_undo_redo = True
+        try:
+            # Сначала применяем изменения к данным проекта
+            if entry.entry_type == "form":
+                self._apply_widget_change_to_project(entry.tab_index, entry.dict_name, entry.key, entry.old_value)
+            
+            # Затем переключаем контекст (это пересоздаст виджеты с новыми данными)
+            self._ensure_context_for_journal(entry.tab_index, entry.context)
+            QApplication.processEvents()
+            
+            if entry.entry_type == "form":
+                # Обновляем last_widget_values для новых виджетов
+                jkey = (entry.tab_index, entry.context, entry.dict_name, entry.key)
+                self.__last_widget_values[jkey] = entry.old_value
+            elif entry.entry_type == "diagram_type":
+                self.combox_type_diagram.blockSignals(True)
+                self._set_diagram_type_from_data(entry.old_value)
+                self.combox_type_diagram.blockSignals(False)
+                self.__last_diagram_type_value = copy.deepcopy(entry.old_value)
+            elif entry.entry_type == "table_cell":
+                table_w = getattr(self, entry.table_id, None)
+                if table_w is not None:
+                    row, col = entry.row, entry.col
+                    table_w.blockSignals(True)
+                    if col == 1:
+                        w = table_w.cellWidget(row, 1)
+                        if w and hasattr(w, "setCustomText"):
+                            w.setCustomText(str(entry.old_value))
+                        elif w:
+                            w.setCurrentText(str(entry.old_value))
+                    elif col == 2:
+                        item = table_w.item(row, 2)
+                        if item:
+                            item.setText(str(entry.old_value))
+                    table_w.blockSignals(False)
+                    jkey = (entry.tab_index, entry.context, entry.table_id, (row, col))
+                    self.__last_widget_values[jkey] = entry.old_value
+            self.__undo_journal.push_redo(entry)
+            # УБРАНО: Сохранение при отмене. Изменения применяются сразу к схеме, сохранение только по Ctrl+S
+            # self._save_changes_to_file_nce()
+            self._refresh_diagram()  # Обновляем только визуализацию схемы
+        finally:
+            self.__applying_undo_redo = False
+        self._update_undo_redo_actions()
+
+    def _redo(self):
+        """Повтор отменённого изменения (Ctrl+Y)."""
+        if not self.__obsm.obj_project.is_active() or not self.__undo_journal.can_redo():
+            return
+        entry = self.__undo_journal.pop_redo()
+        if entry is None:
+            return
+        self.__applying_undo_redo = True
+        try:
+            # Сначала применяем изменения к данным проекта
+            if entry.entry_type == "form":
+                self._apply_widget_change_to_project(entry.tab_index, entry.dict_name, entry.key, entry.new_value)
+            
+            # Затем переключаем контекст (это пересоздаст виджеты с новыми данными)
+            self._ensure_context_for_journal(entry.tab_index, entry.context)
+            QApplication.processEvents()
+            
+            if entry.entry_type == "form":
+                # Обновляем last_widget_values для новых виджетов
+                jkey = (entry.tab_index, entry.context, entry.dict_name, entry.key)
+                self.__last_widget_values[jkey] = entry.new_value
+            elif entry.entry_type == "diagram_type":
+                self.combox_type_diagram.blockSignals(True)
+                self._set_diagram_type_from_data(entry.new_value)
+                self.combox_type_diagram.blockSignals(False)
+                self.__last_diagram_type_value = copy.deepcopy(entry.new_value)
+            elif entry.entry_type == "table_cell":
+                table_w = getattr(self, entry.table_id, None)
+                if table_w is not None:
+                    row, col = entry.row, entry.col
+                    table_w.blockSignals(True)
+                    if col == 1:
+                        w = table_w.cellWidget(row, 1)
+                        if w and hasattr(w, "setCustomText"):
+                            w.setCustomText(str(entry.new_value))
+                        elif w:
+                            w.setCurrentText(str(entry.new_value))
+                    elif col == 2:
+                        item = table_w.item(row, 2)
+                        if item:
+                            item.setText(str(entry.new_value))
+                    table_w.blockSignals(False)
+                    jkey = (entry.tab_index, entry.context, entry.table_id, (row, col))
+                    self.__last_widget_values[jkey] = entry.new_value
+            self.__undo_journal.push_undo(entry)
+            # УБРАНО: Сохранение при повторе. Изменения применяются сразу к схеме, сохранение только по Ctrl+S
+            # self._save_changes_to_file_nce()
+            self._refresh_diagram()  # Обновляем только визуализацию схемы
+        finally:
+            self.__applying_undo_redo = False
+        self._update_undo_redo_actions()
+
+    def _update_undo_redo_actions(self):
+        """Обновляет доступность действий Отмена и Повтор/Возврат по состоянию журнала."""
+        active = self.__obsm.obj_project.is_active()
+        self.__action_undo.setEnabled(bool(active and self.__undo_journal.can_undo()))
+        self.__action_redo.setEnabled(bool(active and self.__undo_journal.can_redo()))
+
     def _add_node(self):
         if self.__obsm.obj_project.is_active():
             diagram_type_id = self.__obsm.obj_project.get_data().get(
@@ -849,13 +1267,11 @@ class MainWindow(QMainWindow):
                 )
                 self.__obsm.obj_project.add_pair(key_dict_node_and_key_dict_connection)
                 #
-                project_data = self.__obsm.obj_project.get_data()
-                self.ui.imagewidget.run(project_data)
-                self._reset_widgets_by_data(project_data)
+                self._refresh_diagram()
 
                 # Если добавляем соединение, обновляем таблицу секторов
                 if not key_dict_node_and_key_dict_connection.get("node"):
-                    connections = project_data.get("connections", [])
+                    connections = self.__obsm.obj_project.get_data().get("connections", [])
                     if connections:
                         self._edit_object(
                             connections[-1], len(connections), is_node=False
@@ -869,9 +1285,7 @@ class MainWindow(QMainWindow):
                 new_order_nodes = dialog.get_data()
                 self.__obsm.obj_project.set_new_order_nodes(new_order_nodes)
                 #
-                project_data = self.__obsm.obj_project.get_data()
-                self.ui.imagewidget.run(project_data)
-                self._reset_widgets_by_data(project_data)
+                self._refresh_diagram()
 
     def _move_connections(self):
         if self.__obsm.obj_project.is_active():
@@ -883,9 +1297,7 @@ class MainWindow(QMainWindow):
                 new_order_connections = dialog.get_data()
                 self.__obsm.obj_project.set_new_order_connections(new_order_connections)
                 #
-                project_data = self.__obsm.obj_project.get_data()
-                self.ui.imagewidget.run(project_data)
-                self._reset_widgets_by_data(project_data)
+                self._refresh_diagram()
 
     # def _delete_node(self, node):
     #     if self.__obsm.obj_project.is_active():
@@ -940,9 +1352,7 @@ class MainWindow(QMainWindow):
         # Удаляем пару (узел и соединение)
         self.__obsm.obj_project.delete_pair(node, connection_to_delete)
 
-        project_data = self.__obsm.obj_project.get_data()
-        self.ui.imagewidget.run(project_data)
-        self._reset_widgets_by_data(project_data)
+        self._refresh_diagram()
 
     def _reset_combobox_type_diagram(self, diagram_type_id):
         print("reset_combobox_type_diagram():\n")
@@ -978,9 +1388,7 @@ class MainWindow(QMainWindow):
                 new_diagram, config_nodes, config_connections
             )
             #
-            project_data = self.__obsm.obj_project.get_data()
-            self.ui.imagewidget.run(project_data)
-            self._reset_widgets_by_data(project_data)
+            self._refresh_diagram()
 
     def reset_tab_general(self, diagram_type_id, diagram_parameters):
         print("reset_tab_general")
@@ -998,8 +1406,15 @@ class MainWindow(QMainWindow):
             config_diagram_parameters,
             diagram_parameters,
             combined_data_parameters=False,
+            journal_tab_index=0,
+            journal_dict_name="__general_diagram_parameters_widgets",
+            journal_context=None,
         )
         self.parameters_group.setVisible(flag)
+        self.__last_diagram_type_value = (
+            copy.deepcopy(self.combox_type_diagram.currentData())
+            if self.combox_type_diagram.currentData() else None
+        )
 
     def _save_and_restore_scroll_position(self, table_widget, reset_function):
         scroll_position = table_widget.verticalScrollBar().value()
@@ -1247,11 +1662,94 @@ class MainWindow(QMainWindow):
                 self.control_sector_table_context_menu
             )
 
+            self._connect_tw_control_sectors_to_journal(table_widget, control_sectors)
             table_widget.blockSignals(False)
 
         self._save_and_restore_scroll_position(
             self.tw_control_sectors, reset_control_sectors
         )
+
+    def _connect_tw_control_sectors_to_journal(self, table_widget, control_sectors):
+        """Подключает таблицу контрольных секторов к журналу отмены (ячейки: название, физ. длина)."""
+        if not self.__current_object:
+            return
+        context = (self.__current_object.get("id"), self.__current_is_node)
+        tab_index = 2
+        table_id = "tw_control_sectors"
+
+        handler = getattr(self, "_on_tw_control_sectors_item_changed", None)
+        if handler is not None:
+            try:
+                table_widget.itemChanged.disconnect(handler)
+            except (TypeError, RuntimeError):
+                pass
+        self._tw_control_sectors_journal_context = context
+
+        for row in range(table_widget.rowCount()):
+            name_widget = table_widget.cellWidget(row, 1)
+            item_length = table_widget.item(row, 2)
+            jkey_1 = (tab_index, context, table_id, (row, 1))
+            jkey_2 = (tab_index, context, table_id, (row, 2))
+            if name_widget:
+                old_name = name_widget.currentText()
+                self.__last_widget_values[jkey_1] = old_name
+
+                def make_record_name(r, jk):
+                    def record():
+                        if self.__applying_undo_redo:
+                            return
+                        w = table_widget.cellWidget(r, 1)
+                        new_val = w.currentText() if w else ""
+                        old_val = self.__last_widget_values.get(jk)
+                        if old_val == new_val:
+                            return
+                        self.__undo_journal.record_table_cell_change(
+                            tab_index, context, table_id, r, 1, old_val, new_val
+                        )
+                        self.__last_widget_values[jk] = new_val
+                        self._update_undo_redo_actions()
+                    return record
+
+                name_widget.currentTextChanged.connect(make_record_name(row, jkey_1))
+            if item_length:
+                old_len = item_length.text()
+                self.__last_widget_values[jkey_2] = old_len
+
+        def on_item_changed(item):
+            if self.__applying_undo_redo:
+                return
+            col = table_widget.column(item)
+            if col != 2:
+                return
+            row = table_widget.row(item)
+            new_val = item.text()
+            jkey = (tab_index, self._tw_control_sectors_journal_context, table_id, (row, 2))
+            old_val = self.__last_widget_values.get(jkey)
+            if old_val == new_val:
+                return
+            self.__undo_journal.record_table_cell_change(
+                tab_index,
+                self._tw_control_sectors_journal_context,
+                table_id,
+                row,
+                2,
+                old_val,
+                new_val,
+            )
+            self.__last_widget_values[jkey] = new_val
+            self._update_undo_redo_actions()
+
+        self._on_tw_control_sectors_item_changed = on_item_changed
+        table_widget.itemChanged.connect(on_item_changed)
+
+    def _refresh_diagram(self, project_data=None, is_new=False):
+        """Обновить схему и синхронизировать правые виджеты с данными проекта."""
+        if project_data is None:
+            project_data = self.__obsm.obj_project.get_data()
+        if project_data is None:
+            return
+        self.ui.imagewidget.run(project_data, is_new=is_new)
+        self._reset_widgets_by_data(project_data)
 
     def _reset_widgets_by_data(self, data):
         #
@@ -1403,11 +1901,18 @@ class MainWindow(QMainWindow):
         
         # Создаем виджеты данных (всегда видимые)
         self.__control_sector_data_widgets = {}
+        journal_ctx_cs = (
+            (self.__current_object.get("id"), self.__current_is_node, cs.get("id"))
+            if self.__current_object and cs else None
+        )
         data_flag = self.create_data_widgets(
             self.__control_sector_data_widgets,
             self.fl_control_data,
             data_config,
             cs_data_pars,
+            journal_tab_index=3,
+            journal_dict_name="__control_sector_data_widgets",
+            journal_context=journal_ctx_cs,
         )
         self.control_data_group.setVisible(data_flag)
         
@@ -1421,6 +1926,9 @@ class MainWindow(QMainWindow):
             precision_separator,
             precision_number,
             combined_data_parameters=False,
+            journal_tab_index=3,
+            journal_dict_name="__control_sector_parameters_widgets",
+            journal_context=journal_ctx_cs,
         )
         
         # Управляем видимостью параметров через action_parameters
@@ -1440,9 +1948,7 @@ class MainWindow(QMainWindow):
             self.__current_object.get("control_sectors", [])
         )
         #
-        project_data = self.__obsm.obj_project.get_data()
-        self.ui.imagewidget.run(project_data)
-        self._reset_widgets_by_data(project_data)
+        self._refresh_diagram()
 
     def _clear_form_layout(self, form_layout):
         while form_layout.count():
@@ -1475,6 +1981,9 @@ class MainWindow(QMainWindow):
         form_layout,
         config_object_data,
         object_data,
+        journal_tab_index=None,
+        journal_dict_name=None,
+        journal_context=None,
     ) -> bool:
         print(
             "create_data_widgets():\n"
@@ -1531,8 +2040,17 @@ class MainWindow(QMainWindow):
                 widget_to_add = self._create_widget_with_info(new_widget, info)
             
             form_layout.addRow(label, widget_to_add)
-
+            
             dict_widgets[config_parameter_key] = [widget_type, new_widget]
+            if journal_tab_index is not None and journal_dict_name is not None:
+                self._connect_widget_to_journal(
+                    journal_tab_index,
+                    journal_context,
+                    journal_dict_name,
+                    config_parameter_key,
+                    widget_type,
+                    new_widget,
+                )
 
         print("BEFORE return len(dict_widgets) > 0: dict_widgets", dict_widgets)
         return len(dict_widgets) > 0
@@ -1790,6 +2308,9 @@ class MainWindow(QMainWindow):
         precision_separator=None,
         precision_number=None,
         combined_data_parameters=False,
+        journal_tab_index=None,
+        journal_dict_name=None,
+        journal_context=None,
     ) -> bool:
         print(
             "create_parameters_widgets():\n"
@@ -1857,6 +2378,15 @@ class MainWindow(QMainWindow):
 
             if widget_type != "title":
                 dict_widgets[config_parameter_key] = [widget_type, new_widget]
+                if journal_tab_index is not None and journal_dict_name is not None:
+                    self._connect_widget_to_journal(
+                        journal_tab_index,
+                        journal_context,
+                        journal_dict_name,
+                        config_parameter_key,
+                        widget_type,
+                        new_widget,
+                    )
 
         # print("BEFORE return len(dict_widgets) > 0: dict_widgets", dict_widgets)
         return len(dict_widgets) > 0
@@ -1866,8 +2396,7 @@ class MainWindow(QMainWindow):
             obj, penultimate=True
         )
         #
-        project_data = self.__obsm.obj_project.get_data()
-        self.ui.imagewidget.run(project_data)
+        self._refresh_diagram()
         self._reset_table_control_sectors(control_sectors)
 
     def _move_control_sectors(self, obj):
@@ -1881,8 +2410,7 @@ class MainWindow(QMainWindow):
                 obj, new_order_control_sectors
             )
             #
-            project_data = self.__obsm.obj_project.get_data()
-            self.ui.imagewidget.run(project_data)
+            self._refresh_diagram()
             self._reset_table_control_sectors(control_sectors)
 
     def _delete_control_sector(self, obj, selected_cs):
@@ -1890,8 +2418,7 @@ class MainWindow(QMainWindow):
             obj, selected_cs
         )
         #
-        project_data = self.__obsm.obj_project.get_data()
-        self.ui.imagewidget.run(project_data)
+        self._refresh_diagram()
         self._reset_table_control_sectors(control_sectors)
 
     def _create_editor_control_sectors_by_object(self, obj, is_node=False):
@@ -1946,12 +2473,16 @@ class MainWindow(QMainWindow):
             )
         #
         object_parameters = obj.get("parameters", {})
+        journal_ctx = (obj.get("id"), is_node)
         flag = self._create_parameters_widgets(
             self.__editor_object_parameters_widgets,
             self.fl_object_parameters,
             config_object_parameters,
             object_parameters,
             combined_data_parameters=False,
+            journal_tab_index=2,
+            journal_dict_name="__editor_object_parameters_widgets",
+            journal_context=journal_ctx,
         )
         self.object_parameters_group.setVisible(flag)
         #
@@ -1961,6 +2492,9 @@ class MainWindow(QMainWindow):
             config_type_object_parameters,
             object_parameters,
             combined_data_parameters=False,
+            journal_tab_index=2,
+            journal_dict_name="__editor_type_object_parameters_widgets",
+            journal_context=journal_ctx,
         )
         self.type_object_parameters_group.setVisible(flag)
         #
@@ -1970,6 +2504,9 @@ class MainWindow(QMainWindow):
             config_objects_parameters,
             object_parameters,
             combined_data_parameters=False,
+            journal_tab_index=2,
+            journal_dict_name="__editor_objects_parameters_widgets",
+            journal_context=journal_ctx,
         )
         self.objects_parameters_group.setVisible(flag)
         
@@ -2001,11 +2538,15 @@ class MainWindow(QMainWindow):
             )
         # именно только data
         object_data = obj.get("data", {})
+        journal_ctx = (obj.get("id"), is_node)
         flag = self.create_data_widgets(
             self.__editor_object_data_widgets,
             self.fl_object_data,
             config_object_data,
             object_data,
+            journal_tab_index=2,
+            journal_dict_name="__editor_object_data_widgets",
+            journal_context=journal_ctx,
         )
         self.object_data_group.setVisible(flag)
         #
@@ -2014,6 +2555,9 @@ class MainWindow(QMainWindow):
             self.fl_type_object_data,
             config_type_object_data,
             object_data,
+            journal_tab_index=2,
+            journal_dict_name="__editor_type_object_data_widgets",
+            journal_context=journal_ctx,
         )
         self.type_object_data_group.setVisible(flag)
         #
@@ -2022,6 +2566,9 @@ class MainWindow(QMainWindow):
             self.fl_objects_data,
             config_objects_data,
             object_data,
+            journal_tab_index=2,
+            journal_dict_name="__editor_objects_data_widgets",
+            journal_context=journal_ctx,
         )
         self.objects_data_group.setVisible(flag)
         
@@ -2086,9 +2633,7 @@ class MainWindow(QMainWindow):
             elif action == paste_data_action:
                 self.__obsm.obj_project.paste_node_data(selected_node)
                 # Обновляем интерфейс
-                project_data = self.__obsm.obj_project.get_data()
-                self.ui.imagewidget.run(project_data)
-                self._reset_widgets_by_data(project_data)
+                self._refresh_diagram()
             elif action == delete_with_left_action:
                 self._delete_node_with_connection(selected_node, "left")
             elif action == delete_with_right_action:
@@ -2125,9 +2670,7 @@ class MainWindow(QMainWindow):
             elif action == paste_data_action:
                 self.__obsm.obj_project.paste_connection_data(selected_connection)
                 # Обновляем интерфейс
-                project_data = self.__obsm.obj_project.get_data()
-                self.ui.imagewidget.run(project_data)
-                self._reset_widgets_by_data(project_data)
+                self._refresh_diagram()
 
     def control_sector_table_context_menu(self, position):
         """Отображение контекстного меню для таблицы контрольных секторов"""
@@ -2162,8 +2705,7 @@ class MainWindow(QMainWindow):
         elif action == paste_data_action and selected_cs:
             self.__obsm.obj_project.paste_control_sector_data(selected_cs)
             # Обновляем интерфейс
-            project_data = self.__obsm.obj_project.get_data()
-            self.ui.imagewidget.run(project_data)
+            self._refresh_diagram()
             self._reset_table_control_sectors(control_sectors)
         elif action == delete_action and selected_cs:
             self._delete_control_sector(obj, selected_cs)
@@ -2358,28 +2900,30 @@ class MainWindow(QMainWindow):
     def eventFilter(self, obj, event):
         """
         Фильтр событий для обработки нажатия Enter.
-        Сохранение выполняется только если фокус не находится в текстовом поле.
+        ЗАКОММЕНТИРОВАНО: Сохранение по ENTER. Теперь сохранение только по Ctrl+S.
         """
         from PySide6.QtCore import QEvent
-        from PySide6.QtGui import QKeyEvent
+        # from PySide6.QtGui import QKeyEvent  # Закомментировано вместе с обработкой Enter
         
         if event.type() == QEvent.KeyPress:
-            key_event = QKeyEvent(event)
-            if key_event.key() == Qt.Key_Return or key_event.key() == Qt.Key_Enter:
-                # Получаем виджет с фокусом
-                focused_widget = QApplication.focusWidget()
-                
-                # Проверяем, является ли виджет с фокусом текстовым полем
-                if focused_widget is not None:
-                    widget_class_name = focused_widget.__class__.__name__
-                    if widget_class_name in ['QLineEdit', 'QTextEdit', 'QPlainTextEdit']:
-                        # Если фокус в текстовом поле, не выполняем сохранение
-                        return False
-                
-                # Если фокус не в текстовом поле, выполняем сохранение
-                if self.__obsm.obj_project.is_active():
-                    self._save_changes_to_file_nce()
-                return True
+            pass  # Обработка Enter закомментирована, сохранение только по Ctrl+S
+            # key_event = QKeyEvent(event)  # Закомментировано вместе с обработкой Enter
+            # ЗАКОММЕНТИРОВАНО: Сохранение по ENTER. Теперь сохранение только по Ctrl+S
+            # if key_event.key() == Qt.Key_Return or key_event.key() == Qt.Key_Enter:
+            #     # Получаем виджет с фокусом
+            #     focused_widget = QApplication.focusWidget()
+            #     
+            #     # Проверяем, является ли виджет с фокусом текстовым полем
+            #     if focused_widget is not None:
+            #         widget_class_name = focused_widget.__class__.__name__
+            #         if widget_class_name in ['QLineEdit', 'QTextEdit', 'QPlainTextEdit']:
+            #             # Если фокус в текстовом поле, не выполняем сохранение
+            #             return False
+            #     
+            #     # Если фокус не в текстовом поле, выполняем сохранение
+            #     if self.__obsm.obj_project.is_active():
+            #         self._save_changes_to_file_nce()
+            #     return True
         
         return False
 
