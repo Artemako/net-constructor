@@ -59,7 +59,6 @@ import package.components.settingsdialog as settingsdialog
 import package.ui.mainwindow_ui as mainwindow_ui
 
 import package.constants as constants
-import package.modules.undojournal as undojournal
 
 import copy
 import json
@@ -184,7 +183,6 @@ class MainWindow(QMainWindow):
         self.ui.action_settings.triggered.connect(self._open_settings)
         #
         # Журнал отмены/повтора (Undo/Redo)
-        self.__undo_journal = undojournal.UndoJournal(max_size=100)
         self.__last_widget_values = {}
         self.__last_diagram_type_value = None
         self.__applying_undo_redo = False
@@ -779,7 +777,7 @@ class MainWindow(QMainWindow):
                 self._reset_table_control_sectors(control_sectors)
             
             # Сбрасываем журналы отмены/возврата после сохранения проекта
-            self.__undo_journal.clear()
+            self.__obsm.obj_undo_journal.clear()
             self._update_undo_redo_actions()
 
     def _export_to_image(self):
@@ -1038,14 +1036,14 @@ class MainWindow(QMainWindow):
             old_value = self.__last_widget_values.get(jkey)
             if old_value == new_value:
                 return
-            self.__undo_journal.record_form_change(
+            self.__obsm.obj_undo_journal.record_form_change(
                 tab_index, context, dict_name, key, widget_type, old_value, new_value
             )
             self.__last_widget_values[jkey] = new_value
             self._update_undo_redo_actions()
             # Обновляем схему при изменении виджета
             self._apply_widget_change_to_project(tab_index, dict_name, key, new_value)
-            self._refresh_diagram()
+            self._refresh_diagram(reset_widgets=False)
 
         if widget_type == "font_name":
             widget.currentFontChanged.connect(record_change)
@@ -1077,7 +1075,7 @@ class MainWindow(QMainWindow):
         new_data = self.combox_type_diagram.currentData()
         old_data = self.__last_diagram_type_value
         if old_data is not None and new_data is not None:
-            self.__undo_journal.record_diagram_type_change(
+            self.__obsm.obj_undo_journal.record_diagram_type_change(
                 0, copy.deepcopy(old_data), copy.deepcopy(new_data)
             )
         self.__last_diagram_type_value = (
@@ -1133,9 +1131,9 @@ class MainWindow(QMainWindow):
 
     def _undo(self):
         """Отмена последнего изменения (Ctrl+Z)."""
-        if not self.__obsm.obj_project.is_active() or not self.__undo_journal.can_undo():
+        if not self.__obsm.obj_project.is_active() or not self.__obsm.obj_undo_journal.can_undo():
             return
-        entry = self.__undo_journal.pop_undo()
+        entry = self.__obsm.obj_undo_journal.pop_undo()
         if entry is None:
             return
         self.__applying_undo_redo = True
@@ -1143,6 +1141,17 @@ class MainWindow(QMainWindow):
             # Сначала применяем изменения к данным проекта
             if entry.entry_type == "form":
                 self._apply_widget_change_to_project(entry.tab_index, entry.dict_name, entry.key, entry.old_value)
+            elif entry.entry_type == "table_row_add_pair":
+                if entry.node_data:
+                    self.__obsm.obj_project.delete_pair(entry.node_data, entry.connection_data)
+            elif entry.entry_type == "table_row_delete_pair":
+                if entry.node_data:
+                    self.__obsm.obj_project.restore_pair(entry.node_data, entry.connection_data)
+            elif entry.entry_type == "table_row_reorder":
+                if getattr(entry, "table_id", None) == "tablew_nodes":
+                    self.__obsm.obj_project.set_new_order_nodes(entry.old_value or [])
+                elif getattr(entry, "table_id", None) == "tablew_connections":
+                    self.__obsm.obj_project.set_new_order_connections(entry.old_value or [])
             
             # Затем переключаем контекст (это пересоздаст виджеты с новыми данными)
             self._ensure_context_for_journal(entry.tab_index, entry.context)
@@ -1175,7 +1184,9 @@ class MainWindow(QMainWindow):
                     table_w.blockSignals(False)
                     jkey = (entry.tab_index, entry.context, entry.table_id, (row, col))
                     self.__last_widget_values[jkey] = entry.old_value
-            self.__undo_journal.push_redo(entry)
+            elif entry.entry_type in ("table_row_add_pair", "table_row_delete_pair", "table_row_reorder"):
+                pass
+            self.__obsm.obj_undo_journal.push_redo(entry)
             # УБРАНО: Сохранение при отмене. Изменения применяются сразу к схеме, сохранение только по Ctrl+S
             # self._save_changes_to_file_nce()
             self._refresh_diagram()  # Обновляем только визуализацию схемы
@@ -1185,9 +1196,9 @@ class MainWindow(QMainWindow):
 
     def _redo(self):
         """Повтор отменённого изменения (Ctrl+Y)."""
-        if not self.__obsm.obj_project.is_active() or not self.__undo_journal.can_redo():
+        if not self.__obsm.obj_project.is_active() or not self.__obsm.obj_undo_journal.can_redo():
             return
-        entry = self.__undo_journal.pop_redo()
+        entry = self.__obsm.obj_undo_journal.pop_redo()
         if entry is None:
             return
         self.__applying_undo_redo = True
@@ -1195,6 +1206,17 @@ class MainWindow(QMainWindow):
             # Сначала применяем изменения к данным проекта
             if entry.entry_type == "form":
                 self._apply_widget_change_to_project(entry.tab_index, entry.dict_name, entry.key, entry.new_value)
+            elif entry.entry_type == "table_row_add_pair":
+                if entry.node_data:
+                    self.__obsm.obj_project.restore_pair(entry.node_data, entry.connection_data)
+            elif entry.entry_type == "table_row_delete_pair":
+                if entry.node_data:
+                    self.__obsm.obj_project.delete_pair(entry.node_data, entry.connection_data)
+            elif entry.entry_type == "table_row_reorder":
+                if getattr(entry, "table_id", None) == "tablew_nodes":
+                    self.__obsm.obj_project.set_new_order_nodes(entry.new_value or [])
+                elif getattr(entry, "table_id", None) == "tablew_connections":
+                    self.__obsm.obj_project.set_new_order_connections(entry.new_value or [])
             
             # Затем переключаем контекст (это пересоздаст виджеты с новыми данными)
             self._ensure_context_for_journal(entry.tab_index, entry.context)
@@ -1227,7 +1249,9 @@ class MainWindow(QMainWindow):
                     table_w.blockSignals(False)
                     jkey = (entry.tab_index, entry.context, entry.table_id, (row, col))
                     self.__last_widget_values[jkey] = entry.new_value
-            self.__undo_journal.push_undo(entry)
+            elif entry.entry_type in ("table_row_add_pair", "table_row_delete_pair", "table_row_reorder"):
+                pass
+            self.__obsm.obj_undo_journal.push_undo(entry)
             # УБРАНО: Сохранение при повторе. Изменения применяются сразу к схеме, сохранение только по Ctrl+S
             # self._save_changes_to_file_nce()
             self._refresh_diagram()  # Обновляем только визуализацию схемы
@@ -1238,8 +1262,8 @@ class MainWindow(QMainWindow):
     def _update_undo_redo_actions(self):
         """Обновляет доступность действий Отмена и Повтор/Возврат по состоянию журнала."""
         active = self.__obsm.obj_project.is_active()
-        self.__action_undo.setEnabled(bool(active and self.__undo_journal.can_undo()))
-        self.__action_redo.setEnabled(bool(active and self.__undo_journal.can_redo()))
+        self.__action_undo.setEnabled(bool(active and self.__obsm.obj_undo_journal.can_undo()))
+        self.__action_redo.setEnabled(bool(active and self.__obsm.obj_undo_journal.can_redo()))
 
     def _add_node(self):
         if self.__obsm.obj_project.is_active():
@@ -1266,6 +1290,14 @@ class MainWindow(QMainWindow):
                     dialog.get_selected_key_dict_node_and_key_dict_connection()
                 )
                 self.__obsm.obj_project.add_pair(key_dict_node_and_key_dict_connection)
+                nodes = self.__obsm.obj_project.get_data().get("nodes", [])
+                connections = self.__obsm.obj_project.get_data().get("connections", [])
+                node_data = copy.deepcopy(nodes[-1]) if nodes else None
+                connection_data = copy.deepcopy(connections[-1]) if connections else None
+                self.__obsm.obj_undo_journal.record_table_row_add_pair(
+                    1, "elements", node_data, connection_data
+                )
+                self._update_undo_redo_actions()
                 #
                 self._refresh_diagram()
 
@@ -1283,6 +1315,10 @@ class MainWindow(QMainWindow):
             dialog = changeorderdialog.ChangeOrderDialog(nodes, "nodes", self)
             if dialog.exec():
                 new_order_nodes = dialog.get_data()
+                self.__obsm.obj_undo_journal.record_table_row_reorder(
+                    1, "elements", "tablew_nodes", nodes, new_order_nodes
+                )
+                self._update_undo_redo_actions()
                 self.__obsm.obj_project.set_new_order_nodes(new_order_nodes)
                 #
                 self._refresh_diagram()
@@ -1295,6 +1331,10 @@ class MainWindow(QMainWindow):
             )
             if dialog.exec():
                 new_order_connections = dialog.get_data()
+                self.__obsm.obj_undo_journal.record_table_row_reorder(
+                    1, "elements", "tablew_connections", connections, new_order_connections
+                )
+                self._update_undo_redo_actions()
                 self.__obsm.obj_project.set_new_order_connections(new_order_connections)
                 #
                 self._refresh_diagram()
@@ -1349,6 +1389,12 @@ class MainWindow(QMainWindow):
             # Если это последний оставшийся узел, то просто удаляем его без соединения
             connection_to_delete = None
 
+        node_data = copy.deepcopy(node)
+        connection_data = copy.deepcopy(connection_to_delete) if connection_to_delete else None
+        self.__obsm.obj_undo_journal.record_table_row_delete_pair(
+            1, "elements", node_data, connection_data
+        )
+        self._update_undo_redo_actions()
         # Удаляем пару (узел и соединение)
         self.__obsm.obj_project.delete_pair(node, connection_to_delete)
 
@@ -1703,7 +1749,7 @@ class MainWindow(QMainWindow):
                         old_val = self.__last_widget_values.get(jk)
                         if old_val == new_val:
                             return
-                        self.__undo_journal.record_table_cell_change(
+                        self.__obsm.obj_undo_journal.record_table_cell_change(
                             tab_index, context, table_id, r, 1, old_val, new_val
                         )
                         self.__last_widget_values[jk] = new_val
@@ -1727,7 +1773,7 @@ class MainWindow(QMainWindow):
             old_val = self.__last_widget_values.get(jkey)
             if old_val == new_val:
                 return
-            self.__undo_journal.record_table_cell_change(
+            self.__obsm.obj_undo_journal.record_table_cell_change(
                 tab_index,
                 self._tw_control_sectors_journal_context,
                 table_id,
@@ -1742,14 +1788,17 @@ class MainWindow(QMainWindow):
         self._on_tw_control_sectors_item_changed = on_item_changed
         table_widget.itemChanged.connect(on_item_changed)
 
-    def _refresh_diagram(self, project_data=None, is_new=False):
-        """Обновить схему и синхронизировать правые виджеты с данными проекта."""
+    def _refresh_diagram(self, project_data=None, is_new=False, reset_widgets=True):
+        """Обновить схему и синхронизировать правые виджеты с данными проекта.
+        reset_widgets=False — только перерисовать схему, не пересоздавать виджеты (сохраняет фокус при редактировании).
+        """
         if project_data is None:
             project_data = self.__obsm.obj_project.get_data()
         if project_data is None:
             return
         self.ui.imagewidget.run(project_data, is_new=is_new)
-        self._reset_widgets_by_data(project_data)
+        if reset_widgets:
+            self._reset_widgets_by_data(project_data)
 
     def _reset_widgets_by_data(self, data):
         #

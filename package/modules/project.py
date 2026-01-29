@@ -450,6 +450,19 @@ class Project:
             if key in existing_obj["parameters"]:
                 default_parameters[key] = existing_obj["parameters"][key]
 
+    def restore_pair(self, node_data, connection_data):
+        """Восстанавливает пару узел+соединение в конце списков (для отмены удаления / повтора добавления)."""
+        if not node_data:
+            return
+        node_copy = copy.deepcopy(node_data)
+        node_copy["order"] = len(self.__data.get("nodes", []))
+        self.__data.setdefault("nodes", []).append(node_copy)
+        if connection_data:
+            conn_copy = copy.deepcopy(connection_data)
+            conn_copy["order"] = len(self.__data.get("connections", []))
+            self.__data.setdefault("connections", []).append(conn_copy)
+        self._write_project()
+
     def delete_pair(self, node, connection):
         if node:
             delete_id = node.get("id", "")

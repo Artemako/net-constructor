@@ -118,6 +118,19 @@ def _make_table_row_add_pair_entry(tab_index, context, node_data, connection_dat
     )
 
 
+def _make_table_row_delete_pair_entry(tab_index, context, node_data, connection_data):
+    """Создает запись об удалении пары узел+соединение (атомарная операция)"""
+    return JournalEntry(
+        entry_type="table_row_delete_pair",
+        tab_index=tab_index,
+        context=context,
+        old_value=None,
+        new_value=None,
+        node_data=_deep_copy_value(node_data),
+        connection_data=_deep_copy_value(connection_data),
+    )
+
+
 class UndoJournal:
     """Журнал изменений в виджетах с поддержкой отмены (Undo) и повтора (Redo)."""
 
@@ -168,6 +181,13 @@ class UndoJournal:
     def record_table_row_add_pair(self, tab_index, context, node_data, connection_data):
         """Записывает добавление пары узел+соединение как атомарную операцию"""
         entry = _make_table_row_add_pair_entry(
+            tab_index, context, node_data, connection_data
+        )
+        self._push_undo(entry)
+
+    def record_table_row_delete_pair(self, tab_index, context, node_data, connection_data):
+        """Записывает удаление пары узел+соединение как атомарную операцию"""
+        entry = _make_table_row_delete_pair_entry(
             tab_index, context, node_data, connection_data
         )
         self._push_undo(entry)

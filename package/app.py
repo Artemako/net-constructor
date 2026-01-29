@@ -9,6 +9,7 @@ import package.modules.dirpathmanager as dirpathmanager
 import package.modules.configs as configs
 import package.modules.project as project
 import package.modules.settings as settings
+import package.modules.undojournal as undojournal
 import package.controllers.style as style
 import package.controllers.icons as icons
 
@@ -24,6 +25,7 @@ class ObjectsManager:
         self.obj_settings = None
         self.obj_style = None
         self.obj_icons = None
+        self.obj_undo_journal = None
 
     def initializing_objects(self):
         self.obj_dirpath = dirpathmanager.DirPathManager()
@@ -35,7 +37,8 @@ class ObjectsManager:
         self.obj_style = style.Style()
         self.obj_style.setting_all_osbm(self)
         self.obj_icons = icons.Icons()
-   
+        self.obj_undo_journal = undojournal.UndoJournal(max_size=100)
+
 class App:
     def __init__(self, current_directory):
         self.current_directory = current_directory
