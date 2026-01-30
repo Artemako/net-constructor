@@ -1,3 +1,5 @@
+"""Отрисовка соединений: линии, подписи, контрольные секторы, переносы."""
+
 from PySide6.QtWidgets import QWidget
 from PySide6.QtGui import QPainter, QColor, QPen, QBrush, QImage, QFont, QPolygon
 from PySide6.QtCore import Qt, QPointF, QPoint
@@ -118,7 +120,7 @@ class DrawConnection:
                 pixel_size=pars.get_sp("connection_caption_pixel_size"),
             )
 
-        #  Для LT и прочие
+        # Для LT и прочие
         before_delta_line_caption_and_node = 0
         after_delta_line_caption_and_node = 0
         #
@@ -537,11 +539,7 @@ class DrawConnection:
 
             # рисование значения физической длины
             x = self.__x
-            # TODO Для первых и послдених вершин
-            # if node_id == "101" and (not self.__object_before or self.__object_node.get_after_wrap()):
-            #     x += pars.get_sp("node_width") // 2
-            # elif node_id == "101" and (not self.__object_after or self.__object_node.get_before_wrap()):
-            #     x -= pars.get_sp("node_width") // 2
+            # TODO: для первых и последних вершин — учёт смещения при необходимости
             drawtext.DrawText().draw_singleline_text_rotated_by_hc_vt(
                 get_painter_text_caption,
                 nf.get(self.__to_right_physical_length)
@@ -569,9 +567,6 @@ class DrawConnection:
                         index == 0,
                         index == total_len - 1,
                     )
-                    # self.__x += (
-                    #     cs.get("data_pars", {}).get("cs_lenght", {}).get("value", 0)
-                    # )
                     self.__x = cs["x"]
                     self.__y = cs["y"]
                     self.__to_right_physical_length += (
@@ -583,10 +578,6 @@ class DrawConnection:
                     # Контрольная точка
                     if cs.get("is_wrap", False) and not is_last:
                         draw_control_point(is_before_wrap=True)
-                        # self.__x = self.__start_x + cs.get("data_pars", {}).get(
-                        #     "cs_delta_wrap_x", {}
-                        # ).get("value", 0)
-                        # self.__y += self.__delta_wrap_y
                         self.__x = cs["wrap_x"]
                         self.__y = cs["wrap_y"]
                         draw_control_point(is_after_wrap=True)
@@ -691,7 +682,6 @@ class DrawConnection:
             if direction_metka
             else f"{start_metka}-{end_metka}"
         )
-        # print(f"BLABLA {direction_metka, text_metki}")
 
         # Рисуем текст метки и физическую длину
         drawtext.DrawText().draw_multiline_text_by_hc_vt(

@@ -52,7 +52,6 @@ from package.components import cablelistsdialog
 from package.components import changeorderdialog
 from package.components import controlsectordeletedialog
 from package.components import diagramtypeselectdialog
-from package.components import nodeconnectiondeletedialog
 from package.components import nodeconnectionselectdialog
 from package.components import sectornamesdialog
 from package.components import settingsdialog
@@ -100,8 +99,6 @@ class MainWindow(QMainWindow):
         self.__editor_type_object_parameters_widgets = {}
         self.__editor_objects_parameters_widgets = {}
         self.__control_data_parameters_widgets = {}
-        #
-        # self.__text_format = "NCE (пока json) files (*.json)"]
         self.__text_format = "NCE files (*.nce)"
         #
         # Флаг для отслеживания несохранённых изменений
@@ -139,7 +136,7 @@ class MainWindow(QMainWindow):
         #
         self.resize(1366, 768)
         self.ui.centralwidget_splitter.setSizes([806, 560])
-        # QAction Ctrl S или Enter (с фильтром для текстовых полей)
+        # Сохранение по Ctrl+S
         self.ui.action_save.setShortcuts(
             [
                 QKeySequence("Ctrl+S"),  # Ctrl + S
@@ -156,11 +153,6 @@ class MainWindow(QMainWindow):
         self.ui.tabw_right.tabBar().setTabVisible(3, False)
         self.ui.tabw_right.currentChanged.connect(self._tab_right_changed)
 
-        # self.update_menu_recent_projects()
-        #
-        # self.ui.btn_deletenode.clicked.connect(self._delete_node)
-        #
-        #
         # создание нового файла
         self.ui.action_new.triggered.connect(self.create_file_nce)
         # октрытие файла
@@ -176,9 +168,6 @@ class MainWindow(QMainWindow):
         # Инициализируем состояние действия из настроек
         show_parameters = self.__obsm.obj_settings.get_show_parameters()
         self.ui.action_parameters.setChecked(show_parameters)
-        # смены темы (убрано из меню, теперь в диалоге настроек)
-        # self.ui.dark_action.triggered.connect(lambda: self._change_theme("dark"))
-        # self.ui.light_action.triggered.connect(lambda: self._change_theme("light"))
         # управление списками кабелей
         self.ui.action_edit_cable_lists.triggered.connect(self._edit_cable_lists)
         self.ui.action_edit_sector_names.triggered.connect(self._edit_sector_names)
@@ -1274,8 +1263,6 @@ class MainWindow(QMainWindow):
             elif entry.entry_type in ("table_row_add_pair", "table_row_delete_pair", "table_row_reorder"):
                 pass
             self.__obsm.obj_undo_journal.push_redo(entry)
-            # УБРАНО: Сохранение при отмене. Изменения применяются сразу к схеме, сохранение только по Ctrl+S
-            # self._save_changes_to_file_nce()
             self._refresh_diagram()  # Обновляем только визуализацию схемы
         finally:
             self.__applying_undo_redo = False
@@ -1341,8 +1328,6 @@ class MainWindow(QMainWindow):
             elif entry.entry_type in ("table_row_add_pair", "table_row_delete_pair", "table_row_reorder"):
                 pass
             self.__obsm.obj_undo_journal.push_undo(entry)
-            # УБРАНО: Сохранение при повторе. Изменения применяются сразу к схеме, сохранение только по Ctrl+S
-            # self._save_changes_to_file_nce()
             self._refresh_diagram()  # Обновляем только визуализацию схемы
         finally:
             self.__applying_undo_redo = False
@@ -1374,7 +1359,10 @@ class MainWindow(QMainWindow):
             )
             #
             dialog = nodeconnectionselectdialog.NodeConnectSelectDialog(
-                config_diagram_nodes, config_diagram_connections, self
+                config_diagram_nodes,
+                config_diagram_connections,
+                self,
+                obj_configs=self.__obsm.obj_configs,
             )
             if dialog.exec():
                 key_dict_node_and_key_dict_connection = (
@@ -1435,23 +1423,6 @@ class MainWindow(QMainWindow):
                 self._refresh_diagram()
                 # Устанавливаем флаг изменённости
                 self._set_document_modified(True)
-
-    # def _delete_node(self, node):
-    #     if self.__obsm.obj_project.is_active():
-    #         nodes = self.__obsm.obj_project.get_data().get("nodes", [])
-    #         connections = self.__obsm.obj_project.get_data().get("connections", [])
-    #         dialog = nodeconnectiondeletedialog.NodeConnectionDeleteDialog(
-    #             nodes, connections, self
-    #         )
-    #         if dialog.exec():
-    #             selected_data = dialog.get_selected_node_and_connection()
-    #             node = selected_data.get("node")
-    #             connection = selected_data.get("connection")
-    #             self.__obsm.obj_project.delete_pair(node, connection)
-    #             #
-    #             project_data = self.__obsm.obj_project.get_data()
-    #             self.ui.imagewidget.run(project_data)
-    #             self._reset_widgets_by_data(project_data)
 
     def _delete_node_with_connection(self, node, side="left"):
         """Удаление узла с указанным соединением"""
@@ -1606,12 +1577,6 @@ class MainWindow(QMainWindow):
                 item = QTableWidgetItem(node_name)
                 item.setToolTip(tooltip)
                 table_widget.setItem(index, 1, item)
-                #
-                # is_wrap = node.get("is_wrap", False)
-                # btn_wrap = QPushButton("Не переносить" if is_wrap else "Переносить")
-                # table_widget.setCellWidget(index, 2, btn_wrap)
-                # btn_wrap.clicked.connect(partial(self._wrap_node, node))
-                #
                 btn_edit = QPushButton("Редактировать")
                 table_widget.setCellWidget(index, 2, btn_edit)
                 btn_edit.clicked.connect(
@@ -1622,8 +1587,6 @@ class MainWindow(QMainWindow):
             header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
             header.setSectionResizeMode(1, QHeaderView.Stretch)
             header.setSectionResizeMode(2, QHeaderView.ResizeToContents)
-            # header.setSectionResizeMode(3, QHeaderView.ResizeToContents)
-            #
             table_widget.setEditTriggers(QTableWidget.NoEditTriggers)
             # контекстное меню
             table_widget.setContextMenuPolicy(Qt.CustomContextMenu)
@@ -2089,13 +2052,6 @@ class MainWindow(QMainWindow):
         is_action_parameters = self.ui.action_parameters.isChecked()
         self.control_parameters_group.setVisible(parameters_flag and is_action_parameters)
 
-    # def _wrap_node(self, node):
-    #     self.__obsm.obj_project.wrap_node(node)
-    #     #
-    #     project_data = self.__obsm.obj_project.get_data()
-    #     self.ui.imagewidget.run(project_data)
-    #     self._reset_widgets_by_data(project_data)
-
     def _wrap_control_sector(self, control_sector):
         control_sector["is_wrap"] = not control_sector.get("is_wrap", False)
         self._reset_table_control_sectors(
@@ -2108,7 +2064,6 @@ class MainWindow(QMainWindow):
         while form_layout.count():
             child = form_layout.takeAt(0)
             if child.widget():
-                # child.widget().setParent(None)
                 child.widget().deleteLater()
 
     def _change_name_tab_editor(self, index, is_node=False):
@@ -2319,17 +2274,20 @@ class MainWindow(QMainWindow):
                 # Если централизованный список пуст, используем локальный как fallback
                 predefined_values = arguments.get("list", [])
                 
-            for val in predefined_values: 
+            for val in predefined_values:
                 new_widget.addItem(str(val))
-    
-            if value is not None:  
+
+            value_empty = value is None or (
+                isinstance(value, str) and not str(value).strip()
+            )
+            if value_empty and predefined_values:
+                new_widget.setCurrentIndex(0)
+            elif not value_empty:
                 index = new_widget.findText(str(value))
                 if index >= 0:
                     new_widget.setCurrentIndex(index)
                 else:
                     new_widget.setCurrentText(str(value))
-            elif predefined_values:
-                new_widget.setCurrentIndex(0)
         #
         else:
             if is_parameters:
@@ -2542,7 +2500,6 @@ class MainWindow(QMainWindow):
                         new_widget,
                     )
 
-        # print("BEFORE return len(dict_widgets) > 0: dict_widgets", dict_widgets)
         return len(dict_widgets) > 0
 
     def _add_control_sector(self, obj):
@@ -3065,32 +3022,13 @@ class MainWindow(QMainWindow):
 
     def eventFilter(self, obj, event):
         """
-        Фильтр событий для обработки нажатия Enter.
-        ЗАКОММЕНТИРОВАНО: Сохранение по ENTER. Теперь сохранение только по Ctrl+S.
+        Фильтр событий для обработки нажатия клавиш.
+        Сохранение только по Ctrl+S, не по Enter.
         """
         from PySide6.QtCore import QEvent
-        # from PySide6.QtGui import QKeyEvent  # Закомментировано вместе с обработкой Enter
-        
+
         if event.type() == QEvent.KeyPress:
-            pass  # Обработка Enter закомментирована, сохранение только по Ctrl+S
-            # key_event = QKeyEvent(event)  # Закомментировано вместе с обработкой Enter
-            # ЗАКОММЕНТИРОВАНО: Сохранение по ENTER. Теперь сохранение только по Ctrl+S
-            # if key_event.key() == Qt.Key_Return or key_event.key() == Qt.Key_Enter:
-            #     # Получаем виджет с фокусом
-            #     focused_widget = QApplication.focusWidget()
-            #     
-            #     # Проверяем, является ли виджет с фокусом текстовым полем
-            #     if focused_widget is not None:
-            #         widget_class_name = focused_widget.__class__.__name__
-            #         if widget_class_name in ['QLineEdit', 'QTextEdit', 'QPlainTextEdit']:
-            #             # Если фокус в текстовом поле, не выполняем сохранение
-            #             return False
-            #     
-            #     # Если фокус не в текстовом поле, выполняем сохранение
-            #     if self.__obsm.obj_project.is_active():
-            #         self._save_changes_to_file_nce()
-            #     return True
-        
+            pass
         return False
 
     def _edit_cable_lists(self):

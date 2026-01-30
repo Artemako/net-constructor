@@ -1,6 +1,7 @@
 """Диалог выбора узла и соединения для редактирования."""
 
-from PySide6.QtCore import QSize
+import copy
+
 from PySide6.QtWidgets import (
     QComboBox,
     QDialog,
@@ -19,11 +20,16 @@ class NodeConnectSelectDialog(QDialog):
     """Диалог выбора узла и соединения по конфигу диаграммы."""
 
     def __init__(
-        self, config_diagram_nodes, config_diagram_connections, parent=None
+        self,
+        config_diagram_nodes,
+        config_diagram_connections,
+        parent=None,
+        obj_configs=None,
     ) -> None:
         super(NodeConnectSelectDialog, self).__init__(parent)
         self.setWindowTitle("Выберите узел и соединение")
         self.config_diagram_nodes = config_diagram_nodes
+        self.__configs = obj_configs
         
         self.setup_ui()
         self.setup_connections()
@@ -134,21 +140,46 @@ class NodeConnectSelectDialog(QDialog):
             )
 
     def _populate_connections(self, config_diagram_connections):
-        """Заполняет комбобокс соединениями"""
+        """Заполняет комбобокс списком кабелей из списка кабелей (cable_types).
+
+        Для каждого типа кабеля используется первый шаблон соединения из
+        config_diagram_connections, чтобы пользователь мог выбрать любой кабель.
+        Если список кабелей пуст, добавляются шаблоны соединений из конфига.
+        """
         self.combo_box_connections.clear()
-        for connection_key, connection_dict in config_diagram_connections.items():
-            connection_name = (
-                connection_dict.get("object_data", {}).get("название", {}).get("value", "")
-            )
-            self.combo_box_connections.addItem(
-                connection_name,
-                (
+        cable_list = (
+            self.__configs.get_cable_list() if self.__configs else []
+        )
+        if not config_diagram_connections:
+            return
+        first_connection_key = next(iter(config_diagram_connections))
+        first_connection_dict = config_diagram_connections[first_connection_key]
+        connection_data = {
+            "connection_key": first_connection_key,
+            "connection_dict": first_connection_dict,
+        }
+        if cable_list:
+            for cable_name in cable_list:
+                display_name = (
+                    cable_name if isinstance(cable_name, str) else str(cable_name)
+                )
+                self.combo_box_connections.addItem(display_name, connection_data)
+        else:
+            for connection_key, connection_dict in config_diagram_connections.items():
+                connection_name = (
+                    connection_dict.get("object_data", {})
+                    .get("название", {})
+                    .get("value", "")
+                )
+                if not (isinstance(connection_name, str) and connection_name.strip()):
+                    connection_name = ""
+                self.combo_box_connections.addItem(
+                    connection_name,
                     {
                         "connection_key": connection_key,
                         "connection_dict": connection_dict,
-                    }
-                ),
-            )
+                    },
+                )
 
     def _update_node_fields(self):
         """Обновляет поля узла при изменении выбора"""
@@ -193,11 +224,23 @@ class NodeConnectSelectDialog(QDialog):
             object_data["местоположение"]["value"] = node_place
         
         node_dict["object_data"] = object_data
-        
+
+        connection_data = self.combo_box_connections.currentData()
+        connection_dict = copy.deepcopy(connection_data["connection_dict"])
+        obj_data = connection_dict.get("object_data", {})
+        if "название" in obj_data:
+            obj_data["название"]["value"] = self.combo_box_connections.currentText()
+        else:
+            obj_data["название"] = {"value": self.combo_box_connections.currentText()}
+        connection_dict["object_data"] = obj_data
+
         return {
             "node": {
                 "node_key": node_data["node_key"],
-                "node_dict": node_dict
+                "node_dict": node_dict,
             },
-            "connection": self.combo_box_connections.currentData()
+            "connection": {
+                "connection_key": connection_data["connection_key"],
+                "connection_dict": connection_dict,
+            },
         }

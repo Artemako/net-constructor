@@ -14,6 +14,7 @@ class Configs:
         self.__lists: dict = {}
 
     def load_configs(self, dir_app: str) -> None:
+        """Загружает все конфигурации из каталога configs приложения."""
         config_dir = os.path.join(dir_app, "configs")
         with open(os.path.join(config_dir, "config_global.json"), encoding="utf-8") as f:
             self.__global = json.load(f)
@@ -96,34 +97,42 @@ class Configs:
         self.save_lists(dir_app)
 
     def get_node(self, node_id: str) -> dict:
+        """Возвращает конфигурацию узла по идентификатору."""
         return self.__nodes.get(node_id, {})
 
     def get_connection(self, connection_id: str) -> dict:
+        """Возвращает конфигурацию соединения по идентификатору."""
         return self.__connections.get(connection_id, {})
 
     def get_nodes(self) -> dict:
+        """Возвращает словарь конфигураций всех узлов."""
         return self.__nodes
 
     def get_connections(self) -> dict:
+        """Возвращает словарь конфигураций всех соединений."""
         return self.__connections
 
     def get_config_diagrams(self) -> dict:
+        """Возвращает конфигурацию типов диаграмм, отсортированную по порядку."""
         diagrams = self.__global.get("diagrams", {})
         return dict(sorted(diagrams.items(), key=lambda x: x[1].get("order", 0)))
 
 
     def get_config_control_sectors(self) -> dict:
+        """Возвращает конфигурацию контрольных секторов, отсортированную по порядку."""
         control_sectors_config = self.__global.get("control_sectors_config", {})
         return dict(
             sorted(control_sectors_config.items(), key=lambda x: x[1].get("order", 0))
         )
 
     def get_config_diagram_parameters_by_type_id(self, diagram_type_id) -> dict:
+        """Возвращает параметры диаграммы по идентификатору типа."""
         diagrams = self.__global.get("diagrams", {})
         parameters = diagrams.get(str(diagram_type_id), {}).get("parameters", {})
         return dict(sorted(parameters.items(), key=lambda x: x[1].get("order", 0)))
 
     def get_config_diagram_nodes_by_type_id(self, diagram_type_id) -> dict:
+        """Возвращает конфигурации узлов диаграммы по идентификатору типа."""
         diagrams = self.__global.get("diagrams", {})
         id_nodes = diagrams.get(str(diagram_type_id), {}).get("id_nodes", [])
         config_diagram_nodes = {
@@ -132,6 +141,7 @@ class Configs:
         return config_diagram_nodes
 
     def get_config_diagram_connections_by_type_id(self, diagram_type_id) -> dict:
+        """Возвращает конфигурации соединений диаграммы по идентификатору типа."""
         diagrams = self.__global.get("diagrams", {})
         id_connections = diagrams.get(str(diagram_type_id), {}).get(
             "id_connections", []
@@ -143,11 +153,13 @@ class Configs:
         return config_diagram_connections
 
     def get_config_node_data_by_node(self, node) -> dict:
+        """Возвращает данные объекта узла из конфига по экземпляру узла."""
         node_id = node.get("node_id", "0")
         object_data = self.get_node(node_id).get("object_data", {})
         return dict(sorted(object_data.items(), key=lambda x: x[1].get("order", 0)))
 
     def get_config_type_node_data_by_node(self, node) -> dict:
+        """Возвращает типовые данные узла из конфига по экземпляру узла."""
         node_id = node.get("node_id", "0")
         type_object_data = self.get_node(node_id).get("type_object_data", {})
         return dict(
@@ -155,16 +167,19 @@ class Configs:
         )
 
     def get_config_objects_data_by_node(self, node) -> dict:
+        """Возвращает данные объектов узла из конфига по экземпляру узла."""
         node_id = node.get("node_id", "0")
         objects_data = self.get_node(node_id).get("objects_data", {})
         return dict(sorted(objects_data.items(), key=lambda x: x[1].get("order", 0)))
 
     def get_config_connection_data_by_connection(self, connection) -> dict:
+        """Возвращает данные объекта соединения из конфига по экземпляру соединения."""
         connection_id = connection.get("connection_id", "0")
         object_data = self.get_connection(connection_id).get("object_data", {})
         return dict(sorted(object_data.items(), key=lambda x: x[1].get("order", 0)))
 
     def get_config_type_connection_data_by_connection(self, connection) -> dict:
+        """Возвращает типовые данные соединения из конфига по экземпляру соединения."""
         connection_id = connection.get("connection_id", "0")
         type_object_data = self.get_connection(connection_id).get(
             "type_object_data", {}
@@ -174,11 +189,13 @@ class Configs:
         )
 
     def get_config_objects_data_by_connection(self, connection) -> dict:
+        """Возвращает данные объектов соединения из конфига по экземпляру соединения."""
         connection_id = connection.get("connection_id", "0")
         objects_data = self.get_connection(connection_id).get("objects_data", {})
         return dict(sorted(objects_data.items(), key=lambda x: x[1].get("order", 0)))
 
     def get_config_node_parameters_by_node(self, node) -> dict:
+        """Возвращает параметры объекта узла из конфига по экземпляру узла."""
         object_parameters = self.get_node(node.get("node_id", "0")).get(
             "object_parameters", {}
         )
@@ -187,6 +204,7 @@ class Configs:
         )
 
     def get_config_type_node_parameters_by_node(self, node) -> dict:
+        """Возвращает типовые параметры узла из конфига по экземпляру узла."""
         type_object_parameters = self.get_node(node.get("node_id", "0")).get(
             "type_object_parameters", {}
         )
@@ -203,6 +221,7 @@ class Configs:
         )
 
     def get_config_connection_parameters_by_connection(self, connection) -> dict:
+        """Возвращает параметры объекта соединения из конфига по экземпляру соединения."""
         object_parameters = self.get_connection(
             connection.get("connection_id", "0")
         ).get("object_parameters", {})
@@ -211,6 +230,7 @@ class Configs:
         )
 
     def get_config_type_connection_parameters_by_connection(self, connection) -> dict:
+        """Возвращает типовые параметры соединения из конфига по экземпляру соединения."""
         type_object_parameters = self.get_connection(
             connection.get("connection_id", "0")
         ).get("type_object_parameters", {})
@@ -219,6 +239,7 @@ class Configs:
         )
 
     def get_config_objects_parameters_by_connection(self, connection) -> dict:
+        """Возвращает параметры объектов соединения из конфига по экземпляру соединения."""
         objects_parameters = self.get_connection(
             connection.get("connection_id", "0")
         ).get("objects_parameters", {})

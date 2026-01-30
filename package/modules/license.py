@@ -1,5 +1,4 @@
-# license.py
-# Модуль защиты демо-режима с многоуровневой верификацией
+"""Модуль защиты демо-режима с многоуровневой верификацией."""
 
 import hashlib
 import hmac
@@ -43,7 +42,7 @@ def _get_runtime_signature():
         data = start + end + SECRET_KEY.encode()
         return hashlib.sha256(data).hexdigest()
     except Exception:
-        # Fallback для разработки
+        # Резервный вариант для режима разработки без exe
         return hashlib.sha256(SECRET_KEY.encode()).hexdigest() if SECRET_KEY else ""
 
 

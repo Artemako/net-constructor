@@ -30,7 +30,7 @@ class Ui_MainWindow(object):
         MainWindow.resize(1144, 653)
         MainWindow.setMinimumSize(QSize(0, 0))
 
-        # Actions
+        # Действия меню и панели инструментов
         self.action_new = QAction(QIcon.fromTheme("document-new", QIcon(":/white-icons/resources/white-icons/add-file.svg")), "Новый", MainWindow)
         self.action_new.setShortcut("Ctrl+N")
 

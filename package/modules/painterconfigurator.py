@@ -1,3 +1,5 @@
+"""Настройка QPainter: перо, кисть, шрифт, стили линий и заливки."""
+
 from PySide6.QtGui import QPainter, QPen, QBrush, QImage, QFont, QPolygon, QColor, QTextOption
 from PySide6.QtCore import Qt
 
@@ -7,9 +9,7 @@ import package.constants as constants
 class PainterConfigurator:
     def __init__(self, painter, pen=None, brush=None, font=None):
         self.__painter = painter
-        #
         self.__fill_styles = constants.FillStyles()
-        # self.__text_alignments = constants.TextAlignments()
         self.__line_styles = constants.LineStyles()
 
         #
@@ -42,7 +42,6 @@ class PainterConfigurator:
         return self.__painter
 
     def get_painter_line(self, color, weight, style_name):
-        # self.__painter.setPen(QPen(QColor(color), weight))
         style = self.__line_styles.get(style_name, Qt.SolidLine)
         self.__painter.setPen(QPen(QColor(color), weight, style))
         return self.__painter

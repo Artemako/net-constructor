@@ -1,3 +1,5 @@
+"""Отрисовка примитивов: круги, прямоугольники, стрелки, линии."""
+
 from PySide6.QtWidgets import QWidget
 from PySide6.QtGui import QPainter, QPen, QBrush, QImage, QFont, QPolygon
 from PySide6.QtCore import Qt, QPointF, QPoint, QRect

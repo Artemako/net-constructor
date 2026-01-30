@@ -121,11 +121,7 @@ class CableListsDialog(QDialog):
     def load_data(self):
         """Загрузка данных"""
         self.__current_cables = self.__configs.get_list_by_type("cable_types")
-        
-        # Загружаем исходные данные по умолчанию
-        default_cables = ["Марка ВОК 1", "Марка ВОК 2", "Марка ВОК 3"]
-        self.__original_cables = default_cables.copy()
-        
+        self.__original_cables = list(self.__current_cables)
         self.cables_text.setPlainText("\n".join(self.__current_cables))
         
     def on_cables_changed(self):

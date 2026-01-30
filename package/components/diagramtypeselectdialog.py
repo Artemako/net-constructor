@@ -45,22 +45,18 @@ class DiagramTypeSelectDialog(QDialog):
         self.list_widget = QListWidget()
         self.list_widget.setMinimumWidth(200)
         self.list_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        
-        # self.image_label = QLabel()
-        # self.image_label.setAlignment(Qt.AlignCenter)
-        # self.image_label.setFixedSize(600, 300) 
-        
+
         for key, elem in global_diagrams.items():
             name = elem.get("name", "")
             item = QListWidgetItem(name)
             item.setData(Qt.UserRole, elem)
             self.list_widget.addItem(item)
-        
-        # self.list_widget.currentItemChanged.connect(self.load_image)
-        
+
+        if self.list_widget.count() > 0:
+            self.list_widget.setCurrentRow(0)
+
         selection_layout.addWidget(self.list_widget)
-        # selection_layout.addWidget(self.image_label)
-        
+
         selection_group.setLayout(selection_layout)
         main_layout.addWidget(selection_group)
         
@@ -82,26 +78,19 @@ class DiagramTypeSelectDialog(QDialog):
         self.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
 
     def setup_connections(self):
-        """Настройка связей между элементами"""
+        """Настройка связей между элементами."""
         button_box = self.findChild(QDialogButtonBox)
         if button_box:
             button_box.accepted.connect(self.accept)
             button_box.rejected.connect(self.reject)
 
-    # def load_image(self, current, previous):
-    #     if current:
-    #         type_id = current.data(Qt.UserRole).get("type_id", "")
-    #         image_path = f":/diagram_previews/resources/diagram_previews/{type_id}.png"
-    #         pixmap = QPixmap(image_path)
-    #         self.image_label.setPixmap(pixmap.scaled(
-    #             self.image_label.size(), 
-    #             Qt.KeepAspectRatio, 
-    #             Qt.SmoothTransformation
-    #         ))
-
     def get_data(self):
         return self.__data
     
     def accept(self):
-        self.__data = self.list_widget.currentItem().data(Qt.UserRole)
+        item = self.list_widget.currentItem()
+        if item is None:
+            self.reject()
+            return
+        self.__data = item.data(Qt.UserRole)
         super().accept()

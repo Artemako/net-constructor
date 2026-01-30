@@ -1,4 +1,4 @@
-# diagramdrawer.py
+"""Отрисовка диаграммы: узлы, соединения, секторы, центрирование."""
 
 import package.modules.drawnode as drawnode
 import package.modules.drawconnection as drawconnection
@@ -378,18 +378,14 @@ class DiagramDrawer:
                 for item in prepared_data:
                     # меняем у вершин
                     if row.get("y") == item.get("y"):
-                        # print(f"""ДО item['x']={item['x']} item['y']={item['y']}""")
                         item["x"] -= delta_x
-                        # print(f"""ПОСЛЕ item['x']={item['x']} item['y']={item['y']}""")
                     # меняем у секторов
                     if item.get("type") == "connection":
                         for sector in item.get("control_sectors", []):
                             if row.get("y") == sector.get("y"):
-                                # print(f"""ДО sector['x']={sector['x']} sector['y']={sector['y']}""")
                                 sector["x"] -= delta_x
                             if row.get("y") == sector.get("wrap_y"):
                                 sector["wrap_x"] -= delta_x
-                                # print(f"""ПОСЛЕ sector['x']={sector['x']} sector['y']={sector['y']}""")
 
         return prepared_data
 
@@ -397,8 +393,7 @@ class DiagramDrawer:
         # подготавливаем данные
         prepared_data, to_right_optical_length, to_right_physical_length, rows = (
             self._prepare_main_drawing_data(start_x, start_y, delta_wrap_y, max_nodes_in_row)
-        ) 
-        #  
+        )
         rows_list = rows.get_rows()
         max_x = max(
             (row.get("x", 0) + row.get("length", 0) for row in rows_list),

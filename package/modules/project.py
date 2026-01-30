@@ -1,4 +1,4 @@
-# project.py
+"""Проект: данные диаграммы, узлы, соединения, файлы NCE."""
 
 import json
 import uuid
@@ -137,7 +137,7 @@ class Project:
         self.__data["connections"] = new_order_connections
 
     def set_new_order_control_sectors(self, obj, new_order_control_sectors):
-        # TODO set_new_order_control_sectors - проверить
+        # TODO: set_new_order_control_sectors — проверить
         print(
             "set_new_order_control_sectors():\n"
             f"new_order_control_sectors={new_order_control_sectors}\n"

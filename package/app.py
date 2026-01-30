@@ -87,7 +87,7 @@ class App:
             saved_theme = self.__obsm.obj_settings.get_theme()
             self.__obsm.obj_style.set_style_for_mw_by_name(self.window, saved_theme)
             self.window.show()
-            # sys.exit(self.app.exec())
+            # Без sys.exit для корректного выхода из QApplication
             self.app.exec_()
         except (OSError, RuntimeError) as e:
             print(f"Error starting app: {e}")

@@ -1,5 +1,4 @@
-# undojournal.py
-# Журнал событий для отмены/повтора изменений в виджетах проекта.
+"""Журнал событий для отмены/повтора изменений в виджетах проекта."""
 
 import copy
 from collections import namedtuple
@@ -14,14 +13,8 @@ def _deep_copy_value(value):
     return value
 
 
-# Запись журнала: тип, вкладка, контекст, идентификатор виджета, старое/новое значение.
-# form: dict_name (str), key (str), widget_type (str)
-# table_cell: table_id (str), row (int), col (int)
-# diagram_type: нет доп. полей
-# table_row_add: table_id (str), row_data (dict)
-# table_row_delete: table_id (str), row_data (dict), row_index (int)
-# table_row_reorder: table_id (str), old_order (list), new_order (list)
-# table_row_add_pair: node_data (dict), connection_data (dict) - атомарная операция для узла+соединения
+# Типы записей: form (dict_name, key, widget_type), table_cell (table_id, row, col),
+# diagram_type, table_row_add/delete/reorder, table_row_add_pair (node_data, connection_data).
 JournalEntry = namedtuple(
     "JournalEntry",
     ["entry_type", "tab_index", "context", "old_value", "new_value"]

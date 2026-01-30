@@ -75,9 +75,6 @@ class ImageWidget(QWidget):
 
     def create_image(self, data):
         """Создаёт QImage диаграммы по данным проекта."""
-        #
-        # width = int(data.get("diagram_parameters", {}).get("width", {}).get("value", 0))
-        # start_height = int(data.get("diagram_parameters", {}).get("start_height", {}).get("value", 0))
         start_x = int(
             data.get("diagram_parameters", {}).get("indent_left", {}).get("value", 0)
         )

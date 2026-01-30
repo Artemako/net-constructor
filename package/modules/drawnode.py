@@ -1,3 +1,5 @@
+"""Отрисовка узлов диаграммы: вершины, прямоугольники, подписи, переносы."""
+
 from PySide6.QtWidgets import QWidget
 from PySide6.QtGui import QPainter, QPen, QBrush, QImage, QFont, QPolygon
 from PySide6.QtCore import Qt, QPoint
@@ -786,13 +788,6 @@ class DrawNode:
                 self.__y - pars.get_sp("node_name_height"),
                 pars.get_sp("node_name_max_width")
             )
-            # УЖЕ НЕ НУЖНО Рисование номера (внутри круга)
-            # text = str(self.__node_index + 1)
-            # drawtext.DrawText().draw_multiline_text_by_hc_vc(
-            #     get_painter_text_name_add, text, self.__x, self.__y
-            # )
-
-        
         def draw_node_id_151():
             node_width = pars.get_sp("node_width")
             # рисование wrap стрелки
