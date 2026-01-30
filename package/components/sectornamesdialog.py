@@ -45,6 +45,20 @@ class SectorNamesDialog(QDialog):
         main_layout.setContentsMargins(10, 10, 10, 10)
         main_layout.setSpacing(10)
         
+        # Группа названий по умолчанию для таблицы «Способ прокладки ВОК»
+        defaults_group = QGroupBox("Названия по умолчанию в таблице «Способ прокладки ВОК»")
+        defaults_layout = QFormLayout()
+        defaults_layout.setContentsMargins(10, 10, 10, 10)
+        defaults_layout.setSpacing(6)
+        self.tech_name_edit = QLineEdit()
+        self.tech_name_edit.setPlaceholderText("Тех. запас")
+        defaults_layout.addRow("Название по умолчанию для тех. запаса:", self.tech_name_edit)
+        self.sector_name_edit = QLineEdit()
+        self.sector_name_edit.setPlaceholderText("Сектор")
+        defaults_layout.addRow("Название по умолчанию для сектора:", self.sector_name_edit)
+        defaults_group.setLayout(defaults_layout)
+        main_layout.addWidget(defaults_group)
+        
         # Группа редактирования списка названий секторов
         edit_group = QGroupBox("Список названий секторов")
         edit_layout = QVBoxLayout()
@@ -119,13 +133,14 @@ class SectorNamesDialog(QDialog):
         self.sector_names_text.textChanged.connect(self.on_sector_names_changed)
         
     def load_data(self):
-        """Загрузка данных"""
+        """Загрузка данных."""
         self.__current_sector_names = self.__configs.get_list_by_type("sector_names")
-        
-        # Загружаем исходные данные по умолчанию
-        default_sector_names = ["По опорам", "В грунте", "По зданию"]
-        self.__original_sector_names = default_sector_names.copy()
-        
+        self.__original_sector_names = self.__configs.get_list_by_type(
+            "sector_names"
+        ).copy()
+        tech_name, sector_name = self.__configs.get_control_sectors_default_names()
+        self.tech_name_edit.setText(tech_name)
+        self.sector_name_edit.setText(sector_name)
         self.sector_names_text.setPlainText("\n".join(self.__current_sector_names))
         
     def on_sector_names_changed(self):
@@ -217,8 +232,13 @@ class SectorNamesDialog(QDialog):
                 self.sector_names_text.clear()
             
     def accept(self):
-        """Обработчик нажатия OK"""
-        # Сохраняем изменения
+        """Обработчик нажатия OK."""
+        dir_app = self.__obsm.obj_dirpath.get_dir_app()
         self.__configs.update_list_by_type("sector_names", self.__current_sector_names)
-        self.__configs.save_lists(self.__obsm.obj_dirpath.get_dir_app())
+        self.__configs.save_lists(dir_app)
+        self.__configs.update_control_sectors_default_names(
+            self.tech_name_edit.text().strip() or "Тех. запас",
+            self.sector_name_edit.text().strip() or "Сектор",
+        )
+        self.__configs.save_global(dir_app)
         super().accept()

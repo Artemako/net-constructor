@@ -35,6 +35,7 @@ class ObjectsManager:
         self.obj_dirpath = dirpathmanager.DirPathManager()
         self.obj_configs = configs.Configs()
         self.obj_project = project.Project()
+        self.obj_project.set_configs(self.obj_configs)
         self.obj_settings = settings.Settings()
         self.obj_settings.setting_osbm(self)
         self.obj_settings.initialize_default_settings()

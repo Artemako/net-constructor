@@ -14,6 +14,11 @@ class Project:
         self.__copied_node_data = None
         self.__copied_connection_data = None
         self.__copied_control_sector_data = None
+        self.__configs = None
+
+    def set_configs(self, configs) -> None:
+        """Устанавливает ссылку на конфиги для чтения названий по умолчанию из config_global."""
+        self.__configs = configs
 
     def get_data(self):
         return self.__data
@@ -350,22 +355,25 @@ class Project:
         self._write_project()
 
     def _add_default_control_sectors(self, connection):
-        """Добавляет 3 сектора по умолчанию для нового соединения"""
-        # Получаем конфигурацию секторов
+        """Добавляет 3 сектора по умолчанию для нового соединения."""
         config = self.__data.get("control_sectors_config", {})
 
-        # Получаем ID узлов, к которым прилегает соединение
+        # Названия тех. запаса и сектора — из config_global (окно «Управление списком названий секторов»)
+        if self.__configs is not None:
+            tech_name, main_name = self.__configs.get_control_sectors_default_names()
+        else:
+            tech_name = config.get("cs_tech_name_default", {}).get(
+                "value", "Тех. запас"
+            )
+            main_name = config.get("cs_name", {}).get("value", "Сектор")
+
         nodes = self.__data.get("nodes", [])
         connection_order = connection.get("order", 0)
-
-        # Определяем тип левого и правого узлов
         left_node = nodes[connection_order] if connection_order < len(nodes) else None
         right_node = (
             nodes[connection_order + 1] if connection_order + 1 < len(nodes) else None
         )
 
-        # Добавляем первый сектор (тех. запас)
-        tech_name = config.get("cs_tech_name_default", {}).get("value", "Тех. запас")
         tech_length = config.get("cs_tech_lenght_default", {}).get("value", 140)
 
         # Определяем физическую длину для первого тех. запаса
@@ -387,7 +395,6 @@ class Project:
         )
 
         # Добавляем средний сектор (основной)
-        main_name = config.get("cs_name", {}).get("value", "Сектор")
         main_length = config.get("cs_lenght", {}).get("value", 200)
         self.add_control_sector(
             connection,

@@ -125,6 +125,55 @@ class Configs:
             sorted(control_sectors_config.items(), key=lambda x: x[1].get("order", 0))
         )
 
+    def get_control_sectors_default_names(self) -> tuple:
+        """Возвращает названия по умолчанию для тех. запаса и сектора.
+
+        Returns:
+            Кортеж (tech_name, sector_name) из control_sectors_config.
+        """
+        cs_config = self.__global.get("control_sectors_config", {})
+        tech_name = cs_config.get("cs_tech_name_default", {}).get(
+            "value", "Тех. запас"
+        )
+        sector_name = cs_config.get("cs_name", {}).get("value", "Сектор")
+        return (tech_name, sector_name)
+
+    def update_control_sectors_default_names(
+        self, tech_name: str, sector_name: str
+    ) -> None:
+        """Записывает названия по умолчанию для тех. запаса и сектора в глобальный конфиг."""
+        if "control_sectors_config" not in self.__global:
+            self.__global["control_sectors_config"] = {}
+        cs = self.__global["control_sectors_config"]
+        if "cs_tech_name_default" in cs:
+            cs["cs_tech_name_default"]["value"] = tech_name
+        else:
+            cs["cs_tech_name_default"] = {
+                "value": tech_name,
+                "name": "Название тех. запаса",
+                "order": 101,
+                "type": "string_line",
+                "is_parameter": True,
+                "is_hide": True,
+            }
+        if "cs_name" in cs:
+            cs["cs_name"]["value"] = sector_name
+        else:
+            cs["cs_name"] = {
+                "value": sector_name,
+                "name": "Название сектора",
+                "order": 1,
+                "type": "list_with_custom",
+                "list_type": "sector_names",
+                "is_data": True,
+            }
+
+    def save_global(self, dir_app: str) -> None:
+        """Сохраняет глобальный конфиг в configs/config_global.json."""
+        path = os.path.join(dir_app, "configs", "config_global.json")
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(self.__global, f, ensure_ascii=False, indent=4)
+
     def get_config_diagram_parameters_by_type_id(self, diagram_type_id) -> dict:
         """Возвращает параметры диаграммы по идентификатору типа."""
         diagrams = self.__global.get("diagrams", {})

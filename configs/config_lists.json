@@ -1,8 +1,8 @@
 {
     "lists": {
         "sector_names": {
-            "name": "Названия секторов",
-            "description": "Список предопределенных названий секторов",
+            "name": "sector_names",
+            "description": "",
             "type": "sector_names",
             "items": [
                 {
