@@ -1,12 +1,22 @@
-from PySide6.QtWidgets import (
-    QDialog, QVBoxLayout, QPushButton, QHBoxLayout, QListWidget, QListWidgetItem,
-    QGroupBox, QSizePolicy
-)
+"""Диалог изменения порядка элементов: вершины, соединения, контрольные точки."""
+
 from PySide6.QtCore import Qt
+from PySide6.QtWidgets import (
+    QDialog,
+    QGroupBox,
+    QHBoxLayout,
+    QListWidget,
+    QListWidgetItem,
+    QPushButton,
+    QSizePolicy,
+    QVBoxLayout,
+)
+
 
 class ChangeOrderDialog(QDialog):
+    """Диалог изменения порядка узлов, соединений или контрольных секторов."""
 
-    def __init__(self, objects, type_objects, parent=None):
+    def __init__(self, objects, type_objects, parent=None) -> None:
         super(ChangeOrderDialog, self).__init__(parent)
         self.__objects = objects
         self.__type_objects = type_objects
@@ -22,8 +32,8 @@ class ChangeOrderDialog(QDialog):
         self.setup_ui()
         self.setup_connections()
         
-    def setup_ui(self):
-        """Настройка пользовательского интерфейса"""
+    def setup_ui(self) -> None:
+        """Настройка пользовательского интерфейса диалога."""
         main_layout = QVBoxLayout(self)
         main_layout.setContentsMargins(10, 10, 10, 10)
         main_layout.setSpacing(10)
@@ -90,14 +100,14 @@ class ChangeOrderDialog(QDialog):
         self.setMinimumSize(400, 350)
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
-    def setup_connections(self):
-        """Настройка связей между элементами"""
+    def setup_connections(self) -> None:
+        """Подключение слотов к сигналам виджетов."""
         self.up_button.clicked.connect(self._move_item_up)
         self.down_button.clicked.connect(self._move_item_down)
         self.ok_button.clicked.connect(self.accept)
         self.cancel_button.clicked.connect(self.reject)
 
-    def _populate_list(self):
+    def _populate_list(self) -> None:
         for index, obj in enumerate(self.__objects):
             item_name = ""
             if self.__type_objects == "nodes":
@@ -114,14 +124,16 @@ class ChangeOrderDialog(QDialog):
             item.setData(Qt.UserRole, obj)
             self.list_widget.addItem(item)
 
-    def _move_item_up(self):
+    def _move_item_up(self) -> None:
+        """Перемещает выбранный элемент вверх."""
         current_row = self.list_widget.currentRow()
         if current_row > 0:
             item = self.list_widget.takeItem(current_row)
             self.list_widget.insertItem(current_row - 1, item)
             self.list_widget.setCurrentItem(item)
 
-    def _move_item_down(self):
+    def _move_item_down(self) -> None:
+        """Перемещает выбранный элемент вниз."""
         current_row = self.list_widget.currentRow()
         if current_row < self.list_widget.count() - 1: 
             item = self.list_widget.takeItem(current_row)

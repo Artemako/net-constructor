@@ -1,18 +1,18 @@
-# imagewidget.py
+"""Виджет отображения диаграммы: масштаб, панорама, экспорт в изображение."""
 
 import math
 
+from PySide6.QtCore import QPoint, QPointF, Qt
+from PySide6.QtGui import QImage, QPainter
 from PySide6.QtWidgets import QWidget
-from PySide6.QtGui import QPainter, QImage
-from PySide6.QtCore import Qt, QPointF, QPoint
 
-import package.modules.diagramdrawer as diagramdrawer
+from package.modules import diagramdrawer
 
 
 class ImageWidget(QWidget):
-    """Класс виджета для отображения диаграммы."""
+    """Виджет для отображения диаграммы с зумом и панорамой."""
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> None:
         self.__obsm = None
         super().__init__(parent)
         self.__image = None
@@ -22,18 +22,20 @@ class ImageWidget(QWidget):
         self.__panning_active = False
         self.__diagram_drawer = None
 
-    def set_obsm(self, obsm):
+    def set_obsm(self, obsm) -> None:
+        """Устанавливает ссылку на менеджер объектов приложения."""
         self.__obsm = obsm
 
-    def clear(self):
-        """Очищает изображение и сбрасывает состояние виджета"""
+    def clear(self) -> None:
+        """Очищает изображение и сбрасывает состояние виджета."""
         self.__image = None
         self.__diagram_drawer = None
         self.__zoom_level = 1.0
         self.__pan_offset = QPointF(0, 0)
         self.update()
 
-    def run(self, data, is_new=False):
+    def run(self, data, is_new: bool = False) -> None:
+        """Строит диаграмму по данным и при необходимости подгоняет по размеру виджета."""
         self.__diagram_drawer = diagramdrawer.DiagramDrawer(self.__obsm, data)
         self.__image = self.create_image(data)
 
@@ -42,7 +44,8 @@ class ImageWidget(QWidget):
 
         self.update()
 
-    def _fit_image_to_widget(self):
+    def _fit_image_to_widget(self) -> None:
+        """Подгоняет масштаб и смещение по размеру виджета."""
         widget_width = self.width()
         widget_height = self.height()
         image_width = self.__image.width()
@@ -66,11 +69,12 @@ class ImageWidget(QWidget):
             offset_y = (widget_height - image_height * self.__zoom_level) / 2
             self.__pan_offset = QPointF(offset_x, offset_y)
 
-    def save_image(self, file_name):
+    def save_image(self, file_name: str) -> None:
+        """Сохраняет текущее изображение в PNG-файл."""
         self.__image.save(file_name, "PNG")
 
     def create_image(self, data):
-        print("create_image")
+        """Создаёт QImage диаграммы по данным проекта."""
         #
         # width = int(data.get("diagram_parameters", {}).get("width", {}).get("value", 0))
         # start_height = int(data.get("diagram_parameters", {}).get("start_height", {}).get("value", 0))
@@ -127,8 +131,8 @@ class ImageWidget(QWidget):
 
         return image
 
-    def paintEvent(self, event):
-        """Отвечает за отрисовку изображения на виджете."""
+    def paintEvent(self, event) -> None:
+        """Отрисовка изображения на виджете."""
         if self.__image:
             widget_painter = QPainter(self)
             widget_painter.setRenderHint(QPainter.SmoothPixmapTransform)
@@ -137,27 +141,27 @@ class ImageWidget(QWidget):
             widget_painter.drawImage(0, 0, self.__image)
             widget_painter.end()
 
-    def mousePressEvent(self, event):
-        """Обрабатывает нажатие мыши."""
+    def mousePressEvent(self, event) -> None:
+        """Обработка нажатия мыши (начало панорамы)."""
         if event.button() == Qt.LeftButton:
             self.__panning_active = True
             self.__last_mouse_position = event.pos()
 
-    def mouseMoveEvent(self, event):
-        """Обрабатывает движение мыши."""
+    def mouseMoveEvent(self, event) -> None:
+        """Обработка движения мыши (панорама)."""
         if self.__panning_active:
             delta = event.pos() - self.__last_mouse_position
             self.__pan_offset += delta
             self.__last_mouse_position = event.pos()
             self.update()
 
-    def mouseReleaseEvent(self, event):
-        """Обрабатывает отпускание кнопки мыши."""
+    def mouseReleaseEvent(self, event) -> None:
+        """Обработка отпускания кнопки мыши (конец панорамы)."""
         if event.button() == Qt.LeftButton:
             self.__panning_active = False
 
-    def wheelEvent(self, event):
-        """Обрабатывает прокрутку колесика мыши для зума."""
+    def wheelEvent(self, event) -> None:
+        """Обработка прокрутки колеса мыши (зум)."""
         cursor_position = event.position()
         cursor_point = (cursor_position - self.__pan_offset) / self.__zoom_level
         zoom_factor = 1.1 if event.angleDelta().y() > 0 else 1 / 1.1

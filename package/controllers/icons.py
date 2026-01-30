@@ -1,11 +1,17 @@
-from PySide6.QtGui import QAction, QIcon
+"""Установка иконок для действий главного окна в зависимости от темы."""
+
 from PySide6.QtCore import QSize
+from PySide6.QtGui import QAction, QIcon
+
 
 class Icons:
-    def __init__(self):
+    """Управление наборами иконок (white/black) для главного окна по теме."""
+
+    def __init__(self) -> None:
         self.__icon_sets = {"dark": "white-icons", "light": "black-icons"}
 
-    def set_icons_for_mw_by_name(self, mw, theme_name = "dark"):
+    def set_icons_for_mw_by_name(self, mw, theme_name: str = "dark") -> None:
+        """Устанавливает иконки для действий главного окна по имени темы."""
         icon_set = self.__icon_sets.get(theme_name)
         actions_and_icons = [
             (mw.ui.action_new, f":/{icon_set}/resources/{icon_set}/add-file.svg"),

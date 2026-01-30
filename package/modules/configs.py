@@ -1,36 +1,36 @@
+"""Загрузка и доступ к конфигурациям из configs/*.json (глобальные, узлы, соединения, списки)."""
+
 import json
+import os
 
 
 class Configs:
-    def __init__(self):
-        self.__global = {}
-        self.__nodes = {}
-        self.__connections = {}
-        self.__lists = {}
+    """Единая точка доступа к конфигам: global, nodes, connections, lists."""
 
-    def load_configs(self, dir_app):
-        with open(dir_app + "/configs/config_global.json", "r", encoding="utf-8") as f:
+    def __init__(self) -> None:
+        self.__global: dict = {}
+        self.__nodes: dict = {}
+        self.__connections: dict = {}
+        self.__lists: dict = {}
+
+    def load_configs(self, dir_app: str) -> None:
+        config_dir = os.path.join(dir_app, "configs")
+        with open(os.path.join(config_dir, "config_global.json"), encoding="utf-8") as f:
             self.__global = json.load(f)
-        with open(dir_app + "/configs/config_nodes.json", "r", encoding="utf-8") as f:
+        with open(os.path.join(config_dir, "config_nodes.json"), encoding="utf-8") as f:
             self.__nodes = json.load(f)
-        with open(
-            dir_app + "/configs/config_connections.json", "r", encoding="utf-8"
-        ) as f:
+        with open(os.path.join(config_dir, "config_connections.json"), encoding="utf-8") as f:
             self.__connections = json.load(f)
         try:
-            with open(
-                dir_app + "/configs/config_lists.json", "r", encoding="utf-8"
-            ) as f:
+            with open(os.path.join(config_dir, "config_lists.json"), encoding="utf-8") as f:
                 self.__lists = json.load(f)
         except (FileNotFoundError, json.JSONDecodeError):
-            # Если файл не найден или поврежден, используем пустую структуру
             self.__lists = {"lists": {}}
 
-    def save_lists(self, dir_app):
-        """Сохраняет все списки в файл"""
-        with open(
-            dir_app + "/configs/config_lists.json", "w", encoding="utf-8"
-        ) as f:
+    def save_lists(self, dir_app: str) -> None:
+        """Сохраняет все списки в configs/config_lists.json."""
+        path = os.path.join(dir_app, "configs", "config_lists.json")
+        with open(path, "w", encoding="utf-8") as f:
             json.dump(self.__lists, f, ensure_ascii=False, indent=4)
 
     def get_list_by_type(self, list_type: str) -> list:

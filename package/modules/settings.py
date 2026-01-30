@@ -1,17 +1,23 @@
-from PySide6.QtCore import QSettings
+"""Настройки приложения через QSettings: тема, проекты, параметры, журнал отмены."""
+
 import datetime
 import os
 
+from PySide6.QtCore import QSettings
+
 
 class SettingsManagerObjectsManager:
-    def __init__(self, osbm):
+    """Хранит ссылки на объекты, нужные Settings (логгер, пути)."""
+
+    def __init__(self, osbm) -> None:
         self.obj_logg = osbm.obj_logg if hasattr(osbm, 'obj_logg') else None
         self.obj_dirpath = osbm.obj_dirpath if hasattr(osbm, 'obj_dirpath') else None
 
 
 class Settings:
-    def __init__(self):
-        # Словарь для преобразования английских названий в русские
+    """Доступ к настройкам приложения (QSettings): тема, проекты, параметры, журнал."""
+
+    def __init__(self) -> None:
         self.__theme_display_names = {
             "dark": "Тёмная",
             "light": "Светлая"

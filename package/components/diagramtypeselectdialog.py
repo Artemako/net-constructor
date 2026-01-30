@@ -1,14 +1,25 @@
-from PySide6.QtWidgets import (
-    QDialog, QVBoxLayout, QListWidget, QLabel, QDialogButtonBox, QHBoxLayout, QListWidgetItem,
-    QGroupBox, QSizePolicy
-)
-# from PySide6.QtGui import QPixmap
+"""Диалог выбора типа диаграммы из списка конфигурации."""
+
 from PySide6.QtCore import Qt
+from PySide6.QtWidgets import (
+    QDialog,
+    QDialogButtonBox,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QListWidget,
+    QListWidgetItem,
+    QSizePolicy,
+    QVBoxLayout,
+)
 
 import resources_rc
 
+
 class DiagramTypeSelectDialog(QDialog):
-    def __init__(self, global_diagrams, parent=None):
+    """Диалог выбора типа диаграммы по списку из конфига."""
+
+    def __init__(self, global_diagrams, parent=None) -> None:
         self.__data = None
 
         super().__init__(parent)
@@ -19,8 +30,8 @@ class DiagramTypeSelectDialog(QDialog):
         self.setup_ui(global_diagrams)
         self.setup_connections()
 
-    def setup_ui(self, global_diagrams):
-        """Настройка пользовательского интерфейса"""
+    def setup_ui(self, global_diagrams) -> None:
+        """Настройка пользовательского интерфейса диалога."""
         main_layout = QVBoxLayout(self)
         main_layout.setContentsMargins(10, 10, 10, 10)
         main_layout.setSpacing(10)

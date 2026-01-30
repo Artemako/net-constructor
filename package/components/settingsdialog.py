@@ -1,12 +1,28 @@
-from PySide6.QtWidgets import (
-    QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton,
-    QMessageBox, QComboBox, QCheckBox, QGroupBox, QSizePolicy, QScrollArea, QWidget,
-    QSpinBox,
-)
+"""Диалог настроек приложения: тема, параметры, журнал отмены."""
+
 from PySide6.QtCore import Qt
+from PySide6.QtWidgets import (
+    QCheckBox,
+    QComboBox,
+    QDialog,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QMessageBox,
+    QPushButton,
+    QScrollArea,
+    QSizePolicy,
+    QSpinBox,
+    QVBoxLayout,
+    QWidget,
+)
+
 
 class SettingsDialog(QDialog):
-    def __init__(self, obsm):
+    """Диалог настроек: тема, отображение параметров, лимит журнала отмены/повтора."""
+
+    def __init__(self, obsm) -> None:
         self.__obsm = obsm
         super(SettingsDialog, self).__init__()
         
@@ -23,8 +39,8 @@ class SettingsDialog(QDialog):
         self.setWindowFlag(Qt.WindowMinimizeButtonHint, True)
         self.setWindowFlag(Qt.WindowMaximizeButtonHint, True)
 
-    def config_ui(self):
-        """Настройка пользовательского интерфейса"""
+    def config_ui(self) -> None:
+        """Настройка пользовательского интерфейса диалога."""
         main_layout = QVBoxLayout(self)
         main_layout.setContentsMargins(10, 10, 10, 10)
         main_layout.setSpacing(10)
@@ -151,37 +167,33 @@ class SettingsDialog(QDialog):
         self.setMinimumSize(450, 300)
         self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
-    def connecting_actions(self):
-        """Подключение обработчиков событий"""
-        self.save_btn.clicked.connect(self.save_settings)
+    def connecting_actions(self) -> None:
+        """Подключение слотов к сигналам виджетов."""
+        self.save_btn.clicked.connect(self.on_save_btn_clicked)
         self.cancel_btn.clicked.connect(self.reject)
-        
-        # Кнопки сброса отдельных параметров
-        self.theme_reset_btn.clicked.connect(self.reset_theme)
-        self.parameters_reset_btn.clicked.connect(self.reset_parameters)
-        self.journal_reset_btn.clicked.connect(self.reset_journal_limit)
-        
-        # Кнопка общего сброса
-        self.reset_all_btn.clicked.connect(self.reset_all_settings)
+        self.theme_reset_btn.clicked.connect(self.on_theme_reset_btn_clicked)
+        self.parameters_reset_btn.clicked.connect(self.on_parameters_reset_btn_clicked)
+        self.journal_reset_btn.clicked.connect(self.on_journal_reset_btn_clicked)
+        self.reset_all_btn.clicked.connect(self.on_reset_all_btn_clicked)
         
         # Горячие клавиши
         self.save_btn.setShortcut("Ctrl+S")
         self.cancel_btn.setShortcut("Ctrl+Q")
 
-    def reset_theme(self):
-        """Сброс темы к значению по умолчанию"""
+    def on_theme_reset_btn_clicked(self) -> None:
+        """Сброс темы к значению по умолчанию."""
         self.theme_combo.setCurrentText("Тёмная")
 
-    def reset_parameters(self):
-        """Сброс настройки отображения параметров к значению по умолчанию"""
+    def on_parameters_reset_btn_clicked(self) -> None:
+        """Сброс настройки отображения параметров к значению по умолчанию."""
         self.show_parameters_checkbox.setChecked(False)
 
-    def reset_journal_limit(self):
-        """Сброс лимита журнала к значению по умолчанию (100)"""
+    def on_journal_reset_btn_clicked(self) -> None:
+        """Сброс лимита журнала к значению по умолчанию (100)."""
         self.journal_limit_spin.setValue(100)
 
-    def reset_all_settings(self):
-        """Сброс всех настроек к значениям по умолчанию"""
+    def on_reset_all_btn_clicked(self) -> None:
+        """Сброс всех настроек к значениям по умолчанию."""
         # Сброс темы
         self.theme_combo.setCurrentText("Тёмная")
 
@@ -193,8 +205,8 @@ class SettingsDialog(QDialog):
         
 
 
-    def load_settings(self):
-        """Загрузка текущих настроек"""
+    def load_settings(self) -> None:
+        """Загрузка текущих настроек в виджеты."""
         # Загрузка темы (получаем русское название)
         theme_display = self.__obsm.obj_settings.get_theme_display_name()
         self.theme_combo.setCurrentText(theme_display)
@@ -209,8 +221,8 @@ class SettingsDialog(QDialog):
         
 
 
-    def save_settings(self):
-        """Сохранение настроек"""
+    def on_save_btn_clicked(self) -> None:
+        """Сохранение настроек и закрытие диалога."""
         try:
             # Сохранение темы (используем русское название для установки)
             theme_display = self.theme_combo.currentText()
@@ -242,10 +254,9 @@ class SettingsDialog(QDialog):
                 self.__obsm.obj_mw._toggle_parameters_visibility()
             
             self.accept()
-            
-        except Exception as e:
+        except (OSError, ValueError, KeyError) as e:
             QMessageBox.critical(
                 self,
                 "Ошибка",
-                f"Произошла ошибка при сохранении настроек: {str(e)}"
+                f"Произошла ошибка при сохранении настроек: {e!s}",
             )

@@ -1,10 +1,12 @@
-# constants.py
+"""Константы и маппинги стилей Qt: заливка, выравнивание текста, линии, диаграммы."""
 
 from PySide6.QtCore import Qt
 
 
 class FillStyles:
-    def __init__(self):
+    """Маппинг имён стилей заливки на Qt.BrushStyle."""
+
+    def __init__(self) -> None:
         self.__fill_styles = {
             "NoBrush": Qt.NoBrush,
             "SolidPattern": Qt.SolidPattern,
@@ -27,29 +29,38 @@ class FillStyles:
             "TexturePattern": Qt.TexturePattern,
         }
     
-    def keys(self):
-        return self.__fill_styles.keys()
+    def keys(self) -> list:
+        """Возвращает список имён стилей заливки."""
+        return list(self.__fill_styles.keys())
 
-    def get(self, fill_pattern_name, default):
+    def get(self, fill_pattern_name: str, default):
+        """Возвращает Qt-стиль заливки по имени или default."""
         return self.__fill_styles.get(fill_pattern_name, default)
-    
+
+
 class TextAlignments:
-    def __init__(self):
+    """Маппинг имён выравнивания текста на Qt.AlignmentFlag."""
+
+    def __init__(self) -> None:
         self.__text_alignments = {
             "LeftAlign": Qt.AlignLeft,
             "CenterAlign": Qt.AlignCenter,
             "RightAlign": Qt.AlignRight
         }
     
-    def keys(self):
-        return self.__text_alignments.keys()
+    def keys(self) -> list:
+        """Возвращает список имён выравнивания."""
+        return list(self.__text_alignments.keys())
 
-    def get(self, text_alignment_name, default):
+    def get(self, text_alignment_name: str, default):
+        """Возвращает Qt-выравнивание по имени или default."""
         return self.__text_alignments.get(text_alignment_name, default)
 
 
 class LineStyles:
-    def __init__(self):
+    """Маппинг имён стилей линий на Qt.PenStyle."""
+
+    def __init__(self) -> None:
         self.__line_styles = {
             # "NoPen": Qt.NoPen,
             "SolidLine": Qt.SolidLine,
@@ -60,15 +71,19 @@ class LineStyles:
             # "CustomDashLine": Qt.CustomDashLine,
         }
     
-    def keys(self):
-        return self.__line_styles.keys()
+    def keys(self) -> list:
+        """Возвращает список имён стилей линий."""
+        return list(self.__line_styles.keys())
 
-    def get(self, line_style_name, default):
+    def get(self, line_style_name: str, default):
+        """Возвращает Qt-стиль линии по имени или default."""
         return self.__line_styles.get(line_style_name, default)
 
 
 class DiagramToDiagram:
-    def __init__(self):
+    """Маппинг типов узлов и соединений между типами диаграмм."""
+
+    def __init__(self) -> None:
         self.__nodes_mapping = {
             "0": {
                 "50": "0",
@@ -126,6 +141,9 @@ class DiagramToDiagram:
             }   
         }
 
-    def get_new_type_id(self, new_diagram_type_id, object_type_id, is_node=False):
+    def get_new_type_id(
+        self, new_diagram_type_id: str, object_type_id: str, is_node: bool = False
+    ):
+        """Возвращает id типа в новой диаграмме по id в текущей (узел или соединение)."""
         mapping = self.__nodes_mapping if is_node else self.__connections_mapping
-        return mapping.get(new_diagram_type_id, {}).get(object_type_id, None)
+        return mapping.get(new_diagram_type_id, {}).get(object_type_id)

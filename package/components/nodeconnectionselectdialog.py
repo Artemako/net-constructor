@@ -1,21 +1,26 @@
+"""Диалог выбора узла и соединения для редактирования."""
+
+from PySide6.QtCore import QSize
 from PySide6.QtWidgets import (
-    QDialog,
-    QVBoxLayout,
-    QHBoxLayout,
     QComboBox,
-    QPushButton,
+    QDialog,
+    QGroupBox,
+    QHBoxLayout,
     QLabel,
     QLineEdit,
-    QSpacerItem,
+    QPushButton,
     QSizePolicy,
-    QGroupBox
+    QSpacerItem,
+    QVBoxLayout,
 )
-from PySide6.QtCore import QSize
+
 
 class NodeConnectSelectDialog(QDialog):
+    """Диалог выбора узла и соединения по конфигу диаграммы."""
+
     def __init__(
         self, config_diagram_nodes, config_diagram_connections, parent=None
-    ):
+    ) -> None:
         super(NodeConnectSelectDialog, self).__init__(parent)
         self.setWindowTitle("Выберите узел и соединение")
         self.config_diagram_nodes = config_diagram_nodes
@@ -31,8 +36,8 @@ class NodeConnectSelectDialog(QDialog):
         
         self._update_node_fields()
 
-    def setup_ui(self):
-        """Настройка пользовательского интерфейса"""
+    def setup_ui(self) -> None:
+        """Настройка пользовательского интерфейса диалога."""
         main_layout = QVBoxLayout(self)
         main_layout.setContentsMargins(10, 10, 10, 10)
         main_layout.setSpacing(10)

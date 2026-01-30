@@ -1,26 +1,30 @@
+"""Диалог удаления контрольной точки (выбор из списка)."""
+
+from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QDialog,
-    QVBoxLayout,
-    QListWidget,
-    QPushButton,
-    QHBoxLayout,
-    QListWidgetItem,
     QGroupBox,
-    QSizePolicy
+    QHBoxLayout,
+    QListWidget,
+    QListWidgetItem,
+    QPushButton,
+    QSizePolicy,
+    QVBoxLayout,
 )
-from PySide6.QtCore import Qt
 
 
 class ControlSectorDeleteDialog(QDialog):
-    def __init__(self, control_sectors, parent=None):
+    """Диалог выбора и удаления контрольной точки из списка."""
+
+    def __init__(self, control_sectors, parent=None) -> None:
         super(ControlSectorDeleteDialog, self).__init__(parent)
         self.setWindowTitle("Удаление контрольной точки")
         
         self.setup_ui(control_sectors)
         self.setup_connections()
         
-    def setup_ui(self, control_sectors):
-        """Настройка пользовательского интерфейса"""
+    def setup_ui(self, control_sectors) -> None:
+        """Настройка пользовательского интерфейса диалога."""
         main_layout = QVBoxLayout(self)
         main_layout.setContentsMargins(10, 10, 10, 10)
         main_layout.setSpacing(10)

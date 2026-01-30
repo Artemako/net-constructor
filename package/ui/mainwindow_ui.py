@@ -1,12 +1,27 @@
-from PySide6.QtCore import Qt, QSize, QRect, QCoreApplication, QMetaObject
-from PySide6.QtGui import QIcon, QAction
+"""Сгенерированный UI главного окна (Qt Designer / uic). Минимум ручных правок."""
+
+from PySide6.QtCore import QMetaObject, QRect, QSize, Qt
+from PySide6.QtGui import QAction, QIcon
 from PySide6.QtWidgets import (
-    QWidget, QHBoxLayout, QVBoxLayout, QSplitter, QGroupBox, QTabWidget,
-    QScrollArea, QFrame, QFormLayout, QMenuBar, QMenu, QToolBar, QStatusBar
+    QFormLayout,
+    QFrame,
+    QGroupBox,
+    QHBoxLayout,
+    QMenu,
+    QMenuBar,
+    QScrollArea,
+    QSplitter,
+    QStatusBar,
+    QTabWidget,
+    QToolBar,
+    QVBoxLayout,
+    QWidget,
 )
 
-from package.controllers.imagewidget import ImageWidget
 import resources_rc
+
+from package.controllers.imagewidget import ImageWidget
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):

@@ -1,26 +1,32 @@
+"""Контроллер тем оформления: тёмная/светлая, QSS, пути к PNG."""
+
+from typing import List, Optional
+
 from PySide6.QtWidgets import QApplication
 
+
 class Style:
-    def __init__(self):
+    """Управление темами (dark/light), QSS и путями к PNG-ресурсам."""
+
+    def __init__(self) -> None:
         self.__themes = {
             "dark": qss,
-            "light": lqss 
+            "light": lqss,
         }
         self.current_theme = "dark"
 
-    def setting_all_osbm(self, osbm):
-        """Установить OSBM"""
+    def setting_all_osbm(self, osbm) -> None:
+        """Установить ссылку на менеджер объектов приложения (OSBM)."""
         self.__osbm = osbm
 
-    def get_png_prefix(self, theme_name=None):
-        """
-        Получить префикс для PNG ресурсов в зависимости от темы
-        
+    def get_png_prefix(self, theme_name: Optional[str] = None) -> str:
+        """Возвращает префикс для PNG-ресурсов в зависимости от темы.
+
         Args:
-            theme_name (str): Название темы. Если None, используется текущая тема
-            
+            theme_name: Название темы. Если None, используется текущая тема.
+
         Returns:
-            str: Префикс для PNG ресурсов
+            Префикс для PNG ресурсов (white-png / black-png).
         """
         if theme_name is None:
             theme_name = self.current_theme
@@ -30,15 +36,14 @@ class Style:
         else:
             return "black-png"
 
-    def get_theme_style(self, theme_name=None):
-        """
-        Получить стиль для темы с правильными путями к PNG файлам
-        
+    def get_theme_style(self, theme_name: Optional[str] = None) -> str:
+        """Возвращает QSS для темы с подставленными путями к PNG.
+
         Args:
-            theme_name (str): Название темы. Если None, используется текущая тема
-            
+            theme_name: Название темы. Если None, используется текущая тема.
+
         Returns:
-            str: Стиль с правильными путями к PNG файлам
+            Строка QSS с путями к PNG.
         """
         if theme_name is None:
             theme_name = self.current_theme
@@ -54,13 +59,13 @@ class Style:
         
         return style
 
-    def set_style_for(self, widget):
-        """Совместимый метод для установки стиля для виджета (использует текущую тему)"""
+    def set_style_for(self, widget) -> None:
+        """Устанавливает стиль для виджета по текущей теме."""
         style = self.get_theme_style()
         widget.setStyleSheet(style)
 
-    def set_style_for_mw_by_name(self, mw, theme_name="dark"):
-        """Установить стиль для главного окна по имени темы"""
+    def set_style_for_mw_by_name(self, mw, theme_name: str = "dark") -> None:
+        """Устанавливает стиль для главного окна по имени темы."""
         style = self.get_theme_style(theme_name)
         mw.setStyleSheet(style)
         self.current_theme = theme_name
@@ -70,16 +75,16 @@ class Style:
             self.__osbm.obj_settings.set_theme(theme_name)
             self.__osbm.obj_settings.sync()
 
-    def get_available_themes(self):
-        """Получить список доступных тем"""
+    def get_available_themes(self) -> List[str]:
+        """Возвращает список доступных тем."""
         return list(self.__themes.keys())
 
-    def get_current_theme(self):
-        """Получить текущую тему"""
+    def get_current_theme(self) -> str:
+        """Возвращает текущую тему."""
         return self.current_theme
 
-    def apply_theme_to_all_windows(self, theme_name):
-        """Применить тему ко всем окнам приложения"""
+    def apply_theme_to_all_windows(self, theme_name: str) -> None:
+        """Применяет тему ко всем виджетам приложения."""
         self.current_theme = theme_name
         style = self.get_theme_style(theme_name)
         
@@ -95,60 +100,49 @@ class Style:
             self.__osbm.obj_settings.set_theme(theme_name)
             self.__osbm.obj_settings.sync()
 
-    def toggle_theme(self):
-        """Переключить между темами"""
+    def toggle_theme(self) -> str:
+        """Переключает тему (dark <-> light) и возвращает новую тему."""
         current_theme = self.get_current_theme()
         new_theme = "light" if current_theme == "dark" else "dark"
         self.apply_theme_to_all_windows(new_theme)
         return new_theme
 
-    def _force_layout_updates(self):
-        """Принудительно обновляет все layout'ы для корректной работы WrapLongRows после смены темы"""
+    def _force_layout_updates(self) -> None:
+        """Принудительно обновляет все layout'ы после смены темы (WrapLongRows)."""
         try:
             from PySide6.QtWidgets import QApplication, QWidget
-            
-            # Получаем все виджеты
+
             for widget in QApplication.allWidgets():
                 if isinstance(widget, QWidget):
-                    # Обновляем layout виджета и всех его дочерних элементов
                     self._update_widget_layouts_recursive(widget)
-                    
-        except Exception as e:
-            # Логируем ошибку, если есть система логирования
-            if hasattr(self, '__osbm') and self.__osbm and hasattr(self.__osbm, 'obj_logg'):
+        except (RuntimeError, AttributeError) as e:
+            if hasattr(self, "__osbm") and self.__osbm and hasattr(self.__osbm, "obj_logg"):
                 self.__osbm.obj_logg.debug_logger(f"Error updating layouts: {e}")
-                
-    def _update_widget_layouts_recursive(self, widget):
-        """Рекурсивно обновляет layout'ы виджета и всех его дочерних элементов"""
+
+    def _update_widget_layouts_recursive(self, widget) -> None:
+        """Рекурсивно инвалидирует и активирует layout виджета и дочерних."""
         try:
-            from PySide6.QtWidgets import QFormLayout, QLayout
-            
-            # Обновляем layout текущего виджета
+            from PySide6.QtWidgets import QFormLayout, QLayout, QWidget
+
+            # Вызывать updateGeometry/update только у QWidget — у QLayout и др. update() может иметь другую сигнатуру
+            if not isinstance(widget, QWidget):
+                return
             layout = widget.layout()
             if layout:
-                # Особое внимание QFormLayout с WrapLongRows
                 if isinstance(layout, QFormLayout):
-                    # Принудительно инвалидируем и обновляем layout
                     layout.invalidate()
                     layout.activate()
                     widget.updateGeometry()
                 elif isinstance(layout, QLayout):
-                    # Для других типов layout'ов
                     layout.invalidate()
                     layout.activate()
-                    
-                # Рекурсивно обновляем все дочерние layout'ы
                 for i in range(layout.count()):
                     item = layout.itemAt(i)
                     if item and item.widget():
                         self._update_widget_layouts_recursive(item.widget())
-                        
-            # Принудительно обновляем размеры и геометрию виджета
             widget.updateGeometry()
             widget.update()
-            
-        except Exception:
-            # Игнорируем ошибки для отдельных виджетов
+        except (RuntimeError, AttributeError, TypeError):
             pass
 
 

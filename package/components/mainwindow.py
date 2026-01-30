@@ -1,68 +1,64 @@
-# mainwindow.py
-from PySide6.QtWidgets import (
-    QMainWindow,
-    QMenu,
-    QDialog,
-    QFileDialog,
-    QTableWidget,
-    QTableWidgetItem,
-    QAbstractItemView,
-    QPushButton,
-    QHeaderView,
-    QVBoxLayout,
-    QLabel,
-    QSpinBox,
-    QDoubleSpinBox,
-    QFormLayout,
-    QLineEdit,
-    QTextEdit,
-    QSizePolicy,
-    QCheckBox,
-    QColorDialog,
-    QComboBox,
-    QFontComboBox,
-    QMessageBox,
-    QApplication,
-    QToolButton,
-    QStyle,
-    QHBoxLayout,
-    QStyledItemDelegate,
-    QWidget,
-    QFrame,
-    QGroupBox,
-)
-
-from PySide6.QtGui import (
-    QRegularExpressionValidator,
-    QIntValidator,
-    QFont,
-    QColor,
-    QFontMetrics,
-    QKeySequence,
-    QIcon,
-)
-from PySide6.QtCore import QRegularExpression, Qt, QModelIndex, QLocale, QSettings, QTimer
-
-
-import package.controllers.imagewidget as imagewidget
-
-import package.components.nodeconnectionselectdialog as nodeconnectionselectdialog
-import package.components.nodeconnectiondeletedialog as nodeconnectiondeletedialog
-import package.components.diagramtypeselectdialog as diagramtypeselectdialog
-import package.components.changeorderdialog as changeorderdialog
-import package.components.controlsectordeletedialog as controlsectordeletedialog
-import package.components.cablelistsdialog as cablelistsdialog
-import package.components.sectornamesdialog as sectornamesdialog
-import package.components.settingsdialog as settingsdialog
-
-import package.ui.mainwindow_ui as mainwindow_ui
-
-import package.constants as constants
+"""Главное окно приложения: диаграммы, параметры, вкладки, меню, undo/redo."""
 
 import copy
 import json
 import os
 from functools import partial
+
+from PySide6.QtCore import QLocale, QModelIndex, QRegularExpression, QSettings, Qt, QTimer
+from PySide6.QtGui import (
+    QColor,
+    QFont,
+    QFontMetrics,
+    QIcon,
+    QIntValidator,
+    QKeySequence,
+    QRegularExpressionValidator,
+)
+from PySide6.QtWidgets import (
+    QAbstractItemView,
+    QApplication,
+    QCheckBox,
+    QColorDialog,
+    QComboBox,
+    QDialog,
+    QDoubleSpinBox,
+    QFileDialog,
+    QFontComboBox,
+    QFormLayout,
+    QFrame,
+    QGroupBox,
+    QHeaderView,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QMainWindow,
+    QMenu,
+    QMessageBox,
+    QPushButton,
+    QSizePolicy,
+    QSpinBox,
+    QStyledItemDelegate,
+    QStyle,
+    QTableWidget,
+    QTableWidgetItem,
+    QTextEdit,
+    QToolButton,
+    QVBoxLayout,
+    QWidget,
+)
+
+from package.components import cablelistsdialog
+from package.components import changeorderdialog
+from package.components import controlsectordeletedialog
+from package.components import diagramtypeselectdialog
+from package.components import nodeconnectiondeletedialog
+from package.components import nodeconnectionselectdialog
+from package.components import sectornamesdialog
+from package.components import settingsdialog
+import package.constants as constants
+from package.controllers import imagewidget
+from package.ui import mainwindow_ui
 
 
 class CustomTableComboBox(QComboBox):
@@ -87,7 +83,9 @@ class CustomTableComboBox(QComboBox):
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, obsm):
+    """Главное окно: диаграммы, вкладки настроек/элементов/редактирования, меню, undo/redo."""
+
+    def __init__(self, obsm) -> None:
         self.__obsm = obsm
         #
         self.__current_object = None

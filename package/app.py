@@ -1,25 +1,26 @@
+"""Инициализация приложения, менеджер объектов и запуск GUI."""
+
 import sys
 
 import resources_rc  # noqa: F401 — регистрация ресурсов Qt до использования иконки
 
+from PySide6.QtGui import QFont, QFontDatabase, QIcon
 from PySide6.QtWidgets import QApplication
-from PySide6.QtGui import QFontDatabase, QFont, QIcon
 
-import package.components.mainwindow as mainwindow
+from package.components import mainwindow
+from package.controllers import icons
+from package.controllers import style
+from package.modules import configs
+from package.modules import dirpathmanager
+from package.modules import project
+from package.modules import settings
+from package.modules import undojournal
 
-import package.modules.dirpathmanager as dirpathmanager
-import package.modules.configs as configs
-import package.modules.project as project
-import package.modules.settings as settings
-import package.modules.undojournal as undojournal
-import package.controllers.style as style
-import package.controllers.icons as icons
 
 class ObjectsManager:
-    """
-    Мененджер объектов.
-    """
-    def __init__(self):
+    """Менеджер объектов приложения (окно, пути, конфиги, проект, настройки, стиль, иконки, undo)."""
+
+    def __init__(self) -> None:
         self.obj_mw = None
         self.obj_dirpath = None
         self.obj_configs = None
@@ -29,7 +30,8 @@ class ObjectsManager:
         self.obj_icons = None
         self.obj_undo_journal = None
 
-    def initializing_objects(self):
+    def initializing_objects(self) -> None:
+        """Создаёт и инициализирует объекты: DirPathManager, Configs, Project, Settings, Style, Icons, UndoJournal."""
         self.obj_dirpath = dirpathmanager.DirPathManager()
         self.obj_configs = configs.Configs()
         self.obj_project = project.Project()
@@ -44,7 +46,9 @@ class ObjectsManager:
         )
 
 class App:
-    def __init__(self, current_directory):
+    """Главный класс приложения: инициализация, конфигурация, запуск GUI."""
+
+    def __init__(self, current_directory: str) -> None:
         self.current_directory = current_directory
         #
         self.__obsm = ObjectsManager()
@@ -53,36 +57,30 @@ class App:
         self.config_objects()
         self.start_app()
 
-    def config_objects(self):
+    def config_objects(self) -> None:
+        """Устанавливает директорию приложения и загружает конфиги."""
         self.__obsm.obj_dirpath.set_dir_app(self.current_directory)
         self.__obsm.obj_configs.load_configs(self.current_directory)
 
-
-    def start_app(self):
-        """
-        Запуск фронта.
-        """
+    def start_app(self) -> None:
+        """Запуск GUI: QApplication, шрифты, иконка, главное окно, стиль, exec."""
         try:
             self.app = QApplication(sys.argv)
-            # настройка шрифтов
             self.__font_main = QFontDatabase.addApplicationFont(
                 ":/fonts/resources/fonts/OpenSans-VariableFont_wdth,wght.ttf"
             )
-            self.__font_italic = QFontDatabase.addApplicationFont(
+            QFontDatabase.addApplicationFont(
                 ":/fonts/resources/fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf"
             )
-            # Получаем название шрифта
             try:
                 font_families = QFontDatabase.applicationFontFamilies(self.__font_main)
                 if font_families:
                     self.__size_font = 10
                     self.__custom_font = QFont(font_families[0], self.__size_font)
                     self.app.setFont(self.__custom_font)
-            except Exception as e:
-                print(f"Error: {e}")
-            # иконка приложения
+            except (OSError, RuntimeError) as e:
+                print(f"Error loading font: {e}")
             self.app.setWindowIcon(QIcon(":/app/resources/app-icon.svg"))
-            # создание окна
             self.window = mainwindow.MainWindow(self.__obsm)
             self.__obsm.obj_mw = self.window
             # Применяем стиль к главному окну
@@ -91,5 +89,5 @@ class App:
             self.window.show()
             # sys.exit(self.app.exec())
             self.app.exec_()
-        except Exception as e:
-            print(f"Error: {e}")
+        except (OSError, RuntimeError) as e:
+            print(f"Error starting app: {e}")

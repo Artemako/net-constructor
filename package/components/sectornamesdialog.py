@@ -1,28 +1,30 @@
-from PySide6.QtWidgets import (
-    QDialog,
-    QVBoxLayout,
-    QHBoxLayout,
-    QPushButton,
-    QLabel,
-    QLineEdit,
-    QMessageBox,
-    QGroupBox,
-    QFormLayout,
-    QDialogButtonBox,
-    QWidget,
-    QTextEdit,
-    QListWidget,
-    QListWidgetItem,
-    QSizePolicy
-)
+"""Диалог управления списком названий секторов: редактирование, сброс, сохранение."""
+
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QFont
+from PySide6.QtWidgets import (
+    QDialog,
+    QDialogButtonBox,
+    QFormLayout,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QListWidget,
+    QListWidgetItem,
+    QMessageBox,
+    QPushButton,
+    QSizePolicy,
+    QTextEdit,
+    QVBoxLayout,
+    QWidget,
+)
 
 
 class SectorNamesDialog(QDialog):
-    """Диалог для управления списком названий секторов"""
-    
-    def __init__(self, obsm, parent=None):
+    """Диалог для управления списком названий секторов."""
+
+    def __init__(self, obsm, parent=None) -> None:
         super().__init__(parent)
         self.__obsm = obsm
         self.__configs = obsm.obj_configs
@@ -37,8 +39,8 @@ class SectorNamesDialog(QDialog):
         self.setup_connections()
         self.load_data()
         
-    def setup_ui(self):
-        """Настройка интерфейса"""
+    def setup_ui(self) -> None:
+        """Настройка интерфейса диалога."""
         main_layout = QVBoxLayout(self)
         main_layout.setContentsMargins(10, 10, 10, 10)
         main_layout.setSpacing(10)
