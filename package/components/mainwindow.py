@@ -1025,6 +1025,24 @@ class MainWindow(QMainWindow):
             return None
         return None
 
+    def _is_same_journal_context(self, tab_index, context):
+        """Проверяет, что текущая вкладка и контекст совпадают с записью журнала."""
+        if self.ui.tabw_right.currentIndex() != tab_index:
+            return False
+        return self._journal_context() == context
+
+    def _get_widgets_dict_by_name(self, dict_name):
+        """Возвращает словарь виджетов по имени атрибута с учётом name mangling (__attr -> _Class__attr)."""
+        if dict_name is None:
+            return None
+        d = getattr(self, dict_name, None)
+        if d is not None:
+            return d
+        if dict_name.startswith("__") and not dict_name.endswith("__"):
+            mangled = "_" + type(self).__name__ + dict_name
+            return getattr(self, mangled, None)
+        return None
+
     def _apply_widget_change_to_project(self, tab_index, dict_name, key, value):
         """Применяет изменение виджета к данным проекта без сохранения в файл."""
         if not self.__obsm.obj_project.is_active():
@@ -1045,28 +1063,66 @@ class MainWindow(QMainWindow):
             
             # Найти объект в данных проекта
             target_obj = None
+            all_objs = data.get("nodes", []) if is_node else data.get("connections", [])
+            
             if is_node:
-                nodes = data.get("nodes", [])
-                for node in nodes:
+                for node in all_objs:
                     if node.get("id") == object_id:
                         target_obj = node
                         break
             else:
-                connections = data.get("connections", [])
-                for conn in connections:
+                for conn in all_objs:
                     if conn.get("id") == object_id:
                         target_obj = conn
                         break
             
             if target_obj:
                 if dict_name in ('__editor_object_data_widgets', '__editor_type_object_data_widgets', '__editor_objects_data_widgets'):
-                    if "data" not in target_obj:
-                        target_obj["data"] = {}
-                    target_obj["data"][key] = {"value": value}
+                    # Определяем список объектов для применения изменений
+                    objects_to_update = []
+                    if dict_name == '__editor_object_data_widgets':
+                        # Индивидуальные данные - только текущий объект
+                        objects_to_update = [target_obj]
+                    elif dict_name == '__editor_type_object_data_widgets':
+                        # Типовые данные - все объекты с тем же type_id
+                        type_id_key = "node_id" if is_node else "connection_id"
+                        target_type_id = target_obj.get(type_id_key)
+                        for obj in all_objs:
+                            if obj.get(type_id_key) == target_type_id:
+                                objects_to_update.append(obj)
+                    elif dict_name == '__editor_objects_data_widgets':
+                        # Глобальные данные - все объекты данного типа (все узлы или все соединения)
+                        objects_to_update = all_objs
+                    
+                    # Применяем изменения ко всем нужным объектам
+                    for obj in objects_to_update:
+                        if "data" not in obj:
+                            obj["data"] = {}
+                        obj["data"][key] = {"value": value}
+                        
                 elif dict_name in ('__editor_object_parameters_widgets', '__editor_type_object_parameters_widgets', '__editor_objects_parameters_widgets'):
-                    if "parameters" not in target_obj:
-                        target_obj["parameters"] = {}
-                    target_obj["parameters"][key] = {"value": value}
+                    # Определяем список объектов для применения изменений
+                    objects_to_update = []
+                    if dict_name == '__editor_object_parameters_widgets':
+                        # Индивидуальные параметры - только текущий объект
+                        objects_to_update = [target_obj]
+                    elif dict_name == '__editor_type_object_parameters_widgets':
+                        # Типовые параметры - все объекты с тем же type_id
+                        type_id_key = "node_id" if is_node else "connection_id"
+                        target_type_id = target_obj.get(type_id_key)
+                        for obj in all_objs:
+                            if obj.get(type_id_key) == target_type_id:
+                                objects_to_update.append(obj)
+                    elif dict_name == '__editor_objects_parameters_widgets':
+                        # Глобальные параметры - все объекты данного типа (все узлы или все соединения)
+                        objects_to_update = all_objs
+                    
+                    # Применяем изменения ко всем нужным объектам
+                    for obj in objects_to_update:
+                        if "parameters" not in obj:
+                            obj["parameters"] = {}
+                        obj["parameters"][key] = {"value": value}
+                        
                 # Также обновляем локальный объект
                 self.__current_object = target_obj
         
@@ -1162,6 +1218,12 @@ class MainWindow(QMainWindow):
 
     def _ensure_context_for_journal(self, tab_index, context):
         """Переключает на нужную вкладку и объект/контрольный сектор по контексту журнала."""
+        # #region agent log
+        import json, time
+        with open(r'd:\vs_projects\net-constructor\.cursor\debug.log', 'a', encoding='utf-8') as f:
+            f.write(json.dumps({'location':'mainwindow.py:1201','message':'_ensure_context_for_journal called','data':{'tab_index':tab_index,'context':str(context),'applying_undo_redo':self.__applying_undo_redo},'timestamp':int(time.time()*1000),'sessionId':'debug-session','hypothesisId':'H','runId':'undo-redo'}) + '\n')
+        # #endregion
+        
         self.ui.tabw_right.setCurrentIndex(tab_index)
         if tab_index == 2 and context and len(context) >= 2:
             object_id, is_node = context[0], context[1]
@@ -1207,6 +1269,12 @@ class MainWindow(QMainWindow):
 
     def _undo(self):
         """Отмена последнего изменения (Ctrl+Z)."""
+        # #region agent log
+        import json, time
+        with open(r'd:\vs_projects\net-constructor\.cursor\debug.log', 'a', encoding='utf-8') as f:
+            f.write(json.dumps({'location':'mainwindow.py:1246','message':'_undo called','data':{},'timestamp':int(time.time()*1000),'sessionId':'debug-session','hypothesisId':'H','runId':'undo-redo'}) + '\n')
+        # #endregion
+        
         if not self.__obsm.obj_project.is_active() or not self.__obsm.obj_undo_journal.can_undo():
             return
         entry = self.__obsm.obj_undo_journal.pop_undo()
@@ -1214,9 +1282,12 @@ class MainWindow(QMainWindow):
             return
         self.__applying_undo_redo = True
         try:
-            # Сначала применяем изменения к данным проекта
+            # Сначала применяем изменения к данным проекта (для form — только при том же контексте)
             if entry.entry_type == "form":
-                self._apply_widget_change_to_project(entry.tab_index, entry.dict_name, entry.key, entry.old_value)
+                if self._is_same_journal_context(entry.tab_index, entry.context):
+                    self._apply_widget_change_to_project(
+                        entry.tab_index, entry.dict_name, entry.key, entry.old_value
+                    )
             elif entry.entry_type == "table_row_add_pair":
                 if entry.node_data:
                     self.__obsm.obj_project.delete_pair(entry.node_data, entry.connection_data)
@@ -1229,49 +1300,70 @@ class MainWindow(QMainWindow):
                 elif getattr(entry, "table_id", None) == "tablew_connections":
                     self.__obsm.obj_project.set_new_order_connections(entry.old_value or [])
             
-            # Затем переключаем контекст (это пересоздаст виджеты с новыми данными)
-            self._ensure_context_for_journal(entry.tab_index, entry.context)
-            QApplication.processEvents()
-            
-            if entry.entry_type == "form":
-                # Обновляем last_widget_values для новых виджетов
+            # Для form при том же контексте — обновляем один виджет
+            if entry.entry_type == "form" and self._is_same_journal_context(entry.tab_index, entry.context):
+                dict_widgets = self._get_widgets_dict_by_name(entry.dict_name)
+                if dict_widgets is not None and entry.key in dict_widgets:
+                    widget_type, widget = dict_widgets[entry.key][0], dict_widgets[entry.key][1]
+                    self._set_value_to_widget(widget_type, widget, entry.old_value)
                 jkey = (entry.tab_index, entry.context, entry.dict_name, entry.key)
                 self.__last_widget_values[jkey] = entry.old_value
-            elif entry.entry_type == "diagram_type":
-                self.combox_type_diagram.blockSignals(True)
-                self._set_diagram_type_from_data(entry.old_value)
-                self.combox_type_diagram.blockSignals(False)
-                self.__last_diagram_type_value = copy.deepcopy(entry.old_value)
-            elif entry.entry_type == "table_cell":
-                table_w = getattr(self, entry.table_id, None)
-                if table_w is not None:
-                    row, col = entry.row, entry.col
-                    table_w.blockSignals(True)
-                    if col == 1:
-                        w = table_w.cellWidget(row, 1)
-                        if w and hasattr(w, "setCustomText"):
-                            w.setCustomText(str(entry.old_value))
-                        elif w:
-                            w.setCurrentText(str(entry.old_value))
-                    elif col == 2:
-                        item = table_w.item(row, 2)
-                        if item:
-                            item.setText(str(entry.old_value))
-                    table_w.blockSignals(False)
-                    jkey = (entry.tab_index, entry.context, entry.table_id, (row, col))
+                self.__obsm.obj_undo_journal.push_redo(entry)
+                self._refresh_diagram()
+            else:
+                # Переключаем контекст, затем для form — применяем к проекту и обновляем виджет
+                self._ensure_context_for_journal(entry.tab_index, entry.context)
+                QApplication.processEvents()
+                if entry.entry_type == "form":
+                    self._apply_widget_change_to_project(
+                        entry.tab_index, entry.dict_name, entry.key, entry.old_value
+                    )
+                    dict_widgets = self._get_widgets_dict_by_name(entry.dict_name)
+                    if dict_widgets is not None and entry.key in dict_widgets:
+                        widget_type, widget = dict_widgets[entry.key][0], dict_widgets[entry.key][1]
+                        self._set_value_to_widget(widget_type, widget, entry.old_value)
+                    jkey = (entry.tab_index, entry.context, entry.dict_name, entry.key)
                     self.__last_widget_values[jkey] = entry.old_value
-            elif entry.entry_type in ("table_row_add_pair", "table_row_delete_pair", "table_row_reorder"):
-                pass
-            self.__obsm.obj_undo_journal.push_redo(entry)
-            self._refresh_diagram()  # Обновляем только визуализацию схемы
+                elif entry.entry_type == "diagram_type":
+                    self.combox_type_diagram.blockSignals(True)
+                    self._set_diagram_type_from_data(entry.old_value)
+                    self.combox_type_diagram.blockSignals(False)
+                    self.__last_diagram_type_value = copy.deepcopy(entry.old_value)
+                elif entry.entry_type == "table_cell":
+                    table_w = getattr(self, entry.table_id, None)
+                    if table_w is not None:
+                        row, col = entry.row, entry.col
+                        table_w.blockSignals(True)
+                        if col == 1:
+                            w = table_w.cellWidget(row, 1)
+                            if w and hasattr(w, "setCustomText"):
+                                w.setCustomText(str(entry.old_value))
+                            elif w:
+                                w.setCurrentText(str(entry.old_value))
+                        elif col == 2:
+                            item = table_w.item(row, 2)
+                            if item:
+                                item.setText(str(entry.old_value))
+                        table_w.blockSignals(False)
+                        jkey = (entry.tab_index, entry.context, entry.table_id, (row, col))
+                        self.__last_widget_values[jkey] = entry.old_value
+                elif entry.entry_type in ("table_row_add_pair", "table_row_delete_pair", "table_row_reorder"):
+                    pass
+                self.__obsm.obj_undo_journal.push_redo(entry)
+                self._refresh_diagram()
         finally:
             self.__applying_undo_redo = False
         self._update_undo_redo_actions()
-        # Устанавливаем флаг изменённости после отмены
         self._set_document_modified(True)
 
     def _redo(self):
         """Повтор отменённого изменения (Ctrl+Y)."""
+        # #region agent log
+        import json, time
+        with open(r'd:\vs_projects\net-constructor\.cursor\debug.log', 'a', encoding='utf-8') as f:
+            f.write(json.dumps({'location':'mainwindow.py:1311','message':'_redo called','data':{},'timestamp':int(time.time()*1000),'sessionId':'debug-session','hypothesisId':'H','runId':'undo-redo'}) + '\n')
+        # #endregion
+        
         if not self.__obsm.obj_project.is_active() or not self.__obsm.obj_undo_journal.can_redo():
             return
         entry = self.__obsm.obj_undo_journal.pop_redo()
@@ -1279,9 +1371,12 @@ class MainWindow(QMainWindow):
             return
         self.__applying_undo_redo = True
         try:
-            # Сначала применяем изменения к данным проекта
+            # Сначала применяем изменения к данным проекта (для form — только при том же контексте)
             if entry.entry_type == "form":
-                self._apply_widget_change_to_project(entry.tab_index, entry.dict_name, entry.key, entry.new_value)
+                if self._is_same_journal_context(entry.tab_index, entry.context):
+                    self._apply_widget_change_to_project(
+                        entry.tab_index, entry.dict_name, entry.key, entry.new_value
+                    )
             elif entry.entry_type == "table_row_add_pair":
                 if entry.node_data:
                     self.__obsm.obj_project.restore_pair(entry.node_data, entry.connection_data)
@@ -1294,45 +1389,60 @@ class MainWindow(QMainWindow):
                 elif getattr(entry, "table_id", None) == "tablew_connections":
                     self.__obsm.obj_project.set_new_order_connections(entry.new_value or [])
             
-            # Затем переключаем контекст (это пересоздаст виджеты с новыми данными)
-            self._ensure_context_for_journal(entry.tab_index, entry.context)
-            QApplication.processEvents()
-            
-            if entry.entry_type == "form":
-                # Обновляем last_widget_values для новых виджетов
+            # Для form при том же контексте — обновляем один виджет
+            if entry.entry_type == "form" and self._is_same_journal_context(entry.tab_index, entry.context):
+                dict_widgets = self._get_widgets_dict_by_name(entry.dict_name)
+                if dict_widgets is not None and entry.key in dict_widgets:
+                    widget_type, widget = dict_widgets[entry.key][0], dict_widgets[entry.key][1]
+                    self._set_value_to_widget(widget_type, widget, entry.new_value)
                 jkey = (entry.tab_index, entry.context, entry.dict_name, entry.key)
                 self.__last_widget_values[jkey] = entry.new_value
-            elif entry.entry_type == "diagram_type":
-                self.combox_type_diagram.blockSignals(True)
-                self._set_diagram_type_from_data(entry.new_value)
-                self.combox_type_diagram.blockSignals(False)
-                self.__last_diagram_type_value = copy.deepcopy(entry.new_value)
-            elif entry.entry_type == "table_cell":
-                table_w = getattr(self, entry.table_id, None)
-                if table_w is not None:
-                    row, col = entry.row, entry.col
-                    table_w.blockSignals(True)
-                    if col == 1:
-                        w = table_w.cellWidget(row, 1)
-                        if w and hasattr(w, "setCustomText"):
-                            w.setCustomText(str(entry.new_value))
-                        elif w:
-                            w.setCurrentText(str(entry.new_value))
-                    elif col == 2:
-                        item = table_w.item(row, 2)
-                        if item:
-                            item.setText(str(entry.new_value))
-                    table_w.blockSignals(False)
-                    jkey = (entry.tab_index, entry.context, entry.table_id, (row, col))
+                self.__obsm.obj_undo_journal.push_undo(entry)
+                self._refresh_diagram()
+            else:
+                # Переключаем контекст, затем для form — применяем к проекту и обновляем виджет
+                self._ensure_context_for_journal(entry.tab_index, entry.context)
+                QApplication.processEvents()
+                if entry.entry_type == "form":
+                    self._apply_widget_change_to_project(
+                        entry.tab_index, entry.dict_name, entry.key, entry.new_value
+                    )
+                    dict_widgets = self._get_widgets_dict_by_name(entry.dict_name)
+                    if dict_widgets is not None and entry.key in dict_widgets:
+                        widget_type, widget = dict_widgets[entry.key][0], dict_widgets[entry.key][1]
+                        self._set_value_to_widget(widget_type, widget, entry.new_value)
+                    jkey = (entry.tab_index, entry.context, entry.dict_name, entry.key)
                     self.__last_widget_values[jkey] = entry.new_value
-            elif entry.entry_type in ("table_row_add_pair", "table_row_delete_pair", "table_row_reorder"):
-                pass
-            self.__obsm.obj_undo_journal.push_undo(entry)
-            self._refresh_diagram()  # Обновляем только визуализацию схемы
+                elif entry.entry_type == "diagram_type":
+                    self.combox_type_diagram.blockSignals(True)
+                    self._set_diagram_type_from_data(entry.new_value)
+                    self.combox_type_diagram.blockSignals(False)
+                    self.__last_diagram_type_value = copy.deepcopy(entry.new_value)
+                elif entry.entry_type == "table_cell":
+                    table_w = getattr(self, entry.table_id, None)
+                    if table_w is not None:
+                        row, col = entry.row, entry.col
+                        table_w.blockSignals(True)
+                        if col == 1:
+                            w = table_w.cellWidget(row, 1)
+                            if w and hasattr(w, "setCustomText"):
+                                w.setCustomText(str(entry.new_value))
+                            elif w:
+                                w.setCurrentText(str(entry.new_value))
+                        elif col == 2:
+                            item = table_w.item(row, 2)
+                            if item:
+                                item.setText(str(entry.new_value))
+                        table_w.blockSignals(False)
+                        jkey = (entry.tab_index, entry.context, entry.table_id, (row, col))
+                        self.__last_widget_values[jkey] = entry.new_value
+                elif entry.entry_type in ("table_row_add_pair", "table_row_delete_pair", "table_row_reorder"):
+                    pass
+                self.__obsm.obj_undo_journal.push_undo(entry)
+                self._refresh_diagram()
         finally:
             self.__applying_undo_redo = False
         self._update_undo_redo_actions()
-        # Устанавливаем флаг изменённости после повтора
         self._set_document_modified(True)
 
     def _update_undo_redo_actions(self):
@@ -1884,6 +1994,20 @@ class MainWindow(QMainWindow):
         self.reset_tab_elements(nodes, connections)
 
     def _edit_object(self, obj, index, is_node=False):
+        # #region agent log
+        import json, time
+        from PySide6.QtWidgets import QApplication
+        with open(r'd:\vs_projects\net-constructor\.cursor\debug.log', 'a', encoding='utf-8') as f:
+            f.write(json.dumps({'location':'mainwindow.py:1924','message':'_edit_object called','data':{'obj_id':obj.get('id'),'index':index,'is_node':is_node,'applying_undo_redo':self.__applying_undo_redo},'timestamp':int(time.time()*1000),'sessionId':'debug-session','hypothesisId':'C,H,I'}) + '\n')
+        # #endregion
+        
+        # If we're editing the same object during undo/redo, process events first to clear pending operations
+        if self.__applying_undo_redo and hasattr(self, '__current_object') and self.__current_object:
+            if self.__current_object.get('id') == obj.get('id') and self.__current_is_node == is_node:
+                # Same object - ensure previous widget operations complete
+                QApplication.processEvents()
+                QApplication.processEvents()
+        
         self.__current_object = obj
         self.__current_is_node = is_node
         #
@@ -1899,6 +2023,11 @@ class MainWindow(QMainWindow):
         # Очищаем сообщения об ошибках
         self._clear_error_messages()
         self._validate_connection(self.__current_object, show_errors=True)
+        
+        # #region agent log
+        with open(r'd:\vs_projects\net-constructor\.cursor\debug.log', 'a', encoding='utf-8') as f:
+            f.write(json.dumps({'location':'mainwindow.py:1940','message':'_edit_object finished','data':{'obj_id':obj.get('id')},'timestamp':int(time.time()*1000),'sessionId':'debug-session','hypothesisId':'C'}) + '\n')
+        # #endregion
 
     def _validate_connection(self, connection, show_errors=False):
         has_errors = False
@@ -2060,11 +2189,47 @@ class MainWindow(QMainWindow):
         #
         self._refresh_diagram()
 
+    def _clear_layout_contents(self, layout):
+        """Рекурсивно удаляет все виджеты и вложенные layout'ы из layout'а."""
+        while layout.count():
+            item = layout.takeAt(0)
+            if item.widget():
+                w = item.widget()
+                w.setParent(None)
+                w.deleteLater()
+            elif item.layout():
+                sub = item.layout()
+                self._clear_layout_contents(sub)
+                sub.setParent(None)
+                sub.deleteLater()
+
     def _clear_form_layout(self, form_layout):
+        # #region agent log
+        import json
+        import time
+        layout_name = getattr(form_layout, 'objectName', lambda: 'unknown')()
+        widget_count_before = form_layout.count()
+        with open(r'd:\vs_projects\net-constructor\.cursor\debug.log', 'a', encoding='utf-8') as f:
+            f.write(json.dumps({'location':'mainwindow.py:2101','message':'_clear_form_layout called','data':{'layout_name':layout_name,'widget_count_before':widget_count_before},'timestamp':int(time.time()*1000),'sessionId':'debug-session','hypothesisId':'I','runId':'recreate-layout'}) + '\n')
+        # #endregion
+
         while form_layout.count():
             child = form_layout.takeAt(0)
             if child.widget():
-                child.widget().deleteLater()
+                widget = child.widget()
+                widget.setParent(None)
+                widget.deleteLater()
+            elif child.layout():
+                child_layout = child.layout()
+                self._clear_layout_contents(child_layout)
+                child_layout.setParent(None)
+                child_layout.deleteLater()
+
+        # #region agent log
+        widget_count_after = form_layout.count()
+        with open(r'd:\vs_projects\net-constructor\.cursor\debug.log', 'a', encoding='utf-8') as f:
+            f.write(json.dumps({'location':'mainwindow.py:2105','message':'_clear_form_layout finished','data':{'layout_name':layout_name,'widget_count_after':widget_count_after,'widgets_removed':widget_count_before},'timestamp':int(time.time()*1000),'sessionId':'debug-session','hypothesisId':'I','runId':'recreate-layout'}) + '\n')
+        # #endregion
 
     def _change_name_tab_editor(self, index, is_node=False):
         text_name = str()
@@ -2094,6 +2259,15 @@ class MainWindow(QMainWindow):
         journal_dict_name=None,
         journal_context=None,
     ) -> bool:
+        # #region agent log
+        import json, time
+        layout_name = getattr(form_layout, 'objectName', lambda: 'unknown')()
+        dict_name = journal_dict_name or 'unknown'
+        config_keys = list(config_object_data.keys())[:5]
+        with open(r'd:\vs_projects\net-constructor\.cursor\debug.log', 'a', encoding='utf-8') as f:
+            f.write(json.dumps({'location':'mainwindow.py:2125','message':'create_data_widgets called','data':{'dict_name':dict_name,'layout_name':layout_name,'config_data_count':len(config_object_data),'config_keys_sample':config_keys,'layout_count_before_clear':form_layout.count()},'timestamp':int(time.time()*1000),'sessionId':'debug-session','hypothesisId':'A,C,D'}) + '\n')
+        # #endregion
+        
         print(
             "create_data_widgets():\n"
             f"dict_widgets={dict_widgets}\n"
@@ -2103,6 +2277,11 @@ class MainWindow(QMainWindow):
         )
         dict_widgets.clear()
         self._clear_form_layout(form_layout)
+        
+        # Force Qt to complete widget deletion before creating new ones
+        from PySide6.QtWidgets import QApplication
+        QApplication.processEvents()
+        QApplication.processEvents()
 
         precision_separator, precision_number = (
             self._get_precision_separator_and_number()
@@ -2162,6 +2341,15 @@ class MainWindow(QMainWindow):
                 )
 
         print("BEFORE return len(dict_widgets) > 0: dict_widgets", dict_widgets)
+        
+        # #region agent log
+        import json, time
+        layout_name = getattr(form_layout, 'objectName', lambda: 'unknown')()
+        dict_name = journal_dict_name or 'unknown'
+        with open(r'd:\vs_projects\net-constructor\.cursor\debug.log', 'a', encoding='utf-8') as f:
+            f.write(json.dumps({'location':'mainwindow.py:2203','message':'create_data_widgets finished','data':{'dict_name':dict_name,'layout_name':layout_name,'widgets_created':len(dict_widgets),'layout_count_after':form_layout.count()},'timestamp':int(time.time()*1000),'sessionId':'debug-session','hypothesisId':'A,D'}) + '\n')
+        # #endregion
+        
         return len(dict_widgets) > 0
 
     def _get_widget(
@@ -2424,6 +2612,15 @@ class MainWindow(QMainWindow):
         journal_dict_name=None,
         journal_context=None,
     ) -> bool:
+        # #region agent log
+        import json, time
+        layout_name = getattr(form_layout, 'objectName', lambda: 'unknown')()
+        dict_name = journal_dict_name or 'unknown'
+        config_keys = list(config_object_parameters.keys())[:5]
+        with open(r'd:\vs_projects\net-constructor\.cursor\debug.log', 'a', encoding='utf-8') as f:
+            f.write(json.dumps({'location':'mainwindow.py:2452','message':'_create_parameters_widgets called','data':{'dict_name':dict_name,'layout_name':layout_name,'config_param_count':len(config_object_parameters),'config_keys_sample':config_keys,'layout_count_before_clear':form_layout.count()},'timestamp':int(time.time()*1000),'sessionId':'debug-session','hypothesisId':'A,C,D'}) + '\n')
+        # #endregion
+        
         print(
             "create_parameters_widgets():\n"
             f"dict_widgets={dict_widgets}\n"
@@ -2433,6 +2630,11 @@ class MainWindow(QMainWindow):
         )
         dict_widgets.clear()
         self._clear_form_layout(form_layout)
+        
+        # Force Qt to complete widget deletion before creating new ones
+        from PySide6.QtWidgets import QApplication
+        QApplication.processEvents()
+        QApplication.processEvents()
         
         # Проверка на наличие параметров (стоит ли галочка)
         is_action_parameters = self.ui.action_parameters.isChecked()
@@ -2500,6 +2702,14 @@ class MainWindow(QMainWindow):
                         new_widget,
                     )
 
+        # #region agent log
+        import json, time
+        layout_name = getattr(form_layout, 'objectName', lambda: 'unknown')()
+        dict_name = journal_dict_name or 'unknown'
+        with open(r'd:\vs_projects\net-constructor\.cursor\debug.log', 'a', encoding='utf-8') as f:
+            f.write(json.dumps({'location':'mainwindow.py:2541','message':'_create_parameters_widgets finished','data':{'dict_name':dict_name,'layout_name':layout_name,'widgets_created':len(dict_widgets),'layout_count_after':form_layout.count()},'timestamp':int(time.time()*1000),'sessionId':'debug-session','hypothesisId':'A,D'}) + '\n')
+        # #endregion
+        
         return len(dict_widgets) > 0
 
     def _add_control_sector(self, obj):
@@ -2930,13 +3140,16 @@ class MainWindow(QMainWindow):
             tool_button.clicked.connect(lambda: self._show_info_dialog(info))
 
             h_layout = QHBoxLayout()
+            h_layout.setContentsMargins(0, 0, 0, 0)
             if button_first:
                 h_layout.addWidget(tool_button)
                 h_layout.addWidget(widget)
             else:
                 h_layout.addWidget(widget)
                 h_layout.addWidget(tool_button)
-            return h_layout
+            wrapper = QWidget()
+            wrapper.setLayout(h_layout)
+            return wrapper
 
         return widget
 
@@ -2966,7 +3179,9 @@ class MainWindow(QMainWindow):
             info_button.clicked.connect(lambda: self._show_info_dialog(info))
             h_layout.addWidget(info_button)
         
-        return h_layout
+        wrapper = QWidget()
+        wrapper.setLayout(h_layout)
+        return wrapper
 
     def _continue_mark_from_previous_connection(self, widget):
         """
