@@ -2,6 +2,10 @@
 
 from PySide6.QtCore import Qt
 
+# Название приложения (заголовок окна и имена exe при сборке)
+APP_TITLE = "Конструктор схем ВОЛП"
+APP_TITLE_DEMO = "Конструктор схем ВОЛП (демо)"
+
 
 class FillStyles:
     """Маппинг имён стилей заливки на Qt.BrushStyle."""

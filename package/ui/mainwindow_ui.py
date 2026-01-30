@@ -20,6 +20,7 @@ from PySide6.QtWidgets import (
 
 import resources_rc
 
+from package.constants import APP_TITLE
 from package.controllers.imagewidget import ImageWidget
 
 
@@ -221,4 +222,4 @@ class Ui_MainWindow(object):
         QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle("Автоматизация ИД")
+        MainWindow.setWindowTitle(APP_TITLE)

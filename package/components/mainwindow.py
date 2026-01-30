@@ -56,7 +56,9 @@ from package.components import nodeconnectionselectdialog
 from package.components import sectornamesdialog
 from package.components import settingsdialog
 import package.constants as constants
+from package.constants import APP_TITLE, APP_TITLE_DEMO
 from package.controllers import imagewidget
+from package.modules.license import is_demo_mode
 from package.ui import mainwindow_ui
 
 
@@ -199,6 +201,25 @@ class MainWindow(QMainWindow):
         #
         # Устанавливаем заголовок окна при запуске
         self._update_window_title()
+        #
+        if is_demo_mode():
+            self._open_demo_project()
+
+    def _open_demo_project(self):
+        """Открывает пустой демо-проект в памяти (без файла)."""
+        global_diagrams = self.__obsm.obj_configs.get_config_diagrams()
+        if not global_diagrams:
+            return
+        diagram_data = list(global_diagrams.values())[0]
+        control_sectors_config = self.__obsm.obj_configs.get_config_control_sectors()
+        self.__obsm.obj_project.create_demo_project(diagram_data, control_sectors_config)
+        self.show_right_panel()
+        self.ui.tabw_right.setCurrentIndex(0)
+        self._refresh_diagram(is_new=True)
+        self._start_qt_actions()
+        self._update_undo_redo_actions()
+        self._update_status_bar_with_project_name(None)
+        self._set_document_modified(False)
 
     def _setup_general_tab_widgets(self):
         """Генерирует виджеты для вкладки 'Основные настройки'"""
@@ -537,11 +558,11 @@ class MainWindow(QMainWindow):
         self.__obsm.obj_icons.set_icons_for_mw_by_name(self, theme_name)
 
     def _start_qt_actions(self):
-        self.ui.action_new.setEnabled(True)
-        self.ui.action_open.setEnabled(True)
-        self.ui.action_save.setEnabled(True)
-        self.ui.action_saveas.setEnabled(True)
-        self.ui.action_export_to_image.setEnabled(True)
+        self.ui.action_new.setEnabled(not is_demo_mode())
+        self.ui.action_open.setEnabled(not is_demo_mode())
+        self.ui.action_save.setEnabled(not is_demo_mode())
+        self.ui.action_saveas.setEnabled(not is_demo_mode())
+        self.ui.action_export_to_image.setEnabled(not is_demo_mode())
 
     def _update_status_bar_with_project_name(self, file_name):
         self.__current_file_path = file_name
@@ -550,8 +571,8 @@ class MainWindow(QMainWindow):
     
     def _update_window_title(self):
         """Обновляет заголовок окна с учётом имени файла и статуса изменённости"""
-        base_title = "Автоматизация ИД"
-        
+        base_title = APP_TITLE_DEMO if is_demo_mode() else APP_TITLE
+
         if self.__current_file_path:
             # Получаем только имя файла без пути
             file_name = os.path.basename(self.__current_file_path)
@@ -565,6 +586,8 @@ class MainWindow(QMainWindow):
         if self.__current_file_path:
             modified_text = " • Не сохранён" if self.__document_modified else ""
             self.statusBar().showMessage(f"Текущий проект: {self.__current_file_path}{modified_text}")
+        elif is_demo_mode() and self.__obsm.obj_project.has_project_data():
+            self.statusBar().showMessage("Демонстрационный режим")
         else:
             self.statusBar().showMessage("Проект не открыт")
     
@@ -615,7 +638,7 @@ class MainWindow(QMainWindow):
 
     def _toggle_parameters_visibility(self):
         # Проверяем, активен ли проект
-        if not self.__obsm.obj_project.is_active():
+        if not self.__obsm.obj_project.has_project_data():
             return
 
         # Синхронизируем состояние действия с настройкой
@@ -1045,7 +1068,7 @@ class MainWindow(QMainWindow):
 
     def _apply_widget_change_to_project(self, tab_index, dict_name, key, value):
         """Применяет изменение виджета к данным проекта без сохранения в файл."""
-        if not self.__obsm.obj_project.is_active():
+        if not self.__obsm.obj_project.has_project_data():
             return
         
         data = self.__obsm.obj_project.get_data()
@@ -1275,7 +1298,7 @@ class MainWindow(QMainWindow):
             f.write(json.dumps({'location':'mainwindow.py:1246','message':'_undo called','data':{},'timestamp':int(time.time()*1000),'sessionId':'debug-session','hypothesisId':'H','runId':'undo-redo'}) + '\n')
         # #endregion
         
-        if not self.__obsm.obj_project.is_active() or not self.__obsm.obj_undo_journal.can_undo():
+        if not self.__obsm.obj_project.has_project_data() or not self.__obsm.obj_undo_journal.can_undo():
             return
         entry = self.__obsm.obj_undo_journal.pop_undo()
         if entry is None:
@@ -1364,7 +1387,7 @@ class MainWindow(QMainWindow):
             f.write(json.dumps({'location':'mainwindow.py:1311','message':'_redo called','data':{},'timestamp':int(time.time()*1000),'sessionId':'debug-session','hypothesisId':'H','runId':'undo-redo'}) + '\n')
         # #endregion
         
-        if not self.__obsm.obj_project.is_active() or not self.__obsm.obj_undo_journal.can_redo():
+        if not self.__obsm.obj_project.has_project_data() or not self.__obsm.obj_undo_journal.can_redo():
             return
         entry = self.__obsm.obj_undo_journal.pop_redo()
         if entry is None:
@@ -1447,12 +1470,12 @@ class MainWindow(QMainWindow):
 
     def _update_undo_redo_actions(self):
         """Обновляет доступность действий Отмена и Повтор/Возврат по состоянию журнала."""
-        active = self.__obsm.obj_project.is_active()
+        active = self.__obsm.obj_project.has_project_data()
         self.ui.action_undo.setEnabled(bool(active and self.__obsm.obj_undo_journal.can_undo()))
         self.ui.action_redo.setEnabled(bool(active and self.__obsm.obj_undo_journal.can_redo()))
 
     def _add_node(self):
-        if self.__obsm.obj_project.is_active():
+        if self.__obsm.obj_project.has_project_data():
             diagram_type_id = self.__obsm.obj_project.get_data().get(
                 "diagram_type_id", ""
             )
@@ -1501,7 +1524,7 @@ class MainWindow(QMainWindow):
                         )
 
     def _move_nodes(self):
-        if self.__obsm.obj_project.is_active():
+        if self.__obsm.obj_project.has_project_data():
             nodes = self.__obsm.obj_project.get_data().get("nodes", [])
             dialog = changeorderdialog.ChangeOrderDialog(nodes, "nodes", self)
             if dialog.exec():
@@ -1517,7 +1540,7 @@ class MainWindow(QMainWindow):
                 self._set_document_modified(True)
 
     def _move_connections(self):
-        if self.__obsm.obj_project.is_active():
+        if self.__obsm.obj_project.has_project_data():
             connections = self.__obsm.obj_project.get_data().get("connections", [])
             dialog = changeorderdialog.ChangeOrderDialog(
                 connections, "connections", self
@@ -1607,7 +1630,7 @@ class MainWindow(QMainWindow):
             "diagram_type_id", None
         )
         #
-        if self.__obsm.obj_project.is_active() and new_type_id != current_type_id:
+        if self.__obsm.obj_project.has_project_data() and new_type_id != current_type_id:
             config_nodes = self.__obsm.obj_configs.get_nodes()
             config_connections = self.__obsm.obj_configs.get_connections()
             self.__obsm.obj_project.change_type_diagram(

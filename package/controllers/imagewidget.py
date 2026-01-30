@@ -2,11 +2,17 @@
 
 import math
 
-from PySide6.QtCore import QPoint, QPointF, Qt
-from PySide6.QtGui import QImage, QPainter
+from PySide6.QtCore import QPoint, QPointF, Qt, QTimer
+from PySide6.QtGui import QColor, QFont, QImage, QPainter
 from PySide6.QtWidgets import QWidget
 
 from package.modules import diagramdrawer
+from package.modules.license import is_demo_mode
+
+# Демо-режим: фиксированные размер и шаг надписей «демо» (количество зависит от размера изображения)
+_DEMO_WATERMARK_FONT_PT = 36
+_DEMO_WATERMARK_STEP_X = 100
+_DEMO_WATERMARK_STEP_Y = 80
 
 
 class ImageWidget(QWidget):
@@ -41,11 +47,15 @@ class ImageWidget(QWidget):
 
         if is_new:
             self._fit_image_to_widget()
+            if is_demo_mode():
+                QTimer.singleShot(0, self._fit_image_to_widget)
 
         self.update()
 
     def _fit_image_to_widget(self) -> None:
         """Подгоняет масштаб и смещение по размеру виджета."""
+        if self.__image is None:
+            return
         widget_width = self.width()
         widget_height = self.height()
         image_width = self.__image.width()
@@ -124,9 +134,42 @@ class ImageWidget(QWidget):
         # Рисуем диаграмму на итоговом изображении
         painter = QPainter(image)
         self.__diagram_drawer.draw(painter, start_x, delta_wrap_y)
+        if is_demo_mode():
+            self._draw_demo_watermarks(painter, calc_width, calc_height)
         painter.end()
 
         return image
+
+    def _draw_demo_watermarks(self, painter, width, height):
+        """Рисует полупрозрачные красные надписи «демо» на изображении схемы."""
+        painter.save()
+        color = QColor(255, 0, 0, 100)
+        painter.setPen(color)
+        font = QFont()
+        font.setPointSize(_DEMO_WATERMARK_FONT_PT)
+        painter.setFont(font)
+        text = "демо"
+        step_x = _DEMO_WATERMARK_STEP_X
+        step_y = _DEMO_WATERMARK_STEP_Y
+        y = 0
+        while y < height + step_y:
+            x = 0
+            while x < width + step_x:
+                painter.save()
+                painter.translate(int(x), int(y))
+                painter.rotate(45)
+                painter.drawText(0, 0, text)
+                painter.restore()
+                x += step_x
+            y += step_y
+        painter.restore()
+
+    def resizeEvent(self, event) -> None:
+        """При изменении размера в демо-режиме подгоняем изображение по центру."""
+        super().resizeEvent(event)
+        if is_demo_mode() and self.__image is not None:
+            self._fit_image_to_widget()
+            self.update()
 
     def paintEvent(self, event) -> None:
         """Отрисовка изображения на виджете."""

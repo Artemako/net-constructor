@@ -37,6 +37,23 @@ class Project:
         #
         self._write_project()
 
+    def create_demo_project(self, diagram_data, control_sectors_config):
+        """Создаёт пустой демо-проект в памяти без пути к файлу (не сохраняется на диск)."""
+        self.__file_name = None
+        self.__data = {
+            "diagram_type_id": diagram_data.get("type_id", "0"),
+            "diagram_name": diagram_data.get("name", ""),
+            "diagram_parameters": diagram_data.get("parameters", {}),
+            "control_sectors_config": control_sectors_config,
+            "nodes": [],
+            "connections": [],
+            "archived_parameters": {},
+        }
+
+    def has_project_data(self):
+        """Возвращает True, если загружены данные проекта (для отображения и редактирования)."""
+        return self.__data is not None
+
     def is_active(self):
         return self.__file_name
 
