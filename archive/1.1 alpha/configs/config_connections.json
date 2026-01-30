@@ -1,0 +1,54 @@
+{
+    "0": {
+        "data": {
+            "название": {
+                "value": "Синяя линия",
+                "name": "Название",
+                "type": "string"
+            },
+            "location_name": {
+                "value": "",
+                "name": "Локация",
+                "type": "string"
+            },
+            "ВОК": {
+                "value": "",
+                "name": "ВОК",
+                "type": "string"
+            },
+            "количество_ОВ": {
+                "value": "",
+                "name": "Количество ОВ",
+                "type": "integer"
+            },
+            "физическая_длина": {
+                "value": "",
+                "name": "Физическая длина",
+                "type": "integer"
+            },
+            "оптическая_длина": {
+                "value": "",
+                "name": "Оптическая длина",
+                "type": "integer"
+            }
+        },
+        "is_wrap": false,
+        "parameters": {
+            "connection_length": {
+                "value": 350,
+                "name": "Длина соединения",
+                "is_global": false
+            }, 
+            "connection_caption_margin_left_right": {
+                "value": 10,
+                "name": "Боковые отступы подписей от вершин",
+                "is_global": false
+            },
+            "connection_main_caption_vertical_padding": {
+                "value": 10,
+                "name": "Высота подписей над/под соединением",
+                "is_global": false
+            }
+        }
+    }
+}

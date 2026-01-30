@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import (
-    QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton, 
-    QMessageBox, QComboBox, QCheckBox, QGroupBox, QSizePolicy, QScrollArea, QWidget
+    QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QPushButton,
+    QMessageBox, QComboBox, QCheckBox, QGroupBox, QSizePolicy, QScrollArea, QWidget,
+    QSpinBox,
 )
 from PySide6.QtCore import Qt
 
@@ -82,9 +83,33 @@ class SettingsDialog(QDialog):
         
         parameters_group.setLayout(parameters_layout)
         content_layout.addWidget(parameters_group)
-        
 
-        
+        # Лимит журнала отмены/повтора
+        journal_group = QGroupBox("Журнал")
+        journal_layout = QHBoxLayout()
+        journal_layout.setContentsMargins(10, 10, 10, 10)
+        journal_layout.setSpacing(10)
+
+        journal_label = QLabel("Лимит журнала:")
+        journal_label.setMinimumWidth(120)
+        journal_label.setMaximumWidth(120)
+        journal_layout.addWidget(journal_label)
+
+        self.journal_limit_spin = QSpinBox()
+        self.journal_limit_spin.setRange(1, 1000)
+        self.journal_limit_spin.setValue(100)
+        self.journal_limit_spin.setToolTip("Количество записей в журнале отмены/повтора (1–1000)")
+        self.journal_limit_spin.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        journal_layout.addWidget(self.journal_limit_spin)
+
+        self.journal_reset_btn = QPushButton("Сброс")
+        self.journal_reset_btn.setToolTip("Сбросить к значению по умолчанию (100)")
+        self.journal_reset_btn.setFixedWidth(60)
+        journal_layout.addWidget(self.journal_reset_btn)
+
+        journal_group.setLayout(journal_layout)
+        content_layout.addWidget(journal_group)
+
         # Общий сброс всех настроек
         reset_all_group = QGroupBox("Сброс всех настроек")
         reset_all_layout = QHBoxLayout()
@@ -134,6 +159,7 @@ class SettingsDialog(QDialog):
         # Кнопки сброса отдельных параметров
         self.theme_reset_btn.clicked.connect(self.reset_theme)
         self.parameters_reset_btn.clicked.connect(self.reset_parameters)
+        self.journal_reset_btn.clicked.connect(self.reset_journal_limit)
         
         # Кнопка общего сброса
         self.reset_all_btn.clicked.connect(self.reset_all_settings)
@@ -150,15 +176,20 @@ class SettingsDialog(QDialog):
         """Сброс настройки отображения параметров к значению по умолчанию"""
         self.show_parameters_checkbox.setChecked(False)
 
-
+    def reset_journal_limit(self):
+        """Сброс лимита журнала к значению по умолчанию (100)"""
+        self.journal_limit_spin.setValue(100)
 
     def reset_all_settings(self):
         """Сброс всех настроек к значениям по умолчанию"""
         # Сброс темы
         self.theme_combo.setCurrentText("Тёмная")
-        
+
         # Сброс настройки отображения параметров
         self.show_parameters_checkbox.setChecked(False)
+
+        # Сброс лимита журнала
+        self.journal_limit_spin.setValue(100)
         
 
 
@@ -171,6 +202,10 @@ class SettingsDialog(QDialog):
         # Загрузка настройки отображения параметров
         self.__original_show_parameters = self.__obsm.obj_settings.get_show_parameters()
         self.show_parameters_checkbox.setChecked(self.__original_show_parameters)
+
+        # Загрузка лимита журнала
+        self.__original_journal_limit = self.__obsm.obj_settings.get_journal_limit()
+        self.journal_limit_spin.setValue(self.__original_journal_limit)
         
 
 
@@ -191,9 +226,13 @@ class SettingsDialog(QDialog):
             # Сохранение настройки отображения параметров
             show_parameters = self.show_parameters_checkbox.isChecked()
             self.__obsm.obj_settings.set_show_parameters(show_parameters)
-            
 
-            
+            # Сохранение лимита журнала
+            journal_limit = self.journal_limit_spin.value()
+            self.__obsm.obj_settings.set_journal_limit(journal_limit)
+            if hasattr(self.__obsm, "obj_undo_journal") and self.__obsm.obj_undo_journal is not None:
+                self.__obsm.obj_undo_journal.set_max_size(journal_limit)
+
             self.__obsm.obj_settings.sync()
             
             # Обновление отображения параметров в главном окне только если настройка изменилась

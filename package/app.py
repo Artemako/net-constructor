@@ -39,7 +39,9 @@ class ObjectsManager:
         self.obj_style = style.Style()
         self.obj_style.setting_all_osbm(self)
         self.obj_icons = icons.Icons()
-        self.obj_undo_journal = undojournal.UndoJournal(max_size=100)
+        self.obj_undo_journal = undojournal.UndoJournal(
+            max_size=self.obj_settings.get_journal_limit()
+        )
 
 class App:
     def __init__(self, current_directory):

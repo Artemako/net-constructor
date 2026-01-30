@@ -220,6 +220,12 @@ class UndoJournal:
     def push_undo(self, entry):
         self.undo_stack.append(entry)
 
+    def set_max_size(self, max_size: int):
+        """Устанавливает максимальный размер журнала (1–1000). При уменьшении лимита лишние записи удаляются."""
+        self.max_size = max(1, min(1000, max_size))
+        while len(self.undo_stack) > self.max_size:
+            self.undo_stack.pop(0)
+
     def clear(self):
         """Очищает оба журнала (undo и redo)."""
         self.undo_stack.clear()

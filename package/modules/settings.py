@@ -45,6 +45,10 @@ class Settings:
         if not self.__settings.contains("show_parameters"):
             self.__settings.setValue("show_parameters", False)
 
+        # лимит журнала отмены/повтора (1–1000, по умолчанию 100)
+        if not self.__settings.contains("journal_limit"):
+            self.__settings.setValue("journal_limit", 100)
+
 
 
     # region Методы для работы с темой
@@ -102,7 +106,26 @@ class Settings:
             self.__osbm.obj_logg.debug_logger(f"Settings set_show_parameters(): {show}")
         self.__settings.setValue("show_parameters", show)
 
+    def get_journal_limit(self) -> int:
+        """Получить лимит журнала (1–1000, по умолчанию 100)"""
+        result = self.__settings.value("journal_limit", 100)
+        if result is None:
+            result = 100
+        try:
+            result = int(result)
+        except (TypeError, ValueError):
+            result = 100
+        result = max(1, min(1000, result))
+        if self.__osbm.obj_logg:
+            self.__osbm.obj_logg.debug_logger(f"Settings get_journal_limit(): {result}")
+        return result
 
+    def set_journal_limit(self, limit: int):
+        """Установить лимит журнала (1–1000)"""
+        limit = max(1, min(1000, limit))
+        if self.__osbm.obj_logg:
+            self.__osbm.obj_logg.debug_logger(f"Settings set_journal_limit(): {limit}")
+        self.__settings.setValue("journal_limit", limit)
 
     # endregion
 

@@ -1,0 +1,599 @@
+{
+    "control_sectors_config": {
+        "cs_name": {
+            "value": "Сектор",
+            "name": "Название сектора",
+            "order": 1,
+            "type": "list_with_custom",
+            "list_type": "sector_names",
+            "is_data": true
+        },
+        "cs_physical_length": {
+            "value": 0,
+            "name": "Физическая длина сектора",
+            "order": 2,
+            "type": "number_float",
+            "is_data": true
+        },
+        "cs_lenght": {
+            "value": 500,
+            "name": "Расстояние сектора",
+            "order": 11,
+            "type": "number_int",
+            "is_parameter": true
+        },
+        "cs_delta_wrap_x": {
+            "value": 0,
+            "name": "Расстояние переноса по X после сектора",
+            "order": 12,
+            "type": "number_int_signed",
+            "is_parameter": true
+        },
+        "Параметры по умолчанию (глобальные)": {
+            "value": "",
+            "name": "Параметры по умолчанию",
+            "order": 100,
+            "type": "title",
+            "is_parameter": true,
+            "is_hide": true
+        },
+        "cs_tech_name_default": {
+            "value": "Тех. запас",
+            "name": "Название тех. запаса",
+            "order": 101,
+            "type": "string_line",
+            "is_parameter": true,
+            "is_hide": true
+        },
+        "cs_tech_mufta_physical_length_default": {
+            "value": 15,
+            "name": "Физическая длина тех. запаса, прилагающий к муфте",
+            "order": 102,
+            "type": "number_float",
+            "is_parameter": true,
+            "is_hide": true
+        },
+        "cs_tech_cross_lenght_default": {
+            "value": 10,
+            "name": "Расстояние тех. запаса, прилагающий к кроссу",
+            "order": 103,
+            "type": "number_float",
+            "is_parameter": true,
+            "is_hide": true
+        },
+        "cs_tech_lenght_default": {
+            "value": 280,
+            "name": "Расстояние тех. запаса",
+            "order": 104,
+            "type": "number_int",
+            "is_parameter": true,
+            "is_hide": true
+        }
+    },
+    "diagrams": {
+        "0": {
+            "order": 0,
+            "type_id": "0",
+            "name": "ПТ-3. Скелетная схема ВОЛП и основные данные цепей кабеля",
+            "id_nodes": [
+                "0",
+                "1"
+            ],
+            "id_connections": [
+                "0"
+            ],
+            "parameters": {
+                "indent_left": {
+                    "value": 400,
+                    "name": "Отступ схемы слева",
+                    "order": -2
+                },
+                "indent_top": {
+                    "value": 400,
+                    "name": "Отступ схемы сверху",
+                    "order": -1
+                },
+                "indent_right": {
+                    "value": 400,
+                    "name": "Отступ схемы справа",
+                    "order": 1
+                },
+                "indent_bottom": {
+                    "value": 400,
+                    "name": "Отступ схемы снизу",
+                    "order": 2
+                },
+                "delta_wrap_y": {
+                    "value": 620,
+                    "name": "Расстояние между рядами вершин по Y",
+                    "order": 3
+                },
+                "is_center": {
+                    "value": 0,
+                    "name": "Центрировать схему по центру изображения по X",
+                    "order": 4,
+                    "type": "bool"
+                },
+                "max_nodes_in_row": {
+                    "value": 5,
+                    "name": "Максимальное кол-во вершин в ряду",
+                    "order": 5,
+                    "type": "number_int",
+                    "arguments": {
+                        "min": 2
+                    }
+                },
+                "font_name": {
+                    "value": "Open Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
+                    "name": "Название шрифта диграммы",
+                    "order": 6,
+                    "type": "font_name"
+                },
+                "precision_number": {
+                    "value": 2,
+                    "name": "Кол-во знаков после разделителя",
+                    "order": 10,
+                    "type": "number_int"
+                },
+                "precision_separator": {
+                    "value": 2,
+                    "name": "Разделитель точка/запятая",
+                    "order": 11,
+                    "type": "bool"
+                },
+                "is_location": {
+                    "value": 2,
+                    "name": "Показывать местоположение",
+                    "order": 12,
+                    "type": "bool"
+                },
+                "Тонкие линии": {
+                    "value": "",
+                    "name": "Тонкие линии",
+                    "order": 50,
+                    "type": "title"
+                },
+                "thin_line_color": {
+                    "value": "#000000",
+                    "name": "Цвет тонкой линии",
+                    "order": 51,
+                    "type": "color"
+                },
+                "thin_line_weight": {
+                    "value": 4,
+                    "name": "Толщина тонкой линии",
+                    "order": 52
+                },
+                "Расстояния": {
+                    "value": "",
+                    "name": "Расстояния",
+                    "order": 100,
+                    "type": "title"
+                },
+                "delta_node_and_thin_line": {
+                    "value": 200,
+                    "name": "Расстояние между вершиной и тонкой линией",
+                    "order": 101
+                },
+                "delta_thins_lines": {
+                    "value": 100,
+                    "name": "Расстояние между тонкими линиями",
+                    "order": 102
+                },
+                "distance_thin_line_after_connection_x": {
+                    "value": 10,
+                    "name": "Расстояние тонкой линии после соединения по X",
+                    "order": 103
+                },
+                "distance_thin_line_after_connection_y": {
+                    "value": 10,
+                    "name": "Расстояние тонкой линии после соединения по Y",
+                    "order": 104
+                },
+                "Стрелки": {
+                    "value": "",
+                    "name": "Стрелки",
+                    "order": 200,
+                    "type": "title"
+                },
+                "arrow_width": {
+                    "value": 40,
+                    "name": "Ширина стрелки",
+                    "order": 201
+                },
+                "arrow_height": {
+                    "value": 16,
+                    "name": "Высота стрелки",
+                    "order": 202
+                },
+                "wrap_arrow_length": {
+                    "value": 100,
+                    "name": "Длина линии стрелки переноса",
+                    "order": 203
+                },
+                "is_wrap_arrow": {
+                    "value": 2,
+                    "name": "Показывать стрелку переноса",
+                    "order": 204,
+                    "type": "bool"
+                }
+            }
+        },
+        "50": {
+            "order": 1,
+            "type_id": "50",
+            "name": "ПТ-4. Схема размещения строительных длин и смонтированных муфт на участке между оконечными пунктами ВОЛП",
+            "id_nodes": [
+                "50",
+                "51"
+            ],
+            "id_connections": [
+                "50"
+            ],
+            "parameters": {
+                "indent_left": {
+                    "value": 400,
+                    "name": "Отступ схемы слева",
+                    "order": -2
+                },
+                "indent_top": {
+                    "value": 400,
+                    "name": "Отступ схемы сверху",
+                    "order": -1
+                },
+                "indent_right": {
+                    "value": 400,
+                    "name": "Отступ схемы справа",
+                    "order": 1
+                },
+                "indent_bottom": {
+                    "value": 400,
+                    "name": "Отступ схемы снизу",
+                    "order": 2
+                },
+                "delta_wrap_y": {
+                    "value": 600,
+                    "name": "Расстояние между рядами вершин по Y",
+                    "order": 3
+                },
+                "is_center": {
+                    "value": 0,
+                    "name": "Центрировать схему по центру изображения по X",
+                    "order": 4,
+                    "type": "bool"
+                },
+                "max_nodes_in_row": {
+                    "value": 5,
+                    "name": "Максимальное кол-во вершин в ряду",
+                    "order": 5,
+                    "type": "number_int",
+                    "arguments": {
+                        "min": 2
+                    }
+                },
+                "font_name": {
+                    "value": "Open Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
+                    "name": "Название шрифта диграммы",
+                    "order": 6,
+                    "type": "font_name"
+                },
+                "precision_number": {
+                    "value": 2,
+                    "name": "Кол-во знаков после разделителя",
+                    "order": 10,
+                    "type": "number_int"
+                },
+                "precision_separator": {
+                    "value": 2,
+                    "name": "Разделитель точка/запятая",
+                    "order": 11,
+                    "type": "bool"
+                },
+                "Тонкие линии": {
+                    "value": "",
+                    "name": "Тонкие линии",
+                    "order": 150,
+                    "type": "title"
+                },
+                "thin_line_color": {
+                    "value": "#000000",
+                    "name": "Цвет тонкой линии",
+                    "order": 151,
+                    "type": "color"
+                },
+                "thin_line_weight": {
+                    "value": 4,
+                    "name": "Толщина тонкой линии",
+                    "order": 152
+                },
+                "Стрелки": {
+                    "value": "",
+                    "name": "Стрелки",
+                    "order": 200,
+                    "type": "title"
+                },
+                "arrow_width": {
+                    "value": 40,
+                    "name": "Ширина стрелки",
+                    "order": 201
+                },
+                "arrow_height": {
+                    "value": 16,
+                    "name": "Высота стрелки",
+                    "order": 202
+                },
+                "wrap_arrow_length": {
+                    "value": 100,
+                    "name": "Длина линии стрелки переноса",
+                    "order": 203
+                },
+                "is_wrap_arrow": {
+                    "value": 2,
+                    "name": "Показывать стрелку переноса",
+                    "order": 204,
+                    "type": "bool"
+                },
+                "Технические обозначения": {
+                    "value": "",
+                    "name": "Технические обозначения",
+                    "order": 300,
+                    "type": "title"
+                },
+                "text_cable_length": {
+                    "value": "L по кабелю (м)",
+                    "name": "Обозначение длины по кабелю",
+                    "order": 301,
+                    "type": "string_line"
+                },
+                "text_fiber_length": {
+                    "value": "L по волокну (м)",
+                    "name": "Обозначение длины по волокну",
+                    "order": 302,
+                    "type": "string_line"
+                },
+                "delta_x_text_lengths": {
+                    "value": 40,
+                    "name": "Расстояние обозначений длин от первой вершины по X",
+                    "order": 303
+                },
+                "delta_y_text_lengths": {
+                    "value": 40,
+                    "name": "Расстояние обозначений длин от первой вершины по Y",
+                    "order": 304
+                }
+            }
+        },
+        "100": {
+            "order": 2,
+            "type_id": "100",
+            "name": "ПТ-5. Скелетная схема размещения строительных длин кабеля и смонтированных муфт на участке регенерации",
+            "id_nodes": [
+                "100",
+                "101"
+            ],
+            "id_connections": [
+                "100"
+            ],
+            "parameters": {
+                "indent_left": {
+                    "value": 400,
+                    "name": "Отступ схемы слева",
+                    "order": -2
+                },
+                "indent_top": {
+                    "value": 400,
+                    "name": "Отступ схемы сверху",
+                    "order": -1
+                },
+                "indent_right": {
+                    "value": 400,
+                    "name": "Отступ схемы справа",
+                    "order": 1
+                },
+                "indent_bottom": {
+                    "value": 400,
+                    "name": "Отступ схемы снизу",
+                    "order": 2
+                },
+                "delta_wrap_y": {
+                    "value": 600,
+                    "name": "Расстояние между рядами вершин по Y",
+                    "order": 3
+                },
+                "is_center": {
+                    "value": 0,
+                    "name": "Центрировать схему по центру изображения по X",
+                    "order": 4,
+                    "type": "bool"
+                },
+                "max_nodes_in_row": {
+                    "value": 10,
+                    "name": "Максимальное кол-во вершин в ряду",
+                    "order": 5,
+                    "type": "number_int",
+                    "arguments": {
+                        "min": 2
+                    }
+                },
+                "font_name": {
+                    "value": "Open Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
+                    "name": "Название шрифта диграммы",
+                    "order": 6,
+                    "type": "font_name"
+                },
+                "precision_number": {
+                    "value": 2,
+                    "name": "Кол-во знаков после разделителя",
+                    "order": 10,
+                    "type": "number_int"
+                },
+                "precision_separator": {
+                    "value": 2,
+                    "name": "Разделитель точка/запятая",
+                    "order": 11,
+                    "type": "bool"
+                },
+                "Тонкие линии": {
+                    "value": "",
+                    "name": "Тонкие линии",
+                    "order": 150,
+                    "type": "title"
+                },
+                "thin_line_color": {
+                    "value": "#000000",
+                    "name": "Цвет тонкой линии",
+                    "order": 151,
+                    "type": "color"
+                },
+                "thin_line_weight": {
+                    "value": 4,
+                    "name": "Толщина тонкой линии",
+                    "order": 152
+                },
+                "Стрелки": {
+                    "value": "",
+                    "name": "Стрелки",
+                    "order": 200,
+                    "type": "title"
+                },
+                "arrow_width": {
+                    "value": 40,
+                    "name": "Ширина стрелки",
+                    "order": 201
+                },
+                "arrow_height": {
+                    "value": 16,
+                    "name": "Высота стрелки",
+                    "order": 202
+                },
+                "wrap_arrow_length": {
+                    "value": 100,
+                    "name": "Длина линии стрелки переноса",
+                    "order": 203
+                },
+                "is_wrap_arrow": {
+                    "value": 2,
+                    "name": "Показывать стрелку переноса",
+                    "order": 204,
+                    "type": "bool"
+                }
+            }
+        },
+        "150": {
+            "order": 3,
+            "type_id": "150",
+            "name": "ПТ-13. Монтажная схема участка регенерации",
+            "id_nodes": [
+                "150",
+                "151"
+            ],
+            "id_connections": [
+                "150"
+            ],
+            "parameters": {
+                "indent_left": {
+                    "value": 400,
+                    "name": "Отступ схемы слева",
+                    "order": -2
+                },
+                "indent_top": {
+                    "value": 400,
+                    "name": "Отступ схемы сверху",
+                    "order": -1
+                },
+                "indent_right": {
+                    "value": 400,
+                    "name": "Отступ схемы справа",
+                    "order": 1
+                },
+                "indent_bottom": {
+                    "value": 400,
+                    "name": "Отступ схемы снизу",
+                    "order": 2
+                },
+                "delta_wrap_y": {
+                    "value": 600,
+                    "name": "Расстояние между рядами вершин по Y",
+                    "order": 3
+                },
+                "is_center": {
+                    "value": 0,
+                    "name": "Центрировать схему по центру изображения по X",
+                    "order": 4,
+                    "type": "bool"
+                },
+                "max_nodes_in_row": {
+                    "value": 5,
+                    "name": "Максимальное кол-во вершин в ряду",
+                    "order": 5,
+                    "type": "number_int",
+                    "arguments": {
+                        "min": 2
+                    }
+                },
+                "font_name": {
+                    "value": "Open Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1",
+                    "name": "Название шрифта диграммы",
+                    "order": 6,
+                    "type": "font_name"
+                },
+                "precision_number": {
+                    "value": 2,
+                    "name": "Кол-во знаков после разделителя",
+                    "order": 10,
+                    "type": "number_int"
+                },
+                "precision_separator": {
+                    "value": 2,
+                    "name": "Разделитель точка/запятая",
+                    "order": 11,
+                    "type": "bool"
+                },
+                "Тонкие линии": {
+                    "value": "",
+                    "name": "Тонкие линии",
+                    "order": 150,
+                    "type": "title"
+                },
+                "thin_line_color": {
+                    "value": "#000000",
+                    "name": "Цвет тонкой линии",
+                    "order": 151,
+                    "type": "color"
+                },
+                "thin_line_weight": {
+                    "value": 4,
+                    "name": "Толщина тонкой линии",
+                    "order": 152
+                },
+                "Стрелки": {
+                    "value": "",
+                    "name": "Стрелки",
+                    "order": 200,
+                    "type": "title"
+                },
+                "arrow_width": {
+                    "value": 40,
+                    "name": "Ширина стрелки",
+                    "order": 201
+                },
+                "arrow_height": {
+                    "value": 16,
+                    "name": "Высота стрелки",
+                    "order": 202
+                },
+                "wrap_arrow_length": {
+                    "value": 100,
+                    "name": "Длина линии стрелки переноса",
+                    "order": 203
+                },
+                "is_wrap_arrow": {
+                    "value": 0,
+                    "name": "Показывать стрелку переноса",
+                    "order": 204,
+                    "type": "bool"
+                }
+            }
+        }
+    }
+}
