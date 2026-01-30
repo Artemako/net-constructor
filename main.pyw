@@ -1,4 +1,4 @@
-"""Точка входа приложения Net Constructor."""
+"""Точка входа приложения "Конструктор схем ВОЛП"."""
 
 import os
 import sys
@@ -17,7 +17,7 @@ def _parse_mode_args() -> None:
 
 def main() -> None:
     """Запуск приложения."""
-    _parse_mode_args()
+    _parse_mode_args() 
     import package.app as app
     current_directory = os.path.dirname(os.path.abspath(sys.argv[0]))
     app.App(current_directory)

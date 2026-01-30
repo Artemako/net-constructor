@@ -1290,6 +1290,54 @@ class MainWindow(QMainWindow):
                 self.__last_diagram_type_value = copy.deepcopy(data)
                 return
 
+    def _scroll_to_entry_widget(self, entry):
+        """Прокручивает область с виджетами так, чтобы был виден виджет, затронутый записью журнала."""
+        if entry.entry_type == "form":
+            dict_widgets = self._get_widgets_dict_by_name(entry.dict_name)
+            if dict_widgets is None or entry.key not in dict_widgets:
+                return
+            widget = dict_widgets[entry.key][1]
+            if entry.tab_index == 0:
+                scroll_area = getattr(self.ui, "sa_general", None)
+            elif entry.tab_index == 2:
+                scroll_area = getattr(self.ui, "editor_scrollarea", None)
+            else:
+                return
+            if scroll_area is not None and widget is not None:
+                scroll_area.ensureWidgetVisible(widget)
+        elif entry.entry_type == "diagram_type":
+            if entry.tab_index == 0:
+                scroll_area = getattr(self.ui, "sa_general", None)
+                combox = getattr(self, "combox_type_diagram", None)
+                if scroll_area is not None and combox is not None:
+                    scroll_area.ensureWidgetVisible(combox)
+        elif entry.entry_type == "table_cell":
+            if entry.tab_index == 2:
+                table_w = getattr(self, getattr(entry, "table_id", None) or "", None)
+                scroll_area = getattr(self.ui, "editor_scrollarea", None)
+                if table_w is not None and scroll_area is not None:
+                    row = getattr(entry, "row", 0)
+                    col = getattr(entry, "col", 0)
+                    idx = table_w.model().index(row, col if col < table_w.columnCount() else 0)
+                    table_w.scrollTo(idx)
+                    scroll_area.ensureWidgetVisible(table_w)
+        elif entry.entry_type in ("table_row_add_pair", "table_row_delete_pair"):
+            if getattr(entry, "tab_index", None) == 1:
+                self.ui.tabw_right.setCurrentIndex(1)
+                for table_id in ("tablew_nodes", "tablew_connections"):
+                    table_w = getattr(self, table_id, None)
+                    if table_w is not None and table_w.rowCount() > 0:
+                        idx = table_w.model().index(table_w.rowCount() - 1, 0)
+                        table_w.scrollTo(idx)
+        elif entry.entry_type == "table_row_reorder":
+            if getattr(entry, "tab_index", None) == 1:
+                table_id = getattr(entry, "table_id", None)
+                if table_id:
+                    self.ui.tabw_right.setCurrentIndex(1)
+                    table_w = getattr(self, table_id, None)
+                    if table_w is not None and table_w.rowCount() > 0:
+                        table_w.scrollTo(table_w.model().index(0, 0))
+
     def _undo(self):
         """Отмена последнего изменения (Ctrl+Z)."""
         # #region agent log
@@ -1374,6 +1422,7 @@ class MainWindow(QMainWindow):
                     pass
                 self.__obsm.obj_undo_journal.push_redo(entry)
                 self._refresh_diagram()
+            self._scroll_to_entry_widget(entry)
         finally:
             self.__applying_undo_redo = False
         self._update_undo_redo_actions()
@@ -1463,6 +1512,7 @@ class MainWindow(QMainWindow):
                     pass
                 self.__obsm.obj_undo_journal.push_undo(entry)
                 self._refresh_diagram()
+            self._scroll_to_entry_widget(entry)
         finally:
             self.__applying_undo_redo = False
         self._update_undo_redo_actions()

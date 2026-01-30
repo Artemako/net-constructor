@@ -4,7 +4,7 @@
 
 Имена exe должны совпадать с заголовком приложения: полная версия — «Конструктор схем ВОЛП», демо — «Конструктор схем ВОЛП (демо)» (константы в `package.constants`).
 
-Сборка без `--onefile`: создаётся **папка** с exe, DLL и прочими модулями, плюс в неё переносятся `configs` и `resources` для запуска программы.
+Сборка без `--onefile`: создаётся **папка** с exe, DLL и прочими модулями, плюс в неё переносится каталог `configs` для запуска программы. Ресурсы приложения (иконки, шрифты и т.д.) уже встроены в exe через `resources_rc.py`. Для отображения иконки exe в проводнике Windows нужен файл `resources/app-icon.ico` (см. флаг `--windows-icon-from-ico`).
 
 Флаг `--plugin-enable=pyside6` обязателен: без него Nuitka не подтянет Qt-плагины (platforms, styles и т.д.), и при запуске exe появится ошибка «no Qt platform plugin could be initialized».
 
@@ -14,19 +14,19 @@
 
 ```powershell
 python build_variant.py --demo
-python -m nuitka --standalone --windows-console-mode=disable --plugin-enable=pyside6 --output-dir=main.dist.demo --output-filename="Конструктор схем ВОЛП (демо).exe" --include-package=package --include-package-data=package --include-data-dir=configs=configs --include-data-dir=resources=resources main.pyw
+python -m nuitka --standalone --windows-console-mode=disable --plugin-enable=pyside6 --output-dir=main.dist.demo --output-filename="Конструктор схем ВОЛП (демо).exe" --include-package=package --include-package-data=package --include-data-dir=configs=configs --windows-icon-from-ico=resources/app-icon.ico main.pyw
 ```
 
-В папке `main.dist.demo` будут: `Конструктор схем ВОЛП (демо).exe`, все нужные DLL/модули, а также каталоги `configs` и `resources`.
+В папке `main.dist.demo` будут: `Конструктор схем ВОЛП (демо).exe`, все нужные DLL/модули и каталог `configs`.
 
 ## Полная версия
 
 ```powershell
 python build_variant.py --full
-python -m nuitka --standalone --windows-console-mode=disable --plugin-enable=pyside6 --output-dir=main.dist.full --output-filename="Конструктор схем ВОЛП.exe" --include-package=package --include-package-data=package --include-data-dir=configs=configs --include-data-dir=resources=resources main.pyw
+python -m nuitka --standalone --windows-console-mode=disable --plugin-enable=pyside6 --output-dir=main.dist.full --output-filename="Конструктор схем ВОЛП.exe" --include-package=package --include-package-data=package --include-data-dir=configs=configs --windows-icon-from-ico=resources/app-icon.ico main.pyw
 ```
 
-В папке `main.dist.full` будут: `Конструктор схем ВОЛП.exe`, все нужные DLL/модули, а также каталоги `configs` и `resources`.
+В папке `main.dist.full` будут: `Конструктор схем ВОЛП.exe`, все нужные DLL/модули и каталог `configs`.
 
 ## Запуск из исходников (без exe)
 
