@@ -4,6 +4,7 @@ import copy
 import json
 import os
 from functools import partial
+from typing import Optional
 
 from PySide6.QtCore import QLocale, QModelIndex, QRegularExpression, QSettings, Qt, QTimer
 from PySide6.QtGui import (
@@ -86,8 +87,9 @@ class CustomTableComboBox(QComboBox):
 class MainWindow(QMainWindow):
     """Главное окно: диаграммы, вкладки настроек/элементов/редактирования, меню, undo/redo."""
 
-    def __init__(self, obsm) -> None:
+    def __init__(self, obsm, file_to_open: Optional[str] = None) -> None:
         self.__obsm = obsm
+        self.__file_to_open = file_to_open
         #
         self.__current_object = None
         self.__current_is_node = None
@@ -204,6 +206,8 @@ class MainWindow(QMainWindow):
         #
         if is_demo_mode():
             self._open_demo_project()
+        elif self.__file_to_open:
+            self._open_project_from_path(self.__file_to_open)
 
     def _open_demo_project(self):
         """Открывает пустой демо-проект в памяти (без файла)."""
@@ -698,27 +702,73 @@ class MainWindow(QMainWindow):
                 # Новый файл считается сохранённым
                 self._set_document_modified(False)
 
+    def open_file_from_external(self, path: str) -> None:
+        """Открывает файл, переданный вторым экземпляром приложения (single instance).
+        Пустая строка — только активировать окно. Если путь совпадает с текущим — только активировать.
+        """
+        path = (path or "").strip()
+        if not path:
+            self.raise_()
+            self.activateWindow()
+            return
+        if self.__current_file_path and os.path.normpath(path) == os.path.normpath(
+            self.__current_file_path
+        ):
+            self.raise_()
+            self.activateWindow()
+            return
+        if not self._check_unsaved_changes():
+            return
+        self._open_project_from_path(path)
+
+    def _open_project_from_path(self, file_name: str) -> bool:
+        """Открывает проект по пути к файлу. Возвращает True при успехе, False при ошибке."""
+        if self.__current_file_path and os.path.normpath(file_name) == os.path.normpath(
+            self.__current_file_path
+        ):
+            self.raise_()
+            self.activateWindow()
+            return True
+        self.ui.gb_right.setVisible(True)
+        self.ui.tabw_right.setCurrentIndex(0)
+        try:
+            self.__obsm.obj_project.open_project(file_name)
+        except FileNotFoundError:
+            QMessageBox.warning(
+                self,
+                "Ошибка открытия",
+                f"Файл не найден:\n{file_name}",
+            )
+            return False
+        except json.JSONDecodeError as e:
+            QMessageBox.warning(
+                self,
+                "Ошибка открытия",
+                f"Файл повреждён или имеет неверный формат:\n{file_name}\n\n{e!s}",
+            )
+            return False
+        except OSError as e:
+            QMessageBox.warning(
+                self,
+                "Ошибка открытия",
+                f"Не удалось прочитать файл:\n{file_name}\n\n{e!s}",
+            )
+            return False
+        self._refresh_diagram(is_new=True)
+        self._start_qt_actions()
+        self._update_undo_redo_actions()
+        self._update_status_bar_with_project_name(file_name)
+        self._set_document_modified(False)
+        return True
+
     def open_file_nce(self):
         # Проверяем несохранённые изменения перед открытием другого файла
         if not self._check_unsaved_changes():
             return  # Пользователь отменил действие
-        
+
         file_name, _ = QFileDialog.getOpenFileName(self, " ", "", self.__text_format)
         if file_name:
-            #
-            # Показываем правый блок с вкладками
-            self.ui.gb_right.setVisible(True)
-            self.ui.tabw_right.setCurrentIndex(0)
-            #
-            self.__obsm.obj_project.open_project(file_name)
-            #
-            self._refresh_diagram(is_new=True)
-            self._start_qt_actions()
-            self._update_undo_redo_actions()
-            #
-            self._update_status_bar_with_project_name(file_name)
-            # Открытый файл считается сохранённым
-            self._set_document_modified(False)
+            self._open_project_from_path(file_name)
 
     def _save_as_file_nce(self):
         if self.__obsm.obj_project.is_active():

@@ -27,6 +27,7 @@ class ImageWidget(QWidget):
         self.__last_mouse_position = QPoint()
         self.__panning_active = False
         self.__diagram_drawer = None
+        self.__fit_on_first_resize = False
 
     def set_obsm(self, obsm) -> None:
         """Устанавливает ссылку на менеджер объектов приложения."""
@@ -38,6 +39,7 @@ class ImageWidget(QWidget):
         self.__diagram_drawer = None
         self.__zoom_level = 1.0
         self.__pan_offset = QPointF(0, 0)
+        self.__fit_on_first_resize = False
         self.update()
 
     def run(self, data, is_new: bool = False) -> None:
@@ -46,9 +48,8 @@ class ImageWidget(QWidget):
         self.__image = self.create_image(data)
 
         if is_new:
-            self._fit_image_to_widget()
-            if is_demo_mode():
-                QTimer.singleShot(0, self._fit_image_to_widget)
+            self.__fit_on_first_resize = True
+            QTimer.singleShot(0, self._fit_image_to_widget)
 
         self.update()
 
@@ -165,8 +166,14 @@ class ImageWidget(QWidget):
         painter.restore()
 
     def resizeEvent(self, event) -> None:
-        """При изменении размера в демо-режиме подгоняем изображение по центру."""
+        """При изменении размера в демо-режиме подгоняем изображение по центру.
+        При первом показе (is_new) подгоняем один раз, когда виджет получит ненулевой размер.
+        """
         super().resizeEvent(event)
+        if self.__fit_on_first_resize and self.width() > 0 and self.height() > 0:
+            self._fit_image_to_widget()
+            self.update()
+            self.__fit_on_first_resize = False
         if is_demo_mode() and self.__image is not None:
             self._fit_image_to_widget()
             self.update()
