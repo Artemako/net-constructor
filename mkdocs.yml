@@ -9,13 +9,23 @@ edit_uri: ""
 theme:
   name: material
   language: ru
+  extra_css:
+    - stylesheets/extra.css
   features:
     - search.suggest
     - search.highlight
     - content.tabs.link
 
+markdown_extensions:
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:mermaid2.fence_mermaid_custom
+
 plugins:
   - search
+  - mermaid2
   - mkdocstrings:
       handlers:
         python:
@@ -29,6 +39,9 @@ plugins:
 nav:
   - Обзор: index.md
   - Архитектура: architecture.md
+  - Рисование схемы: diagram-drawing.md
+  - Данные проекта: project-data.md
+  - Журнал отмены: undo-journal.md
   - Настройка окружения: setup.md
   - Конфиги: configs.md
   - Сборка: build.md

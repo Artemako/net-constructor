@@ -4,11 +4,39 @@
 
 Имена exe должны совпадать с заголовком приложения: полная версия — «Конструктор схем ВОЛП», демо — «Конструктор схем ВОЛП (демо)» (константы в `package.constants`).
 
-Сборка без `--onefile`: создаётся **папка** с exe, DLL и прочими модулями, плюс в неё переносится каталог `configs` для запуска программы. Ресурсы приложения (иконки, шрифты и т.д.) уже встроены в exe через `resources_rc.py`. Для отображения иконки exe в проводнике Windows нужен файл `resources/app-icon.ico` (см. флаг `--windows-icon-from-ico`).
+Сборка без `--onefile`: создаётся **папка** с exe, DLL и прочими модулями, плюс в неё переносится каталог `configs` для запуска программы. Ресурсы приложения (иконки, шрифты и т.д.) уже встроены в exe через `resources_rc.py`.
+
+Для отображения иконки exe в проводнике Windows нужен файл `resources/app-icon.ico` (см. флаг `--windows-icon-from-ico`).
 
 Флаг `--plugin-enable=pyside6` обязателен: без него Nuitka не подтянет Qt-плагины (platforms, styles и т.д.), и при запуске exe появится ошибка «no Qt platform plugin could be initialized».
 
 При проблемах с кодировкой имён exe в PowerShell перед сборкой выполните `[Console]::OutputEncoding = [System.Text.Encoding]::UTF8` или запускайте Nuitka из cmd с `chcp 65001`.
+
+## Содержимое каталога build/
+
+| Файл | Назначение |
+|------|-------------|
+| **build_variant.py** | Генерация `package/modules/_build_config.py` (режим demo/full). |
+| **build_installer.py** | Запуск Inno Setup для создания установщика. |
+| **build_icon.py** | Генерация `resources/app-icon.ico` из SVG (см. ниже). |
+| **installer_full.iss** | Сценарий Inno Setup. |
+| **BUILD_NUITKA.md** | Копия инструкции по сборке Nuitka для каталога build; полное описание — на этой странице. |
+
+## Иконка exe
+
+Для отображения иконки exe в проводнике Windows нужен файл `resources/app-icon.ico`. Исходник — `resources/app-icon.svg`.
+
+Скрипт `build/build_icon.py` рендерит SVG в ICO (размеры 256, 48, 32, 16) с помощью PySide6 и Pillow.
+
+Команда из корня проекта:
+
+```powershell
+python build/build_icon.py
+```
+
+Зависимость Pillow не входит в `requirements.txt`; при необходимости установите: `pip install Pillow`.
+
+После изменения `app-icon.svg` выполните этот скрипт, затем пересоберите exe.
 
 ## Демо-версия
 
@@ -59,6 +87,8 @@ iscc build/installer_full.iss
 ## Запуск из исходников (без exe)
 
 - Демо: `python main.pyw --demo`
-- Полная: `python main.pyw --full`
+- Полная версия: `python main.pyw --full`
 
-Если не указать `--demo`/`--full`, режим берётся из переменной окружения `NET_CONSTRUCTOR_MODE` (значения `demo` или `full`). При отсутствии `_build_config.py` и переменной окружения по умолчанию используется режим `demo`.
+Если не указать `--demo`/`--full`, режим берётся из переменной окружения `NET_CONSTRUCTOR_MODE` (значения `demo` или `full`).
+
+При отсутствии `_build_config.py` и переменной окружения по умолчанию используется режим `demo`.
