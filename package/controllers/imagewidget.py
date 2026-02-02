@@ -115,7 +115,6 @@ class ImageWidget(QWidget):
         # временное изображение для расчета высоты
         temp_image = QImage(width, start_height, QImage.Format_ARGB32)
         temp_image.fill(Qt.white)
-        #
         painter = QPainter(temp_image)
         # подготовка данных перед рисованием
         rows, calc_width = self.__diagram_drawer._preparation_draw(

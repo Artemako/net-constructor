@@ -1,0 +1,42 @@
+# Документация для разработчиков — Конструктор схем ВОЛП
+site_name: Конструктор схем ВОЛП — документация
+site_description: Документация для разработчиков (архитектура, настройка, конфиги, сборка, API)
+site_url: ""
+repo_url: ""
+docs_dir: docs
+edit_uri: ""
+
+theme:
+  name: material
+  language: ru
+  features:
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [.]
+          options:
+            show_source: false
+            show_root_heading: true
+            heading_level: 2
+            docstring_style: google
+
+nav:
+  - Обзор: index.md
+  - Архитектура: architecture.md
+  - Настройка окружения: setup.md
+  - Конфиги: configs.md
+  - Сборка: build.md
+  - API:
+    - Точка входа: api/entry.md
+    - package.app: api/app.md
+    - package.components: api/components.md
+    - package.controllers: api/controllers.md
+    - package.modules: api/modules.md
+    - package.ui: api/ui.md
+    - package.constants: api/constants.md

@@ -1,9 +1,9 @@
-"""Инициализация приложения, менеджер объектов и запуск GUI."""
+"""Точка входа: менеджер объектов, конфиги, главное окно, single instance."""
 
 import sys
 from typing import Optional
 
-import resources_rc  # noqa: F401 — регистрация ресурсов Qt до использования иконки
+import resources_rc 
 
 from PySide6.QtGui import QFont, QFontDatabase, QIcon
 from PySide6.QtNetwork import QLocalServer, QLocalSocket
@@ -95,10 +95,8 @@ class App:
     def __init__(self, current_directory: str, file_to_open: Optional[str] = None) -> None:
         self.current_directory = current_directory
         self.__file_to_open = file_to_open
-        #
         self.__obsm = ObjectsManager()
         self.__obsm.initializing_objects()
-        #
         self.config_objects()
         self.start_app()
 

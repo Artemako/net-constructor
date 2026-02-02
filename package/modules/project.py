@@ -8,6 +8,8 @@ import package.constants as constants
 
 
 class Project:
+    """Данные диаграммы: узлы, соединения, сектора, файл NCE, архив параметров по типам."""
+
     def __init__(self) -> None:
         self.__file_name = None
         self.__data = None
@@ -34,7 +36,6 @@ class Project:
             "connections": [],
             "archived_parameters": {},
         }
-        #
         self._write_project()
 
     def create_demo_project(self, diagram_data, control_sectors_config):
@@ -72,6 +73,7 @@ class Project:
                 json.dump(self.__data, f, indent=4, ensure_ascii=False)
 
     def change_type_diagram(self, new_diagram, config_nodes, config_connections):
+        """Меняет тип диаграммы: архив параметров по старому типу, обновление узлов/соединений, восстановление из архива."""
         # Сохраняем текущие параметры в архив
         current_type_id = self.__data["diagram_type_id"]
 
@@ -168,7 +170,6 @@ class Project:
         for index, control_sector in enumerate(new_order_control_sectors):
             control_sector["order"] = index
             control_sectors.append(control_sector)
-        #
         connection_id = obj.get("id")
         for connection in self.__data.get("connections", []):
             if connection["id"] == connection_id:
@@ -178,10 +179,9 @@ class Project:
         return control_sectors
 
     def add_pair(self, key_dict_node_and_key_dict_connection):
+        """Добавляет пару узел + соединение (сначала узел, потом соединение)."""
         key_dict_node = key_dict_node_and_key_dict_connection.get("node")
-        #
         key_dict_connection = key_dict_node_and_key_dict_connection.get("connection")
-        #
         if len(self.__data.get("nodes", [])) == 0:
             self._add_node(key_dict_node)
         else:
@@ -220,8 +220,6 @@ class Project:
                     "is_wrap": False,
                     "data_pars": new_config,
                 }
-                #
-                # Если указана позиция вставки и она валидна
                 if penultimate:
                     connection["control_sectors"].insert(new_order, new_control_sector)
                 else:
@@ -239,6 +237,7 @@ class Project:
         return control_sectors_return
 
     def _update_diagram_nodes(self, new_diagram_type_id, config_nodes):
+        """Переводит node_id узлов в новый тип диаграммы по маппингу."""
         dtd = constants.DiagramToDiagram()
         for node in self.__data.get("nodes", []):
             old_node_id = node.get("node_id")
@@ -253,6 +252,7 @@ class Project:
             )
 
     def _update_diagram_connections(self, new_diagram_type_id, config_connections):
+        """Переводит connection_id соединений в новый тип диаграммы по маппингу."""
         dtd = constants.DiagramToDiagram()
         for connection in self.__data.get("connections", []):
             old_connection_id = connection.get("connection_id")
@@ -488,6 +488,7 @@ class Project:
         self._write_project()
 
     def delete_pair(self, node, connection):
+        """Удаляет пару узел+соединение из данных и пересчитывает порядок."""
         if node:
             delete_id = node.get("id", "")
             if delete_id:
@@ -565,7 +566,6 @@ class Project:
         if is_general_tab:
             self.__data["diagram_type_id"] = diagram_type_id
             self.__data["diagram_name"] = diagram_name
-            #
             for key, value in new_diagram_parameters.items():
                 self.__data["diagram_parameters"][key] = value
         elif is_editor_tab:
@@ -675,10 +675,8 @@ class Project:
         is_parameter=True,
     ):
         obj_id = obj.get("node_id" if is_node else "connection_id", "")
-        #
         config_dict = config_nodes if is_node else config_connections
         obj_dict = config_dict.get(obj_id, {})
-        #
         type_object_key = (
             "type_object_parameters" if is_parameter else "type_object_data"
         )
@@ -706,10 +704,8 @@ class Project:
     ):
         print("_check_objects_key")
         obj_id = obj.get("node_id" if is_node else "connection_id", "")
-        #
         config_dict = config_nodes if is_node else config_connections
         obj_dict = config_dict.get(obj_id, {})
-        #
         objects_key = "objects_parameters" if is_parameter else "objects_data"
         is_objects = obj_dict.get(objects_key, {}).get(key, {})
         if is_objects:

@@ -1,4 +1,4 @@
-"""Установка иконок для действий главного окна в зависимости от темы."""
+"""Иконки главного окна по теме (white/black)."""
 
 from PySide6.QtCore import QSize
 from PySide6.QtGui import QAction, QIcon

@@ -12,6 +12,8 @@ import package.modules.numberformatter as numberformatter
 
 
 class DrawConnection:
+    """Отрисовка одного соединения: линии, подписи, сектора по типу диаграммы."""
+
     def __init__(
         self,
         painter,
@@ -37,12 +39,9 @@ class DrawConnection:
         self.__to_right_physical_length = to_right_physical_length
         self.__start_x = start_x
         self.__delta_wrap_y = delta_wrap_y
-        print(
-            f"LALALA self.__to_right_physical_length = {self.__to_right_physical_length}"
-        )
 
     def draw(self):
-        # Сначала выбор диграммы, а потом соединения
+        """Рисует соединение: параметры и данные из конфига диаграммы, потом отрисовка по типу."""
         pars = drawdataparameters.DrawParameters(
             self.__object_diagram,
             self.__object_connection,
@@ -50,32 +49,25 @@ class DrawConnection:
             self.__object_node_after,
         )
         data = drawdataparameters.DrawData(self.__object_connection)
-        #
         diagram_type_id = self.__object_diagram.get_diagram_type_id()
         connection_id = self.__object_connection.get_connection_id()
-        #
         nf = numberformatter.NumberFormatter()
         nf.set_precision_number(pars.get_sp("precision_number"))
         nf.set_precision_separator(pars.get_sp("precision_separator"))
-        #
         if diagram_type_id == "0":
             if connection_id == "0":
                 self._draw_connection_type_0(pars, data, nf)
-        #
         elif diagram_type_id == "50":
             if connection_id == "50":
                 self._draw_connection_type_50(pars, data, nf)
-        #
         elif diagram_type_id == "100":
             if connection_id == "100":
                 self._draw_connection_type_100(pars, data, nf)
-        #
         elif diagram_type_id == "150":
             if connection_id == "150":
                 self._draw_connection_type_150(pars, data, nf)
 
     def _draw_connection_type_0(self, pars, data, nf):
-        # Функции для получения различных пейнтеров
         def get_painter_connection_line():
             return painterconfigurator.PainterConfigurator(
                 self.__painter
@@ -123,7 +115,6 @@ class DrawConnection:
         # Для LT и прочие
         before_delta_line_caption_and_node = 0
         after_delta_line_caption_and_node = 0
-        #
         if self.__object_node_before.get_node_id() == "0":
             before_delta_line_caption_and_node = pars.get_sp(
                 "connection_caption_margin_left_right"
@@ -132,7 +123,6 @@ class DrawConnection:
             before_delta_line_caption_and_node = pars.get_sp(
                 "connection_caption_margin_left_right"
             ) + 2 * pars.get_bp("node_radius")
-        #
         if self.__object_node_after.get_node_id() == "0":
             after_delta_line_caption_and_node = pars.get_sp(
                 "connection_caption_margin_left_right"
@@ -296,12 +286,10 @@ class DrawConnection:
             + pars.get_sp("delta_node_and_thin_line")
             + pars.get_sp("connection_thin_caption_vertical_padding")
         )
-        #
         text = data.get_sd("название")
         drawtext.DrawText().draw_multiline_text_by_hc_vb(
             get_painter_text_name_and_location, text, center_x, bottom_y
         )
-        #
         text = data.get_sd("название_доп")
         drawtext.DrawText().draw_multiline_text_by_hc_vt(
             get_painter_text_name_and_location, text, center_x, top_y
@@ -324,12 +312,10 @@ class DrawConnection:
                 + pars.get_sp("delta_thins_lines")
                 + pars.get_sp("connection_thin_caption_vertical_padding")
             )
-            #
             text = data.get_sd("местоположение")
             drawtext.DrawText().draw_multiline_text_by_hc_vb(
                 get_painter_text_name_and_location, text, center_x_with_delta, bottom_y
             )
-            #
             text = data.get_sd("местоположение_доп")
             drawtext.DrawText().draw_multiline_text_by_hc_vt(
                 get_painter_text_name_and_location, text, center_x_with_delta, top_y
@@ -338,7 +324,6 @@ class DrawConnection:
         # endregion
 
     def _draw_connection_type_50(self, pars, data, nf):
-        # Функции для получения различных пейнтеров
         def get_painter_connection_line():
             return painterconfigurator.PainterConfigurator(
                 self.__painter
@@ -425,7 +410,6 @@ class DrawConnection:
             # Текст над/под с названием и физическая_длина
             before_half_width = 0
             after_half_width = 0
-            #
             before_padding = 0
             after_padding = 0
             # Условия для первого и для последнего сектора
@@ -441,14 +425,10 @@ class DrawConnection:
             elif is_last and self.__object_node_after.get_node_id() == "100":
                 after_half_width = pars.get_ap("node_radius")
                 after_padding = after_half_width
-            #
             center_x = (
                 (self.__x + before_half_width)
                 + (self.__x - after_half_width + cs_lenght)
             ) // 2
-            #
-            print(f"cs_lenght = {cs_lenght}")
-            #
             drawtext.DrawText().draw_multiline_text_by_hc_vb(
                 get_painter_text_caption,
                 cs_name,
@@ -456,7 +436,6 @@ class DrawConnection:
                 self.__y - pars.get_sp("connection_main_caption_vertical_padding"),
                 cs_lenght - before_padding - after_padding - 10,
             )
-            #
             drawtext.DrawText().draw_multiline_text_by_hc_vt(
                 get_painter_text_caption,
                 nf.get(cs_physical_length) + pars.get_sp("постфикс_расстояния"),
@@ -528,7 +507,6 @@ class DrawConnection:
 
             # Рисование wrap стрелки
             draw_wrap_arrow(0)
-            #
             self.__painter = get_painter_figure_border()
             self.__painter.drawLine(
                 self.__x,
@@ -553,9 +531,7 @@ class DrawConnection:
             total_len = 1 + (len_control_sectors - 1) * 2
             for index in range(total_len):
                 cs = self.__control_sectors[index // 2]
-                #
                 is_last = index == total_len - 1
-                #
                 if index % 2 == 0:
                     # Сектор
                     draw_main_line(
@@ -624,7 +600,6 @@ class DrawConnection:
         # Текст над/под
         before_half_width = 0
         after_half_width = 0
-        #
         if self.__object_node_before.get_node_id() == "151":
             before_half_width = pars.get_bp("node_width") // 2
             before_padding = before_half_width
@@ -635,12 +610,10 @@ class DrawConnection:
             after_padding = after_half_width
         elif self.__object_node_after.get_node_id() == "150":
             after_padding = pars.get_ap("node_radius")
-        #
         center_x = (
             (self.__x + before_half_width)
             + (self.__x - after_half_width + pars.get_sp("connection_length"))
         ) // 2
-        #
         drawtext.DrawText().draw_multiline_text_by_hc_vb(
             get_painter_text_caption,
             nf.get(data.get_sd("физ_и_опт_длины", "од"))

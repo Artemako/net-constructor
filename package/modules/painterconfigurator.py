@@ -7,12 +7,12 @@ import package.constants as constants
 
 
 class PainterConfigurator:
+    """Настройка QPainter: перо, кисть, шрифт, линии, заливка для отрисовки."""
+
     def __init__(self, painter, pen=None, brush=None, font=None):
         self.__painter = painter
         self.__fill_styles = constants.FillStyles()
         self.__line_styles = constants.LineStyles()
-
-        #
         self.__painter.setPen(pen if pen is not None else Qt.NoPen)
         self.__painter.setBrush(brush if brush is not None else Qt.NoBrush)
         self.__painter.setFont(font if font is not None else QFont())
@@ -25,18 +25,15 @@ class PainterConfigurator:
 
     def get_painter_text(self, color, font_name, pixel_size):
         self.__painter.setPen(QPen(QColor(color), 2))
-        #
         font = QFont()
         if font_name:
             success = font.fromString(font_name)
             if not success:
                 font = QFont()
-        #
         if pixel_size > 0:
             font.setPixelSize(pixel_size)
         else:
             font.setPixelSize(12)
-        #
         self.__painter.setFont(font)
         self.__painter.setRenderHint(QPainter.TextAntialiasing, True)
         return self.__painter

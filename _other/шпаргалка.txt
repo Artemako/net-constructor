@@ -18,7 +18,7 @@ python -m nuitka --standalone --follow-imports --plugin-enable=pyside6 --noinclu
 
 python -m nuitka main.py
 
-pyside6-uic designer/mainwindow.ui -o package/ui/mainwindow_ui.py
+pyside6-uic package/ui/mainwindow.ui -o package/ui/mainwindow_ui.py
 pyside6-uic designer/pdfwidget.ui -o package/ui/pdfwidget_ui.py
 pyside6-uic designer/formtext.ui -o package/ui/formtext_ui.py
 pyside6-rcc resources.qrc -o resources_rc.py

@@ -12,6 +12,8 @@ import package.modules.numberformatter as numberformatter
 
 
 class DrawNode:
+    """Отрисовка одного узла: форма, подписи по типу диаграммы."""
+
     def __init__(
         self,
         painter,
@@ -41,7 +43,7 @@ class DrawNode:
         self.__node_index = node_index
 
     def draw(self):
-        # Сначала выбор диграммы, а потом узла
+        """Рисует узел: параметры и данные из конфига диаграммы, потом отрисовка по типу."""
         data = drawdataparameters.DrawData(self.__object_node)
         pars = drawdataparameters.DrawParameters(
             self.__object_diagram,
@@ -51,12 +53,9 @@ class DrawNode:
         )
         diagram_type_id = self.__object_diagram.get_diagram_type_id()
         node_id = self.__object_node.get_node_id()
-        #
         nf = numberformatter.NumberFormatter()
         nf.set_precision_number(pars.get_sp("precision_number"))
         nf.set_precision_separator(pars.get_sp("precision_separator"))
-        #
-        # "Скелетная схема ВОЛП и основные данные цепей кабеля"
 
         if diagram_type_id == "0":
             if node_id == "0" or node_id == "1":
@@ -304,7 +303,6 @@ class DrawNode:
             pars.get_sp("delta_node_and_to_right_arrow"),
             pars.get_sp("delta_node_and_to_left_arrow"),
         ) + pars.get_sp("distance_thin_line_after_connection_y")
-        #
         painter_thin_line.drawLine(
             QPoint(
                 self.__x,
@@ -323,7 +321,6 @@ class DrawNode:
             self.__painter = get_painter_thin_line()
             self.__painter.drawLine(QPoint(x + length, y - delta), QPoint(x, y - delta))
             self.__painter.drawLine(QPoint(x + length, y + delta), QPoint(x, y + delta))
-            #
             drawobject.DrawObject().arrow(
                 get_painter_arrow,
                 x,
@@ -363,7 +360,6 @@ class DrawNode:
                     if is_top_caption
                     else drawtext.DrawText().draw_singleline_text_by_hl_vt
                 )
-            #
             draw_func(
                 get_painter_text_caption,
                 text,
@@ -374,9 +370,7 @@ class DrawNode:
         def draw_to_right():
             length = pars.get_sp("to_left_and_to_right_arrow_length")
             delta = pars.get_sp("delta_node_and_to_right_arrow")
-            #
             draw_line_and_arrow(self.__x, self.__y, -length, delta, "right")
-            #
             text_physical = nf.get(self.__to_right_physical_length) + pars.get_sp(
                 "постфикс_расстояния"
             )
@@ -389,7 +383,6 @@ class DrawNode:
                 pars.get_sp("node_caption_vertical_padding"),
                 is_to_right=True,
             )
-            #
             text_optical = nf.get(self.__to_right_optical_length) + pars.get_sp(
                 "постфикс_расстояния"
             )
@@ -406,9 +399,7 @@ class DrawNode:
         def draw_to_left():
             length = pars.get_sp("to_left_and_to_right_arrow_length")
             delta = pars.get_sp("delta_node_and_to_left_arrow")
-            #
             draw_line_and_arrow(self.__x, self.__y, length, delta, "left")
-            #
             text_physical = nf.get(self.__to_left_physical_length) + pars.get_sp(
                 "постфикс_расстояния"
             )
@@ -421,7 +412,6 @@ class DrawNode:
                 pars.get_sp("node_caption_vertical_padding"),
                 is_to_right=False,
             )
-            #
             text_optical = nf.get(self.__to_left_optical_length) + pars.get_sp(
                 "постфикс_расстояния"
             )
@@ -451,10 +441,8 @@ class DrawNode:
             )
             
 
-        #
         if not (self.__object_node.get_after_wrap() or not self.__object_before):
             draw_to_right()
-        #
         if not (self.__object_node.get_before_wrap() or not self.__object_after):
             draw_to_left()
 
@@ -631,7 +619,6 @@ class DrawNode:
             # Рисование названия
             text = data.get_sd("название")
             text_align_name = pars.get_sp("node_name_align")
-            #
             if text_align_name == "LeftAlign":
                 drawtext.DrawText().draw_multiline_text_by_hl_vb(
                     get_painter_text_name,
@@ -805,7 +792,6 @@ class DrawNode:
             text = data.get_sd("название")
 
             text_align_name = pars.get_sp("node_name_align")
-            #
             if text_align_name == "LeftAlign":
                 drawtext.DrawText().draw_multiline_text_by_hl_vb(
                     get_painter_text_name,

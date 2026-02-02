@@ -29,3 +29,6 @@ package/modules/_build_config.py
 
 # Inno Setup installer output
 output/
+
+# MkDocs build output
+site/

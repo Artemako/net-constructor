@@ -20,14 +20,7 @@ class Style:
         self.__osbm = osbm
 
     def get_png_prefix(self, theme_name: Optional[str] = None) -> str:
-        """Возвращает префикс для PNG-ресурсов в зависимости от темы.
-
-        Args:
-            theme_name: Название темы. Если None, используется текущая тема.
-
-        Returns:
-            Префикс для PNG ресурсов (white-png / black-png).
-        """
+        """Префикс для PNG (white-png / black-png) по теме; при None — текущая тема."""
         if theme_name is None:
             theme_name = self.current_theme
             
@@ -37,14 +30,7 @@ class Style:
             return "black-png"
 
     def get_theme_style(self, theme_name: Optional[str] = None) -> str:
-        """Возвращает QSS для темы с подставленными путями к PNG.
-
-        Args:
-            theme_name: Название темы. Если None, используется текущая тема.
-
-        Returns:
-            Строка QSS с путями к PNG.
-        """
+        """QSS для темы с подставленными путями к PNG; при None — текущая тема."""
         if theme_name is None:
             theme_name = self.current_theme
             

@@ -9,6 +9,8 @@ import package.modules.drawtext as drawtext
 
 
 class DrawObject:
+    """Примитивы отрисовки: круг, прямоугольник, стрелка, линия."""
+
     def __init__(self):
         self.__painter = None
 
@@ -17,12 +19,10 @@ class DrawObject:
     ):
         self.__painter = painter_figure_border()
         self.__painter.drawEllipse(QPoint(x, y), node_radius, node_radius)
-        #
         self.__painter = painter_figure_border_fill()
         self.__painter.drawEllipse(QPoint(x, y), node_radius, node_radius)
 
     def node_big_circle_and_triangle(self, painter_figure_border, x, y, node_border_radius):
-        # Рисуем круг и треугольник
         points = QPolygon(
             [
                 QPoint(x, y - node_border_radius),
@@ -39,13 +39,12 @@ class DrawObject:
     def node_reactangle(self, painter_figure_border, painter_figure_border_fill, center_x, center_y, width, height):
         self.__painter = painter_figure_border()
         self.__painter.drawRect(QRect(center_x - width // 2, center_y - height // 2, width, height))
-        #
         self.__painter = painter_figure_border_fill()
         self.__painter.drawRect(QRect(center_x - width // 2, center_y - height // 2, width, height))
 
 
     def arrow(self, painter_arrow, x, y, width, height, direction):
-        # direction = "left", "right"
+        """direction: "left" или "right"."""
         self.__painter = painter_arrow()
         if direction == "right":
             points = QPolygon(
@@ -57,7 +56,6 @@ class DrawObject:
                 ]
             )
             self.__painter.drawPolygon(points)
-        #
         elif direction == "left":
             points = QPolygon(
                 [
@@ -72,17 +70,13 @@ class DrawObject:
     def wrap_arrow(
         self, painter_arrow, painter_line, x, y, width, height, length, type_wrap
     ):
-        # only right direction
+        """Стрелка и линия при переносе (только вправо)."""
         if type_wrap == "before_wrap":
-            # стрелка
             self.arrow(painter_arrow, x + length, y, width, height, "right")
-            #
             self.__painter = painter_line()
             self.__painter.drawLine(QPoint(x, y), QPoint(x + length, y))
 
         elif type_wrap == "after_wrap":
-            # стрелка
             self.arrow(painter_arrow, x, y, width, height, "right")
-            # линия
             self.__painter = painter_line()
             self.__painter.drawLine(QPoint(x - length, y), QPoint(x, y))

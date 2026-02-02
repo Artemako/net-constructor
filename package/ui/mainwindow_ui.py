@@ -1,195 +1,296 @@
-"""Сгенерированный UI главного окна (Qt Designer / uic). Минимум ручных правок."""
+# -*- coding: utf-8 -*-
 
-from PySide6.QtCore import QMetaObject, QRect, QSize, Qt
-from PySide6.QtGui import QAction, QIcon
-from PySide6.QtWidgets import (
-    QFormLayout,
-    QFrame,
-    QGroupBox,
-    QHBoxLayout,
-    QMenu,
-    QMenuBar,
-    QScrollArea,
-    QSplitter,
-    QStatusBar,
-    QTabWidget,
-    QToolBar,
-    QVBoxLayout,
-    QWidget,
-)
+################################################################################
+## Form generated from reading UI file 'mainwindow.ui'
+##
+## Created by: Qt User Interface Compiler version 6.6.3
+##
+## WARNING! All changes made in this file will be lost when recompiling UI file!
+################################################################################
 
-import resources_rc
+from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
+    QMetaObject, QObject, QPoint, QRect,
+    QSize, QTime, QUrl, Qt)
+from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
+    QCursor, QFont, QFontDatabase, QGradient,
+    QIcon, QImage, QKeySequence, QLinearGradient,
+    QPainter, QPalette, QPixmap, QRadialGradient,
+    QTransform)
+from PySide6.QtWidgets import (QApplication, QFormLayout, QFrame, QGroupBox,
+    QHBoxLayout, QMainWindow, QMenu, QMenuBar,
+    QScrollArea, QSizePolicy, QSplitter, QStatusBar,
+    QTabWidget, QToolBar, QVBoxLayout, QWidget)
 
-from package.constants import APP_TITLE
 from package.controllers.imagewidget import ImageWidget
-
+import resources_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
+        if not MainWindow.objectName():
+            MainWindow.setObjectName(u"MainWindow")
         MainWindow.setWindowModality(Qt.NonModal)
+        MainWindow.setEnabled(True)
         MainWindow.resize(1144, 653)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(MainWindow.sizePolicy().hasHeightForWidth())
+        MainWindow.setSizePolicy(sizePolicy)
         MainWindow.setMinimumSize(QSize(0, 0))
+        MainWindow.setStyleSheet(u"")
+        self.action_new = QAction(MainWindow)
+        self.action_new.setObjectName(u"action_new")
+        icon = QIcon()
+        iconThemeName = u"document-new"
+        if QIcon.hasThemeIcon(iconThemeName):
+            icon = QIcon.fromTheme(iconThemeName)
+        else:
+            icon.addFile(u":/white-icons/resources/white-icons/add-file.svg", QSize(), QIcon.Normal, QIcon.Off)
 
-        # Действия меню и панели инструментов
-        self.action_new = QAction(QIcon.fromTheme("document-new", QIcon(":/white-icons/resources/white-icons/add-file.svg")), "Новый", MainWindow)
-        self.action_new.setShortcut("Ctrl+N")
-
-        self.action_open = QAction(QIcon(":/white-icons/resources/white-icons/open.svg"), "Открыть", MainWindow)
-        self.action_open.setShortcut("Ctrl+O")
-
-        self.action_save = QAction(QIcon(":/white-icons/resources/white-icons/save.svg"), "Сохранить", MainWindow)
-        self.action_save.setEnabled(False)
-
-        self.action_saveas = QAction(QIcon(":/white-icons/resources/white-icons/save.svg"), "Сохранить как", MainWindow)
+        self.action_new.setIcon(icon)
+        self.action_open = QAction(MainWindow)
+        self.action_open.setObjectName(u"action_open")
+        icon1 = QIcon()
+        icon1.addFile(u":/white-icons/resources/white-icons/open.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.action_open.setIcon(icon1)
+        self.action_saveas = QAction(MainWindow)
+        self.action_saveas.setObjectName(u"action_saveas")
         self.action_saveas.setEnabled(False)
-        self.action_saveas.setShortcut("Ctrl+Shift+S")
-
-        self.action_zoomin = QAction(QIcon(":/white-icons/resources/white-icons/zoom-in.svg"), "Увеличить", MainWindow)
+        icon2 = QIcon()
+        icon2.addFile(u":/white-icons/resources/white-icons/save.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.action_saveas.setIcon(icon2)
+        self.action_save = QAction(MainWindow)
+        self.action_save.setObjectName(u"action_save")
+        self.action_save.setEnabled(False)
+        self.action_save.setIcon(icon2)
+        self.action_zoomin = QAction(MainWindow)
+        self.action_zoomin.setObjectName(u"action_zoomin")
         self.action_zoomin.setEnabled(False)
-        self.action_zoomin.setShortcut("Ctrl++")
-
-        self.action_zoomout = QAction(QIcon(":/white-icons/resources/white-icons/zoom-out.svg"), "Уменьшить", MainWindow)
+        icon3 = QIcon()
+        icon3.addFile(u":/white-icons/resources/white-icons/zoom-in.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.action_zoomin.setIcon(icon3)
+        self.action_zoomin.setMenuRole(QAction.TextHeuristicRole)
+        self.action_zoomout = QAction(MainWindow)
+        self.action_zoomout.setObjectName(u"action_zoomout")
         self.action_zoomout.setEnabled(False)
-        self.action_zoomout.setShortcut("Ctrl+-")
-
-        self.action_edit_variables = QAction(QIcon(":/white-icons/resources/white-icons/text-editor.svg"), "Редактор переменных", MainWindow)
+        icon4 = QIcon()
+        icon4.addFile(u":/white-icons/resources/white-icons/zoom-out.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.action_zoomout.setIcon(icon4)
+        self.action_zoomout.setMenuRole(QAction.TextHeuristicRole)
+        self.action_edit_variables = QAction(MainWindow)
+        self.action_edit_variables.setObjectName(u"action_edit_variables")
         self.action_edit_variables.setEnabled(False)
-
-        self.action_zoomfitpage = QAction(QIcon(":/white-icons/resources/white-icons/zoom-fit-width.svg"), "По ширине", MainWindow)
+        icon5 = QIcon()
+        icon5.addFile(u":/white-icons/resources/white-icons/text-editor.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.action_edit_variables.setIcon(icon5)
+        self.action_zoomfitpage = QAction(MainWindow)
+        self.action_zoomfitpage.setObjectName(u"action_zoomfitpage")
         self.action_zoomfitpage.setCheckable(True)
         self.action_zoomfitpage.setEnabled(False)
-
-        self.action_export_to_image = QAction(QIcon(":/white-icons/resources/white-icons/export.svg"), "Экспорт в изображение", MainWindow)
+        icon6 = QIcon()
+        icon6.addFile(u":/white-icons/resources/white-icons/zoom-fit-width.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.action_zoomfitpage.setIcon(icon6)
+        self.action_zoomfitpage.setMenuRole(QAction.TextHeuristicRole)
+        self.action_export_to_image = QAction(MainWindow)
+        self.action_export_to_image.setObjectName(u"action_export_to_image")
         self.action_export_to_image.setEnabled(False)
-
-        self.action_edit_templates = QAction(QIcon(":/white-icons/resources/white-icons/template.svg"), "Редактор шаблонов", MainWindow)
+        icon7 = QIcon()
+        icon7.addFile(u":/white-icons/resources/white-icons/export.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.action_export_to_image.setIcon(icon7)
+        self.action_edit_templates = QAction(MainWindow)
+        self.action_edit_templates.setObjectName(u"action_edit_templates")
         self.action_edit_templates.setEnabled(False)
-
-        self.action_edit_composition = QAction(QIcon(":/white-icons/resources/white-icons/items-tree.svg"), "Редактор состава ИД", MainWindow)
+        icon8 = QIcon()
+        icon8.addFile(u":/white-icons/resources/white-icons/template.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.action_edit_templates.setIcon(icon8)
+        self.action_edit_templates.setMenuRole(QAction.TextHeuristicRole)
+        self.action_edit_composition = QAction(MainWindow)
+        self.action_edit_composition.setObjectName(u"action_edit_composition")
         self.action_edit_composition.setEnabled(False)
-
-        self.action_clear_trash = QAction(QIcon(":/white-icons/resources/white-icons/trash.svg"), "Очистка от мусора", MainWindow)
-
-        self.action_edit_cable_lists = QAction(QIcon(":/white-icons/resources/white-icons/items-list.svg"), "Список кабелей", MainWindow)
-        self.action_edit_sector_names = QAction(QIcon(":/white-icons/resources/white-icons/items-list.svg"), "Список названий секторов", MainWindow)
-
-        self.action_parameters = QAction(QIcon(":/white-icons/resources/white-icons/show-properties.svg"), "Панель параметров", MainWindow)
+        icon9 = QIcon()
+        icon9.addFile(u":/white-icons/resources/white-icons/items-tree.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.action_edit_composition.setIcon(icon9)
+        self.action_edit_composition.setMenuRole(QAction.TextHeuristicRole)
+        self.action_clear_trash = QAction(MainWindow)
+        self.action_clear_trash.setObjectName(u"action_clear_trash")
+        icon10 = QIcon()
+        icon10.addFile(u":/white-icons/resources/white-icons/trash.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.action_clear_trash.setIcon(icon10)
+        self.action_edit_cable_lists = QAction(MainWindow)
+        self.action_edit_cable_lists.setObjectName(u"action_edit_cable_lists")
+        icon11 = QIcon()
+        icon11.addFile(u":/white-icons/resources/white-icons/list.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.action_edit_cable_lists.setIcon(icon11)
+        self.action_parameters = QAction(MainWindow)
+        self.action_parameters.setObjectName(u"action_parameters")
         self.action_parameters.setCheckable(True)
-
-        self.light_action = QAction("Светлая", MainWindow)
-        self.dark_action = QAction("Тёмная", MainWindow)
-
-        self.action_settings = QAction(QIcon(":/white-icons/resources/white-icons/settings.svg"), "Настройки", MainWindow)
-        self.action_settings.setShortcut("Ctrl+,")
-
-        self.action_undo = QAction(QIcon(":/white-icons/resources/white-icons/undo.svg"), "Отмена", MainWindow)
-        self.action_undo.setShortcut("Ctrl+Z")
-
-        self.action_redo = QAction(QIcon(":/white-icons/resources/white-icons/redo.svg"), "Повтор/Возврат", MainWindow)
-        self.action_redo.setShortcut("Ctrl+Y")
-
-        # Центральный виджет и лейаут
+        icon12 = QIcon()
+        icon12.addFile(u":/white-icons/resources/white-icons/show-properties.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.action_parameters.setIcon(icon12)
+        self.light_action = QAction(MainWindow)
+        self.light_action.setObjectName(u"light_action")
+        self.dark_action = QAction(MainWindow)
+        self.dark_action.setObjectName(u"dark_action")
+        self.action_settings = QAction(MainWindow)
+        self.action_settings.setObjectName(u"action_settings")
+        icon13 = QIcon()
+        icon13.addFile(u":/white-icons/resources/white-icons/settings.svg", QSize(), QIcon.Normal, QIcon.Off)
+        self.action_settings.setIcon(icon13)
         self.centralwidget = QWidget(MainWindow)
+        self.centralwidget.setObjectName(u"centralwidget")
         self.horizontalLayout = QHBoxLayout(self.centralwidget)
+        self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(4, 0, 4, 0)
-
-        # Сплиттер центральной области
-        self.centralwidget_splitter = QSplitter(Qt.Horizontal, self.centralwidget)
-
-        # Левая часть (центральная область)
-        self.gb_center = QWidget(self.centralwidget_splitter)
+        self.centralwidget_splitter = QSplitter(self.centralwidget)
+        self.centralwidget_splitter.setObjectName(u"centralwidget_splitter")
+        self.centralwidget_splitter.setOrientation(Qt.Horizontal)
+        self.gb_center = QGroupBox(self.centralwidget_splitter)
+        self.gb_center.setObjectName(u"gb_center")
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.gb_center.sizePolicy().hasHeightForWidth())
+        self.gb_center.setSizePolicy(sizePolicy1)
         self.gb_center.setMinimumSize(QSize(250, 0))
+        self.gb_center.setFlat(False)
+        self.gb_center.setCheckable(False)
         self.verticalLayout = QVBoxLayout(self.gb_center)
+        self.verticalLayout.setObjectName(u"verticalLayout")
         self.verticalLayout.setContentsMargins(4, 4, 4, 4)
         self.imagewidget = ImageWidget(self.gb_center)
+        self.imagewidget.setObjectName(u"imagewidget")
+        self.imagewidget.setEnabled(True)
+
         self.verticalLayout.addWidget(self.imagewidget)
+
         self.verticalLayout.setStretch(0, 1)
-
-        # Правая часть (группа с табами)
-        self.gb_right = QWidget(self.centralwidget_splitter)
-        self.gb_right.setMinimumSize(QSize(560, 0))
+        self.centralwidget_splitter.addWidget(self.gb_center)
+        self.gb_right = QGroupBox(self.centralwidget_splitter)
+        self.gb_right.setObjectName(u"gb_right")
+        sizePolicy1.setHeightForWidth(self.gb_right.sizePolicy().hasHeightForWidth())
+        self.gb_right.setSizePolicy(sizePolicy1)
+        self.gb_right.setMinimumSize(QSize(300, 0))
         self.verticalLayout_2 = QVBoxLayout(self.gb_right)
+        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
         self.verticalLayout_2.setContentsMargins(4, 4, 4, 4)
-
         self.tabw_right = QTabWidget(self.gb_right)
-
-        # Вкладка "Основные настройки"
+        self.tabw_right.setObjectName(u"tabw_right")
+        self.tabw_right.setDocumentMode(False)
         self.tab_general = QWidget()
+        self.tab_general.setObjectName(u"tab_general")
         self.verticalLayout_5 = QVBoxLayout(self.tab_general)
         self.verticalLayout_5.setSpacing(6)
+        self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.verticalLayout_5.setContentsMargins(9, 9, 9, 9)
         self.sa_general = QScrollArea(self.tab_general)
+        self.sa_general.setObjectName(u"sa_general")
         self.sa_general.setFrameShape(QFrame.NoFrame)
         self.sa_general.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.sa_general.setWidgetResizable(True)
         self.sa_general_contents = QWidget()
+        self.sa_general_contents.setObjectName(u"sa_general_contents")
+        self.sa_general_contents.setGeometry(QRect(0, 0, 847, 519))
         self.verticalLayout_8 = QVBoxLayout(self.sa_general_contents)
         self.verticalLayout_8.setSpacing(4)
+        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
         self.verticalLayout_8.setContentsMargins(0, 0, 0, 0)
         self.sa_general.setWidget(self.sa_general_contents)
-        self.verticalLayout_5.addWidget(self.sa_general)
-        self.tabw_right.addTab(self.tab_general, "Основные настройки")
 
-        # Вкладка "Элементы"
+        self.verticalLayout_5.addWidget(self.sa_general)
+
+        self.tabw_right.addTab(self.tab_general, "")
         self.tab_elements = QWidget()
+        self.tab_elements.setObjectName(u"tab_elements")
         self.verticalLayout_3 = QVBoxLayout(self.tab_elements)
         self.verticalLayout_3.setSpacing(6)
-        self.verticalLayout_3.setContentsMargins(9, 9, 9, 9)
-        self.tabw_right.addTab(self.tab_elements, "Элементы")
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.splitter = QSplitter(self.tab_elements)
+        self.splitter.setObjectName(u"splitter")
+        self.splitter.setOrientation(Qt.Vertical)
+        self.verticalLayoutWidget = QWidget(self.splitter)
+        self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
+        self.vl_nodes = QVBoxLayout(self.verticalLayoutWidget)
+        self.vl_nodes.setSpacing(4)
+        self.vl_nodes.setObjectName(u"vl_nodes")
+        self.vl_nodes.setContentsMargins(0, 0, 0, 0)
+        self.splitter.addWidget(self.verticalLayoutWidget)
+        self.verticalLayoutWidget_2 = QWidget(self.splitter)
+        self.verticalLayoutWidget_2.setObjectName(u"verticalLayoutWidget_2")
+        self.vl_connections = QVBoxLayout(self.verticalLayoutWidget_2)
+        self.vl_connections.setSpacing(4)
+        self.vl_connections.setObjectName(u"vl_connections")
+        self.vl_connections.setContentsMargins(0, 0, 0, 0)
+        self.splitter.addWidget(self.verticalLayoutWidget_2)
 
-        # Вкладка "Редактирование"
+        self.verticalLayout_3.addWidget(self.splitter)
+
+        self.tabw_right.addTab(self.tab_elements, "")
         self.tab_editor = QWidget()
+        self.tab_editor.setObjectName(u"tab_editor")
         self.verticalLayout_7 = QVBoxLayout(self.tab_editor)
         self.verticalLayout_7.setSpacing(9)
+        self.verticalLayout_7.setObjectName(u"verticalLayout_7")
         self.verticalLayout_7.setContentsMargins(9, 9, 9, 9)
         self.editor_scrollarea = QScrollArea(self.tab_editor)
+        self.editor_scrollarea.setObjectName(u"editor_scrollarea")
         self.editor_scrollarea.setFrameShape(QFrame.NoFrame)
         self.editor_scrollarea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.editor_scrollarea.setWidgetResizable(True)
         self.editor_scrollarea_contents = QWidget()
+        self.editor_scrollarea_contents.setObjectName(u"editor_scrollarea_contents")
+        self.editor_scrollarea_contents.setGeometry(QRect(0, 0, 847, 519))
         self.verticalLayout_4 = QVBoxLayout(self.editor_scrollarea_contents)
         self.verticalLayout_4.setSpacing(6)
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
         self.editor_scrollarea.setWidget(self.editor_scrollarea_contents)
-        self.verticalLayout_7.addWidget(self.editor_scrollarea)
-        self.tabw_right.addTab(self.tab_editor, "Редактирование")
 
-        # Вкладка "Редактирование контрольного сектора"
+        self.verticalLayout_7.addWidget(self.editor_scrollarea)
+
+        self.tabw_right.addTab(self.tab_editor, "")
         self.tab_control = QWidget()
+        self.tab_control.setObjectName(u"tab_control")
         self.verticalLayout_6 = QVBoxLayout(self.tab_control)
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
         self.fl_control = QFormLayout()
+        self.fl_control.setObjectName(u"fl_control")
+
         self.verticalLayout_6.addLayout(self.fl_control)
-        self.tabw_right.addTab(self.tab_control, "Редактирование контрольного сектора")
+
+        self.tabw_right.addTab(self.tab_control, "")
 
         self.verticalLayout_2.addWidget(self.tabw_right)
 
-        # Добавляем группы в сплиттер
-        self.centralwidget_splitter.addWidget(self.gb_center)
         self.centralwidget_splitter.addWidget(self.gb_right)
+
         self.horizontalLayout.addWidget(self.centralwidget_splitter)
 
         MainWindow.setCentralWidget(self.centralwidget)
-
-        # Меню и тулбары
         self.menu_bar = QMenuBar(MainWindow)
-        self.menu_file = QMenu("Файл", self.menu_bar)
-        self.menu_lists = QMenu("Списки", self.menu_bar)
-        self.menu_other = QMenu("Прочее", self.menu_bar)
-        self.menu_bar.addMenu(self.menu_file)
-        self.menu_bar.addMenu(self.menu_lists)
-        self.menu_bar.addMenu(self.menu_other)
+        self.menu_bar.setObjectName(u"menu_bar")
+        self.menu_bar.setGeometry(QRect(0, 0, 1144, 22))
+        self.menu_file = QMenu(self.menu_bar)
+        self.menu_file.setObjectName(u"menu_file")
+        self.menu = QMenu(self.menu_bar)
+        self.menu.setObjectName(u"menu")
         MainWindow.setMenuBar(self.menu_bar)
-
-        self.tb_main = QToolBar("Панель инструментов", MainWindow)
+        self.tb_main = QToolBar(MainWindow)
+        self.tb_main.setObjectName(u"tb_main")
+        self.tb_main.setEnabled(True)
+        self.tb_main.setMovable(True)
+        self.tb_main.setAllowedAreas(Qt.AllToolBarAreas)
+        self.tb_main.setOrientation(Qt.Horizontal)
         self.tb_main.setIconSize(QSize(32, 24))
         self.tb_main.setToolButtonStyle(Qt.ToolButtonIconOnly)
+        self.tb_main.setFloatable(False)
         MainWindow.addToolBar(Qt.TopToolBarArea, self.tb_main)
-
         self.status_bar = QStatusBar(MainWindow)
+        self.status_bar.setObjectName(u"status_bar")
+        self.status_bar.setSizeGripEnabled(True)
         MainWindow.setStatusBar(self.status_bar)
 
-        # Заполнение меню и тулбара
+        self.menu_bar.addAction(self.menu_file.menuAction())
+        self.menu_bar.addAction(self.menu.menuAction())
         self.menu_file.addAction(self.action_new)
         self.menu_file.addAction(self.action_open)
         self.menu_file.addSeparator()
@@ -197,29 +298,75 @@ class Ui_MainWindow(object):
         self.menu_file.addAction(self.action_saveas)
         self.menu_file.addSeparator()
         self.menu_file.addAction(self.action_export_to_image)
-
-        self.menu_lists.addAction(self.action_edit_cable_lists)
-        self.menu_lists.addAction(self.action_edit_sector_names)
-        
-        self.menu_other.addAction(self.action_parameters)
-        self.menu_other.addSeparator()
-        self.menu_other.addAction(self.action_settings)
-
+        self.menu.addAction(self.action_parameters)
+        self.menu.addAction(self.action_edit_cable_lists)
+        self.menu.addSeparator()
+        self.menu.addAction(self.action_settings)
         self.tb_main.addAction(self.action_new)
         self.tb_main.addAction(self.action_open)
         self.tb_main.addAction(self.action_save)
-        self.tb_main.addSeparator()
-        self.tb_main.addAction(self.action_undo)
-        self.tb_main.addAction(self.action_redo)
-        self.tb_main.addSeparator()
         self.tb_main.addAction(self.action_export_to_image)
         self.tb_main.addSeparator()
         self.tb_main.addAction(self.action_parameters)
 
-        # По умолчанию открыта вкладка "Редактирование контрольного сектора"
+        self.retranslateUi(MainWindow)
+
         self.tabw_right.setCurrentIndex(3)
 
+
         QMetaObject.connectSlotsByName(MainWindow)
+    # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(APP_TITLE)
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"\u041a\u043e\u043d\u0441\u0442\u0440\u0443\u043a\u0442\u043e\u0440 \u0441\u0445\u0435\u043c \u0412\u041e\u041b\u041f", None))
+        self.action_new.setText(QCoreApplication.translate("MainWindow", u"\u041d\u043e\u0432\u044b\u0439", None))
+#if QT_CONFIG(shortcut)
+        self.action_new.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+N", None))
+#endif // QT_CONFIG(shortcut)
+        self.action_open.setText(QCoreApplication.translate("MainWindow", u"\u041e\u0442\u043a\u0440\u044b\u0442\u044c", None))
+#if QT_CONFIG(shortcut)
+        self.action_open.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+O", None))
+#endif // QT_CONFIG(shortcut)
+        self.action_saveas.setText(QCoreApplication.translate("MainWindow", u"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c \u043a\u0430\u043a", None))
+#if QT_CONFIG(shortcut)
+        self.action_saveas.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+Shift+S", None))
+#endif // QT_CONFIG(shortcut)
+        self.action_save.setText(QCoreApplication.translate("MainWindow", u"\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c", None))
+        self.action_zoomin.setText(QCoreApplication.translate("MainWindow", u"\u0423\u0432\u0435\u043b\u0438\u0447\u0438\u0442\u044c", None))
+#if QT_CONFIG(shortcut)
+        self.action_zoomin.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl++", None))
+#endif // QT_CONFIG(shortcut)
+        self.action_zoomout.setText(QCoreApplication.translate("MainWindow", u"\u0423\u043c\u0435\u043d\u044c\u0448\u0438\u0442\u044c", None))
+#if QT_CONFIG(tooltip)
+        self.action_zoomout.setToolTip(QCoreApplication.translate("MainWindow", u"\u0423\u043c\u0435\u043d\u044c\u0448\u0438\u0442\u044c", None))
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(shortcut)
+        self.action_zoomout.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+-", None))
+#endif // QT_CONFIG(shortcut)
+        self.action_edit_variables.setText(QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0434\u0430\u043a\u0442\u043e\u0440 \u043f\u0435\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0445", None))
+        self.action_edit_variables.setIconText(QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0434\u0430\u043a\u0442\u043e\u0440 \u043f\u0435\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0445", None))
+#if QT_CONFIG(tooltip)
+        self.action_edit_variables.setToolTip(QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0434\u0430\u043a\u0442\u043e\u0440 \u043f\u0435\u0440\u0435\u043c\u0435\u043d\u043d\u044b\u0445", None))
+#endif // QT_CONFIG(tooltip)
+        self.action_zoomfitpage.setText(QCoreApplication.translate("MainWindow", u"\u041f\u043e \u0448\u0438\u0440\u0438\u043d\u0435", None))
+        self.action_export_to_image.setText(QCoreApplication.translate("MainWindow", u"\u042d\u043a\u0441\u043f\u043e\u0440\u0442 \u0432 \u0438\u0437\u043e\u0431\u0440\u0430\u0436\u0435\u043d\u0438\u0435", None))
+        self.action_edit_templates.setText(QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0434\u0430\u043a\u0442\u043e\u0440 \u0448\u0430\u0431\u043b\u043e\u043d\u043e\u0432", None))
+        self.action_edit_composition.setText(QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0434\u0430\u043a\u0442\u043e\u0440 \u0441\u043e\u0441\u0442\u0430\u0432\u0430 \u0418\u0414", None))
+        self.action_clear_trash.setText(QCoreApplication.translate("MainWindow", u"\u041e\u0447\u0438\u0441\u0442\u043a\u0430 \u043e\u0442 \u043c\u0443\u0441\u043e\u0440\u0430", None))
+        self.action_edit_cable_lists.setText(QCoreApplication.translate("MainWindow", u"\u0421\u043f\u0438\u0441\u043e\u043a \u043a\u0430\u0431\u0435\u043b\u0435\u0439", None))
+        self.action_parameters.setText(QCoreApplication.translate("MainWindow", u"\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c/\u0441\u043a\u0440\u044b\u0442\u044c \u043f\u0430\u0440\u0430\u043c\u0435\u0442\u0440\u044b", None))
+        self.light_action.setText(QCoreApplication.translate("MainWindow", u"\u0421\u0432\u0435\u0442\u043b\u0430\u044f", None))
+        self.dark_action.setText(QCoreApplication.translate("MainWindow", u"\u0422\u0451\u043c\u043d\u0430\u044f", None))
+        self.action_settings.setText(QCoreApplication.translate("MainWindow", u"\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438", None))
+#if QT_CONFIG(shortcut)
+        self.action_settings.setShortcut(QCoreApplication.translate("MainWindow", u"Ctrl+,", None))
+#endif // QT_CONFIG(shortcut)
+        self.tabw_right.setTabText(self.tabw_right.indexOf(self.tab_general), QCoreApplication.translate("MainWindow", u"\u041e\u0441\u043d\u043e\u0432\u043d\u044b\u0435 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438", None))
+        self.tabw_right.setTabText(self.tabw_right.indexOf(self.tab_elements), QCoreApplication.translate("MainWindow", u"\u042d\u043b\u0435\u043c\u0435\u043d\u0442\u044b", None))
+        self.tabw_right.setTabText(self.tabw_right.indexOf(self.tab_editor), QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0434\u0430\u043a\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435", None))
+        self.tabw_right.setTabText(self.tabw_right.indexOf(self.tab_control), QCoreApplication.translate("MainWindow", u"\u0420\u0435\u0434\u0430\u043a\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435 \u043a\u043e\u043d\u0442\u0440\u043e\u043b\u044c\u043d\u043e\u0433\u043e \u0441\u0435\u043a\u0442\u043e\u0440\u0430", None))
+        self.menu_file.setTitle(QCoreApplication.translate("MainWindow", u"\u0424\u0430\u0439\u043b", None))
+        self.menu.setTitle(QCoreApplication.translate("MainWindow", u"\u041f\u0440\u043e\u0447\u0435\u0435", None))
+        self.tb_main.setWindowTitle(QCoreApplication.translate("MainWindow", u"\u041f\u0430\u043d\u0435\u043b\u044c \u0438\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u043e\u0432", None))
+    # retranslateUi
+

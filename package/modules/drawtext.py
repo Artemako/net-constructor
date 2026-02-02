@@ -160,17 +160,13 @@ class DrawText:
         self.__painter.save()
         self.__painter.translate(center_x, top_y)
         self.__painter.rotate(-90)
-        #
         self.draw_singleline_text_by_hr_vc(painter_text, text, 0, 0)
-        #
         self.__painter.restore()
 
     def draw_singleline_text_by_hr_vc(self, painter_text, text, right_x, center_y):
         self.__painter = painter_text()
-        #
         text_width = self.__painter.fontMetrics().horizontalAdvance(text)
         text_height = self.__painter.fontMetrics().height() * 0.618
-        #
         text_x = right_x - text_width
         text_y = center_y + text_height // 2
         self.__painter.drawText(text_x, text_y, text)

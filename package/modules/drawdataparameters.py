@@ -2,10 +2,10 @@
 
 
 class DrawData:
+    """Доступ к data объекта (узла/соединения) для отрисовки."""
 
     def __init__(self, object_target):
         self.__object_target = object_target
-        #
         self.__self_data = self.__object_target.get_data()
 
     def get_sd(self, key, child_key=None) -> str:
@@ -16,6 +16,8 @@ class DrawData:
 
 
 class DrawParameters:
+    """Параметры объекта и диаграммы (диаграмма + соседи) для отрисовки."""
+
     def __init__(
         self,
         object_diagram,

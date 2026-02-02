@@ -3,10 +3,11 @@
 import copy
 import json
 import os
+import time
 from functools import partial
 from typing import Optional
 
-from PySide6.QtCore import QLocale, QModelIndex, QRegularExpression, QSettings, Qt, QTimer
+from PySide6.QtCore import QEvent, QLocale, QModelIndex, QRegularExpression, QSettings, Qt, QTimer
 from PySide6.QtGui import (
     QColor,
     QFont,
@@ -90,12 +91,9 @@ class MainWindow(QMainWindow):
     def __init__(self, obsm, file_to_open: Optional[str] = None) -> None:
         self.__obsm = obsm
         self.__file_to_open = file_to_open
-        #
         self.__current_object = None
         self.__current_is_node = None
-        #
         self.__general_diagram_parameters_widgets = {}
-        #
         self.__editor_object_data_widgets = {}
         self.__editor_type_object_data_widgets = {}
         self.__editor_objects_data_widgets = {}
@@ -104,17 +102,12 @@ class MainWindow(QMainWindow):
         self.__editor_objects_parameters_widgets = {}
         self.__control_data_parameters_widgets = {}
         self.__text_format = "NCE files (*.nce)"
-        #
-        # Флаг для отслеживания несохранённых изменений
         self.__document_modified = False
         self.__current_file_path = None
-        #
         super(MainWindow, self).__init__()
         self.ui = mainwindow_ui.Ui_MainWindow()
         self.ui.setupUi(self)
-        #
         self.ui.imagewidget.set_obsm(self.__obsm)
-        # config
         self.config()
 
     def _tab_right_changed(self, index):
@@ -135,9 +128,7 @@ class MainWindow(QMainWindow):
         # + иконки - используем контроллер иконок из OSBM
         self.__obj_icons = self.__obsm.obj_icons
         self.__obj_icons.set_icons_for_mw_by_name(self, self.__theme_name)
-        # иконка окна (фавикон)
         self.setWindowIcon(QIcon(":/app/resources/app-icon.svg"))
-        #
         self.resize(1366, 768)
         self.ui.centralwidget_splitter.setSizes([806, 560])
         # Сохранение по Ctrl+S
@@ -149,9 +140,6 @@ class MainWindow(QMainWindow):
         
         # Устанавливаем фильтр событий для обработки Enter
         self.installEventFilter(self)
-
-        #
-        # Скрываем правый блок с вкладками при запуске
         self.ui.gb_right.setVisible(False)
         self.ui.tabw_right.tabBar().setTabVisible(2, False)
         self.ui.tabw_right.tabBar().setTabVisible(3, False)
@@ -163,7 +151,6 @@ class MainWindow(QMainWindow):
         self.ui.action_open.triggered.connect(self.open_file_nce)
         # сохранение текущих данных
         self.ui.action_save.triggered.connect(self._save_changes_to_file_nce)
-        #
         self.ui.action_saveas.triggered.connect(self._save_as_file_nce)
         # экспорт в картинку
         self.ui.action_export_to_image.triggered.connect(self._export_to_image)
@@ -175,10 +162,7 @@ class MainWindow(QMainWindow):
         # управление списками кабелей
         self.ui.action_edit_cable_lists.triggered.connect(self._edit_cable_lists)
         self.ui.action_edit_sector_names.triggered.connect(self._edit_sector_names)
-        # открытие диалога настроек
         self.ui.action_settings.triggered.connect(self._open_settings)
-        #
-        # Журнал отмены/повтора (Undo/Redo)
         self.__last_widget_values = {}
         self.__last_diagram_type_value = None
         self.__applying_undo_redo = False
@@ -194,16 +178,11 @@ class MainWindow(QMainWindow):
         edit_menu.addAction(self.ui.action_undo)
         edit_menu.addAction(self.ui.action_redo)
         self._update_undo_redo_actions()
-        #
-        # Генерируем виджеты для вкладок
         self._setup_general_tab_widgets()
         self._setup_elements_tab_widgets()
         self._setup_editor_tab_widgets()
         self._setup_control_tab_widgets()
-        #
-        # Устанавливаем заголовок окна при запуске
         self._update_window_title()
-        #
         if is_demo_mode():
             self._open_demo_project()
         elif self.__file_to_open:
@@ -681,23 +660,17 @@ class MainWindow(QMainWindow):
             result = dialog.exec()
             if result == QDialog.Accepted:
                 diagram_data = dialog.get_data()
-                #
-                # Показываем правый блок с вкладками
                 self.ui.gb_right.setVisible(True)
                 self.ui.tabw_right.setCurrentIndex(0)
-                #
                 control_sectors_config = (
                     self.__obsm.obj_configs.get_config_control_sectors()
                 )
-                #
                 self.__obsm.obj_project.create_new_project(
                     diagram_data, control_sectors_config, file_name
                 )
-                #
                 self._refresh_diagram(is_new=True)
                 self._start_qt_actions()
-                self._update_undo_redo_actions()
-                #
+                self._update_undo_redo_actions(                )
                 self._update_status_bar_with_project_name(file_name)
                 # Новый файл считается сохранённым
                 self._set_document_modified(False)
@@ -777,8 +750,7 @@ class MainWindow(QMainWindow):
             )
             if file_name:
                 self._save_changes_to_file_nce()
-                self.__obsm.obj_project.save_as_project(file_name)
-                #
+                self.__obsm.obj_project.save_as_project(file_name                )
                 self._update_status_bar_with_project_name(file_name)
                 # После сохранения как - файл сохранён
                 self._set_document_modified(False)
@@ -1292,7 +1264,6 @@ class MainWindow(QMainWindow):
     def _ensure_context_for_journal(self, tab_index, context):
         """Переключает на нужную вкладку и объект/контрольный сектор по контексту журнала."""
         # #region agent log
-        import json, time
         with open(r'd:\vs_projects\net-constructor\.cursor\debug.log', 'a', encoding='utf-8') as f:
             f.write(json.dumps({'location':'mainwindow.py:1201','message':'_ensure_context_for_journal called','data':{'tab_index':tab_index,'context':str(context),'applying_undo_redo':self.__applying_undo_redo},'timestamp':int(time.time()*1000),'sessionId':'debug-session','hypothesisId':'H','runId':'undo-redo'}) + '\n')
         # #endregion
@@ -1391,7 +1362,6 @@ class MainWindow(QMainWindow):
     def _undo(self):
         """Отмена последнего изменения (Ctrl+Z)."""
         # #region agent log
-        import json, time
         with open(r'd:\vs_projects\net-constructor\.cursor\debug.log', 'a', encoding='utf-8') as f:
             f.write(json.dumps({'location':'mainwindow.py:1246','message':'_undo called','data':{},'timestamp':int(time.time()*1000),'sessionId':'debug-session','hypothesisId':'H','runId':'undo-redo'}) + '\n')
         # #endregion
@@ -1481,7 +1451,6 @@ class MainWindow(QMainWindow):
     def _redo(self):
         """Повтор отменённого изменения (Ctrl+Y)."""
         # #region agent log
-        import json, time
         with open(r'd:\vs_projects\net-constructor\.cursor\debug.log', 'a', encoding='utf-8') as f:
             f.write(json.dumps({'location':'mainwindow.py:1311','message':'_redo called','data':{},'timestamp':int(time.time()*1000),'sessionId':'debug-session','hypothesisId':'H','runId':'undo-redo'}) + '\n')
         # #endregion
@@ -1579,7 +1548,6 @@ class MainWindow(QMainWindow):
             diagram_type_id = self.__obsm.obj_project.get_data().get(
                 "diagram_type_id", ""
             )
-            #
             config_diagram_nodes = (
                 self.__obsm.obj_configs.get_config_diagram_nodes_by_type_id(
                     diagram_type_id
@@ -1590,7 +1558,6 @@ class MainWindow(QMainWindow):
                     diagram_type_id
                 )
             )
-            #
             dialog = nodeconnectionselectdialog.NodeConnectSelectDialog(
                 config_diagram_nodes,
                 config_diagram_connections,
@@ -1610,7 +1577,6 @@ class MainWindow(QMainWindow):
                     1, "elements", node_data, connection_data
                 )
                 self._update_undo_redo_actions()
-                #
                 self._refresh_diagram()
                 # Устанавливаем флаг изменённости
                 self._set_document_modified(True)
@@ -1634,7 +1600,6 @@ class MainWindow(QMainWindow):
                 )
                 self._update_undo_redo_actions()
                 self.__obsm.obj_project.set_new_order_nodes(new_order_nodes)
-                #
                 self._refresh_diagram()
                 # Устанавливаем флаг изменённости
                 self._set_document_modified(True)
@@ -1652,7 +1617,6 @@ class MainWindow(QMainWindow):
                 )
                 self._update_undo_redo_actions()
                 self.__obsm.obj_project.set_new_order_connections(new_order_connections)
-                #
                 self._refresh_diagram()
                 # Устанавливаем флаг изменённости
                 self._set_document_modified(True)
@@ -1709,7 +1673,6 @@ class MainWindow(QMainWindow):
         combox_widget = self.combox_type_diagram
         combox_widget.blockSignals(True)
         combox_widget.clear()
-        #
         index = 0
         global_diagrams = self.__obsm.obj_configs.get_config_diagrams()
         for key, elem in global_diagrams.items():
@@ -1721,7 +1684,6 @@ class MainWindow(QMainWindow):
                 combox_widget.setCurrentIndex(index)
             index += 1
         combox_widget.blockSignals(False)
-        #
 
     def _change_type_diagram(self, index):
         new_diagram = self.combox_type_diagram.currentData()
@@ -1729,14 +1691,12 @@ class MainWindow(QMainWindow):
         current_type_id = self.__obsm.obj_project.get_data().get(
             "diagram_type_id", None
         )
-        #
         if self.__obsm.obj_project.has_project_data() and new_type_id != current_type_id:
             config_nodes = self.__obsm.obj_configs.get_nodes()
             config_connections = self.__obsm.obj_configs.get_connections()
             self.__obsm.obj_project.change_type_diagram(
                 new_diagram, config_nodes, config_connections
             )
-            #
             self._refresh_diagram()
             # Устанавливаем флаг изменённости
             self._set_document_modified(True)
@@ -1786,12 +1746,10 @@ class MainWindow(QMainWindow):
             table_widget.blockSignals(True)
             table_widget.clearContents()
             table_widget.setRowCount(len(nodes))
-            #
             headers = ["№", "Название", "Редактировать"]
             table_widget.setColumnCount(len(headers))
             table_widget.setHorizontalHeaderLabels(headers)
             table_widget.verticalHeader().setVisible(False)
-            #
             for index, node in enumerate(nodes):
                 node_id = node.get("node_id", "")
                 # Получаем конфигурацию узла по его ID
@@ -1804,8 +1762,7 @@ class MainWindow(QMainWindow):
 
                 item_number = QTableWidgetItem(str(index + 1))
                 item_number.setToolTip(tooltip)
-                table_widget.setItem(index, 0, item_number)
-                #
+                table_widget.setItem(index, 0, item_number                )
                 node_name = node.get("data", {}).get("название", {}).get("value", "")
                 item = QTableWidgetItem(node_name)
                 item.setToolTip(tooltip)
@@ -1815,7 +1772,6 @@ class MainWindow(QMainWindow):
                 btn_edit.clicked.connect(
                     partial(self._edit_object, node, index + 1, is_node=True)
                 )
-            #
             header = table_widget.horizontalHeader()
             header.setSectionResizeMode(0, QHeaderView.ResizeToContents)
             header.setSectionResizeMode(1, QHeaderView.Stretch)
@@ -1826,7 +1782,6 @@ class MainWindow(QMainWindow):
             table_widget.customContextMenuRequested.connect(
                 self.node_table_context_menu
             )
-            #
             table_widget.blockSignals(False)
 
         self._save_and_restore_scroll_position(self.tablew_nodes, reset_nodes)
@@ -2102,24 +2057,19 @@ class MainWindow(QMainWindow):
             self._reset_widgets_by_data(project_data)
 
     def _reset_widgets_by_data(self, data):
-        #
         diagram_type_id = data.get("diagram_type_id", "")
         diagram_parameters = data.get("diagram_parameters", {})
         # Сепаратор для виджета
         precision_separator, precision_number = (
             self._get_precision_separator_and_number()
         )
-        #
         self.reset_tab_general(diagram_type_id, diagram_parameters)
-        #
         nodes = data.get("nodes", [])
         connections = data.get("connections", [])
         self.reset_tab_elements(nodes, connections)
 
     def _edit_object(self, obj, index, is_node=False):
         # #region agent log
-        import json, time
-        from PySide6.QtWidgets import QApplication
         with open(r'd:\vs_projects\net-constructor\.cursor\debug.log', 'a', encoding='utf-8') as f:
             f.write(json.dumps({'location':'mainwindow.py:1924','message':'_edit_object called','data':{'obj_id':obj.get('id'),'index':index,'is_node':is_node,'applying_undo_redo':self.__applying_undo_redo},'timestamp':int(time.time()*1000),'sessionId':'debug-session','hypothesisId':'C,H,I'}) + '\n')
         # #endregion
@@ -2133,14 +2083,10 @@ class MainWindow(QMainWindow):
         
         self.__current_object = obj
         self.__current_is_node = is_node
-        #
         self.ui.tabw_right.tabBar().setTabVisible(2, True)
         self.ui.tabw_right.setCurrentIndex(2)
-        #
         self._change_name_tab_editor(index, is_node)
-        #
         self._create_editor_control_sectors_by_object(obj, is_node)
-        #
         self._create_editor_data_widgets_by_object(obj, is_node)
         self._create_editor_parameters_widgets_by_object(obj, is_node)
         # Очищаем сообщения об ошибках
@@ -2236,8 +2182,6 @@ class MainWindow(QMainWindow):
         self.ui.tabw_right.setTabText(
             3, f"Редактирование контрольного сектора {cs.get('order', 0) + 1}"
         )
-        #
-        # Убеждаемся, что layout создан перед его использованием
         self._create_control_tab_widgets()
         self._create_control_sector_widgets(cs)
 
@@ -2309,7 +2253,6 @@ class MainWindow(QMainWindow):
         self._reset_table_control_sectors(
             self.__current_object.get("control_sectors", [])
         )
-        #
         self._refresh_diagram()
 
     def _clear_layout_contents(self, layout):
@@ -2328,8 +2271,6 @@ class MainWindow(QMainWindow):
 
     def _clear_form_layout(self, form_layout):
         # #region agent log
-        import json
-        import time
         layout_name = getattr(form_layout, 'objectName', lambda: 'unknown')()
         widget_count_before = form_layout.count()
         with open(r'd:\vs_projects\net-constructor\.cursor\debug.log', 'a', encoding='utf-8') as f:
@@ -2383,7 +2324,6 @@ class MainWindow(QMainWindow):
         journal_context=None,
     ) -> bool:
         # #region agent log
-        import json, time
         layout_name = getattr(form_layout, 'objectName', lambda: 'unknown')()
         dict_name = journal_dict_name or 'unknown'
         config_keys = list(config_object_data.keys())[:5]
@@ -2402,7 +2342,6 @@ class MainWindow(QMainWindow):
         self._clear_form_layout(form_layout)
         
         # Force Qt to complete widget deletion before creating new ones
-        from PySide6.QtWidgets import QApplication
         QApplication.processEvents()
         QApplication.processEvents()
 
@@ -2418,7 +2357,6 @@ class MainWindow(QMainWindow):
             info = config_parameter_data.get(
                 "info", ""
             )  # Получаем информацию для подсказки
-            #
             label_text = config_parameter_data.get("name", "")
             value = object_data.get(config_parameter_key, {}).get("value", None)
             value = (
@@ -2466,7 +2404,6 @@ class MainWindow(QMainWindow):
         print("BEFORE return len(dict_widgets) > 0: dict_widgets", dict_widgets)
         
         # #region agent log
-        import json, time
         layout_name = getattr(form_layout, 'objectName', lambda: 'unknown')()
         dict_name = journal_dict_name or 'unknown'
         with open(r'd:\vs_projects\net-constructor\.cursor\debug.log', 'a', encoding='utf-8') as f:
@@ -2488,17 +2425,14 @@ class MainWindow(QMainWindow):
         if widget_type == "title":
             new_widget = QLabel()
             new_widget.setStyleSheet("margin-bottom: 10px;")
-        #
         elif widget_type == "bool":
             new_widget = QCheckBox()
             new_widget.setChecked(bool(value))
-        #
         elif widget_type == "font_name":
             new_widget = QFontComboBox()
             font = QFont()
             if font.fromString(value):
                 new_widget.setCurrentFont(font)
-        #
         elif widget_type == "color":
 
             def open_color_dialog():
@@ -2511,11 +2445,9 @@ class MainWindow(QMainWindow):
             new_widget.setStyleSheet(f"background-color: {value};")
             new_widget.setText(value)
             new_widget.clicked.connect(open_color_dialog)
-        #
         elif widget_type == "string_line":
             new_widget = QLineEdit()
             new_widget.setText(value)
-        #
         elif widget_type == "fill_style":
             new_widget = QComboBox()
             fill_styles = constants.FillStyles()
@@ -2523,7 +2455,6 @@ class MainWindow(QMainWindow):
                 new_widget.addItem(style_name)
                 if style_name == value:
                     new_widget.setCurrentText(style_name)
-        #
         elif widget_type == "text_align":
             new_widget = QComboBox()
             text_alignments = constants.TextAlignments()
@@ -2531,7 +2462,6 @@ class MainWindow(QMainWindow):
                 new_widget.addItem(align_name)
                 if align_name == value:
                     new_widget.setCurrentText(align_name)
-        #
         elif widget_type == "line_style":
             new_widget = QComboBox()
             line_styles = constants.LineStyles()
@@ -2539,32 +2469,27 @@ class MainWindow(QMainWindow):
                 new_widget.addItem(style_name)
                 if style_name == value:
                     new_widget.setCurrentText(style_name)
-        #
         elif widget_type == "number_int_signed":
             new_widget = QSpinBox()
             min_value = arguments.get("min", -2147483647)
             max_value = arguments.get("max", 2147483647)
             new_widget.setRange(min_value, max_value)
             new_widget.setValue(value)
-        #
         elif widget_type == "number_int":
             new_widget = QSpinBox()
             min_value = arguments.get("min", 0)
             max_value = arguments.get("max", 2147483647)
             new_widget.setRange(min_value, max_value)
             new_widget.setValue(value)
-        #
         elif widget_type == "number_float":
             new_widget = self._create_double_spinbox(
                 value, precision_separator, precision_number
             )
-        #
         elif widget_type == "physical_length_calculator":
             new_widget = self._create_physical_length_calculator(
                 value, precision_separator, precision_number
             )
             return new_widget
-        #
         elif widget_type == "list_with_custom":
             new_widget = QComboBox()
             new_widget.setEditable(True)
@@ -2599,7 +2524,6 @@ class MainWindow(QMainWindow):
                     new_widget.setCurrentIndex(index)
                 else:
                     new_widget.setCurrentText(str(value))
-        #
         else:
             if is_parameters:
                 new_widget = QSpinBox()
@@ -2736,7 +2660,6 @@ class MainWindow(QMainWindow):
         journal_context=None,
     ) -> bool:
         # #region agent log
-        import json, time
         layout_name = getattr(form_layout, 'objectName', lambda: 'unknown')()
         dict_name = journal_dict_name or 'unknown'
         config_keys = list(config_object_parameters.keys())[:5]
@@ -2755,7 +2678,6 @@ class MainWindow(QMainWindow):
         self._clear_form_layout(form_layout)
         
         # Force Qt to complete widget deletion before creating new ones
-        from PySide6.QtWidgets import QApplication
         QApplication.processEvents()
         QApplication.processEvents()
         
@@ -2826,7 +2748,6 @@ class MainWindow(QMainWindow):
                     )
 
         # #region agent log
-        import json, time
         layout_name = getattr(form_layout, 'objectName', lambda: 'unknown')()
         dict_name = journal_dict_name or 'unknown'
         with open(r'd:\vs_projects\net-constructor\.cursor\debug.log', 'a', encoding='utf-8') as f:
@@ -2839,7 +2760,6 @@ class MainWindow(QMainWindow):
         control_sectors = self.__obsm.obj_project.add_control_sector(
             obj, penultimate=True
         )
-        #
         self._refresh_diagram()
         self._reset_table_control_sectors(control_sectors)
         # Устанавливаем флаг изменённости
@@ -2855,7 +2775,6 @@ class MainWindow(QMainWindow):
             control_sectors = self.__obsm.obj_project.set_new_order_control_sectors(
                 obj, new_order_control_sectors
             )
-            #
             self._refresh_diagram()
             self._reset_table_control_sectors(control_sectors)
             # Устанавливаем флаг изменённости
@@ -2865,7 +2784,6 @@ class MainWindow(QMainWindow):
         control_sectors = self.__obsm.obj_project.delete_control_sector(
             obj, selected_cs
         )
-        #
         self._refresh_diagram()
         self._reset_table_control_sectors(control_sectors)
         # Устанавливаем флаг изменённости
@@ -2876,7 +2794,6 @@ class MainWindow(QMainWindow):
         
         # Перемещаем спейсер в конец после изменения видимости групп
         self._reposition_editor_spacer()
-        #
         self.tw_control_sectors.setVisible(not is_node)
         self.btn_add_control_sector.setVisible(not is_node)
         self.btn_move_control_sectors.setVisible(not is_node)
@@ -2886,14 +2803,12 @@ class MainWindow(QMainWindow):
             self.btn_move_control_sectors.clicked.disconnect()
         except:
             pass
-        #
         self.btn_add_control_sector.clicked.connect(
             partial(self._add_control_sector, obj)
         )
         self.btn_move_control_sectors.clicked.connect(
             partial(self._move_control_sectors, obj)
         )
-        #
         if not is_node:
             control_sectors = obj.get("control_sectors", [])
             self._reset_table_control_sectors(control_sectors)
@@ -2921,7 +2836,6 @@ class MainWindow(QMainWindow):
             config_objects_parameters = (
                 self.__obsm.obj_configs.get_config_objects_parameters_by_connection(obj)
             )
-        #
         object_parameters = obj.get("parameters", {})
         journal_ctx = (obj.get("id"), is_node)
         flag = self._create_parameters_widgets(
@@ -2934,8 +2848,7 @@ class MainWindow(QMainWindow):
             journal_dict_name="__editor_object_parameters_widgets",
             journal_context=journal_ctx,
         )
-        self.object_parameters_group.setVisible(flag)
-        #
+        self.object_parameters_group.setVisible(flag        )
         flag = self._create_parameters_widgets(
             self.__editor_type_object_parameters_widgets,
             self.fl_type_object_parameters,
@@ -2946,8 +2859,7 @@ class MainWindow(QMainWindow):
             journal_dict_name="__editor_type_object_parameters_widgets",
             journal_context=journal_ctx,
         )
-        self.type_object_parameters_group.setVisible(flag)
-        #
+        self.type_object_parameters_group.setVisible(flag        )
         flag = self._create_parameters_widgets(
             self.__editor_objects_parameters_widgets,
             self.fl_objects_parameters,
@@ -2998,8 +2910,7 @@ class MainWindow(QMainWindow):
             journal_dict_name="__editor_object_data_widgets",
             journal_context=journal_ctx,
         )
-        self.object_data_group.setVisible(flag)
-        #
+        self.object_data_group.setVisible(flag        )
         flag = self.create_data_widgets(
             self.__editor_type_object_data_widgets,
             self.fl_type_object_data,
@@ -3009,8 +2920,7 @@ class MainWindow(QMainWindow):
             journal_dict_name="__editor_type_object_data_widgets",
             journal_context=journal_ctx,
         )
-        self.type_object_data_group.setVisible(flag)
-        #
+        self.type_object_data_group.setVisible(flag        )
         flag = self.create_data_widgets(
             self.__editor_objects_data_widgets,
             self.fl_objects_data,
@@ -3363,8 +3273,6 @@ class MainWindow(QMainWindow):
         Фильтр событий для обработки нажатия клавиш.
         Сохранение только по Ctrl+S, не по Enter.
         """
-        from PySide6.QtCore import QEvent
-
         if event.type() == QEvent.KeyPress:
             pass
         return False
